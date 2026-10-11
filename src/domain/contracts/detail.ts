@@ -8,6 +8,11 @@ export interface Contact {
   linkedin_url: string | null;
   source: string | null;
   mutual_connection: string | null;
+  email: string | null;
+  email_verified: boolean;
+  email_source: string | null;
+  phone: string | null;
+  phone_source: string | null;
 }
 
 export interface Insights {

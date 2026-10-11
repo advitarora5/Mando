@@ -112,3 +112,8 @@ td.rank-cell { min-width: 75px; font-weight: 650; color: var(--accent); }
 .movement.up { background: #e3f2e6; color: #1f7a35; }
 .movement.down { background: #fbe5e5; color: #a82b2b; }
 .movement.new { background: #f4eee4; color: var(--accent); }
+
+.reach p { margin: 0 0 4px; }
+.verify { font-size: 11px; font-weight: 650; padding: 1px 7px; border-radius: 10px; }
+.verify.yes { background: #e3f2e6; color: #1f7a35; }
+.verify.no { background: #f0eeea; color: #77716b; }

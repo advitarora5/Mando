@@ -69,7 +69,7 @@ export function CompanyList({ companies, mode, previousWeek = null, previousRank
       {c.why_now ?? "Research pending"}
     </p>
   </details>
-</td><td>{c.contacts.length ? c.contacts.map(contact => <div key={contact.id}>{safeUrl(contact.linkedin_url) ? <a className="source-link" href={safeUrl(contact.linkedin_url)!} target="_blank" rel="noopener noreferrer">{contact.name} ↗</a> : contact.name}<small>{contact.title}</small></div>) : "Contacts pending"}</td></tr>)}</tbody>
+</td><td>{c.contacts.length ? c.contacts.map(contact => <div key={contact.id}>{safeUrl(contact.linkedin_url) ? <a className="source-link" href={safeUrl(contact.linkedin_url)!} target="_blank" rel="noopener noreferrer">{contact.name} ↗</a> : contact.name}<small>{contact.title}</small>{contact.email && <small><a className="source-link" href={`mailto:${contact.email}`}>{contact.email}</a>{contact.email_verified ? " ✓" : ""}</small>}{contact.phone && <small>{contact.phone}</small>}</div>) : "Contacts pending"}</td></tr>)}</tbody>
     </table></div>
     {!visible.length && !invalid && <div className="empty">{companies.length ? <><p>No companies match your filters.</p><button className="button secondary" onClick={clear}>Clear filters</button></> : "No companies yet."}</div>}
   </section>;

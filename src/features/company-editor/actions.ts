@@ -3,6 +3,7 @@
 import { requireSession } from "@/server/auth/session";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
+import { contactSchema } from "@/domain/contracts/contact";
 import { database } from "@/server/db";
 
 export type SaveState = { error?: string; saved?: boolean };
@@ -16,7 +17,6 @@ const companySchema = z.object({
   workday_signal_date: z.string().refine(v => !v || /^\d{4}-\d{2}-\d{2}$/.test(v) && !Number.isNaN(Date.parse(v)) && new Date(v).toISOString().slice(0, 10) === v, "Enter a valid date.").transform(v => v || null),
 });
 const insightsSchema = z.object({ company_id: z.uuid(), updated_at: z.string(), persona_override: optionalText, level_override: optionalText, why_now_override: optionalText });
-const contactSchema = z.object({ company_id: z.uuid(), id: z.union([z.uuid(), z.literal("")]), name: z.string().trim().min(1, "Contact name is required.").max(200), title: optionalText, linkedin_url: optionalUrl, source: optionalUrl, mutual_connection: optionalText });
 
 function refresh(id: string) { revalidatePath("/"); revalidatePath(`/companies/${id}`); }
 function failure(error: unknown): SaveState {

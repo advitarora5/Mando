@@ -22,6 +22,11 @@ function contactFields(contact?: Contact): Field[] {
     { name: "linkedin_url", label: "LinkedIn / profile link", value: contact?.linkedin_url ?? "", type: "url" },
     { name: "source", label: "Evidence source link", value: contact?.source ?? "", type: "url" },
     { name: "mutual_connection", label: "Mutual connection", value: contact?.mutual_connection ?? "" },
+    { name: "email", label: "Work email", value: contact?.email ?? "", type: "email" },
+    { name: "email_verified", label: "Email verified", value: contact?.email_verified ? "on" : "", type: "checkbox", help: "Only for emails you confirmed. Needs an email." },
+    { name: "email_source", label: "Email source link", value: contact?.email_source ?? "", type: "url" },
+    { name: "phone", label: "Phone", value: contact?.phone ?? "", type: "tel" },
+    { name: "phone_source", label: "Phone source link", value: contact?.phone_source ?? "", type: "url" },
   ];
 }
 function ImportedResearch({ evidence }: { evidence: string }) {
@@ -131,7 +136,7 @@ export function Detail({ company: c, snapshots = [] }: { company: CompanyDetail;
       })}</div>
     </section>
     <WeeklyHistory snapshots={snapshots} />
-    <section className="panel detail-section"><h2>Buyer contacts</h2><div className="contact-grid">{c.contacts.map(contact => <article key={contact.id} className="contact-card"><Editor title={contact.name} action={saveContact} hidden={{ company_id: c.id, id: contact.id }} fields={contactFields(contact)}><p>{contact.title ?? "Title not provided"}</p><p className="muted">{contact.mutual_connection ?? "No mutual connection recorded"}</p><div className="contact-links">{safeUrl(contact.linkedin_url) && <a className="source-link" href={safeUrl(contact.linkedin_url)!} target="_blank" rel="noopener noreferrer">Profile ↗</a>}<Source value={contact.source} /></div></Editor></article>)}</div>
+    <section className="panel detail-section"><h2>Buyer contacts</h2><div className="contact-grid">{c.contacts.map(contact => <article key={contact.id} className="contact-card"><Editor title={contact.name} action={saveContact} hidden={{ company_id: c.id, id: contact.id }} fields={contactFields(contact)}><p>{contact.title ?? "Title not provided"}</p><p className="muted">{contact.mutual_connection ?? "No mutual connection recorded"}</p><div className="reach"><p>{contact.email ? <><a className="source-link" href={`mailto:${contact.email}`}>{contact.email}</a> <span className={`verify ${contact.email_verified ? "yes" : "no"}`}>{contact.email_verified ? "Verified" : "Unverified"}</span> <Source value={contact.email_source} /></> : <span className="muted">No email recorded</span>}</p><p>{contact.phone ? <><a className="source-link" href={`tel:${contact.phone}`}>{contact.phone}</a> <Source value={contact.phone_source} /></> : <span className="muted">No phone recorded</span>}</p></div><div className="contact-links">{safeUrl(contact.linkedin_url) && <a className="source-link" href={safeUrl(contact.linkedin_url)!} target="_blank" rel="noopener noreferrer">Profile ↗</a>}<Source value={contact.source} /></div></Editor></article>)}</div>
       <div className="add-contact"><Editor title="New contact" label="Add contact" action={saveContact} hidden={{ company_id: c.id, id: "" }} fields={contactFields()}><p className="muted">Add a buyer or influencer and their public source links.</p></Editor></div>
     </section>
   </main>;
