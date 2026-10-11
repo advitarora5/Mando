@@ -19,6 +19,12 @@ async function update(input: unknown, sent: boolean): Promise<DraftResult> {
     const values = { subject, body, edited: true, ...(sent ? { sent_at: new Date().toISOString() } : {}) };
     const { data, error } = await database().from("outreach_drafts").update(values).eq("id", id).eq("company_id", company_id).select("id");
     if (error || !data?.length) throw new Error("Could not save this message. Refresh and try again.");
+    if (sent) {
+      // Best-effort roll-up: advance a queued lead to contacted on first send. The durable
+      // send record is outreach_drafts.sent_at; lead status and its dates stay owned by the
+      // lead-status action, so this never overrides a lead already replied or demo booked.
+      await database().from("companies").update({ lead_status: "contacted", contacted_at: new Date().toISOString() }).eq("id", company_id).eq("lead_status", "queued");
+    }
     revalidatePath(`/companies/${company_id}`);
     return { saved: true };
   } catch (error) {
