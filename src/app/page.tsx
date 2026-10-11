@@ -11,7 +11,7 @@ export default async function Home() {
  const snapshots = await getSnapshots();
  const week = baselineWeek(snapshots, chicagoWeekStart());
  return <main>
-  <header><Link href="/">mando <span>/ prospect intelligence</span></Link><nav><Link href="/todays-leads">Today's leads</Link><LogoutButton /></nav></header>
+  <header><Link href="/">mando <span>/ prospect intelligence</span></Link><nav><Link href="/todays-leads">Today&apos;s leads</Link><LogoutButton /></nav></header>
   <section className="intro"><p className="eyebrow">ENTERPRISE QUALIFICATION</p><h1>Your next qualified conversation.</h1><p>Research, evidence, and prospect priorities in one shared workspace.</p></section>
   {mode === "sample" && <aside>Sample data: fictional, unscored examples.</aside>}
   {error && <p role="alert" className="error">{error}</p>}
