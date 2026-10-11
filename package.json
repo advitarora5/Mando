@@ -10,6 +10,7 @@
     "typecheck": "tsc --noEmit",
     "seed:demo": "node --env-file=.env.local scripts/seed-demo.mjs",
     "insights": "node --env-file=.env.local scripts/generate-insights.mjs",
+    "drafts": "node --env-file=.env.local scripts/generate-drafts.mjs",
     "score:save": "node --env-file=.env.local scripts/save-assessments.mjs",
     "test": "node --test tests/*.test.mjs"
   },

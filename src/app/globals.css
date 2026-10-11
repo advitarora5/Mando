@@ -112,3 +112,16 @@ td.rank-cell { min-width: 75px; font-weight: 650; color: var(--accent); }
 .movement.up { background: #e3f2e6; color: #1f7a35; }
 .movement.down { background: #fbe5e5; color: #a82b2b; }
 .movement.new { background: #f4eee4; color: var(--accent); }
+
+.reach p { margin: 0 0 4px; }
+.verify { font-size: 11px; font-weight: 650; padding: 1px 7px; border-radius: 10px; }
+.verify.yes { background: #e3f2e6; color: #1f7a35; }
+.verify.no { background: #f0eeea; color: #77716b; }
+
+.drafts { margin-top: 12px; border-top: 1px solid var(--border); padding-top: 10px; font-size: 13px; }
+.drafts summary { cursor: pointer; font-weight: 600; }
+.draft { margin-top: 12px; padding: 12px; border: 1px solid var(--border); border-radius: 8px; display: grid; gap: 8px; }
+.draft-head { display: flex; gap: 10px; align-items: center; }
+.draft label { display: grid; gap: 4px; font-size: 12px; color: #77716b; }
+.draft textarea, .draft input { font: inherit; padding: 8px; border: 1px solid var(--border); border-radius: 6px; }
+.error-text { color: #a82b2b; font-size: 12px; }
