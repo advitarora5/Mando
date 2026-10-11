@@ -54,7 +54,7 @@ export function CompanyList({ companies, mode, previousWeek = null, previousRank
     <div className="panel-heading"><h2>Company priorities</h2><p>Ranks reflect total scores across all companies, regardless of filters or display order.</p></div>
     <div className="list-controls">
       <label className="search-control">Search companies<input type="search" placeholder="Company, industry, or contact" value={search} onChange={e => setSearch(e.target.value)} /></label>
-      <label>Tier<select value={tier} onChange={e => setTier(e.target.value)}>{["All", "Qualified", "Maybe", "Needs evidence", "Unscored"].map(value => <option key={value}>{value}</option>)}</select></label>
+      <label>Tier<select value={tier} onChange={e => setTier(e.target.value)}>{["All", "Qualified", "Maybe", "Disqualified", "Needs evidence", "Unscored"].map(value => <option key={value}>{value}</option>)}</select></label>
       <label>Minimum score<input type="number" min="0" max="100" step="1" placeholder="0" value={minimum} onChange={e => setMinimum(e.target.value)} /></label>
       <label>Maximum score<input type="number" min="0" max="100" step="1" placeholder="100" value={maximum} onChange={e => setMaximum(e.target.value)} /></label>
 
