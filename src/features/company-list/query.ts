@@ -26,7 +26,8 @@ export function queryCompanies(companies: CompanyListItem[], filters: Filters) {
   return companies.filter(c => {
     const text = [c.name, c.domain, c.industry, c.headquarters, c.why_now, ...c.contacts.flatMap(contact => [contact.name, contact.title])].filter(Boolean).join(" ").toLowerCase();
     if (search && !text.includes(search)) return false;
-    if (filters.tier !== "All" && (c.score?.tier ?? "Unscored") !== filters.tier) return false;
+    const wanted = filters.tier === "Needs evidence" ? "Disqualified" : filters.tier;
+    if (wanted !== "All" && (c.score?.tier ?? "Unscored") !== wanted) return false;
     if ((filters.min !== null || filters.max !== null) && !c.score) return false;
     if (filters.min !== null && c.score!.total < filters.min) return false;
     if (filters.max !== null && c.score!.total > filters.max) return false;

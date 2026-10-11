@@ -12,6 +12,7 @@ import { saveCompany, saveContact, saveInsights } from "@/features/company-edito
 import { parseEvidence } from "@/domain/scoring/evidence";
 import { goLiveScore } from "@/domain/scoring/go-live";
 import { rubric } from "@/domain/scoring/rubric";
+import { displayTier } from "@/domain/scoring/display";
 
 function Source({ value }: { value: string | null }) {
   const url = safeUrl(value);
@@ -112,7 +113,7 @@ export function Detail({ company: c, snapshots = [], drafts = [] }: { company: C
   return <main className="detail-page">
     <header><Link href="/">mando <span>/ prospect intelligence</span></Link><LogoutButton /></header>
     <nav className="breadcrumb"><Link href="/">← Company priorities</Link></nav>
-    <section className="detail-heading"><div><p className="eyebrow">COMPANY PROFILE</p><h1>{c.name}</h1><p>{c.industry ?? "Industry pending"} · {c.headquarters ?? "Headquarters pending"}</p></div><div className="score-summary"><strong>{c.score?.total ?? "—"}</strong><span>{c.score?.tier ?? "Unscored"}</span></div></section>
+    <section className="detail-heading"><div><p className="eyebrow">COMPANY PROFILE</p><h1>{c.name}</h1><p>{c.industry ?? "Industry pending"} · {c.headquarters ?? "Headquarters pending"}</p></div><div className="score-summary"><strong>{c.score?.total ?? "—"}</strong><span>{displayTier(c.score)}</span></div></section>
     <aside>{c.score?.tier_reason ?? "No qualification assessment is available yet."}</aside>
     <div className="detail-grid">
       <section className="panel detail-section"><Editor title="Company overview" action={saveCompany} hidden={{ company_id: c.id, updated_at: c.updated_at }} fields={companyFields}>

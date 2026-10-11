@@ -96,6 +96,7 @@ td.rank-cell { min-width: 75px; font-weight: 650; color: var(--accent); }
 .tier-badge.qualified { color: #316943; background: #eaf3ec; }
 .tier-badge.maybe { color: #8b622e; background: #f7efdf; }
 .tier-badge.disqualified { color: #975656; background: #f7eaea; }
+.tier-badge.needs-evidence { color: #8b622e; background: #f7efdf; }
 @media (max-width: 1000px) { .list-controls { grid-template-columns: repeat(3, 1fr); } }
 @media (max-width: 550px) { .list-controls { grid-template-columns: 1fr 1fr; } .search-control { grid-column: 1 / -1; } }
 
