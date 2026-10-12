@@ -1,0 +1,92 @@
+{
+  "number": 109,
+  "company_id": "d6956351-5110-5442-aabd-8fc1ce15c556",
+  "name": "Discount Tire",
+  "research_status": "reviewed",
+  "domain": "discounttire.com",
+  "industry": "Tire and wheel retail",
+  "headquarters": "Scottsdale, Arizona, United States",
+  "employee_count": 30000,
+  "employee_basis": "Over 30,000 in official 2024 annual report; lower bound, group includes acquired businesses.",
+  "company_source": "https://www.workday.com/en-us/customer-stories/a-h/discount-tire-drives-hr-efficiency-scalability-to-support-growth.html",
+  "modules": [
+    "Human Capital Management",
+    "Compensation",
+    "Absence",
+    "Payroll",
+    "Benefits",
+    "Talent Management"
+  ],
+  "go_live": {
+    "date": null,
+    "precision": "unknown",
+    "status": "completed",
+    "description": "Completed HCM/payroll implementation confirmed by Workday case. Old pre-hire guide has 2012 publication footer and mentions Workday, but document revision history not established; not accepted as go-live day.",
+    "sources": [
+      "https://www.workday.com/en-us/customer-stories/a-h/discount-tire-drives-hr-efficiency-scalability-to-support-growth.html"
+    ]
+  },
+  "contacts": [
+    {
+      "name": "Gary Desai",
+      "title": "Chief Information Officer",
+      "linkedin_url": "https://www.linkedin.com/in/garydesai",
+      "source": "https://www.linkedin.com/posts/discount-tire-company_discounttire-leadership-activity-7169470575722057728-xIzR",
+      "role_status": "current_public_profile",
+      "notes": "Company award post confirms role; public profile/recent company-page connection corroborate."
+    },
+    {
+      "name": "Jessica Luebke",
+      "title": "Workforce strategy, labor intelligence and employer brand leader",
+      "linkedin_url": "https://www.linkedin.com/in/jessluebke",
+      "source": "https://www.linkedin.com/in/jessluebke",
+      "role_status": "current_public_profile",
+      "notes": "Functional description from profile; exact VP/Director rank not exposed, do not invent."
+    }
+  ],
+  "evidence": [
+    {
+      "category": "company_size",
+      "source": "https://kc.discounttire.com/content/dam/dtkc/global/en/docs/company/annual-report-2024.pdf",
+      "reason": "Corporate annual report states over 30,000 employees."
+    },
+    {
+      "category": "authority",
+      "source": "https://www.linkedin.com/posts/discount-tire-company_discounttire-leadership-activity-7169470575722057728-xIzR",
+      "reason": "Corporate account identifies CIO Desai; exact buying mandate unconfirmed."
+    },
+    {
+      "category": "budget_proxy",
+      "source": "https://www.linkedin.com/in/kristina-eckenboy-clms-5b84a232a",
+      "reason": "Reposted company HR leader announcement describes internal UKG timekeeping program serving 30K; adjacent HR-system investment, contract value unavailable."
+    },
+    {
+      "category": "timing_trigger",
+      "source": "https://www.discounttirefamily.com/dt-family/us/en/open-enrollment.html",
+      "reason": "October 5–23, 2026 Workday enrollment and January 1, 2027 carrier change are concrete current HR workflow deadlines."
+    },
+    {
+      "category": "workday_jobs",
+      "source": "https://events.discounttire.com/discounttire/jobs/15641?lang=en-us",
+      "reason": "Public employer Senior Workday Analyst posting lists configuration, release testing, integrations, HCM/Benefits/Talent/Payroll; availability checked, posting date not exposed."
+    },
+    {
+      "category": "reachability",
+      "source": "https://www.linkedin.com/posts/discount-tire-company_discounttire-leadership-activity-7169470575722057728-xIzR",
+      "reason": "Public professional role identified; direct verified contact channel, team mutual connection and willingness to buy are not established."
+    }
+  ],
+  "why_now": "Current October enrollment and January 2027 benefits-provider transition, plus Workday integration/release-testing hiring, create a specific operational discussion. No recent initial go-live established.",
+  "persona": "Employee experience technology / HRIS and IT operations",
+  "level": "CIO / functional leader",
+  "gaps": [
+    "Exact go-live date",
+    "Current HRIS lead: Gautam Reddy is a secondary-directory lead, not verified current contact",
+    "Direct work emails and phones",
+    "Warm connection and demonstrated willingness",
+    "Purchasing timeline and financial capacity",
+    "Rising participation"
+  ],
+  "research_notes": "Chris Bodlovic recently moved to Western Digital per own public profile; do not add as current Discount Tire VP. HR_ServiceTeam mailbox is a shared support channel, not an executive email. No scores assigned.",
+  "research_checked_on": "2026-10-12"
+}

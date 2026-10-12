@@ -1,0 +1,90 @@
+{
+  "number": 114,
+  "company_id": "dfda5ba6-f671-50a4-a1a1-44c34a963525",
+  "name": "Focus Financial Partners",
+  "research_status": "reviewed",
+  "domain": "focuspartners.com",
+  "industry": "Wealth management and business management services",
+  "headquarters": "New York, New York, United States (existing record; current headquarters needs confirmation)",
+  "employee_count": 6825,
+  "employee_basis": "Existing 6,825 matches Revelio March 2026 estimate; not company-reported. Conflicting directories exist; retain as estimate pending primary headcount.",
+  "company_source": "https://corporate.focuspartners.com/our-leadership",
+  "modules": [
+    "Human Capital Management",
+    "Timekeeping"
+  ],
+  "go_live": {
+    "date": null,
+    "precision": "relative / day unavailable",
+    "status": "completed",
+    "description": "Matthew Sackett's public post explicitly celebrates Workday go-live; payroll team post describes first payroll under new HRIS/timekeeping. Public pages give relative ages only; no reliable calendar day. Completed rollout confirmed, recency requires exact dated source.",
+    "sources": [
+      "https://www.linkedin.com/in/matthew-m-sackett",
+      "https://www.linkedin.com/in/gopal"
+    ]
+  },
+  "contacts": [
+    {
+      "name": "Abha Bhandair",
+      "title": "Chief Human Resources Officer",
+      "linkedin_url": null,
+      "source": "https://corporate.focuspartners.com/people/abha-bhandair",
+      "role_status": "current_official"
+    },
+    {
+      "name": "Denis Andreyev",
+      "title": "Chief Information & Security Officer",
+      "linkedin_url": "https://www.linkedin.com/in/deniska",
+      "source": "https://corporate.focuspartners.com/people/denis-andreyev",
+      "role_status": "current_official"
+    },
+    {
+      "name": "Matthew Sackett",
+      "title": "HR strategy and operations leader (public profile description)",
+      "linkedin_url": "https://www.linkedin.com/in/matthew-m-sackett",
+      "source": "https://www.linkedin.com/in/matthew-m-sackett",
+      "role_status": "current_public_profile",
+      "notes": "Direct involvement in Workday launch; exact formal title unavailable publicly."
+    }
+  ],
+  "evidence": [
+    {
+      "category": "authority",
+      "source": "https://corporate.focuspartners.com/our-leadership",
+      "reason": "Current CHRO, CISO and CTO listed; operational Workday launch described by HR leader."
+    },
+    {
+      "category": "budget_proxy",
+      "source": "https://markets.financialcontent.com/decaturdailydemocrat/article/bizwire-2026-1-22-jump-and-focus-financial-partners-launch-partnership-to-elevate-advisor-and-business-manager-productivity-through-power-of-ai",
+      "reason": "Jump-issued January 22, 2026 release documents AI workflow partnership; adjacent automation adoption, not dedicated HR testing budget."
+    },
+    {
+      "category": "timing_trigger",
+      "source": "https://www.linkedin.com/in/matthew-m-sackett",
+      "reason": "First-person Workday go-live celebration and first payroll milestone; exact timestamp not verified."
+    },
+    {
+      "category": "company_size",
+      "source": "https://www.reveliolabs.com/companies/focus-financial-partners/employees",
+      "reason": "Provider estimates 6,825 for March 2026; secondary estimate retained with explicit uncertainty, not authoritative census."
+    },
+    {
+      "category": "reachability",
+      "source": "https://corporate.focuspartners.com/people/abha-bhandair",
+      "reason": "Public professional role identified; direct verified contact channel, team mutual connection and willingness to buy are not established."
+    }
+  ],
+  "why_now": "A publicly confirmed Workday rollout and first payroll, alongside an AI workflow partnership, support post-launch stabilization and HR process discussions. Exact launch day and an active buying window remain unconfirmed.",
+  "persona": "HR systems implementation / People operations",
+  "level": "CHRO / HR functional lead",
+  "gaps": [
+    "Reliable calendar go-live day and finance module scope",
+    "Primary current group employee count/headquarters",
+    "Abha public LinkedIn identity",
+    "Direct buyer emails/phones and warm connections",
+    "Current financial capacity and procurement timeline",
+    "Rising participation"
+  ],
+  "research_notes": "Preserve existing CHRO/CISO records and three-contact cap; do not confuse Focus with Focus Cloud recruitment. Assets advised are not company revenue or spendable budget. No scores assigned.",
+  "research_checked_on": "2026-10-12"
+}

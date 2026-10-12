@@ -1,0 +1,97 @@
+{
+  "number": 127,
+  "company_id": "fdae1414-9777-5775-9ed1-dc67d2aa5498",
+  "name": "Veolia UK & Ireland",
+  "research_status": "reviewed",
+  "domain": "veolia.co.uk",
+  "industry": "Environmental services: waste, water and energy",
+  "headquarters": "London, United Kingdom",
+  "employee_count": 15000,
+  "employee_basis": "Current UK company page describes 15,000 employees across the UK; regional estimate and UK-only scope, not global Veolia's 220,000+ and not an exact UK&I combined census.",
+  "company_source": "https://www.workday.com/en-us/customer-stories/q-z/veolia-group-seamless-launch-new-finance-HR-system.html",
+  "modules": [
+    "Financial Management",
+    "Human Capital Management",
+    "Spend Management",
+    "Procure to Pay",
+    "Strategic Sourcing"
+  ],
+  "go_live": {
+    "date": null,
+    "precision": "project_end_bound",
+    "status": "completed",
+    "description": "Project director Mark Eaglefield's first-person profile dates the UK&I HCM/Finance/Infor EAM implementation August 2019–April 2021 and states successful big-bang go-live. April 2021 is a project-end bound, not an independently explicit launch day. Workday's customer case confirms completed 20-month deployment. January 2021 in a group interview was a planned date for three units, not verified UK&I completion.",
+    "sources": [
+      "https://uk.linkedin.com/in/mark-eaglefield-30701b23",
+      "https://www.workday.com/en-us/customer-stories/q-z/veolia-group-seamless-launch-new-finance-HR-system.html"
+    ]
+  },
+  "contacts": [
+    {
+      "name": "Beth Whittaker",
+      "title": "Chief Human Resources Officer, Northern Europe",
+      "linkedin_url": "https://www.linkedin.com/in/beth-whittaker-fcipd-813286b5",
+      "source": "https://www.veolia.co.uk/about-us/executive-committee",
+      "role_status": "current_official"
+    },
+    {
+      "name": "Gaj Premnath",
+      "title": "Chief Information Officer, Northern Europe",
+      "linkedin_url": null,
+      "source": "https://www.veolia.co.uk/about-us/executive-committee",
+      "role_status": "current_official",
+      "notes": "Current UK roster supersedes older Australian/NZ CIO references; correct LinkedIn URL unavailable."
+    },
+    {
+      "name": "Mark Eaglefield",
+      "title": "Head of Corporate Systems (customer-story title)",
+      "linkedin_url": "https://www.linkedin.com/in/mark-eaglefield-30701b23",
+      "source": "https://uk.linkedin.com/in/mark-eaglefield-30701b23",
+      "role_status": "current_employer_title_unconfirmed",
+      "notes": "Public profile confirms Veolia and personal project ownership, but present formal title is not displayed."
+    }
+  ],
+  "evidence": [
+    {
+      "category": "company",
+      "source": "https://www.veolia.co.uk/about-us/environmental-security",
+      "reason": "Current company page reports 15,000 UK employees across 400 sites."
+    },
+    {
+      "category": "authority",
+      "source": "https://www.veolia.co.uk/about-us/executive-committee",
+      "reason": "Current regional roster identifies Beth Whittaker as CHRO and Gaj Premnath as CIO."
+    },
+    {
+      "category": "reachability",
+      "source": "https://uk.linkedin.com/in/beth-whittaker-fcipd-813286b5",
+      "reason": "Current professional profile matches regional CHRO and employer; mutual introduction and willingness to buy unconfirmed."
+    },
+    {
+      "category": "budget",
+      "source": "https://www.konverso.ai/en/blog/veolia-automation-it-help-desk-konverso",
+      "reason": "Vendor explicitly confirms UK&I IT help-desk automation deployed on ServiceNow, an adjacent automation spend proxy."
+    },
+    {
+      "category": "budget",
+      "source": "https://www.workday.com/en-us/customer-stories/q-z/veolia-group-seamless-launch-new-finance-HR-system.html",
+      "reason": "Customer explicitly engaged Workday Test Lead Service and executed 10,000+ tests for launch; historical professional testing spend, not proof of current automated-test purchase."
+    },
+    {
+      "category": "timing",
+      "source": "https://uk.linkedin.com/in/mark-eaglefield-30701b23",
+      "reason": "Named project owner confirms successful deployment and August 2019–April 2021 project interval, without exact launch day."
+    }
+  ],
+  "why_now": "A regional Workday deployment integrates a large application estate and has already required substantial testing. ServiceNow/Konverso automation and ongoing business integration make a targeted change-assurance discussion plausible. Historic test services are strong relevance evidence but do not establish a new procurement deadline.",
+  "persona": "Regional HR technology / corporate systems owner, with CHRO and CIO sponsors",
+  "level": "Functional head and C-suite",
+  "gaps": [
+    "Exact actual UK&I go-live day/month unavailable; project ended April 2021.",
+    "Current exact UK&I combined employee census and Mark Eaglefield's exact current title unconfirmed.",
+    "No verified direct buyer work emails/phones, mutual connections or willingness to act.",
+    "Current regional software purchasing timeline and allocated testing budget unavailable."
+  ],
+  "research_notes": "September 2020 launch in the multi-customer Workday blog belongs to Coventry Building Society, not Veolia. Infor EAM is a separate asset-management product, not a Workday module. Global Veolia financial and workforce totals must not substitute for this regional record. London registered head office is sourced from https://www.veolia.co.uk/northern-europe-Data-Protection-information. No scores changed.",
+  "research_checked_on": "2026-10-12"
+}

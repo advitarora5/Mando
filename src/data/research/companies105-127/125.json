@@ -1,0 +1,90 @@
+{
+  "number": 125,
+  "company_id": "fc4bdc61-c1d7-5d37-ad30-a9e84761c4c0",
+  "name": "Flix",
+  "research_status": "reviewed",
+  "domain": "corporate.flix.com",
+  "industry": "Travel technology and intercity bus/rail transportation",
+  "headquarters": "Munich, Germany",
+  "employee_count": 5421,
+  "employee_basis": "FY2025 ESG Report, page 39: 5,421 employees at December 31, 2025, excluding contingent workers; replaces older 5,600 estimate.",
+  "company_source": "https://www.workday.com/en-us/customer-stories/i-p/flix-transforms-global-planning-with-workday.html",
+  "modules": [
+    "Human Capital Management",
+    "Adaptive Planning"
+  ],
+  "go_live": {
+    "date": null,
+    "precision": "year",
+    "status": "completed",
+    "description": "Workday's November 13, 2018 issuer release identifies FlixMobility among customers that went live. Exact HCM day/month not supplied. Current customer case confirms Adaptive Planning is live and connected to HCM; its original launch date is unavailable. Secondary report's inferred January–May 2018 window is not treated as verified.",
+    "sources": [
+      "https://www.globenewswire.com/news-release/2018/11/13/1650671/0/en/workday-continues-momentum-across-emea-as-more-customers-go-live.html",
+      "https://www.workday.com/en-us/customer-stories/i-p/flix-transforms-global-planning-with-workday.html"
+    ]
+  },
+  "contacts": [
+    {
+      "name": "Daniel Krauss",
+      "title": "Co-founder, Chief Information Officer and Chief HR Officer",
+      "linkedin_url": "https://www.linkedin.com/in/danielmkrauss",
+      "source": "https://corporate.flix.com/flix-management-leadership-team/",
+      "role_status": "current_official",
+      "notes": "Existing verified profile retained; official current roster confirms combined technology/people remit."
+    },
+    {
+      "name": "Dorit Schindler",
+      "title": "Senior Vice President, People & Organisation",
+      "linkedin_url": "https://www.linkedin.com/in/dorit-schindler-07630217",
+      "source": "https://corporate.flix.com/press_releases/people-and-tech-flix-strengthens-senior-management-team/",
+      "role_status": "current_public_profile",
+      "notes": "Employer appointment March 2024, current profile employer confirmed and recruiting HR technology/Workday talent."
+    },
+    {
+      "name": "Fabian Becker",
+      "title": "Head of Controlling Intelligence",
+      "linkedin_url": "https://www.linkedin.com/in/fabian-becker-038a29130",
+      "source": "https://www.workday.com/en-us/customer-stories/i-p/flix-transforms-global-planning-with-workday.html",
+      "role_status": "current_public_profile",
+      "notes": "Current employer profile agrees; named Adaptive Planning owner and customer webinar speaker."
+    }
+  ],
+  "evidence": [
+    {
+      "category": "company",
+      "source": "https://corporate.flix.com/wp-content/uploads/2026/04/2025_Flix_ESG-Report.pdf",
+      "reason": "Company reports year-end 2025 employee headcount 5,421 and consolidated revenue €2,283.2m."
+    },
+    {
+      "category": "authority",
+      "source": "https://corporate.flix.com/flix-management-leadership-team/",
+      "reason": "Current CIO/CHRO Daniel Krauss owns both technology and people; Dorit leads people organization."
+    },
+    {
+      "category": "reachability",
+      "source": "https://de.linkedin.com/in/dorit-schindler-07630217",
+      "reason": "Current public profile identifies HR executive and Workday-focused recruitment, but no mutual connection or willingness to purchase established."
+    },
+    {
+      "category": "budget",
+      "source": "https://s21.q4cdn.com/387111300/files/doc_news/FlixMobility-Drives-Digital-Innovation-with-MobileIron-Cloud.pdf",
+      "reason": "MobileIron's February 6, 2019 release confirms Flix deployed its cloud/mobile security platform; historical adjacent IT spend, not recent testing procurement."
+    },
+    {
+      "category": "timing",
+      "source": "https://www.workday.com/en-us/customer-stories/i-p/flix-transforms-global-planning-with-workday.html",
+      "reason": "Adaptive 4.0 remodeling targets five-to-ten-year planning and performance improvements, providing an active change topic without a dated procurement deadline."
+    }
+  ],
+  "why_now": "Adaptive Planning is integrated with Workday HCM and being remodeled for long-range planning. Continued international expansion and Workday-focused people technology hiring create a plausible need to validate FTE feeds, permissions and planning-model changes. Installed mobile-security spend and revenue scale do not establish a new Mando budget.",
+  "persona": "People technology and controlling systems owners, with CIO/CHRO sponsor",
+  "level": "Functional head, senior vice president and C-suite",
+  "gaps": [
+    "Exact HCM and Adaptive Planning launch dates unavailable.",
+    "No verified direct buyer email/phone, team mutual or demonstrated willingness to act.",
+    "No recent external test-automation purchase or committed procurement timeline.",
+    "FY2025 revenue is confirmed but current liquidity/profitability and allocated testing spend are not."
+  ],
+  "research_notes": "Workday story confirms in-house planning developers; do not assume dependence on external consultants. Flix North America has separate regional people leadership and its employees are within group ESG scope. No scores changed.",
+  "research_checked_on": "2026-10-12"
+}
