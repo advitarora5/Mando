@@ -1,0 +1,299 @@
+{
+  "researched_at": "2026-10-11",
+  "selection": "First 20 companies in Supabase companies table, ID ascending; frozen IDs",
+  "policy": "Only confirmed exact core-system dates feed workday_signal_date. Month/year windows, module expansions, upper bounds, plans, durations and customer announcements remain explicitly labelled in timing evidence. No scoring rules changed.",
+  "database_detection_note": {
+    "source_url": "https://technologychecker.io/technology/workday",
+    "reason": "Public page describes domain-level detection, which may cover a single storefront and misses authenticated deployments. Detection/first-recorded dates are observations, not actual implementation dates."
+  },
+  "companies": [
+    {
+      "company_id": "00e6f2f2-171e-5cd9-9776-93e13ac0a3fb",
+      "company_name": "Mondelēz International",
+      "status": "live_calendar_date_unknown",
+      "date_precision": "duration_only",
+      "date_or_window": null,
+      "module_scope": "Global Workday HR",
+      "reason": "ADP’s 2024 case study reports three years of global Workday use, but the interview date is not stated. This confirms historical operation, not an exact 2021 launch.",
+      "source_url": "https://www.adp.com/-/media/adp/resourcehub/pdf/testimonials/case-study-mondelez-2024.pdf?rev=b60741f0649a44709f3843a61223e710",
+      "additional_evidence": [],
+      "exact_hcm_date_for_scoring": null
+    },
+    {
+      "company_id": "01e66a13-d283-55ca-9980-5e402299fcea",
+      "company_name": "St John of God Health Care",
+      "status": "live_by_reporting_period",
+      "date_precision": "year_upper_bound",
+      "date_or_window": "2024",
+      "module_scope": "Workday Learning / LMS",
+      "reason": "Employer modern-slavery statement describes Workday LMS training during its 2024 review period. Learning was in use during 2024; this is not its launch date or an exact HCM go-live.",
+      "source_url": "https://accorddisability.sjog.org.au/-/media/files/news-and-media/position-statements/j007428-sjog-modern-slavery-statement-2023.pdf",
+      "additional_evidence": [
+        {
+          "source_url": "https://www.appsruntheworld.com/customers-database/customers/view/st-john-of-god-health-care-australia",
+          "reason": "Secondary database reports Absence live in 2022 and a February 2022–September 2023 project. Not independently confirmed; do not use as an exact deployment date."
+        }
+      ],
+      "exact_hcm_date_for_scoring": null
+    },
+    {
+      "company_id": "0282dc1a-dd1e-5c2b-a286-dac058777c01",
+      "company_name": "First National Bank of Omaha",
+      "status": "live_calendar_date_unknown",
+      "date_precision": "unknown",
+      "date_or_window": null,
+      "module_scope": "HCM deployment",
+      "reason": "Official customer story describes an eight-month implementation, without a calendar start or go-live date. No additional dated launch found in the reviewed public sources.",
+      "source_url": "https://www.workday.com/en-us/customer-stories/a-h/fnbo-upskills-hr-teams-and-successfully-adopts-workday.html",
+      "additional_evidence": [],
+      "exact_hcm_date_for_scoring": null
+    },
+    {
+      "company_id": "031cda41-d7cb-5797-b599-5e28bcc363a5",
+      "company_name": "Banner Health",
+      "status": "confirmed_completed_go_live",
+      "date_precision": "month",
+      "date_or_window": "2020-08",
+      "module_scope": "HCM",
+      "reason": "Workday explicitly reports Banner HCM went live in August 2020. The exact day is not disclosed; this historical launch is not a recent trigger.",
+      "source_url": "https://blog.workday.com/en-us/2023/celebrating-healthcare-innovation-award-winners.html",
+      "additional_evidence": [
+        {
+          "source_url": "https://documents.bannerhealth.com/-/media/files/project/documentportal/vendor-ecl-and-sow/vndly-sow-faqs.ashx?la=en",
+          "reason": "September 2022 employer FAQ scheduled VNDLY phase 1 for October 31, 2022, for IT and coding SOW vendors. Planned separate VMS rollout; this document does not retrospectively confirm completion."
+        }
+      ],
+      "exact_hcm_date_for_scoring": null
+    },
+    {
+      "company_id": "03e0cd1e-7b4e-516d-98a2-bffb3485dcd2",
+      "company_name": "Iowa State University",
+      "status": "confirmed_completed_go_live",
+      "date_precision": "day",
+      "date_or_window": "2019-07-01",
+      "module_scope": "HCM / Finance / Payroll",
+      "reason": "Existing exact core-system date retained. A separate Workday Student rollout introduced student access on a March 4, 2024 schedule; the university annual report confirms March rollout completion. Student admissions launched June 2023.",
+      "source_url": "https://www.provost.iastate.edu/files/documents/2024-04/HLC%20Year%204%20Assurance%20Review.pdf",
+      "additional_evidence": [
+        {
+          "source_url": "https://archive.las.iastate.edu/2024/02/21/students-gain-access-to-workday-march-4/",
+          "reason": "Dated university notice schedules Workday Student access for March 4, 2024, distinct from the 2019 HR deployment."
+        },
+        {
+          "source_url": "https://www.it.iastate.edu/annual-report-2024-archive",
+          "reason": "University report confirms the third Student rollout occurred in March 2024; remaining phases were scheduled through February 2025."
+        },
+        {
+          "source_url": "https://archive.las.iastate.edu/2023/10/10/workday-student-resources-for-you/",
+          "reason": "October 2023 university notice confirms admissions rollout had occurred June–September 2023."
+        }
+      ],
+      "exact_hcm_date_for_scoring": "2019-07-01"
+    },
+    {
+      "company_id": "05360993-fa21-567c-8259-66f58ea118bd",
+      "company_name": "Bronson Healthcare",
+      "status": "live_calendar_date_unknown",
+      "date_precision": "unknown",
+      "date_or_window": null,
+      "module_scope": "Workday ERP / HCM / Learning",
+      "reason": "Official stories confirm operational HCM and Learning but provide no calendar go-live. The hospital leadership interview also describes completed ERP implementation without dating the launch.",
+      "source_url": "https://www.workday.com/en-us/customer-stories/a-h/bronson-healthcare-transforms-streamlines-operations-with-workday.html",
+      "additional_evidence": [
+        {
+          "source_url": "https://www.beckershospitalreview.com/finance/how-john-muir-and-bronson-health-brought-innovation-to-business-operations-with-erp-technology/",
+          "reason": "CHRO John Hayden describes installed Workday ERP; publication/webinar dates are not go-live dates."
+        }
+      ],
+      "exact_hcm_date_for_scoring": null
+    },
+    {
+      "company_id": "074b1f36-8d02-5d58-b2c8-864103766afc",
+      "company_name": "Thermo Fisher Scientific",
+      "status": "live_calendar_date_unknown",
+      "date_precision": "unknown",
+      "date_or_window": null,
+      "module_scope": "HCM / Absence / Time Tracking",
+      "reason": "Workday customer story confirms operational time tracking but does not date go-live. Secondary purchase-year claims do not establish the global HCM launch.",
+      "source_url": "https://www.workday.com/en-us/customer-stories/q-z/thermo-fisher-empowers-employees-to-do-their-best-work.html",
+      "additional_evidence": [
+        {
+          "source_url": "https://www.appsruntheworld.com/customers-database/customers/view/thermo-fisher-scientific-inc-united-states",
+          "reason": "Secondary database identifies an Absence purchase in 2018; not used as a confirmed core HCM go-live date."
+        }
+      ],
+      "exact_hcm_date_for_scoring": null
+    },
+    {
+      "company_id": "094b7420-2082-53c5-a3df-130ed6e95cfc",
+      "company_name": "Tokyo Electron",
+      "status": "confirmed_employee_access_expansion",
+      "date_precision": "year",
+      "date_or_window": "2019",
+      "module_scope": "HCM access for all employees",
+      "reason": "Workday says HCM access expanded from managers to all employees in 2019. It separately dates the relationship to 2016; neither fact supplies an exact original go-live day.",
+      "source_url": "https://www.workday.com/en-us/customer-stories/q-z/tokyo-electron-ensures-global-consistency-global-hr-system.html",
+      "additional_evidence": [],
+      "exact_hcm_date_for_scoring": null
+    },
+    {
+      "company_id": "0c9a3679-c609-5441-bac6-3e2ecf163a62",
+      "company_name": "RMIT University",
+      "status": "confirmed_completed_go_live",
+      "date_precision": "day",
+      "date_or_window": "2021-06-07",
+      "module_scope": "HR / Finance / Procurement",
+      "reason": "Existing June 7, 2021 HR date retained. A CIO interview corroborates that Finance and Procurement joined HR in the same big-bang rollout; this is a historical launch.",
+      "source_url": "https://www.rmit.edu.au/news/academic-judgment",
+      "additional_evidence": [
+        {
+          "source_url": "https://ibrs.com.au/practices/it-operational-excellence/rightsizing-the-erp-how-rmit-replaced-19-years-of-sap-with-workday/",
+          "reason": "Interview with RMIT technology leadership explicitly dates the single HR/Finance/Procurement go-live to June 7, 2021."
+        }
+      ],
+      "exact_hcm_date_for_scoring": "2021-06-07"
+    },
+    {
+      "company_id": "0d7ea78d-6376-5f97-b5d8-e16e3783aee9",
+      "company_name": "Jardine Matheson",
+      "status": "live_by_publication",
+      "date_precision": "day_upper_bound",
+      "date_or_window": "2020-02-15",
+      "module_scope": "Group Head Office HR only",
+      "reason": "Jardines’ February 15, 2020 announcement describes an already-completed rollout to more than 400 head-office colleagues. This is an upper bound, not the launch day or proof of group-wide deployment.",
+      "source_url": "https://www.jardines.com/newsroom/latest-news/other-business-updates/2020/goodbye-paper-hello-workday-our-new-hr-platform",
+      "additional_evidence": [],
+      "exact_hcm_date_for_scoring": null
+    },
+    {
+      "company_id": "0df0af2a-ff75-5e4c-9a56-938187e4eeaf",
+      "company_name": "English Schools Foundation",
+      "status": "confirmed_live_post_go_live_recruitment",
+      "date_precision": "unknown",
+      "date_or_window": null,
+      "module_scope": "HCM integrated with PeopleSoft Payroll",
+      "reason": "Employer requisition JR186 explicitly describes successfully completed HCM go-live and stabilisation work. Its August 26, 2026 application deadline is not a launch date; exact go-live remains unavailable.",
+      "source_url": "https://esf.wd102.myworkdayjobs.com/en-US/ESF/job/Senior---HR-Executive---Projects--HRIS---Analytics-_JR186",
+      "additional_evidence": [],
+      "exact_hcm_date_for_scoring": null
+    },
+    {
+      "company_id": "0f5a3b7b-a2f9-5a2b-bc81-72fc8a8074d5",
+      "company_name": "Sun Life",
+      "status": "confirmed_completed_go_live",
+      "date_precision": "month",
+      "date_or_window": "2011-05",
+      "module_scope": "HCM / Performance / Compensation",
+      "reason": "Kainos’ interview with Sun Life HRMS leadership explicitly dates initial go-live to May 2011; no exact day. Time Tracking, Absence and Recruiting were rolled out globally by 2018.",
+      "source_url": "https://www.kainos.com/insights/success-stories/sun-life-takes-control-of-workday-security-updates-expansion-with-test-automation",
+      "additional_evidence": [],
+      "exact_hcm_date_for_scoring": null
+    },
+    {
+      "company_id": "15d16044-4b5a-5a79-8fe2-d7a79fe94db0",
+      "company_name": "Signify",
+      "status": "confirmed_completed_module_pilot",
+      "date_precision": "year",
+      "date_or_window": "2025",
+      "module_scope": "Workday Learning: Digital team pilot",
+      "reason": "Signify’s 2025 annual report states Learning launched that year, with first rollout in the Digital team and global deployment planned for 2026. These phases are distinct from the older HCM rollout.",
+      "source_url": "https://www.signify.com/static/2025/signify-annual-report-2025.pdf",
+      "additional_evidence": [
+        {
+          "source_url": "https://www.linkedin.com/posts/omar-bali-5726613_techwolf-skillsbasedorganisation-futureofwork-activity-7442227344527937536-aThj",
+          "reason": "First-person public announcement confirms global Workday Learning and Skillsoft Percipio launch. Absolute launch date/year not independently established; relative post age was not converted to a go-live date."
+        }
+      ],
+      "exact_hcm_date_for_scoring": null
+    },
+    {
+      "company_id": "1667a535-6b79-50b0-8b3b-9dbbeb81e29d",
+      "company_name": "Roswell Park Comprehensive Cancer Center",
+      "status": "confirmed_completed_go_live",
+      "date_precision": "month",
+      "date_or_window": "2021-01",
+      "module_scope": "Finance including capital projects",
+      "reason": "Workday’s interview with implementation leader Danielle Sullivan explicitly dates Finance/capital-projects go-live to January 2021. No day is stated; unrelated Health Research Inc RFP dates were excluded.",
+      "source_url": "https://blog.workday.com/en-us/workday-podcast-healthcare-organizations-technology-capital-projects.html",
+      "additional_evidence": [],
+      "exact_hcm_date_for_scoring": null
+    },
+    {
+      "company_id": "1a72a9ab-335f-5397-a637-03a6454e1a65",
+      "company_name": "Del Monte Fresh Produce Company",
+      "status": "customer_announced_not_go_live",
+      "date_precision": "day",
+      "date_or_window": "2026-05-21",
+      "module_scope": "Modules undisclosed",
+      "reason": "Workday’s May 21, 2026 financial-results announcement lists Fresh Del Monte as a new customer. Selection/customer status does not prove go-live. Del Monte Foods case studies belong to a different company.",
+      "source_url": "https://newsroom.workday.com/2026-05-21-Workday-Announces-Fiscal-2027-First-Quarter-Financial-Results",
+      "additional_evidence": [],
+      "exact_hcm_date_for_scoring": null
+    },
+    {
+      "company_id": "1d3c6696-d69f-5fdc-b408-2acfe1698038",
+      "company_name": "Scandic",
+      "status": "confirmed_completed_regional_go_live",
+      "date_precision": "season",
+      "date_or_window": "Autumn 2013",
+      "module_scope": "HCM in Finnish Scandic hotels",
+      "reason": "Employer-commissioned research based on manager interviews explicitly dates Finnish adoption to autumn 2013 and says Sweden was already using Workday. No exact day or group-wide launch date.",
+      "source_url": "https://www.theseus.fi/bitstream/handle/10024/79312/Jaervinen_Ville.pdf",
+      "additional_evidence": [],
+      "exact_hcm_date_for_scoring": null
+    },
+    {
+      "company_id": "1e7ad73f-eea9-55af-9d8c-26b846ffb2ed",
+      "company_name": "St. Luke's University Health Network",
+      "status": "live_calendar_date_unknown",
+      "date_precision": "unknown",
+      "date_or_window": null,
+      "module_scope": "HCM / Payroll / Workday Extend",
+      "reason": "Official customer story confirms completed Extend bonus and emergency time-tracking apps, but does not date original HCM deployment. No exact launch date found; other St. Luke organisations were excluded.",
+      "source_url": "https://www.workday.com/en-us/customer-stories/q-z/st-lukes-university-health-network-improve-retention.html",
+      "additional_evidence": [],
+      "exact_hcm_date_for_scoring": null
+    },
+    {
+      "company_id": "22e57648-6b1f-55bd-afc2-348afaccfb25",
+      "company_name": "Memorial Health",
+      "status": "planned_go_live_completion_unconfirmed",
+      "date_precision": "month",
+      "date_or_window": "2026-09 (end of month)",
+      "module_scope": "Workday deployment; exact module scope unstated in interview",
+      "reason": "August 21, 2026 CEO interview reports a target go-live at the end of September 2026 for Springfield, Illinois. Target is historical as of review; no public completion notice found. Live Recruiting portal alone does not confirm full HCM completion.",
+      "source_url": "https://www.beckershospitalreview.com/strategy/memorial-health-ceo-ebitda-tells-us-whether-we-can-afford-tomorrow/",
+      "additional_evidence": [],
+      "exact_hcm_date_for_scoring": null
+    },
+    {
+      "company_id": "2423f06e-b3f0-5739-860d-e3fb32f56453",
+      "company_name": "Topcon",
+      "status": "confirmed_completed_module_introduction",
+      "date_precision": "year",
+      "date_or_window": "2024",
+      "module_scope": "Workday educational platform",
+      "reason": "Topcon’s own 2025 report states its Workday education platform was introduced in 2024. Separately, Workday’s March 16, 2022 newsroom release announced HCM implementation had begun, not that it had gone live.",
+      "source_url": "https://global.topcon.com/invest/wp-content/uploads/library/integration/TopconReport_2025_EN.pdf",
+      "additional_evidence": [
+        {
+          "source_url": "https://ja-jp.newsroom.workday.com/2022-03-16-topcon-workday-customer",
+          "reason": "Japanese primary announcement states full-scale HCM implementation had started; March 16, 2022 is announcement date, not confirmed go-live."
+        }
+      ],
+      "exact_hcm_date_for_scoring": null
+    },
+    {
+      "company_id": "2552c597-e93e-5997-9898-20cc3ace9718",
+      "company_name": "Hilti Aktiengesellschaft",
+      "status": "confirmed_completed_go_live",
+      "date_precision": "month",
+      "date_or_window": "2020-03",
+      "module_scope": "Global HCM",
+      "reason": "Hilti’s employer-authored compensation/benefits job advertisement explicitly dates successful global HCM go-live to March 2020. No day is stated; earlier implementation references may describe a different phase.",
+      "source_url": "https://my.linkedin.com/jobs/view/it-business-analyst-compensation-benefits-at-hilti-asia-it-services-4084885709",
+      "additional_evidence": [],
+      "exact_hcm_date_for_scoring": null
+    }
+  ]
+}

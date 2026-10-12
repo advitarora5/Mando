@@ -1,0 +1,1640 @@
+{
+  "researched_at": "2026-10-11",
+  "selection": "First 20 companies in Supabase companies table, ID ascending; frozen IDs",
+  "scoring_policy": "Existing Authority/Reachability/Budget values preserved; no evidence-to-points bands invented. Release and exact-date timing follow repository rubric. New evidence and budget adoption proxies require scoring-owner review.",
+  "companies": [
+    {
+      "company": {
+        "id": "00e6f2f2-171e-5cd9-9776-93e13ac0a3fb",
+        "name": "Mondelēz International",
+        "domain": "mondelezinternational.com",
+        "industry": "Food and beverage manufacturing",
+        "headquarters": "Chicago, Illinois, United States",
+        "employee_count": 90000,
+        "workday_signal_date": null,
+        "source": "https://www.workday.com/en-us/customer-stories/i-p/mondelez-faster-integrations-make-tasty-profits.html"
+      },
+      "baseline_updated_at": "2026-10-05T22:10:32.346848+00:00",
+      "previous_score_id": "a522c106-37f0-5b21-a294-14d6f2048571",
+      "score": {
+        "company_id": "00e6f2f2-171e-5cd9-9776-93e13ac0a3fb",
+        "rubric_version": "week2-100-research-20261011",
+        "tier": "Disqualified",
+        "authority_score": 0,
+        "reachability_score": 0,
+        "budget_score": 0,
+        "authority_evidence": "https://www.mondelezinternational.com/about-us/leadership/executive-team/stephanie-lilak/ | Stephanie Lilak is listed as Executive Vice President and Chief People Officer; 90000 employees. Role evidence researched 2026-10-11; buying mandate and numeric assessment require review.\nWorkforce: https://www.mondelezinternational.com/about-us/leadership/executive-team/stephanie-lilak/ | More than 90,000 global colleagues; lower bound from current leadership biography.\nWorkday modules: https://www.workday.com/en-us/customer-stories/i-p/mondelez-faster-integrations-make-tasty-profits.html | Integrations, Human Capital Management Existing numeric score retained pending scoring-owner assessment; zero does not mean evidence disproves fit.",
+        "reachability_evidence": "https://www.linkedin.com/in/stephanielilak | Public identity/role route exists; direct email, office phone, <=1-degree connection and conviction to act not verified. Existing numeric score retained pending scoring-owner assessment; zero does not mean evidence disproves fit.",
+        "budget_evidence": "https://www.sap.com/assetdetail/2025/05/bc422555-077f-0010-bca6-c68f7e60039b.html | SAP customer session documents use of Tricentis testing across SAP and non-SAP environments; adjacent testing investment proxy, not a current purchasing timeline. Existing numeric score retained pending scoring-owner assessment; zero does not mean evidence disproves fit.",
+        "release_score": 5,
+        "release_evidence": "https://github.com/advitarora5/Mando-CUBE/blob/main/src/domain/scoring/releases.ts | Repository release calendar estimates 2027R1 for March 13, 2027, 153 days after October 11, 2026; more than 18 weeks earns 5/15. Date is estimated, not newly confirmed.",
+        "timing_score": 0,
+        "timing_evidence": "https://www.workday.com/en-us/customer-stories/i-p/mondelez-faster-integrations-make-tasty-profits.html | Workday use confirmed by customer story, but an exact go-live date or dated new trigger was not verified; no date inferred."
+      },
+      "insight": {
+        "company_id": "00e6f2f2-171e-5cd9-9776-93e13ac0a3fb",
+        "persona_generated": "HR and enterprise systems leadership responsible for Workday operations",
+        "level_generated": "C-level",
+        "why_now_generated": "Documented use of Tricentis testing and a Workday estate with more than 90 integrations make integration quality relevant. A new Workday project or purchase window has not been confirmed.\n\nResearch checked 2026-10-11. Modules: Integrations, Human Capital Management. Workforce: More than 90,000 global colleagues; lower bound from current leadership biography. Exact Workday go-live date: information not available. Mutual connections: information not available. Emails are employer-published where sourced, with deliverability unverified."
+      },
+      "contacts": [
+        {
+          "name": "Stephanie Lilak",
+          "title": "Executive Vice President and Chief People Officer",
+          "source": "https://www.mondelezinternational.com/about-us/leadership/executive-team/stephanie-lilak/",
+          "linkedin_url": "https://www.linkedin.com/in/stephanielilak",
+          "email": null,
+          "phone": null,
+          "email_source": null,
+          "phone_source": null,
+          "email_verified": false,
+          "mutual_connection": null,
+          "checked_at": "2026-10-11",
+          "note": "Employer/role checked; purchase authority and warm introduction not established.",
+          "id": "612dd9cf-8f40-5353-9428-5e16920f4584",
+          "company_id": "00e6f2f2-171e-5cd9-9776-93e13ac0a3fb"
+        }
+      ],
+      "workday_modules": [
+        "Integrations",
+        "Human Capital Management"
+      ],
+      "workforce_source": "https://www.mondelezinternational.com/about-us/leadership/executive-team/stephanie-lilak/",
+      "workforce_note": "More than 90,000 global colleagues; lower bound from current leadership biography.",
+      "workday_confirmation": "Primary Workday customer story confirms use.",
+      "general_contact_route": null,
+      "rising": {
+        "status": "not_confirmed",
+        "source": null,
+        "reason": "No 2026 attendance/presentation confirmation found in the reviewed public sources; absence is not established."
+      },
+      "additional_sources": [],
+      "gaps": [
+        "Scoring-owner assessment of Authority, Reachability and Budget points",
+        "Warm introduction and willingness to act",
+        "Mailbox deliverability verification",
+        "Exact Workday go-live date"
+      ]
+    },
+    {
+      "company": {
+        "id": "01e66a13-d283-55ca-9980-5e402299fcea",
+        "name": "St John of God Health Care",
+        "domain": "sjog.org.au",
+        "industry": "Healthcare",
+        "headquarters": "Perth, Western Australia, Australia",
+        "employee_count": 17000,
+        "workday_signal_date": null,
+        "source": "https://www.workday.com/en-us/customer-stories/q-z/st-john-of-god-health-care-honors-its-evp.html"
+      },
+      "baseline_updated_at": "2026-10-05T22:10:32.346848+00:00",
+      "previous_score_id": "769096c3-6e12-5c86-aeb5-585a89c2c191",
+      "score": {
+        "company_id": "01e66a13-d283-55ca-9980-5e402299fcea",
+        "rubric_version": "week2-100-research-20261011",
+        "tier": "Disqualified",
+        "authority_score": 0,
+        "reachability_score": 0,
+        "budget_score": 0,
+        "authority_evidence": "https://www.sjog.org.au/about-us/leadership/executives | Carla Bonev is listed as Chief People Officer; 17000 employees. Role evidence researched 2026-10-11; buying mandate and numeric assessment require review.\nWorkforce: https://www.workday.com/en-us/customer-stories/q-z/st-john-of-god-health-care-honors-its-evp.html | Dated Workday customer-story workforce snapshot; current exact headcount not verified.\nHeadquarters: https://www.sjog.org.au/about-us/contact-us | Perth, Western Australia, Australia.\nWorkday modules: https://www.workday.com/en-us/customer-stories/q-z/st-john-of-god-health-care-honors-its-evp.html | Human Capital Management, Talent Acquisition, Learning, Performance and Optimization Existing numeric score retained pending scoring-owner assessment; zero does not mean evidence disproves fit.",
+        "reachability_evidence": "https://www.linkedin.com/in/carla-salvador-bonev-b4537216 | Public identity/role route exists; direct email, office phone, <=1-degree connection and conviction to act not verified. Existing numeric score retained pending scoring-owner assessment; zero does not mean evidence disproves fit.",
+        "budget_evidence": "https://www.rldatix.com/en-apac/resources/single-source-of-truth-integrated-the-mypolicy-library-lippincott-project/ | Vendor reports MyPolicy Library/Lippincott integration live in October 2025 and aligned with Workday competency assessments; adjacent tool adoption proxy, with no current purchase deadline. Existing numeric score retained pending scoring-owner assessment; zero does not mean evidence disproves fit.",
+        "release_score": 5,
+        "release_evidence": "https://github.com/advitarora5/Mando-CUBE/blob/main/src/domain/scoring/releases.ts | Repository release calendar estimates 2027R1 for March 13, 2027, 153 days after October 11, 2026; more than 18 weeks earns 5/15. Date is estimated, not newly confirmed.",
+        "timing_score": 0,
+        "timing_evidence": "https://www.workday.com/en-us/customer-stories/q-z/st-john-of-god-health-care-honors-its-evp.html | Workday use confirmed by customer story, but an exact go-live date or dated new trigger was not verified; no date inferred."
+      },
+      "insight": {
+        "company_id": "01e66a13-d283-55ca-9980-5e402299fcea",
+        "persona_generated": "HR and enterprise systems leadership responsible for Workday operations",
+        "level_generated": "C-level",
+        "why_now_generated": "Workday automates high-volume caregiver HR processes, and the documented 2025 MyPolicy Library/Lippincott integration adds a connected clinical training workflow. No exact Workday go-live or new purchasing deadline was verified.\n\nResearch checked 2026-10-11. Modules: Human Capital Management, Talent Acquisition, Learning, Performance and Optimization. Workforce: Dated Workday customer-story workforce snapshot; current exact headcount not verified. Exact Workday go-live date: information not available. Mutual connections: information not available. Emails are employer-published where sourced, with deliverability unverified."
+      },
+      "contacts": [
+        {
+          "name": "Carla Bonev",
+          "title": "Chief People Officer",
+          "source": "https://www.sjog.org.au/about-us/leadership/executives",
+          "linkedin_url": "https://www.linkedin.com/in/carla-salvador-bonev-b4537216",
+          "email": null,
+          "phone": null,
+          "email_source": null,
+          "phone_source": null,
+          "email_verified": false,
+          "mutual_connection": null,
+          "checked_at": "2026-10-11",
+          "note": "Employer/role checked; purchase authority and warm introduction not established.",
+          "id": "d1234def-dff6-5266-a4a8-4cbaec2f91d9",
+          "company_id": "01e66a13-d283-55ca-9980-5e402299fcea"
+        },
+        {
+          "name": "Sidone Thomas",
+          "title": "Chief Technology Officer and Corporate Services Officer",
+          "source": "https://www.sjog.org.au/about-us/leadership/executives",
+          "linkedin_url": null,
+          "email": null,
+          "phone": null,
+          "email_source": null,
+          "phone_source": null,
+          "email_verified": false,
+          "mutual_connection": null,
+          "checked_at": "2026-10-11",
+          "note": "Employer/role checked; purchase authority and warm introduction not established.",
+          "id": "3469c4fe-295f-53b8-b23a-feb5a2ceffa6",
+          "company_id": "01e66a13-d283-55ca-9980-5e402299fcea"
+        }
+      ],
+      "workday_modules": [
+        "Human Capital Management",
+        "Talent Acquisition",
+        "Learning",
+        "Performance and Optimization"
+      ],
+      "workforce_source": "https://www.workday.com/en-us/customer-stories/q-z/st-john-of-god-health-care-honors-its-evp.html",
+      "workforce_note": "Dated Workday customer-story workforce snapshot; current exact headcount not verified.",
+      "workday_confirmation": "Primary Workday customer story confirms use.",
+      "general_contact_route": null,
+      "rising": {
+        "status": "not_confirmed",
+        "source": null,
+        "reason": "No 2026 attendance/presentation confirmation found in the reviewed public sources; absence is not established."
+      },
+      "additional_sources": [],
+      "gaps": [
+        "Scoring-owner assessment of Authority, Reachability and Budget points",
+        "Warm introduction and willingness to act",
+        "Mailbox deliverability verification",
+        "Exact Workday go-live date"
+      ]
+    },
+    {
+      "company": {
+        "id": "0282dc1a-dd1e-5c2b-a286-dac058777c01",
+        "name": "First National Bank of Omaha",
+        "domain": "fnbo.com",
+        "industry": "Financial Services",
+        "headquarters": "Omaha, Nebraska, United States",
+        "employee_count": 4000,
+        "workday_signal_date": null,
+        "source": "https://www.workday.com/en-us/customer-stories/a-h/fnbo-increases-efficiency-improves-employee-experience.html"
+      },
+      "baseline_updated_at": "2026-10-05T22:10:32.346848+00:00",
+      "previous_score_id": "df73c2ea-622a-5d55-ab1b-e4a6b6b9fa37",
+      "score": {
+        "company_id": "0282dc1a-dd1e-5c2b-a286-dac058777c01",
+        "rubric_version": "week2-100-research-20261011",
+        "tier": "Disqualified",
+        "authority_score": 0,
+        "reachability_score": 0,
+        "budget_score": 0,
+        "authority_evidence": "https://www.card.fnbo.com/landing/the-experience | Matt Spyers is listed as Executive Vice President and Chief Information Officer; 4000 employees. Role evidence researched 2026-10-11; buying mandate and numeric assessment require review.\nWorkforce: https://www.workday.com/en-us/customer-stories/a-h/fnbo-increases-efficiency-improves-employee-experience.html | Dated Workday customer-story workforce snapshot; current exact headcount not verified.\nHeadquarters: https://www.fnni.com/content/dam/global/documents/fnni/2025-annual-shareholders-meeting.pdf | Omaha, Nebraska, United States.\nWorkday modules: https://www.workday.com/en-us/customer-stories/a-h/fnbo-increases-efficiency-improves-employee-experience.html | Human Capital Management, Learning, Time and Attendance, Benefits, Payroll, Adaptive Planning Existing numeric score retained pending scoring-owner assessment; zero does not mean evidence disproves fit.",
+        "reachability_evidence": "https://www.linkedin.com/in/mattspyers | Public identity/role route exists; direct email, office phone, <=1-degree connection and conviction to act not verified. Existing numeric score retained pending scoring-owner assessment; zero does not mean evidence disproves fit.",
+        "budget_evidence": "https://www.workday.com/en-us/customer-stories/a-h/fnbo-increases-efficiency-improves-employee-experience.html | No verified adjacent testing/automation purchase or current purchase timeline found in reviewed sources; budget remains unconfirmed. Existing numeric score retained pending scoring-owner assessment; zero does not mean evidence disproves fit.",
+        "release_score": 5,
+        "release_evidence": "https://github.com/advitarora5/Mando-CUBE/blob/main/src/domain/scoring/releases.ts | Repository release calendar estimates 2027R1 for March 13, 2027, 153 days after October 11, 2026; more than 18 weeks earns 5/15. Date is estimated, not newly confirmed.",
+        "timing_score": 0,
+        "timing_evidence": "https://www.workday.com/en-us/customer-stories/a-h/fnbo-increases-efficiency-improves-employee-experience.html | Workday use confirmed by customer story, but an exact go-live date or dated new trigger was not verified; no date inferred."
+      },
+      "insight": {
+        "company_id": "0282dc1a-dd1e-5c2b-a286-dac058777c01",
+        "persona_generated": "HR and enterprise systems leadership responsible for Workday operations",
+        "level_generated": "C-level",
+        "why_now_generated": "Workday consolidated six legacy HR systems and supports learning, payroll and workforce planning. This establishes operational fit; a recent implementation or purchase window was not found.\n\nResearch checked 2026-10-11. Modules: Human Capital Management, Learning, Time and Attendance, Benefits, Payroll, Adaptive Planning. Workforce: Dated Workday customer-story workforce snapshot; current exact headcount not verified. Exact Workday go-live date: information not available. Mutual connections: information not available. Emails are employer-published where sourced, with deliverability unverified. General office route: hrsolutionone@fnni.com. General HR mailbox; not Matt Spyers' direct email. Source: https://www.fnbo.com/careers"
+      },
+      "contacts": [
+        {
+          "name": "Matt Spyers",
+          "title": "Executive Vice President and Chief Information Officer",
+          "source": "https://www.card.fnbo.com/landing/the-experience",
+          "linkedin_url": "https://www.linkedin.com/in/mattspyers",
+          "email": null,
+          "phone": null,
+          "email_source": null,
+          "phone_source": null,
+          "email_verified": false,
+          "mutual_connection": null,
+          "checked_at": "2026-10-11",
+          "note": "Employer/role checked; purchase authority and warm introduction not established.",
+          "id": "1cbd9860-ca63-59b3-a1b1-28d6847a260f",
+          "company_id": "0282dc1a-dd1e-5c2b-a286-dac058777c01"
+        }
+      ],
+      "workday_modules": [
+        "Human Capital Management",
+        "Learning",
+        "Time and Attendance",
+        "Benefits",
+        "Payroll",
+        "Adaptive Planning"
+      ],
+      "workforce_source": "https://www.workday.com/en-us/customer-stories/a-h/fnbo-increases-efficiency-improves-employee-experience.html",
+      "workforce_note": "Dated Workday customer-story workforce snapshot; current exact headcount not verified.",
+      "workday_confirmation": "Primary Workday customer story confirms use.",
+      "general_contact_route": {
+        "email": "hrsolutionone@fnni.com",
+        "source": "https://www.fnbo.com/careers",
+        "scope": "General HR mailbox; not Matt Spyers' direct email."
+      },
+      "rising": {
+        "status": "not_confirmed",
+        "source": null,
+        "reason": "No 2026 attendance/presentation confirmation found in the reviewed public sources; absence is not established."
+      },
+      "additional_sources": [],
+      "gaps": [
+        "Scoring-owner assessment of Authority, Reachability and Budget points",
+        "Warm introduction and willingness to act",
+        "Mailbox deliverability verification",
+        "Exact Workday go-live date"
+      ]
+    },
+    {
+      "company": {
+        "id": "031cda41-d7cb-5797-b599-5e28bcc363a5",
+        "name": "Banner Health",
+        "domain": "bannerhealth.com",
+        "industry": "Healthcare",
+        "headquarters": "Phoenix, Arizona, United States",
+        "employee_count": 55000,
+        "workday_signal_date": null,
+        "source": "https://www.workday.com/en-us/customer-stories/a-h/banner-health-efficient-workforce-with-workday-vndly.html"
+      },
+      "baseline_updated_at": "2026-10-05T22:10:32.346848+00:00",
+      "previous_score_id": "98600231-934d-52b5-aa0d-904faf357fa3",
+      "score": {
+        "company_id": "031cda41-d7cb-5797-b599-5e28bcc363a5",
+        "rubric_version": "week2-100-research-20261011",
+        "tier": "Disqualified",
+        "authority_score": 0,
+        "reachability_score": 0,
+        "budget_score": 0,
+        "authority_evidence": "https://www.bannerhealth.com/about/leadership/executive/julie-ann-alvarado-dubek | Julie Ann Alvarado-Dubek is listed as Executive Vice President, Chief Administrative and People Officer; 55000 employees. Role evidence researched 2026-10-11; buying mandate and numeric assessment require review.\nWorkforce: https://www.bannerhealth.com/about/leadership/executive/julie-ann-alvarado-dubek | 55,000+ team members; lower bound in current executive biography.\nHeadquarters: https://www.bannerhealth.com/newsroom/press-releases/banner-relocates-corporate-office | Phoenix, Arizona, United States.\nWorkday modules: https://www.workday.com/en-us/customer-stories/a-h/banner-health-efficient-workforce-with-workday-vndly.html | Human Capital Management, VNDLY Existing numeric score retained pending scoring-owner assessment; zero does not mean evidence disproves fit.",
+        "reachability_evidence": "https://www.linkedin.com/in/julie-ann-alvarado-dubek | Public identity/role route exists; direct email, office phone, <=1-degree connection and conviction to act not verified. Existing numeric score retained pending scoring-owner assessment; zero does not mean evidence disproves fit.",
+        "budget_evidence": "https://www.workday.com/en-us/customer-stories/a-h/banner-health-efficient-workforce-with-workday-vndly.html | Workday documents adoption of VNDLY for external contract labor; adjacent workforce tool adoption proxy, not evidence of a new budget. Existing numeric score retained pending scoring-owner assessment; zero does not mean evidence disproves fit.",
+        "release_score": 5,
+        "release_evidence": "https://github.com/advitarora5/Mando-CUBE/blob/main/src/domain/scoring/releases.ts | Repository release calendar estimates 2027R1 for March 13, 2027, 153 days after October 11, 2026; more than 18 weeks earns 5/15. Date is estimated, not newly confirmed.",
+        "timing_score": 0,
+        "timing_evidence": "https://blog.workday.com/en-us/2023/celebrating-healthcare-innovation-award-winners.html | HCM went live in August 2020; month only. Public employee post describes a separate planned January 2027 ERP go-live; no exact date or HCM scope verified."
+      },
+      "insight": {
+        "company_id": "031cda41-d7cb-5797-b599-5e28bcc363a5",
+        "persona_generated": "HR and enterprise systems leadership responsible for Workday operations",
+        "level_generated": "C-level",
+        "why_now_generated": "Banner already uses HCM and VNDLY. A public supply-chain leader describes a planned January 2027 Workday ERP go-live, which could create implementation testing needs; the exact date and scope require confirmation.\n\nResearch checked 2026-10-11. Modules: Human Capital Management, VNDLY. Workforce: 55,000+ team members; lower bound in current executive biography. Exact Workday go-live date: information not available. Mutual connections: information not available. Emails are employer-published where sourced, with deliverability unverified."
+      },
+      "contacts": [
+        {
+          "name": "Julie Ann Alvarado-Dubek",
+          "title": "Executive Vice President, Chief Administrative and People Officer",
+          "source": "https://www.bannerhealth.com/about/leadership/executive/julie-ann-alvarado-dubek",
+          "linkedin_url": "https://www.linkedin.com/in/julie-ann-alvarado-dubek",
+          "email": null,
+          "phone": null,
+          "email_source": null,
+          "phone_source": null,
+          "email_verified": false,
+          "mutual_connection": null,
+          "checked_at": "2026-10-11",
+          "note": "Employer/role checked; purchase authority and warm introduction not established.",
+          "id": "a1473b16-d4f2-5c57-b0c1-aefebab5156b",
+          "company_id": "031cda41-d7cb-5797-b599-5e28bcc363a5"
+        }
+      ],
+      "workday_modules": [
+        "Human Capital Management",
+        "VNDLY"
+      ],
+      "workforce_source": "https://www.bannerhealth.com/about/leadership/executive/julie-ann-alvarado-dubek",
+      "workforce_note": "55,000+ team members; lower bound in current executive biography.",
+      "workday_confirmation": "Primary Workday customer story confirms use.",
+      "general_contact_route": null,
+      "rising": {
+        "status": "not_confirmed",
+        "source": null,
+        "reason": "No 2026 attendance/presentation confirmation found in the reviewed public sources; absence is not established."
+      },
+      "additional_sources": [
+        "https://www.linkedin.com/posts/suzidoessupplychain_suzidoessupplychain-activity-7340761465563279365-r7UB"
+      ],
+      "gaps": [
+        "Scoring-owner assessment of Authority, Reachability and Budget points",
+        "Warm introduction and willingness to act",
+        "Mailbox deliverability verification",
+        "Exact Workday go-live date"
+      ]
+    },
+    {
+      "company": {
+        "id": "03e0cd1e-7b4e-516d-98a2-bffb3485dcd2",
+        "name": "Iowa State University",
+        "domain": "iastate.edu",
+        "industry": "Education",
+        "headquarters": "Ames, Iowa, United States",
+        "employee_count": 6000,
+        "workday_signal_date": "2019-07-01",
+        "source": "https://www.workday.com/en-us/customer-stories/i-p/iowa-state-university-graduate-green-screens-cloud.html"
+      },
+      "baseline_updated_at": "2026-10-05T22:10:32.346848+00:00",
+      "previous_score_id": "10318694-769b-575f-a64e-8333631c4a42",
+      "score": {
+        "company_id": "03e0cd1e-7b4e-516d-98a2-bffb3485dcd2",
+        "rubric_version": "week2-100-research-20261011",
+        "tier": "Disqualified",
+        "authority_score": 0,
+        "reachability_score": 0,
+        "budget_score": 0,
+        "authority_evidence": "https://www.provost.iastate.edu/about/administrative-officers | Kristi Darr is listed as Vice President, University Human Resources; 6000 employees. Role evidence researched 2026-10-11; buying mandate and numeric assessment require review.\nWorkforce: https://www.workday.com/en-us/customer-stories/i-p/iowa-state-university-graduate-green-screens-cloud.html | Dated Workday customer-story workforce snapshot; current exact headcount not verified.\nWorkday modules: https://www.workday.com/en-us/customer-stories/i-p/iowa-state-university-graduate-green-screens-cloud.html | Financial Management, Human Capital Management, Payroll, Adaptive Planning Existing numeric score retained pending scoring-owner assessment; zero does not mean evidence disproves fit.",
+        "reachability_evidence": "https://www.provost.iastate.edu/about/administrative-officers | Employer-published professional contact route exists; mailbox deliverability and <=1-degree connection/conviction unverified. Existing numeric score retained pending scoring-owner assessment; zero does not mean evidence disproves fit.",
+        "budget_evidence": "https://internalaudit.iastate.edu/files/documents/0923%20AC%20VIII.E.%20Internal%20Audit%20Reports%20Issued.pdf | 2023 university audit documents Kainos testing and auditing services for Workday changes; direct adjacent testing investment proxy, historically dated. Existing numeric score retained pending scoring-owner assessment; zero does not mean evidence disproves fit.",
+        "release_score": 5,
+        "release_evidence": "https://github.com/advitarora5/Mando-CUBE/blob/main/src/domain/scoring/releases.ts | Repository release calendar estimates 2027R1 for March 13, 2027, 153 days after October 11, 2026; more than 18 weeks earns 5/15. Date is estimated, not newly confirmed.",
+        "timing_score": 0,
+        "timing_evidence": "https://www.provost.iastate.edu/files/documents/2024-04/HLC%20Year%204%20Assurance%20Review.pdf | University accreditation report confirms HCM, Finance and Payroll implemented July 1, 2019; older than 365 days."
+      },
+      "insight": {
+        "company_id": "03e0cd1e-7b4e-516d-98a2-bffb3485dcd2",
+        "persona_generated": "HR and enterprise systems leadership responsible for Workday operations",
+        "level_generated": "VP",
+        "why_now_generated": "Iowa State has documented Kainos testing for Workday changes, and its HR vice president publicly reports plans to attend Rising. Its HCM/Finance/Payroll go-live was July 1, 2019, so this is an existing customer with testing needs, not a recent go-live.\n\nResearch checked 2026-10-11. Modules: Financial Management, Human Capital Management, Payroll, Adaptive Planning. Workforce: Dated Workday customer-story workforce snapshot; current exact headcount not verified. Mutual connections: information not available. Emails are employer-published where sourced, with deliverability unverified. Rising: Current public profile includes a recent post saying she is heading to Workday Rising. Year inferred from current post context; speaker status not verified."
+      },
+      "contacts": [
+        {
+          "name": "Kristi Darr",
+          "title": "Vice President, University Human Resources",
+          "source": "https://www.provost.iastate.edu/about/administrative-officers",
+          "linkedin_url": "https://www.linkedin.com/in/kristi-darr-b7578012",
+          "email": "kdarr@iastate.edu",
+          "phone": "+1 515-294-6458",
+          "email_source": "https://www.provost.iastate.edu/about/administrative-officers",
+          "phone_source": "https://www.provost.iastate.edu/about/administrative-officers",
+          "email_verified": false,
+          "mutual_connection": null,
+          "checked_at": "2026-10-11",
+          "note": "Employer/role checked; purchase authority and warm introduction not established.",
+          "id": "67273b9f-bfe5-5818-9547-5879f00b1c18",
+          "company_id": "03e0cd1e-7b4e-516d-98a2-bffb3485dcd2"
+        },
+        {
+          "name": "Kristen Constant",
+          "title": "Vice President, Information Technology Services and Chief Information Officer",
+          "source": "https://www.provost.iastate.edu/about/administrative-officers",
+          "linkedin_url": "https://www.linkedin.com/in/kristen-constant-83b06919",
+          "email": "constant@iastate.edu",
+          "phone": "+1 515-294-3337",
+          "email_source": "https://www.provost.iastate.edu/about/administrative-officers",
+          "phone_source": "https://www.provost.iastate.edu/about/administrative-officers",
+          "email_verified": false,
+          "mutual_connection": null,
+          "checked_at": "2026-10-11",
+          "note": "Employer/role checked; purchase authority and warm introduction not established.",
+          "id": "fb0aefe2-a13b-5488-9d64-ad0d92fc550c",
+          "company_id": "03e0cd1e-7b4e-516d-98a2-bffb3485dcd2"
+        }
+      ],
+      "workday_modules": [
+        "Financial Management",
+        "Human Capital Management",
+        "Payroll",
+        "Adaptive Planning"
+      ],
+      "workforce_source": "https://www.workday.com/en-us/customer-stories/i-p/iowa-state-university-graduate-green-screens-cloud.html",
+      "workforce_note": "Dated Workday customer-story workforce snapshot; current exact headcount not verified.",
+      "workday_confirmation": "Primary Workday customer story confirms use.",
+      "general_contact_route": null,
+      "rising": {
+        "status": "self_reported_attendance",
+        "source": "https://www.linkedin.com/in/kristi-darr-b7578012",
+        "reason": "Current public profile includes a recent post saying she is heading to Workday Rising. Year inferred from current post context; speaker status not verified."
+      },
+      "additional_sources": [],
+      "gaps": [
+        "Scoring-owner assessment of Authority, Reachability and Budget points",
+        "Warm introduction and willingness to act",
+        "Mailbox deliverability verification"
+      ]
+    },
+    {
+      "company": {
+        "id": "05360993-fa21-567c-8259-66f58ea118bd",
+        "name": "Bronson Healthcare",
+        "domain": "bronsonhealth.com",
+        "industry": "Healthcare",
+        "headquarters": "Kalamazoo, Michigan, United States",
+        "employee_count": 8500,
+        "workday_signal_date": null,
+        "source": "https://www.workday.com/en-us/customer-stories/a-h/bronson-healthcare-boosts-training-agility-workday-learning.html"
+      },
+      "baseline_updated_at": "2026-10-05T22:10:32.346848+00:00",
+      "previous_score_id": "8d488425-efe3-5be4-a108-fd99a7c1284e",
+      "score": {
+        "company_id": "05360993-fa21-567c-8259-66f58ea118bd",
+        "rubric_version": "week2-100-research-20261011",
+        "tier": "Disqualified",
+        "authority_score": 0,
+        "reachability_score": 0,
+        "budget_score": 0,
+        "authority_evidence": "https://www.linkedin.com/in/cheryl-johnson-sphr-2795535 | Cheryl Johnson is listed as Senior Vice President, Chief People Officer; 8500 employees. Role evidence researched 2026-10-11; buying mandate and numeric assessment require review.\nWorkforce: https://www.workday.com/en-us/customer-stories/a-h/bronson-healthcare-boosts-training-agility-workday-learning.html | Dated Workday customer-story workforce snapshot; current exact headcount not verified.\nWorkday modules: https://www.workday.com/en-us/customer-stories/a-h/bronson-healthcare-boosts-training-agility-workday-learning.html | Learning, Human Capital Management\nRole corroboration: https://www.publicnow.com/view/D60EB537D26CCEE0A67EF516E59EF74419640E67 Existing numeric score retained pending scoring-owner assessment; zero does not mean evidence disproves fit.",
+        "reachability_evidence": "https://www.linkedin.com/in/cheryl-johnson-sphr-2795535 | Public identity/role route exists; direct email, office phone, <=1-degree connection and conviction to act not verified. Existing numeric score retained pending scoring-owner assessment; zero does not mean evidence disproves fit.",
+        "budget_evidence": "https://kognitivinc.com/workday-services/hcm | Workday services vendor identifies Bronson as a customer for benefits configuration, compliance and COBRA support; adjacent services investment proxy, without purchase date or amount. Existing numeric score retained pending scoring-owner assessment; zero does not mean evidence disproves fit.",
+        "release_score": 5,
+        "release_evidence": "https://github.com/advitarora5/Mando-CUBE/blob/main/src/domain/scoring/releases.ts | Repository release calendar estimates 2027R1 for March 13, 2027, 153 days after October 11, 2026; more than 18 weeks earns 5/15. Date is estimated, not newly confirmed.",
+        "timing_score": 0,
+        "timing_evidence": "https://www.workday.com/en-us/customer-stories/a-h/bronson-healthcare-boosts-training-agility-workday-learning.html | Workday use confirmed by customer story, but an exact go-live date or dated new trigger was not verified; no date inferred."
+      },
+      "insight": {
+        "company_id": "05360993-fa21-567c-8259-66f58ea118bd",
+        "persona_generated": "HR and enterprise systems leadership responsible for Workday operations",
+        "level_generated": "C-level",
+        "why_now_generated": "Bronson uses integrated Workday HCM and Learning, and Kognitiv describes benefits and compliance support for its Workday environment. That establishes a support need; a new purchase deadline was not verified.\n\nResearch checked 2026-10-11. Modules: Learning, Human Capital Management. Workforce: Dated Workday customer-story workforce snapshot; current exact headcount not verified. Exact Workday go-live date: information not available. Mutual connections: information not available. Emails are employer-published where sourced, with deliverability unverified."
+      },
+      "contacts": [
+        {
+          "name": "Cheryl Johnson",
+          "title": "Senior Vice President, Chief People Officer",
+          "source": "https://www.linkedin.com/in/cheryl-johnson-sphr-2795535",
+          "linkedin_url": "https://www.linkedin.com/in/cheryl-johnson-sphr-2795535",
+          "email": null,
+          "phone": null,
+          "email_source": null,
+          "phone_source": null,
+          "email_verified": false,
+          "mutual_connection": null,
+          "checked_at": "2026-10-11",
+          "note": "Current public employer profile; 2026 company release quoted via Publicnow calls her chief human resources officer. No direct route verified.",
+          "id": "906f1c6b-ef93-5275-bc5d-a81ca75c1349",
+          "company_id": "05360993-fa21-567c-8259-66f58ea118bd"
+        }
+      ],
+      "workday_modules": [
+        "Learning",
+        "Human Capital Management"
+      ],
+      "workforce_source": "https://www.workday.com/en-us/customer-stories/a-h/bronson-healthcare-boosts-training-agility-workday-learning.html",
+      "workforce_note": "Dated Workday customer-story workforce snapshot; current exact headcount not verified.",
+      "workday_confirmation": "Primary Workday customer story confirms use.",
+      "general_contact_route": null,
+      "rising": {
+        "status": "not_confirmed",
+        "source": null,
+        "reason": "No 2026 attendance/presentation confirmation found in the reviewed public sources; absence is not established."
+      },
+      "additional_sources": [],
+      "gaps": [
+        "Scoring-owner assessment of Authority, Reachability and Budget points",
+        "Warm introduction and willingness to act",
+        "Mailbox deliverability verification",
+        "Exact Workday go-live date"
+      ]
+    },
+    {
+      "company": {
+        "id": "074b1f36-8d02-5d58-b2c8-864103766afc",
+        "name": "Thermo Fisher Scientific",
+        "domain": "thermofisher.com",
+        "industry": "Life Sciences",
+        "headquarters": "Waltham, Massachusetts, United States",
+        "employee_count": 120000,
+        "workday_signal_date": null,
+        "source": "https://www.workday.com/en-us/customer-stories/q-z/thermo-fisher-empowers-employees-to-do-their-best-work.html"
+      },
+      "baseline_updated_at": "2026-10-05T22:10:32.346848+00:00",
+      "previous_score_id": "c3b67fe1-8d09-5a05-aa22-aa5a0f736c45",
+      "score": {
+        "company_id": "074b1f36-8d02-5d58-b2c8-864103766afc",
+        "rubric_version": "week2-100-research-20261011",
+        "tier": "Disqualified",
+        "authority_score": 0,
+        "reachability_score": 0,
+        "budget_score": 0,
+        "authority_evidence": "https://corporate.thermofisher.com/us/en/index/about.html | Lisa P. Britt is listed as Senior Vice President and Chief Human Resource Officer; 120000 employees. Role evidence researched 2026-10-11; buying mandate and numeric assessment require review.\nWorkforce: https://corporate.thermofisher.com/content/dam/tfcorpsite/documents/corporate-social-responsibility/2024-report/Colleagues.pdf | More than 120,000 colleagues, 2024 CSR snapshot; lower bound, not an exact October 2026 count.\nHeadquarters: https://www.ppd.com/contact/ | Waltham, Massachusetts, United States.\nWorkday modules: https://www.workday.com/en-us/customer-stories/q-z/thermo-fisher-empowers-employees-to-do-their-best-work.html | Time and Attendance, Human Capital Management, Benefits, Compensation, Data Hub Existing numeric score retained pending scoring-owner assessment; zero does not mean evidence disproves fit.",
+        "reachability_evidence": "https://www.linkedin.com/in/lbritt | Public identity/role route exists; direct email, office phone, <=1-degree connection and conviction to act not verified. Existing numeric score retained pending scoring-owner assessment; zero does not mean evidence disproves fit.",
+        "budget_evidence": "https://www.walkme.com/customer-stories/thermofisherscientific/ | WalkMe customer story documents digital adoption and automation for Thermo Fisher's Workday rollout and ongoing releases; adjacent tool adoption proxy, without current purchasing window. Existing numeric score retained pending scoring-owner assessment; zero does not mean evidence disproves fit.",
+        "release_score": 5,
+        "release_evidence": "https://github.com/advitarora5/Mando-CUBE/blob/main/src/domain/scoring/releases.ts | Repository release calendar estimates 2027R1 for March 13, 2027, 153 days after October 11, 2026; more than 18 weeks earns 5/15. Date is estimated, not newly confirmed.",
+        "timing_score": 0,
+        "timing_evidence": "https://www.workday.com/en-us/customer-stories/q-z/thermo-fisher-empowers-employees-to-do-their-best-work.html | Workday use confirmed by customer story, but an exact go-live date or dated new trigger was not verified; no date inferred."
+      },
+      "insight": {
+        "company_id": "074b1f36-8d02-5d58-b2c8-864103766afc",
+        "persona_generated": "HR and enterprise systems leadership responsible for Workday operations",
+        "level_generated": "C-level",
+        "why_now_generated": "WalkMe documents Workday adoption support, and Tricentis reports Tosca and Data Integrity used for ERP testing. These show prior investment in adjacent automation; current Workday purchase timing remains unverified.\n\nResearch checked 2026-10-11. Modules: Time and Attendance, Human Capital Management, Benefits, Compensation, Data Hub. Workforce: More than 120,000 colleagues, 2024 CSR snapshot; lower bound, not an exact October 2026 count. Exact Workday go-live date: information not available. Mutual connections: information not available. Emails are employer-published where sourced, with deliverability unverified."
+      },
+      "contacts": [
+        {
+          "name": "Lisa P. Britt",
+          "title": "Senior Vice President and Chief Human Resource Officer",
+          "source": "https://corporate.thermofisher.com/us/en/index/about.html",
+          "linkedin_url": "https://www.linkedin.com/in/lbritt",
+          "email": null,
+          "phone": null,
+          "email_source": null,
+          "phone_source": null,
+          "email_verified": false,
+          "mutual_connection": null,
+          "checked_at": "2026-10-11",
+          "note": "Employer/role checked; purchase authority and warm introduction not established.",
+          "id": "7bf295b5-8e7c-5452-9c86-e9e55297af3a",
+          "company_id": "074b1f36-8d02-5d58-b2c8-864103766afc"
+        },
+        {
+          "name": "Ryan Snyder",
+          "title": "Senior Vice President and Chief Information Officer",
+          "source": "https://corporate.thermofisher.com/us/en/index/about.html",
+          "linkedin_url": null,
+          "email": null,
+          "phone": null,
+          "email_source": null,
+          "phone_source": null,
+          "email_verified": false,
+          "mutual_connection": null,
+          "checked_at": "2026-10-11",
+          "note": "Employer/role checked; purchase authority and warm introduction not established.",
+          "id": "814c4b1c-3d0c-588a-acdf-e14a22929aa8",
+          "company_id": "074b1f36-8d02-5d58-b2c8-864103766afc"
+        }
+      ],
+      "workday_modules": [
+        "Time and Attendance",
+        "Human Capital Management",
+        "Benefits",
+        "Compensation",
+        "Data Hub"
+      ],
+      "workforce_source": "https://corporate.thermofisher.com/content/dam/tfcorpsite/documents/corporate-social-responsibility/2024-report/Colleagues.pdf",
+      "workforce_note": "More than 120,000 colleagues, 2024 CSR snapshot; lower bound, not an exact October 2026 count.",
+      "workday_confirmation": "Primary Workday customer story confirms use.",
+      "general_contact_route": null,
+      "rising": {
+        "status": "not_confirmed",
+        "source": null,
+        "reason": "No 2026 attendance/presentation confirmation found in the reviewed public sources; absence is not established."
+      },
+      "additional_sources": [
+        "https://www.tricentis.com/learn/qa-automation"
+      ],
+      "gaps": [
+        "Scoring-owner assessment of Authority, Reachability and Budget points",
+        "Warm introduction and willingness to act",
+        "Mailbox deliverability verification",
+        "Exact Workday go-live date"
+      ]
+    },
+    {
+      "company": {
+        "id": "094b7420-2082-53c5-a3df-130ed6e95cfc",
+        "name": "Tokyo Electron",
+        "domain": "tel.com",
+        "industry": "Manufacturing",
+        "headquarters": "Minato-ku, Tokyo, Japan",
+        "employee_count": 20812,
+        "workday_signal_date": null,
+        "source": "https://www.workday.com/en-us/customer-stories/q-z/tokyo-electron-ensures-global-consistency-global-hr-system.html"
+      },
+      "baseline_updated_at": "2026-10-05T22:10:32.346848+00:00",
+      "previous_score_id": "b963c634-4721-5d62-a8e8-dcf79ee32e4c",
+      "score": {
+        "company_id": "094b7420-2082-53c5-a3df-130ed6e95cfc",
+        "rubric_version": "week2-100-research-20261011",
+        "tier": "Disqualified",
+        "authority_score": 0,
+        "reachability_score": 0,
+        "budget_score": 0,
+        "authority_evidence": "https://www.tel.com/about/leader/ | Tatsuya Aso is listed as Senior Vice President and General Manager, Global Business Platform; Chief Administrative Officer; 20812 employees. Role evidence researched 2026-10-11; buying mandate and numeric assessment require review.\nWorkforce: https://www.tel.com/sustainability/management-foundation/human-resource/ | Consolidated headcount as of April 1, 2026.\nHeadquarters: https://www.tel.com/about/summary/index.html | Minato-ku, Tokyo, Japan.\nWorkday modules: https://www.workday.com/en-us/customer-stories/q-z/tokyo-electron-ensures-global-consistency-global-hr-system.html | Human Capital Management, Learning Existing numeric score retained pending scoring-owner assessment; zero does not mean evidence disproves fit.",
+        "reachability_evidence": "https://www.tel.com/about/leader/ | Public identity/role route exists; direct email, office phone, <=1-degree connection and conviction to act not verified. Existing numeric score retained pending scoring-owner assessment; zero does not mean evidence disproves fit.",
+        "budget_evidence": "https://www.workday.com/en-us/customer-stories/q-z/tokyo-electron-ensures-global-consistency-global-hr-system.html | No verified adjacent testing/automation purchase or current purchase timeline found in reviewed sources; budget remains unconfirmed. Existing numeric score retained pending scoring-owner assessment; zero does not mean evidence disproves fit.",
+        "release_score": 5,
+        "release_evidence": "https://github.com/advitarora5/Mando-CUBE/blob/main/src/domain/scoring/releases.ts | Repository release calendar estimates 2027R1 for March 13, 2027, 153 days after October 11, 2026; more than 18 weeks earns 5/15. Date is estimated, not newly confirmed.",
+        "timing_score": 0,
+        "timing_evidence": "https://www.workday.com/en-us/customer-stories/q-z/tokyo-electron-ensures-global-consistency-global-hr-system.html | Case study describes Workday relationship from 2016 and employee access expansion in 2019; no exact go-live date verified."
+      },
+      "insight": {
+        "company_id": "094b7420-2082-53c5-a3df-130ed6e95cfc",
+        "persona_generated": "HR and enterprise systems leadership responsible for Workday operations",
+        "level_generated": "C-level",
+        "why_now_generated": "Tokyo Electron uses a common Workday HCM and Learning platform across regions. Expansion of its Workday relationship was reported in fiscal 2025, but a recent dated rollout or testing purchase was not established.\n\nResearch checked 2026-10-11. Modules: Human Capital Management, Learning. Workforce: Consolidated headcount as of April 1, 2026. Exact Workday go-live date: information not available. Mutual connections: information not available. Emails are employer-published where sourced, with deliverability unverified."
+      },
+      "contacts": [
+        {
+          "name": "Tatsuya Aso",
+          "title": "Senior Vice President and General Manager, Global Business Platform; Chief Administrative Officer",
+          "source": "https://www.tel.com/about/leader/",
+          "linkedin_url": null,
+          "email": null,
+          "phone": null,
+          "email_source": null,
+          "phone_source": null,
+          "email_verified": false,
+          "mutual_connection": null,
+          "checked_at": "2026-10-11",
+          "note": "Employer/role checked; purchase authority and warm introduction not established.",
+          "id": "a1835b81-c95a-5127-aa9f-599411dcea7f",
+          "company_id": "094b7420-2082-53c5-a3df-130ed6e95cfc"
+        },
+        {
+          "name": "Takashi Mineshima",
+          "title": "Vice President and General Manager, Information Security Unit; Chief Information Security Officer",
+          "source": "https://www.tel.com/about/leader/",
+          "linkedin_url": null,
+          "email": null,
+          "phone": null,
+          "email_source": null,
+          "phone_source": null,
+          "email_verified": false,
+          "mutual_connection": null,
+          "checked_at": "2026-10-11",
+          "note": "Employer/role checked; purchase authority and warm introduction not established.",
+          "id": "8956e58a-9040-565f-b2d1-1cc55116cb48",
+          "company_id": "094b7420-2082-53c5-a3df-130ed6e95cfc"
+        }
+      ],
+      "workday_modules": [
+        "Human Capital Management",
+        "Learning"
+      ],
+      "workforce_source": "https://www.tel.com/sustainability/management-foundation/human-resource/",
+      "workforce_note": "Consolidated headcount as of April 1, 2026.",
+      "workday_confirmation": "Primary Workday customer story confirms use.",
+      "general_contact_route": null,
+      "rising": {
+        "status": "not_confirmed",
+        "source": null,
+        "reason": "No 2026 attendance/presentation confirmation found in the reviewed public sources; absence is not established."
+      },
+      "additional_sources": [],
+      "gaps": [
+        "Scoring-owner assessment of Authority, Reachability and Budget points",
+        "Warm introduction and willingness to act",
+        "Mailbox deliverability verification",
+        "Exact Workday go-live date"
+      ]
+    },
+    {
+      "company": {
+        "id": "0c9a3679-c609-5441-bac6-3e2ecf163a62",
+        "name": "RMIT University",
+        "domain": "rmit.edu.au",
+        "industry": "Education",
+        "headquarters": "Melbourne, Victoria, Australia",
+        "employee_count": 12000,
+        "workday_signal_date": "2021-06-07",
+        "source": "https://www.workday.com/en-us/customer-stories/q-z/rmit-leads-with-intelligent-digital-infrastructure.html"
+      },
+      "baseline_updated_at": "2026-10-05T22:10:32.346848+00:00",
+      "previous_score_id": "03137caf-ed56-5e2d-a083-fede83cdcf9e",
+      "score": {
+        "company_id": "0c9a3679-c609-5441-bac6-3e2ecf163a62",
+        "rubric_version": "week2-100-research-20261011",
+        "tier": "Disqualified",
+        "authority_score": 0,
+        "reachability_score": 0,
+        "budget_score": 0,
+        "authority_evidence": "https://policies.rmit.edu.au/document/status-and-details.php?id=324 | Gaynor Witts is listed as Vice President, People and Culture; 12000 employees. Role evidence researched 2026-10-11; buying mandate and numeric assessment require review.\nWorkforce: https://www.workday.com/en-us/customer-stories/q-z/rmit-leads-with-intelligent-digital-infrastructure.html | Dated Workday customer-story workforce snapshot; current exact headcount not verified.\nWorkday modules: https://www.workday.com/en-us/customer-stories/q-z/rmit-leads-with-intelligent-digital-infrastructure.html | Financial Management, Human Capital Management, Adaptive Planning, Learning, Extend, Talent Acquisition Existing numeric score retained pending scoring-owner assessment; zero does not mean evidence disproves fit.",
+        "reachability_evidence": "https://policies.rmit.edu.au/document/status-and-details.php?id=324 | Employer-published professional contact route exists; mailbox deliverability and <=1-degree connection/conviction unverified. Existing numeric score retained pending scoring-owner assessment; zero does not mean evidence disproves fit.",
+        "budget_evidence": "https://www.workday.com/en-us/customer-stories/q-z/rmit-leads-with-intelligent-digital-infrastructure.html | No verified adjacent testing/automation purchase or current purchase timeline found in reviewed sources; budget remains unconfirmed. Existing numeric score retained pending scoring-owner assessment; zero does not mean evidence disproves fit.",
+        "release_score": 5,
+        "release_evidence": "https://github.com/advitarora5/Mando-CUBE/blob/main/src/domain/scoring/releases.ts | Repository release calendar estimates 2027R1 for March 13, 2027, 153 days after October 11, 2026; more than 18 weeks earns 5/15. Date is estimated, not newly confirmed.",
+        "timing_score": 0,
+        "timing_evidence": "https://www.rmit.edu.au/news/academic-judgment | University explains that it moved to the Workday HR system June 7, 2021; older than 365 days."
+      },
+      "insight": {
+        "company_id": "0c9a3679-c609-5441-bac6-3e2ecf163a62",
+        "persona_generated": "HR and enterprise systems leadership responsible for Workday operations",
+        "level_generated": "VP",
+        "why_now_generated": "RMIT has a unified Workday HR and finance environment with planning, learning and recruitment capabilities. Its HR system went live June 7, 2021; current optimization is relevant, but a new buying window is unconfirmed.\n\nResearch checked 2026-10-11. Modules: Financial Management, Human Capital Management, Adaptive Planning, Learning, Extend, Talent Acquisition. Workforce: Dated Workday customer-story workforce snapshot; current exact headcount not verified. Mutual connections: information not available. Emails are employer-published where sourced, with deliverability unverified."
+      },
+      "contacts": [
+        {
+          "name": "Gaynor Witts",
+          "title": "Vice President, People and Culture",
+          "source": "https://policies.rmit.edu.au/document/status-and-details.php?id=324",
+          "linkedin_url": null,
+          "email": "gaynor.witts@rmit.edu.au",
+          "phone": null,
+          "email_source": "https://policies.rmit.edu.au/document/status-and-details.php?id=324",
+          "phone_source": null,
+          "email_verified": false,
+          "mutual_connection": null,
+          "checked_at": "2026-10-11",
+          "note": "Employer/role checked; purchase authority and warm introduction not established.",
+          "id": "7bd5087d-34e3-57f2-9b76-6e486da45a84",
+          "company_id": "0c9a3679-c609-5441-bac6-3e2ecf163a62"
+        }
+      ],
+      "workday_modules": [
+        "Financial Management",
+        "Human Capital Management",
+        "Adaptive Planning",
+        "Learning",
+        "Extend",
+        "Talent Acquisition"
+      ],
+      "workforce_source": "https://www.workday.com/en-us/customer-stories/q-z/rmit-leads-with-intelligent-digital-infrastructure.html",
+      "workforce_note": "Dated Workday customer-story workforce snapshot; current exact headcount not verified.",
+      "workday_confirmation": "Primary Workday customer story confirms use.",
+      "general_contact_route": null,
+      "rising": {
+        "status": "not_confirmed",
+        "source": null,
+        "reason": "No 2026 attendance/presentation confirmation found in the reviewed public sources; absence is not established."
+      },
+      "additional_sources": [],
+      "gaps": [
+        "Scoring-owner assessment of Authority, Reachability and Budget points",
+        "Warm introduction and willingness to act",
+        "Mailbox deliverability verification"
+      ]
+    },
+    {
+      "company": {
+        "id": "0d7ea78d-6376-5f97-b5d8-e16e3783aee9",
+        "name": "Jardine Matheson",
+        "domain": "jardines.com",
+        "industry": "Diversified conglomerate",
+        "headquarters": "Hong Kong (operational office; registered office in Bermuda)",
+        "employee_count": 400000,
+        "workday_signal_date": null,
+        "source": "https://www.workday.com/en-us/customer-stories/i-p/jardine-matheson-data-driven-excellence.html"
+      },
+      "baseline_updated_at": "2026-10-05T22:10:32.346848+00:00",
+      "previous_score_id": "e7b4d602-0a57-5c0d-afe3-66ba96489a69",
+      "score": {
+        "company_id": "0d7ea78d-6376-5f97-b5d8-e16e3783aee9",
+        "rubric_version": "week2-100-research-20261011",
+        "tier": "Disqualified",
+        "authority_score": 0,
+        "reachability_score": 0,
+        "budget_score": 0,
+        "authority_evidence": "https://www.jardines.com/about-jardines/our-leadership | Raymond Co is listed as Chief People and Culture Officer; 400000 employees. Role evidence researched 2026-10-11; buying mandate and numeric assessment require review.\nWorkforce: https://www.workday.com/en-us/customer-stories/i-p/jardine-matheson-data-driven-excellence.html | Approximately 400,000 people in Workday case-study group footprint; includes the diversified portfolio and is not a current parent-only headcount.\nHeadquarters: https://www.jardines.com/contact | Hong Kong (operational office; registered office in Bermuda).\nWorkday modules: https://www.workday.com/en-us/customer-stories/i-p/jardine-matheson-data-driven-excellence.html | Human Capital Management Existing numeric score retained pending scoring-owner assessment; zero does not mean evidence disproves fit.",
+        "reachability_evidence": "https://www.linkedin.com/in/raymond-c-a60b1617 | Public identity/role route exists; direct email, office phone, <=1-degree connection and conviction to act not verified. Existing numeric score retained pending scoring-owner assessment; zero does not mean evidence disproves fit.",
+        "budget_evidence": "https://sustainability.jardines.com/2024/caring_for_our_colleagues.html | Group sustainability report documents Skillsoft platform launch in 2024; adjacent learning technology investment proxy, with no new purchase window. Existing numeric score retained pending scoring-owner assessment; zero does not mean evidence disproves fit.",
+        "release_score": 5,
+        "release_evidence": "https://github.com/advitarora5/Mando-CUBE/blob/main/src/domain/scoring/releases.ts | Repository release calendar estimates 2027R1 for March 13, 2027, 153 days after October 11, 2026; more than 18 weeks earns 5/15. Date is estimated, not newly confirmed.",
+        "timing_score": 0,
+        "timing_evidence": "https://www.workday.com/en-us/customer-stories/i-p/jardine-matheson-data-driven-excellence.html | Workday use confirmed by customer story, but an exact go-live date or dated new trigger was not verified; no date inferred."
+      },
+      "insight": {
+        "company_id": "0d7ea78d-6376-5f97-b5d8-e16e3783aee9",
+        "persona_generated": "HR and enterprise systems leadership responsible for Workday operations",
+        "level_generated": "C-level",
+        "why_now_generated": "Jardines uses Workday for shared workforce data and documents investment in Skillsoft learning technology in 2024. These support workforce technology relevance; a new implementation deadline remains unverified.\n\nResearch checked 2026-10-11. Modules: Human Capital Management. Workforce: Approximately 400,000 people in Workday case-study group footprint; includes the diversified portfolio and is not a current parent-only headcount. Exact Workday go-live date: information not available. Mutual connections: information not available. Emails are employer-published where sourced, with deliverability unverified."
+      },
+      "contacts": [
+        {
+          "name": "Raymond Co",
+          "title": "Chief People and Culture Officer",
+          "source": "https://www.jardines.com/about-jardines/our-leadership",
+          "linkedin_url": "https://www.linkedin.com/in/raymond-c-a60b1617",
+          "email": null,
+          "phone": null,
+          "email_source": null,
+          "phone_source": null,
+          "email_verified": false,
+          "mutual_connection": null,
+          "checked_at": "2026-10-11",
+          "note": "Employer/role checked; purchase authority and warm introduction not established.",
+          "id": "634e80de-2170-5876-8a67-49bb0093dea7",
+          "company_id": "0d7ea78d-6376-5f97-b5d8-e16e3783aee9"
+        }
+      ],
+      "workday_modules": [
+        "Human Capital Management"
+      ],
+      "workforce_source": "https://www.workday.com/en-us/customer-stories/i-p/jardine-matheson-data-driven-excellence.html",
+      "workforce_note": "Approximately 400,000 people in Workday case-study group footprint; includes the diversified portfolio and is not a current parent-only headcount.",
+      "workday_confirmation": "Primary Workday customer story confirms use.",
+      "general_contact_route": null,
+      "rising": {
+        "status": "not_confirmed",
+        "source": null,
+        "reason": "No 2026 attendance/presentation confirmation found in the reviewed public sources; absence is not established."
+      },
+      "additional_sources": [],
+      "gaps": [
+        "Scoring-owner assessment of Authority, Reachability and Budget points",
+        "Warm introduction and willingness to act",
+        "Mailbox deliverability verification",
+        "Exact Workday go-live date"
+      ]
+    },
+    {
+      "company": {
+        "id": "0df0af2a-ff75-5e4c-9a56-938187e4eeaf",
+        "name": "English Schools Foundation",
+        "domain": "esf.edu.hk",
+        "industry": "Education",
+        "headquarters": "North Point, Hong Kong",
+        "employee_count": 3000,
+        "workday_signal_date": null,
+        "source": "https://www.workday.com/en-us/customer-stories/a-h/esf-unifies-hr-to-shape-future-of-education.html"
+      },
+      "baseline_updated_at": "2026-10-05T22:10:32.346848+00:00",
+      "previous_score_id": "1febec24-69d4-5fc3-a689-20c80c6d2632",
+      "score": {
+        "company_id": "0df0af2a-ff75-5e4c-9a56-938187e4eeaf",
+        "rubric_version": "week2-100-research-20261011",
+        "tier": "Disqualified",
+        "authority_score": 0,
+        "reachability_score": 0,
+        "budget_score": 0,
+        "authority_evidence": "https://www.esf.edu.hk/senior-management/ | Kunal Mulchandani is listed as Director of Human Resources; 3000 employees. Role evidence researched 2026-10-11; buying mandate and numeric assessment require review.\nWorkforce: https://www.workday.com/en-us/customer-stories/a-h/esf-unifies-hr-to-shape-future-of-education.html | Dated Workday customer-story workforce snapshot; current exact headcount not verified.\nHeadquarters: https://www.esf.edu.hk/senior-management/ | North Point, Hong Kong.\nWorkday modules: https://www.workday.com/en-us/customer-stories/a-h/esf-unifies-hr-to-shape-future-of-education.html | Human Capital Management, Recruiting, Paradox Existing numeric score retained pending scoring-owner assessment; zero does not mean evidence disproves fit.",
+        "reachability_evidence": "https://www.linkedin.com/in/kunal-mulchandani-sphri-phri-8a705729 | Public identity/role route exists; direct email, office phone, <=1-degree connection and conviction to act not verified. Existing numeric score retained pending scoring-owner assessment; zero does not mean evidence disproves fit.",
+        "budget_evidence": "https://www.workday.com/en-us/customer-stories/a-h/esf-unifies-hr-to-shape-future-of-education.html | Workday customer story explicitly describes adopting Paradox alongside HCM and Recruiting to automate recruitment; adjacent tool adoption proxy, without purchase amount or exact date. Existing numeric score retained pending scoring-owner assessment; zero does not mean evidence disproves fit.",
+        "release_score": 5,
+        "release_evidence": "https://github.com/advitarora5/Mando-CUBE/blob/main/src/domain/scoring/releases.ts | Repository release calendar estimates 2027R1 for March 13, 2027, 153 days after October 11, 2026; more than 18 weeks earns 5/15. Date is estimated, not newly confirmed.",
+        "timing_score": 0,
+        "timing_evidence": "https://www.workday.com/en-us/customer-stories/a-h/esf-unifies-hr-to-shape-future-of-education.html | Workday use confirmed by customer story, but an exact go-live date or dated new trigger was not verified; no date inferred."
+      },
+      "insight": {
+        "company_id": "0df0af2a-ff75-5e4c-9a56-938187e4eeaf",
+        "persona_generated": "HR and enterprise systems leadership responsible for Workday operations",
+        "level_generated": "Director",
+        "why_now_generated": "ESF adopted Paradox alongside Workday HCM and Recruiting and plans to extend AI and predictive analytics across its employee lifecycle. This creates a documented expansion context, although no exact purchase deadline is public.\n\nResearch checked 2026-10-11. Modules: Human Capital Management, Recruiting, Paradox. Workforce: Dated Workday customer-story workforce snapshot; current exact headcount not verified. Exact Workday go-live date: information not available. Mutual connections: information not available. Emails are employer-published where sourced, with deliverability unverified. General office route: info@esfcentre.edu.hk, +852 2574 2351. Foundation general office, not the HR director's direct route. Source: https://www.esf.edu.hk/senior-management/"
+      },
+      "contacts": [
+        {
+          "name": "Kunal Mulchandani",
+          "title": "Director of Human Resources",
+          "source": "https://www.esf.edu.hk/senior-management/",
+          "linkedin_url": "https://www.linkedin.com/in/kunal-mulchandani-sphri-phri-8a705729",
+          "email": null,
+          "phone": null,
+          "email_source": null,
+          "phone_source": null,
+          "email_verified": false,
+          "mutual_connection": null,
+          "checked_at": "2026-10-11",
+          "note": "Employer/role checked; purchase authority and warm introduction not established.",
+          "id": "39b0ce5c-c390-5606-b0c6-82a78ea9aa17",
+          "company_id": "0df0af2a-ff75-5e4c-9a56-938187e4eeaf"
+        }
+      ],
+      "workday_modules": [
+        "Human Capital Management",
+        "Recruiting",
+        "Paradox"
+      ],
+      "workforce_source": "https://www.workday.com/en-us/customer-stories/a-h/esf-unifies-hr-to-shape-future-of-education.html",
+      "workforce_note": "Dated Workday customer-story workforce snapshot; current exact headcount not verified.",
+      "workday_confirmation": "Primary Workday customer story confirms use.",
+      "general_contact_route": {
+        "email": "info@esfcentre.edu.hk",
+        "phone": "+852 2574 2351",
+        "source": "https://www.esf.edu.hk/senior-management/",
+        "scope": "Foundation general office, not the HR director's direct route."
+      },
+      "rising": {
+        "status": "not_confirmed",
+        "source": null,
+        "reason": "No 2026 attendance/presentation confirmation found in the reviewed public sources; absence is not established."
+      },
+      "additional_sources": [],
+      "gaps": [
+        "Scoring-owner assessment of Authority, Reachability and Budget points",
+        "Warm introduction and willingness to act",
+        "Mailbox deliverability verification",
+        "Exact Workday go-live date"
+      ]
+    },
+    {
+      "company": {
+        "id": "0f5a3b7b-a2f9-5a2b-bc81-72fc8a8074d5",
+        "name": "Sun Life",
+        "domain": "sunlife.com",
+        "industry": "Financial Services",
+        "headquarters": "Toronto, Ontario, Canada",
+        "employee_count": 68000,
+        "workday_signal_date": null,
+        "source": "https://www.workday.com/en-us/customer-stories/q-z/sun-life-enhances-employee-experience.html"
+      },
+      "baseline_updated_at": "2026-10-05T22:10:32.346848+00:00",
+      "previous_score_id": "fcea6563-d53d-5f3d-a496-d0daad025001",
+      "score": {
+        "company_id": "0f5a3b7b-a2f9-5a2b-bc81-72fc8a8074d5",
+        "rubric_version": "week2-100-research-20261011",
+        "tier": "Disqualified",
+        "authority_score": 0,
+        "reachability_score": 0,
+        "budget_score": 0,
+        "authority_evidence": "https://www.sunlife.com/en/about-us/leadership/helena-pagano/ | Helena Pagano is listed as Executive Vice-President and Chief People and Culture Officer; 68000 employees. Role evidence researched 2026-10-11; buying mandate and numeric assessment require review.\nWorkforce: https://www.sunlife.com/en/about-us/leadership/helena-pagano/ | More than 68,000 employees in current leadership biography; lower bound.\nHeadquarters: https://www.sunlife.com/en/contact-us/ | Toronto, Ontario, Canada.\nWorkday modules: https://www.workday.com/en-us/customer-stories/q-z/sun-life-enhances-employee-experience.html | Human Capital Management, Extend, Employee Experience, Talent Acquisition, Time and Attendance Existing numeric score retained pending scoring-owner assessment; zero does not mean evidence disproves fit.",
+        "reachability_evidence": "https://www.linkedin.com/in/helenapagano | Public identity/role route exists; direct email, office phone, <=1-degree connection and conviction to act not verified. Existing numeric score retained pending scoring-owner assessment; zero does not mean evidence disproves fit.",
+        "budget_evidence": "https://www.kainos.com/insights/success-stories/sun-life-takes-control-of-workday-security-updates-expansion-with-test-automation | Kainos customer story dated April 26, 2020 documents Workday test automation and security testing; strong historical adjacent tool adoption proxy, not a current purchase timeline. Existing numeric score retained pending scoring-owner assessment; zero does not mean evidence disproves fit.",
+        "release_score": 5,
+        "release_evidence": "https://github.com/advitarora5/Mando-CUBE/blob/main/src/domain/scoring/releases.ts | Repository release calendar estimates 2027R1 for March 13, 2027, 153 days after October 11, 2026; more than 18 weeks earns 5/15. Date is estimated, not newly confirmed.",
+        "timing_score": 0,
+        "timing_evidence": "https://www.workday.com/en-us/customer-stories/q-z/sun-life-enhances-employee-experience.html | Workday use confirmed by customer story, but an exact go-live date or dated new trigger was not verified; no date inferred."
+      },
+      "insight": {
+        "company_id": "0f5a3b7b-a2f9-5a2b-bc81-72fc8a8074d5",
+        "persona_generated": "HR and enterprise systems leadership responsible for Workday operations",
+        "level_generated": "C-level",
+        "why_now_generated": "Sun Life has documented Kainos test automation for Workday releases and security controls plus Workday Extend applications. That supports ongoing testing fit; the dated case study does not establish a new purchase window.\n\nResearch checked 2026-10-11. Modules: Human Capital Management, Extend, Employee Experience, Talent Acquisition, Time and Attendance. Workforce: More than 68,000 employees in current leadership biography; lower bound. Exact Workday go-live date: information not available. Mutual connections: information not available. Emails are employer-published where sourced, with deliverability unverified."
+      },
+      "contacts": [
+        {
+          "name": "Helena Pagano",
+          "title": "Executive Vice-President and Chief People and Culture Officer",
+          "source": "https://www.sunlife.com/en/about-us/leadership/helena-pagano/",
+          "linkedin_url": "https://www.linkedin.com/in/helenapagano",
+          "email": null,
+          "phone": null,
+          "email_source": null,
+          "phone_source": null,
+          "email_verified": false,
+          "mutual_connection": null,
+          "checked_at": "2026-10-11",
+          "note": "Employer/role checked; purchase authority and warm introduction not established.",
+          "id": "b4f60c7e-f132-5be8-ab94-8d1baf4dcab2",
+          "company_id": "0f5a3b7b-a2f9-5a2b-bc81-72fc8a8074d5"
+        }
+      ],
+      "workday_modules": [
+        "Human Capital Management",
+        "Extend",
+        "Employee Experience",
+        "Talent Acquisition",
+        "Time and Attendance"
+      ],
+      "workforce_source": "https://www.sunlife.com/en/about-us/leadership/helena-pagano/",
+      "workforce_note": "More than 68,000 employees in current leadership biography; lower bound.",
+      "workday_confirmation": "Primary Workday customer story confirms use.",
+      "general_contact_route": null,
+      "rising": {
+        "status": "not_confirmed",
+        "source": null,
+        "reason": "No 2026 attendance/presentation confirmation found in the reviewed public sources; absence is not established."
+      },
+      "additional_sources": [],
+      "gaps": [
+        "Scoring-owner assessment of Authority, Reachability and Budget points",
+        "Warm introduction and willingness to act",
+        "Mailbox deliverability verification",
+        "Exact Workday go-live date"
+      ]
+    },
+    {
+      "company": {
+        "id": "15d16044-4b5a-5a79-8fe2-d7a79fe94db0",
+        "name": "Signify",
+        "domain": "signify.com",
+        "industry": "Manufacturing",
+        "headquarters": "Eindhoven, Netherlands",
+        "employee_count": 25866,
+        "workday_signal_date": null,
+        "source": "https://www.workday.com/en-us/customer-stories/q-z/signify-illuminates-hr-transformation-with-workday.html"
+      },
+      "baseline_updated_at": "2026-10-05T22:10:32.346848+00:00",
+      "previous_score_id": "540989d0-06be-5bbf-a2f5-ea6d6a93c2b2",
+      "score": {
+        "company_id": "15d16044-4b5a-5a79-8fe2-d7a79fe94db0",
+        "rubric_version": "week2-100-research-20261011",
+        "tier": "Disqualified",
+        "authority_score": 0,
+        "reachability_score": 0,
+        "budget_score": 0,
+        "authority_evidence": "https://www.workday.com/en-us/customer-stories/q-z/signify-illuminates-hr-transformation-with-workday.html | Kiran Brar is listed as Chief Human Resources Officer; 25866 employees. Role evidence researched 2026-10-11; buying mandate and numeric assessment require review.\nWorkforce: https://www.signify.com/global/our-company/investors/contact/faq/faq-items-general/faq-2 | 25,866 employees at the end of Q2 2026, from current investor FAQ.\nHeadquarters: https://sg.adp.com/-/media/adpsg/testimonials/pdf/adp-signify-case-study_2021.pdf?hash=6C28C87A7E234D83DF22A2107CB873E9&rev=6fd9433a84d54ef3a46ee926bd3ab1bf | Eindhoven, Netherlands.\nWorkday modules: https://www.workday.com/en-us/customer-stories/q-z/signify-illuminates-hr-transformation-with-workday.html | Human Capital Management, Adaptive Planning, Prism Analytics Existing numeric score retained pending scoring-owner assessment; zero does not mean evidence disproves fit.",
+        "reachability_evidence": "https://www.linkedin.com/in/kiran-brar-904289a | Public identity/role route exists; direct email, office phone, <=1-degree connection and conviction to act not verified. Existing numeric score retained pending scoring-owner assessment; zero does not mean evidence disproves fit.",
+        "budget_evidence": "https://www.workday.com/en-us/customer-stories/q-z/signify-illuminates-hr-transformation-with-workday.html | Customer story describes collaboration with Paradox for automated interview scheduling; deployment/purchase status and date not fully confirmed. Existing numeric score retained pending scoring-owner assessment; zero does not mean evidence disproves fit.",
+        "release_score": 5,
+        "release_evidence": "https://github.com/advitarora5/Mando-CUBE/blob/main/src/domain/scoring/releases.ts | Repository release calendar estimates 2027R1 for March 13, 2027, 153 days after October 11, 2026; more than 18 weeks earns 5/15. Date is estimated, not newly confirmed.",
+        "timing_score": 0,
+        "timing_evidence": "https://www.workday.com/en-us/customer-stories/q-z/signify-illuminates-hr-transformation-with-workday.html | Workday use confirmed by customer story, but an exact go-live date or dated new trigger was not verified; no date inferred."
+      },
+      "insight": {
+        "company_id": "15d16044-4b5a-5a79-8fe2-d7a79fe94db0",
+        "persona_generated": "HR and enterprise systems leadership responsible for Workday operations",
+        "level_generated": "C-level",
+        "why_now_generated": "Signify describes active HR AI use cases, Workday workforce planning and collaboration with Paradox on interview scheduling. This establishes a transformation context, with the procurement window still unverified.\n\nResearch checked 2026-10-11. Modules: Human Capital Management, Adaptive Planning, Prism Analytics. Workforce: 25,866 employees at the end of Q2 2026, from current investor FAQ. Exact Workday go-live date: information not available. Mutual connections: information not available. Emails are employer-published where sourced, with deliverability unverified."
+      },
+      "contacts": [
+        {
+          "name": "Kiran Brar",
+          "title": "Chief Human Resources Officer",
+          "source": "https://www.workday.com/en-us/customer-stories/q-z/signify-illuminates-hr-transformation-with-workday.html",
+          "linkedin_url": "https://www.linkedin.com/in/kiran-brar-904289a",
+          "email": null,
+          "phone": null,
+          "email_source": null,
+          "phone_source": null,
+          "email_verified": false,
+          "mutual_connection": null,
+          "checked_at": "2026-10-11",
+          "note": "Employer/role checked; purchase authority and warm introduction not established.",
+          "id": "e140ce5c-5cd7-5c58-b2dd-7c6eaa0c6c3d",
+          "company_id": "15d16044-4b5a-5a79-8fe2-d7a79fe94db0"
+        }
+      ],
+      "workday_modules": [
+        "Human Capital Management",
+        "Adaptive Planning",
+        "Prism Analytics"
+      ],
+      "workforce_source": "https://www.signify.com/global/our-company/investors/contact/faq/faq-items-general/faq-2",
+      "workforce_note": "25,866 employees at the end of Q2 2026, from current investor FAQ.",
+      "workday_confirmation": "Primary Workday customer story confirms use.",
+      "general_contact_route": null,
+      "rising": {
+        "status": "not_confirmed",
+        "source": null,
+        "reason": "No 2026 attendance/presentation confirmation found in the reviewed public sources; absence is not established."
+      },
+      "additional_sources": [],
+      "gaps": [
+        "Scoring-owner assessment of Authority, Reachability and Budget points",
+        "Warm introduction and willingness to act",
+        "Mailbox deliverability verification",
+        "Exact Workday go-live date"
+      ]
+    },
+    {
+      "company": {
+        "id": "1667a535-6b79-50b0-8b3b-9dbbeb81e29d",
+        "name": "Roswell Park Comprehensive Cancer Center",
+        "domain": "roswellpark.org",
+        "industry": "Healthcare",
+        "headquarters": "Buffalo, New York, United States",
+        "employee_count": 3900,
+        "workday_signal_date": null,
+        "source": "https://www.workday.com/en-us/customer-stories/q-z/roswell-park-discovers-better-processes-insight-outcomes.html"
+      },
+      "baseline_updated_at": "2026-10-05T22:10:32.346848+00:00",
+      "previous_score_id": "a23df321-c420-5ca5-a22f-981d42f7b16b",
+      "score": {
+        "company_id": "1667a535-6b79-50b0-8b3b-9dbbeb81e29d",
+        "rubric_version": "week2-100-research-20261011",
+        "tier": "Disqualified",
+        "authority_score": 0,
+        "reachability_score": 0,
+        "budget_score": 0,
+        "authority_evidence": "https://www.roswellpark.org/errol-douglas | Errol A. Douglas is listed as Senior Vice President and Chief Human Resources Officer; 3900 employees. Role evidence researched 2026-10-11; buying mandate and numeric assessment require review.\nWorkforce: https://www.workday.com/en-us/customer-stories/q-z/roswell-park-discovers-better-processes-insight-outcomes.html | Dated Workday customer-story workforce snapshot; current exact headcount not verified.\nHeadquarters: https://forms.roswellpark.org/record-request | Buffalo, New York, United States.\nWorkday modules: https://www.workday.com/en-us/customer-stories/q-z/roswell-park-discovers-better-processes-insight-outcomes.html | Financial Management, Human Capital Management, Healthcare Supply Chain Management Existing numeric score retained pending scoring-owner assessment; zero does not mean evidence disproves fit.",
+        "reachability_evidence": "https://www.roswellpark.org/errol-douglas | Public identity/role route exists; direct email, office phone, <=1-degree connection and conviction to act not verified. Existing numeric score retained pending scoring-owner assessment; zero does not mean evidence disproves fit.",
+        "budget_evidence": "https://www.workday.com/en-us/customer-stories/q-z/roswell-park-discovers-better-processes-insight-outcomes.html | No verified adjacent testing/automation purchase or current purchase timeline found in reviewed sources; budget remains unconfirmed. Existing numeric score retained pending scoring-owner assessment; zero does not mean evidence disproves fit.",
+        "release_score": 5,
+        "release_evidence": "https://github.com/advitarora5/Mando-CUBE/blob/main/src/domain/scoring/releases.ts | Repository release calendar estimates 2027R1 for March 13, 2027, 153 days after October 11, 2026; more than 18 weeks earns 5/15. Date is estimated, not newly confirmed.",
+        "timing_score": 0,
+        "timing_evidence": "https://www.workday.com/en-us/customer-stories/q-z/roswell-park-discovers-better-processes-insight-outcomes.html | Workday use confirmed by customer story, but an exact go-live date or dated new trigger was not verified; no date inferred."
+      },
+      "insight": {
+        "company_id": "1667a535-6b79-50b0-8b3b-9dbbeb81e29d",
+        "persona_generated": "HR and enterprise systems leadership responsible for Workday operations",
+        "level_generated": "C-level",
+        "why_now_generated": "Roswell Park has Workday HCM, Finance and Supply Chain with automated procurement controls and operational dashboards. Those workflows suggest ongoing validation needs; no dated new rollout or adjacent testing purchase was verified.\n\nResearch checked 2026-10-11. Modules: Financial Management, Human Capital Management, Healthcare Supply Chain Management. Workforce: Dated Workday customer-story workforce snapshot; current exact headcount not verified. Exact Workday go-live date: information not available. Mutual connections: information not available. Emails are employer-published where sourced, with deliverability unverified. General office route: HR-PayandBenefits@RoswellPark.org, +1 716-845-1086. HR payroll and benefits office; not Errol Douglas' direct route. Source: https://www.roswellpark.org/welcome/campus"
+      },
+      "contacts": [
+        {
+          "name": "Errol A. Douglas",
+          "title": "Senior Vice President and Chief Human Resources Officer",
+          "source": "https://www.roswellpark.org/errol-douglas",
+          "linkedin_url": null,
+          "email": null,
+          "phone": null,
+          "email_source": null,
+          "phone_source": null,
+          "email_verified": false,
+          "mutual_connection": null,
+          "checked_at": "2026-10-11",
+          "note": "Employer/role checked; purchase authority and warm introduction not established.",
+          "id": "0857696d-5884-518a-b918-85e1501a63ec",
+          "company_id": "1667a535-6b79-50b0-8b3b-9dbbeb81e29d"
+        }
+      ],
+      "workday_modules": [
+        "Financial Management",
+        "Human Capital Management",
+        "Healthcare Supply Chain Management"
+      ],
+      "workforce_source": "https://www.workday.com/en-us/customer-stories/q-z/roswell-park-discovers-better-processes-insight-outcomes.html",
+      "workforce_note": "Dated Workday customer-story workforce snapshot; current exact headcount not verified.",
+      "workday_confirmation": "Primary Workday customer story confirms use.",
+      "general_contact_route": {
+        "email": "HR-PayandBenefits@RoswellPark.org",
+        "phone": "+1 716-845-1086",
+        "source": "https://www.roswellpark.org/welcome/campus",
+        "scope": "HR payroll and benefits office; not Errol Douglas' direct route."
+      },
+      "rising": {
+        "status": "not_confirmed",
+        "source": null,
+        "reason": "No 2026 attendance/presentation confirmation found in the reviewed public sources; absence is not established."
+      },
+      "additional_sources": [],
+      "gaps": [
+        "Scoring-owner assessment of Authority, Reachability and Budget points",
+        "Warm introduction and willingness to act",
+        "Mailbox deliverability verification",
+        "Exact Workday go-live date"
+      ]
+    },
+    {
+      "company": {
+        "id": "1a72a9ab-335f-5397-a637-03a6454e1a65",
+        "name": "Del Monte Fresh Produce Company",
+        "domain": "freshdelmonte.com",
+        "industry": "Food / agriculture",
+        "headquarters": "Coral Gables, FL (US)",
+        "employee_count": 8562,
+        "workday_signal_date": null,
+        "source": "https://en-gb.newsroom.workday.com/2026-05-21-Workday-Announces-Fiscal-2027-First-Quarter-Financial-Results"
+      },
+      "baseline_updated_at": "2026-10-04T23:58:11.776094+00:00",
+      "previous_score_id": "034e1c0c-9f9e-5ef8-a1f9-7daea93162c9",
+      "score": {
+        "company_id": "1a72a9ab-335f-5397-a637-03a6454e1a65",
+        "rubric_version": "week2-100-research-20261011",
+        "tier": "Disqualified",
+        "authority_score": 22,
+        "reachability_score": 6,
+        "budget_score": 14,
+        "authority_evidence": "https://freshdelmonte.com/our-people/louie-tenazas/ | Louie Tenazas is listed as Chief Human Resources Officer; 8562 employees. Role evidence researched 2026-10-11; buying mandate and numeric assessment require review.\nWorkforce: https://freshdelmonte.com/wp-content/uploads/2026/06/2025-Annual-Report.pdf | 8,562 full-time employees plus more than 31,466 daily, seasonal and temporary workers at December 26, 2025; database count uses full-time workforce only.\nWorkday modules: https://en-gb.newsroom.workday.com/2026-05-21-Workday-Announces-Fiscal-2027-First-Quarter-Financial-Results | Module scope not confirmed in available primary evidence.\n\nUnmapped spreadsheet research; category evidence needs review.\n{\"evidence\":\"https://freshdelmonte.com/people/leadership/ — confirms Tenazas (CHRO) and Habib (VP Corporate IT); https://www.sec.gov/Archives/edgar/data/1047340/000104734026000015/fdp-20251226.htm — FY2025 10-K.\",\"contact_targets\":\"Louie Tenazas, Chief Human Resources Officer, and Murtaza Habib, VP Corporate IT, Fresh Del Monte Produce Inc.\",\"estimated_employees\":\"~37,000 (parent co., est.)\",\"trigger_event_date\":\"TBD (unconfirmed)\",\"spreadsheet_tier\":\"Disqualify\",\"why_now\":\"Fresh Del Monte Produce Inc. (NYSE: FDP) — the entity operating under the Del Monte Fresh Produce Company name at this Coral Gables, FL headquarters — has a confirmed, named Chief Human Resources Officer and VP of Corporate IT on its official leadership page, at a large, financially transparent public company. No public evidence ties the company to any current or planned Workday initiative or dated trigger.\"}",
+        "reachability_evidence": "https://www.linkedin.com/in/louie-tenazas-42b5184 | Public identity/role route exists; direct email, office phone, <=1-degree connection and conviction to act not verified. Existing 6 points were retained from an unreviewed spreadsheet; new evidence does not validate those points.",
+        "budget_evidence": "https://en-gb.newsroom.workday.com/2026-05-21-Workday-Announces-Fiscal-2027-First-Quarter-Financial-Results | No verified adjacent testing/automation purchase or current purchase timeline found in reviewed sources; budget remains unconfirmed. Existing 14 points were retained from an unreviewed spreadsheet; new evidence does not validate those points.",
+        "release_score": 0,
+        "release_evidence": "https://en-gb.newsroom.workday.com/2026-05-21-Workday-Announces-Fiscal-2027-First-Quarter-Financial-Results | Workday customer confirmed, but product/tenant scope undisclosed; release applicability requires review. No release points added.",
+        "timing_score": 0,
+        "timing_evidence": "https://en-gb.newsroom.workday.com/2026-05-21-Workday-Announces-Fiscal-2027-First-Quarter-Financial-Results | New customer announcement dated May 21, 2026 is a verified signal, not an exact go-live. Kept outside the go-live date field."
+      },
+      "insight": {
+        "company_id": "1a72a9ab-335f-5397-a637-03a6454e1a65",
+        "persona_generated": "HR and enterprise systems leadership responsible for Workday operations",
+        "level_generated": "C-level",
+        "why_now_generated": "Workday named Fresh Del Monte as a new customer May 21, 2026. This provides a recent customer adoption signal and possible implementation context; exact go-live, modules and purchase timeline remain undisclosed.\n\nResearch checked 2026-10-11. Modules: information not available / scope unconfirmed. Workforce: 8,562 full-time employees plus more than 31,466 daily, seasonal and temporary workers at December 26, 2025; database count uses full-time workforce only. Exact Workday go-live date: information not available. Mutual connections: information not available. Emails are employer-published where sourced, with deliverability unverified."
+      },
+      "contacts": [
+        {
+          "name": "Louie Tenazas",
+          "title": "Chief Human Resources Officer",
+          "source": "https://freshdelmonte.com/our-people/louie-tenazas/",
+          "linkedin_url": "https://www.linkedin.com/in/louie-tenazas-42b5184",
+          "email": null,
+          "phone": null,
+          "email_source": null,
+          "phone_source": null,
+          "email_verified": false,
+          "mutual_connection": null,
+          "checked_at": "2026-10-11",
+          "note": "Employer/role checked; purchase authority and warm introduction not established.",
+          "id": "b47c2150-410b-5b8d-a10e-64531510d26b",
+          "company_id": "1a72a9ab-335f-5397-a637-03a6454e1a65"
+        },
+        {
+          "name": "Murtaza Habib",
+          "title": "Vice President, Corporate Information Technology",
+          "source": "https://freshdelmonte.com/people/leadership/",
+          "linkedin_url": null,
+          "email": null,
+          "phone": null,
+          "email_source": null,
+          "phone_source": null,
+          "email_verified": false,
+          "mutual_connection": null,
+          "checked_at": "2026-10-11",
+          "note": "Employer/role checked; purchase authority and warm introduction not established.",
+          "id": "dd898bc3-b7bc-5000-b63d-30c40cf77132",
+          "company_id": "1a72a9ab-335f-5397-a637-03a6454e1a65"
+        }
+      ],
+      "workday_modules": [],
+      "workforce_source": "https://freshdelmonte.com/wp-content/uploads/2026/06/2025-Annual-Report.pdf",
+      "workforce_note": "8,562 full-time employees plus more than 31,466 daily, seasonal and temporary workers at December 26, 2025; database count uses full-time workforce only.",
+      "workday_confirmation": "Workday names Del Monte Fresh Produce Company as a new customer May 21, 2026. Product scope and exact go-live are not disclosed; distinguish Fresh Del Monte from Del Monte Foods.",
+      "general_contact_route": null,
+      "rising": {
+        "status": "not_confirmed",
+        "source": null,
+        "reason": "No 2026 attendance/presentation confirmation found in the reviewed public sources; absence is not established."
+      },
+      "additional_sources": [],
+      "gaps": [
+        "Scoring-owner assessment of Authority, Reachability and Budget points",
+        "Warm introduction and willingness to act",
+        "Mailbox deliverability verification",
+        "Exact Workday go-live date",
+        "Workday module scope"
+      ]
+    },
+    {
+      "company": {
+        "id": "1d3c6696-d69f-5fdc-b408-2acfe1698038",
+        "name": "Scandic",
+        "domain": "scandichotelsgroup.com",
+        "industry": "Hospitality",
+        "headquarters": "Stockholm, Sweden",
+        "employee_count": 18000,
+        "workday_signal_date": null,
+        "source": "https://www.workday.com/en-us/customer-stories/q-z/scandic-standardizes-hr-processes-scales.html"
+      },
+      "baseline_updated_at": "2026-10-05T22:10:32.346848+00:00",
+      "previous_score_id": "cc79fb52-51d2-5143-a4e4-860fa3abc0bc",
+      "score": {
+        "company_id": "1d3c6696-d69f-5fdc-b408-2acfe1698038",
+        "rubric_version": "week2-100-research-20261011",
+        "tier": "Disqualified",
+        "authority_score": 0,
+        "reachability_score": 0,
+        "budget_score": 0,
+        "authority_evidence": "https://www.scandichotelsgroup.com/our-company/organisation-and-management/executive-committee/ | Elin Ekrol is listed as Interim Chief HR Officer and Director of HR Operations; 18000 employees. Role evidence researched 2026-10-11; buying mandate and numeric assessment require review.\nWorkforce: https://www.workday.com/en-us/customer-stories/q-z/scandic-standardizes-hr-processes-scales.html | Dated Workday customer-story workforce snapshot; current exact headcount not verified.\nWorkday modules: https://www.workday.com/en-us/customer-stories/q-z/scandic-standardizes-hr-processes-scales.html | Human Capital Management, Talent Management, Compensation Existing numeric score retained pending scoring-owner assessment; zero does not mean evidence disproves fit.",
+        "reachability_evidence": "https://www.linkedin.com/in/elin-ekrol-6b803319 | Public identity/role route exists; direct email, office phone, <=1-degree connection and conviction to act not verified. Existing numeric score retained pending scoring-owner assessment; zero does not mean evidence disproves fit.",
+        "budget_evidence": "https://www.workday.com/en-us/customer-stories/q-z/scandic-standardizes-hr-processes-scales.html | No verified adjacent testing/automation purchase or current purchase timeline found in reviewed sources; budget remains unconfirmed. Existing numeric score retained pending scoring-owner assessment; zero does not mean evidence disproves fit.",
+        "release_score": 5,
+        "release_evidence": "https://github.com/advitarora5/Mando-CUBE/blob/main/src/domain/scoring/releases.ts | Repository release calendar estimates 2027R1 for March 13, 2027, 153 days after October 11, 2026; more than 18 weeks earns 5/15. Date is estimated, not newly confirmed.",
+        "timing_score": 0,
+        "timing_evidence": "https://www.workday.com/en-us/customer-stories/q-z/scandic-standardizes-hr-processes-scales.html | Workday use confirmed by customer story, but an exact go-live date or dated new trigger was not verified; no date inferred."
+      },
+      "insight": {
+        "company_id": "1d3c6696-d69f-5fdc-b408-2acfe1698038",
+        "persona_generated": "HR and enterprise systems leadership responsible for Workday operations",
+        "level_generated": "C-level",
+        "why_now_generated": "Scandic uses Workday HCM, Talent Management and Compensation to standardize HR across a growing hotel organization. Current HR leadership is identified; a recent deployment or buying deadline was not verified.\n\nResearch checked 2026-10-11. Modules: Human Capital Management, Talent Management, Compensation. Workforce: Dated Workday customer-story workforce snapshot; current exact headcount not verified. Exact Workday go-live date: information not available. Mutual connections: information not available. Emails are employer-published where sourced, with deliverability unverified."
+      },
+      "contacts": [
+        {
+          "name": "Elin Ekrol",
+          "title": "Interim Chief HR Officer and Director of HR Operations",
+          "source": "https://www.scandichotelsgroup.com/our-company/organisation-and-management/executive-committee/",
+          "linkedin_url": "https://www.linkedin.com/in/elin-ekrol-6b803319",
+          "email": null,
+          "phone": null,
+          "email_source": null,
+          "phone_source": null,
+          "email_verified": false,
+          "mutual_connection": null,
+          "checked_at": "2026-10-11",
+          "note": "Employer/role checked; purchase authority and warm introduction not established.",
+          "id": "33905bb8-95e3-575f-88b7-48009511c426",
+          "company_id": "1d3c6696-d69f-5fdc-b408-2acfe1698038"
+        }
+      ],
+      "workday_modules": [
+        "Human Capital Management",
+        "Talent Management",
+        "Compensation"
+      ],
+      "workforce_source": "https://www.workday.com/en-us/customer-stories/q-z/scandic-standardizes-hr-processes-scales.html",
+      "workforce_note": "Dated Workday customer-story workforce snapshot; current exact headcount not verified.",
+      "workday_confirmation": "Primary Workday customer story confirms use.",
+      "general_contact_route": null,
+      "rising": {
+        "status": "not_confirmed",
+        "source": null,
+        "reason": "No 2026 attendance/presentation confirmation found in the reviewed public sources; absence is not established."
+      },
+      "additional_sources": [],
+      "gaps": [
+        "Scoring-owner assessment of Authority, Reachability and Budget points",
+        "Warm introduction and willingness to act",
+        "Mailbox deliverability verification",
+        "Exact Workday go-live date"
+      ]
+    },
+    {
+      "company": {
+        "id": "1e7ad73f-eea9-55af-9d8c-26b846ffb2ed",
+        "name": "St. Luke's University Health Network",
+        "domain": "slhn.org",
+        "industry": "Healthcare",
+        "headquarters": "Bethlehem, Pennsylvania, United States",
+        "employee_count": 18000,
+        "workday_signal_date": null,
+        "source": "https://www.workday.com/en-us/customer-stories/q-z/st-lukes-university-health-network-improve-retention.html"
+      },
+      "baseline_updated_at": "2026-10-05T22:10:32.346848+00:00",
+      "previous_score_id": "e70b794b-77c6-5cf8-a70e-7a8f268b3c2b",
+      "score": {
+        "company_id": "1e7ad73f-eea9-55af-9d8c-26b846ffb2ed",
+        "rubric_version": "week2-100-research-20261011",
+        "tier": "Disqualified",
+        "authority_score": 0,
+        "reachability_score": 0,
+        "budget_score": 0,
+        "authority_evidence": "https://www.slhn.org/about/leadership/executive-leadership | Evan Ochs is listed as Senior Vice President and Chief Human Resources Officer; 18000 employees. Role evidence researched 2026-10-11; buying mandate and numeric assessment require review.\nWorkforce: https://www.workday.com/en-us/customer-stories/q-z/st-lukes-university-health-network-improve-retention.html | Dated Workday customer-story workforce snapshot; current exact headcount not verified.\nHeadquarters: https://www.slhn.org/corporate-policies/accessibility-statement | Bethlehem, Pennsylvania, United States.\nWorkday modules: https://www.workday.com/en-us/customer-stories/q-z/st-lukes-university-health-network-improve-retention.html | Extend, Human Capital Management, Payroll, Augmented Analytics Existing numeric score retained pending scoring-owner assessment; zero does not mean evidence disproves fit.",
+        "reachability_evidence": "https://www.linkedin.com/in/evanbeererochs | Public identity/role route exists; direct email, office phone, <=1-degree connection and conviction to act not verified. Existing numeric score retained pending scoring-owner assessment; zero does not mean evidence disproves fit.",
+        "budget_evidence": "https://www.workday.com/en-us/customer-stories/q-z/st-lukes-university-health-network-improve-retention.html | No verified adjacent testing/automation purchase or current purchase timeline found in reviewed sources; budget remains unconfirmed. Existing numeric score retained pending scoring-owner assessment; zero does not mean evidence disproves fit.",
+        "release_score": 5,
+        "release_evidence": "https://github.com/advitarora5/Mando-CUBE/blob/main/src/domain/scoring/releases.ts | Repository release calendar estimates 2027R1 for March 13, 2027, 153 days after October 11, 2026; more than 18 weeks earns 5/15. Date is estimated, not newly confirmed.",
+        "timing_score": 0,
+        "timing_evidence": "https://www.workday.com/en-us/customer-stories/q-z/st-lukes-university-health-network-improve-retention.html | Workday use confirmed by customer story, but an exact go-live date or dated new trigger was not verified; no date inferred."
+      },
+      "insight": {
+        "company_id": "1e7ad73f-eea9-55af-9d8c-26b846ffb2ed",
+        "persona_generated": "HR and enterprise systems leadership responsible for Workday operations",
+        "level_generated": "C-level",
+        "why_now_generated": "St. Luke's has developed Workday Extend applications for retention bonuses and time tracking integrated with HCM and payroll. This provides an ongoing app quality and workforce operations use case, without a verified new purchase window.\n\nResearch checked 2026-10-11. Modules: Extend, Human Capital Management, Payroll, Augmented Analytics. Workforce: Dated Workday customer-story workforce snapshot; current exact headcount not verified. Exact Workday go-live date: information not available. Mutual connections: information not available. Emails are employer-published where sourced, with deliverability unverified."
+      },
+      "contacts": [
+        {
+          "name": "Evan Ochs",
+          "title": "Senior Vice President and Chief Human Resources Officer",
+          "source": "https://www.slhn.org/about/leadership/executive-leadership",
+          "linkedin_url": "https://www.linkedin.com/in/evanbeererochs",
+          "email": null,
+          "phone": null,
+          "email_source": null,
+          "phone_source": null,
+          "email_verified": false,
+          "mutual_connection": null,
+          "checked_at": "2026-10-11",
+          "note": "Employer/role checked; purchase authority and warm introduction not established.",
+          "id": "09fc4b11-a370-5851-8db1-ab7efa582a20",
+          "company_id": "1e7ad73f-eea9-55af-9d8c-26b846ffb2ed"
+        }
+      ],
+      "workday_modules": [
+        "Extend",
+        "Human Capital Management",
+        "Payroll",
+        "Augmented Analytics"
+      ],
+      "workforce_source": "https://www.workday.com/en-us/customer-stories/q-z/st-lukes-university-health-network-improve-retention.html",
+      "workforce_note": "Dated Workday customer-story workforce snapshot; current exact headcount not verified.",
+      "workday_confirmation": "Primary Workday customer story confirms use.",
+      "general_contact_route": null,
+      "rising": {
+        "status": "not_confirmed",
+        "source": null,
+        "reason": "No 2026 attendance/presentation confirmation found in the reviewed public sources; absence is not established."
+      },
+      "additional_sources": [],
+      "gaps": [
+        "Scoring-owner assessment of Authority, Reachability and Budget points",
+        "Warm introduction and willingness to act",
+        "Mailbox deliverability verification",
+        "Exact Workday go-live date"
+      ]
+    },
+    {
+      "company": {
+        "id": "22e57648-6b1f-55bd-afc2-348afaccfb25",
+        "name": "Memorial Health",
+        "domain": "memorial.health",
+        "industry": "Healthcare (hospital system)",
+        "headquarters": "Springfield, IL (US)",
+        "employee_count": 6700,
+        "workday_signal_date": null,
+        "source": "https://memorial.health/about-us/leadership/mandy-c-eaton/"
+      },
+      "baseline_updated_at": "2026-10-04T23:58:13.862802+00:00",
+      "previous_score_id": "67f4ced0-1df3-55ab-a11a-d4db0d8587fb",
+      "score": {
+        "company_id": "22e57648-6b1f-55bd-afc2-348afaccfb25",
+        "rubric_version": "week2-100-research-20261011",
+        "tier": "Disqualified",
+        "authority_score": 5,
+        "reachability_score": 1,
+        "budget_score": 8,
+        "authority_evidence": "https://memorial.health/about-us/leadership/elisabeth-klar/ | Elisabeth Klar is listed as Senior Vice President and Chief Human Resources Officer; 6700 employees. Role evidence researched 2026-10-11; buying mandate and numeric assessment require review.\nWorkforce: https://memorial.health/about-us/leadership/mandy-c-eaton/ | Dated Workday customer-story workforce snapshot; current exact headcount not verified.\nWorkday modules: https://memorial.health/about-us/leadership/mandy-c-eaton/ | Recruiting (public Workday applicant portal confirmed; full HCM/Payroll scope unconfirmed)\n\nUnmapped spreadsheet research; category evidence needs review.\n{\"evidence\":\"https://memorial.health/about-us/leadership/mandy-c-eaton/ — confirms Eaton as President & CEO, not an HR/IT role; Associate Director, Workforce Technologies and Analytics posting found via job aggregator, no named incumbent.\",\"contact_targets\":\"No confirmed current named HR/HRIS/IT leader identified — target title: VP HR or HRIS Director, Memorial Health\",\"estimated_employees\":\"6,700\",\"trigger_event_date\":\"TBD (unconfirmed)\",\"spreadsheet_tier\":\"Disqualify\",\"why_now\":\"Memorial Health has a new President & CEO, Mandy Eaton, appointed April 2025, but she holds a general executive role rather than an HR/HRIS-specific title. An open \\\"Associate Director, Workforce Technologies and Analytics\\\" requisition suggests an HR-systems function exists, but no current named leader or Workday-specific evidence was found.\"}",
+        "reachability_evidence": "https://memorial.health/Resources/29f57f04-0b2a-4908-838c-875b76d1feb3/163-0747-MH-SLT-Contact-Sheet.pdf | Employer-published professional contact route exists; mailbox deliverability and <=1-degree connection/conviction unverified. Contact sheet is from September 2023; reconfirm route before outreach. Existing 1 points were retained from an unreviewed spreadsheet; new evidence does not validate those points.",
+        "budget_evidence": "https://memorial.health/about-us/leadership/mandy-c-eaton/ | No verified adjacent testing/automation purchase or current purchase timeline found in reviewed sources; budget remains unconfirmed. Existing 8 points were retained from an unreviewed spreadsheet; new evidence does not validate those points.",
+        "release_score": 5,
+        "release_evidence": "https://jobs.memorial.health/job/jr101137/ | Live employer page links public Workday applicant and colleague portals. Repository calendar estimates 2027R1 March 13, 2027 (153 days; 5/15); full HCM/Payroll deployment scope unconfirmed.",
+        "timing_score": 0,
+        "timing_evidence": "https://jobs.memorial.health/job/jr101137/ | People Operations leadership requisition covers HRIS, analytics and shared services. No exact Workday go-live date confirmed; archived Workday analyst listing is no longer active."
+      },
+      "insight": {
+        "company_id": "22e57648-6b1f-55bd-afc2-348afaccfb25",
+        "persona_generated": "HR and enterprise systems leadership responsible for Workday operations",
+        "level_generated": "C-level",
+        "why_now_generated": "Memorial's People Operations leadership vacancy covers HRIS and analytics, while a public CEO interview describes a planned late-September Workday go-live. Completion, exact date and module scope need primary-source confirmation; this is the Springfield, Illinois health system.\n\nResearch checked 2026-10-11. Modules: Recruiting (public Workday applicant portal confirmed; full HCM/Payroll scope unconfirmed). Workforce: Dated Workday customer-story workforce snapshot; current exact headcount not verified. Exact Workday go-live date: information not available. Mutual connections: information not available. Emails are employer-published where sourced, with deliverability unverified."
+      },
+      "contacts": [
+        {
+          "name": "Elisabeth Klar",
+          "title": "Senior Vice President and Chief Human Resources Officer",
+          "source": "https://memorial.health/about-us/leadership/elisabeth-klar/",
+          "linkedin_url": "https://www.linkedin.com/in/elisabeth-klar-phd-cpc-sphr-5b54938",
+          "email": "klar.elisabeth@mhsil.com",
+          "phone": "+1 217-588-2408",
+          "email_source": "https://memorial.health/Resources/29f57f04-0b2a-4908-838c-875b76d1feb3/163-0747-MH-SLT-Contact-Sheet.pdf",
+          "phone_source": "https://memorial.health/Resources/29f57f04-0b2a-4908-838c-875b76d1feb3/163-0747-MH-SLT-Contact-Sheet.pdf",
+          "email_verified": false,
+          "mutual_connection": null,
+          "checked_at": "2026-10-11",
+          "note": "Role confirmed in current biography/profile. Work email and office phone published in September 2023 employer contact sheet; stale-route risk, mailbox not deliverability-verified.",
+          "id": "6432b6df-0a9b-5da9-b2b3-4dc0418bc06e",
+          "company_id": "22e57648-6b1f-55bd-afc2-348afaccfb25"
+        },
+        {
+          "name": "Suresh Krishnan",
+          "title": "Senior Vice President and Chief Information Officer",
+          "source": "https://memorial.health/about-us/leadership/",
+          "linkedin_url": null,
+          "email": null,
+          "phone": null,
+          "email_source": null,
+          "phone_source": null,
+          "email_verified": false,
+          "mutual_connection": null,
+          "checked_at": "2026-10-11",
+          "note": "Employer/role checked; purchase authority and warm introduction not established.",
+          "id": "b13e93a4-1135-5158-8fe9-3a4e8bb5b3d1",
+          "company_id": "22e57648-6b1f-55bd-afc2-348afaccfb25"
+        },
+        {
+          "name": "Jeff Sass",
+          "title": "System Director, HRIS",
+          "source": "https://www.linkedin.com/in/jeff-sass-21528316",
+          "linkedin_url": "https://www.linkedin.com/in/jeff-sass-21528316",
+          "email": null,
+          "phone": null,
+          "email_source": null,
+          "phone_source": null,
+          "email_verified": false,
+          "mutual_connection": null,
+          "checked_at": "2026-10-11",
+          "note": "Self-announced HRIS director appointment and recent public recruitment for Springfield Memorial's Workday HRIS team; no direct email or office phone verified.",
+          "id": "9f4e32e5-bba9-5f27-ac6b-2fd0822d1d90",
+          "company_id": "22e57648-6b1f-55bd-afc2-348afaccfb25"
+        }
+      ],
+      "workday_modules": [
+        "Recruiting (public Workday applicant portal confirmed; full HCM/Payroll scope unconfirmed)"
+      ],
+      "workforce_source": "https://memorial.health/about-us/leadership/mandy-c-eaton/",
+      "workforce_note": "Dated Workday customer-story workforce snapshot; current exact headcount not verified.",
+      "workday_confirmation": "Current HRIS director publicly recruits for the Springfield, Illinois Workday HRIS team. This supports Workday adoption; exact go-live and module scope remain unconfirmed.",
+      "general_contact_route": null,
+      "rising": {
+        "status": "not_confirmed",
+        "source": null,
+        "reason": "No 2026 attendance/presentation confirmation found in the reviewed public sources; absence is not established."
+      },
+      "additional_sources": [
+        "https://jobs-choosememorial.icims.com/jobs/31954/hris-workday-analyst/job?in_iframe=1",
+        "https://www.listennotes.com/podcasts/beckers-womens/mandy-eaton-phd-president-m6pzfcen2kY/",
+        "https://www.linkedin.com/in/jeff-sass-21528316"
+      ],
+      "gaps": [
+        "Scoring-owner assessment of Authority, Reachability and Budget points",
+        "Warm introduction and willingness to act",
+        "Mailbox deliverability verification",
+        "Exact Workday go-live date"
+      ]
+    },
+    {
+      "company": {
+        "id": "2423f06e-b3f0-5739-860d-e3fb32f56453",
+        "name": "Topcon",
+        "domain": "global.topcon.com",
+        "industry": "Manufacturing",
+        "headquarters": "Itabashi-ku, Tokyo, Japan",
+        "employee_count": 4909,
+        "workday_signal_date": null,
+        "source": "https://www.workday.com/en-us/customer-stories/q-z/topcon-transforming-hr-visualizing-democratizing-data.html"
+      },
+      "baseline_updated_at": "2026-10-05T22:10:32.346848+00:00",
+      "previous_score_id": "890e5797-b45c-5f2c-aed6-8a57e60f8df3",
+      "score": {
+        "company_id": "2423f06e-b3f0-5739-860d-e3fb32f56453",
+        "rubric_version": "week2-100-research-20261011",
+        "tier": "Disqualified",
+        "authority_score": 0,
+        "reachability_score": 0,
+        "budget_score": 0,
+        "authority_evidence": "https://global.topcon.com/about/officer/ | Reiko Watanabe is listed as Senior Executive, Chief Human Resource Officer and Chief Sustainability Officer; 4909 employees. Role evidence researched 2026-10-11; buying mandate and numeric assessment require review.\nWorkforce: https://global.topcon.com/about/overview/ | 4,909 employees as of March 31, 2026; corporate profile.\nHeadquarters: https://global.topcon.com/about/overview/ | Itabashi-ku, Tokyo, Japan.\nWorkday modules: https://www.workday.com/en-us/customer-stories/q-z/topcon-transforming-hr-visualizing-democratizing-data.html | Human Capital Management, Learning Existing numeric score retained pending scoring-owner assessment; zero does not mean evidence disproves fit.",
+        "reachability_evidence": "https://global.topcon.com/about/officer/ | Public identity/role route exists; direct email, office phone, <=1-degree connection and conviction to act not verified. Existing numeric score retained pending scoring-owner assessment; zero does not mean evidence disproves fit.",
+        "budget_evidence": "https://www.workday.com/en-us/customer-stories/q-z/topcon-transforming-hr-visualizing-democratizing-data.html | No verified adjacent testing/automation purchase or current purchase timeline found in reviewed sources; budget remains unconfirmed. Existing numeric score retained pending scoring-owner assessment; zero does not mean evidence disproves fit.",
+        "release_score": 5,
+        "release_evidence": "https://github.com/advitarora5/Mando-CUBE/blob/main/src/domain/scoring/releases.ts | Repository release calendar estimates 2027R1 for March 13, 2027, 153 days after October 11, 2026; more than 18 weeks earns 5/15. Date is estimated, not newly confirmed.",
+        "timing_score": 0,
+        "timing_evidence": "https://www.workday.com/en-us/customer-stories/q-z/topcon-transforming-hr-visualizing-democratizing-data.html | Workday use confirmed by customer story, but an exact go-live date or dated new trigger was not verified; no date inferred."
+      },
+      "insight": {
+        "company_id": "2423f06e-b3f0-5739-860d-e3fb32f56453",
+        "persona_generated": "HR and enterprise systems leadership responsible for Workday operations",
+        "level_generated": "C-level",
+        "why_now_generated": "Topcon uses Workday HCM and Learning to standardize and share workforce data. Its July 2026 management list identifies HR and IT leaders; a recent deployment or purchasing trigger was not verified.\n\nResearch checked 2026-10-11. Modules: Human Capital Management, Learning. Workforce: 4,909 employees as of March 31, 2026; corporate profile. Exact Workday go-live date: information not available. Mutual connections: information not available. Emails are employer-published where sourced, with deliverability unverified."
+      },
+      "contacts": [
+        {
+          "name": "Reiko Watanabe",
+          "title": "Senior Executive, Chief Human Resource Officer and Chief Sustainability Officer",
+          "source": "https://global.topcon.com/about/officer/",
+          "linkedin_url": null,
+          "email": null,
+          "phone": null,
+          "email_source": null,
+          "phone_source": null,
+          "email_verified": false,
+          "mutual_connection": null,
+          "checked_at": "2026-10-11",
+          "note": "Employer/role checked; purchase authority and warm introduction not established.",
+          "id": "0cc36a34-bb12-5e0a-8c52-2e708add3eff",
+          "company_id": "2423f06e-b3f0-5739-860d-e3fb32f56453"
+        },
+        {
+          "name": "Yoshikuni Ito",
+          "title": "Senior Executive, Chief Information Officer",
+          "source": "https://global.topcon.com/about/officer/",
+          "linkedin_url": null,
+          "email": null,
+          "phone": null,
+          "email_source": null,
+          "phone_source": null,
+          "email_verified": false,
+          "mutual_connection": null,
+          "checked_at": "2026-10-11",
+          "note": "Employer/role checked; purchase authority and warm introduction not established.",
+          "id": "66628fc2-3a42-53ca-8658-21ee8da0e22c",
+          "company_id": "2423f06e-b3f0-5739-860d-e3fb32f56453"
+        }
+      ],
+      "workday_modules": [
+        "Human Capital Management",
+        "Learning"
+      ],
+      "workforce_source": "https://global.topcon.com/about/overview/",
+      "workforce_note": "4,909 employees as of March 31, 2026; corporate profile.",
+      "workday_confirmation": "Primary Workday customer story confirms use.",
+      "general_contact_route": null,
+      "rising": {
+        "status": "not_confirmed",
+        "source": null,
+        "reason": "No 2026 attendance/presentation confirmation found in the reviewed public sources; absence is not established."
+      },
+      "additional_sources": [],
+      "gaps": [
+        "Scoring-owner assessment of Authority, Reachability and Budget points",
+        "Warm introduction and willingness to act",
+        "Mailbox deliverability verification",
+        "Exact Workday go-live date"
+      ]
+    },
+    {
+      "company": {
+        "id": "2552c597-e93e-5997-9898-20cc3ace9718",
+        "name": "Hilti Aktiengesellschaft",
+        "domain": "hilti.group",
+        "industry": "Manufacturing",
+        "headquarters": "Schaan, Liechtenstein",
+        "employee_count": 34000,
+        "workday_signal_date": null,
+        "source": "https://www.workday.com/en-us/customer-stories/a-h/hilti-one-global-system-for-all.html"
+      },
+      "baseline_updated_at": "2026-10-05T22:10:32.346848+00:00",
+      "previous_score_id": "a6a5cae7-91f9-5403-a0a7-edb67f3e663b",
+      "score": {
+        "company_id": "2552c597-e93e-5997-9898-20cc3ace9718",
+        "rubric_version": "week2-100-research-20261011",
+        "tier": "Disqualified",
+        "authority_score": 0,
+        "reachability_score": 0,
+        "budget_score": 0,
+        "authority_evidence": "https://www.linkedin.com/posts/natasha-singh-mba-shrm-scp-pmp-9a39b642_excited-to-share-that-ive-stepped-into-a-activity-7433960329618841600-03rz | Natasha Singh is listed as Global Head of HR Operations; 34000 employees. Role evidence researched 2026-10-11; buying mandate and numeric assessment require review.\nWorkforce: https://www.workday.com/en-us/customer-stories/a-h/hilti-one-global-system-for-all.html | Dated Workday customer-story workforce snapshot; current exact headcount not verified.\nWorkday modules: https://www.workday.com/en-us/customer-stories/a-h/hilti-one-global-system-for-all.html | Human Capital Management, Extend, Adaptive Planning, Time and Attendance, Absence Existing numeric score retained pending scoring-owner assessment; zero does not mean evidence disproves fit.",
+        "reachability_evidence": "https://www.linkedin.com/in/natasha-singh-mba-shrm-scp-pmp-9a39b642 | Public identity/role route exists; direct email, office phone, <=1-degree connection and conviction to act not verified. Existing numeric score retained pending scoring-owner assessment; zero does not mean evidence disproves fit.",
+        "budget_evidence": "https://www.kainos.com/insights/webinars/from-paper-to-productivity-digitizing-frontline-onboarding-with-hilti--kainos-edm | March 19, 2026 vendor webinar documents Hilti using Kainos EDM inside Workday for document and onboarding automation; adjacent tool adoption proxy, no new purchase deadline. Existing numeric score retained pending scoring-owner assessment; zero does not mean evidence disproves fit.",
+        "release_score": 5,
+        "release_evidence": "https://github.com/advitarora5/Mando-CUBE/blob/main/src/domain/scoring/releases.ts | Repository release calendar estimates 2027R1 for March 13, 2027, 153 days after October 11, 2026; more than 18 weeks earns 5/15. Date is estimated, not newly confirmed.",
+        "timing_score": 0,
+        "timing_evidence": "https://blog.workday.com/en-hk/hiltis-hr-transformation-unlocks-end-to-end-efficiencies.html | Workday blog describes HCM implementation in 2018; year only. New HR operations leader self-announces in 2026; no exact Workday go-live date."
+      },
+      "insight": {
+        "company_id": "2552c597-e93e-5997-9898-20cc3ace9718",
+        "persona_generated": "HR and enterprise systems leadership responsible for Workday operations",
+        "level_generated": "Director",
+        "why_now_generated": "Hilti has documented Kainos EDM adoption and a newly announced global HR operations leader. That creates an operational transition context for its Workday environment; no new testing purchase deadline is confirmed.\n\nResearch checked 2026-10-11. Modules: Human Capital Management, Extend, Adaptive Planning, Time and Attendance, Absence. Workforce: Dated Workday customer-story workforce snapshot; current exact headcount not verified. Exact Workday go-live date: information not available. Mutual connections: information not available. Emails are employer-published where sourced, with deliverability unverified."
+      },
+      "contacts": [
+        {
+          "name": "Natasha Singh",
+          "title": "Global Head of HR Operations",
+          "source": "https://www.linkedin.com/posts/natasha-singh-mba-shrm-scp-pmp-9a39b642_excited-to-share-that-ive-stepped-into-a-activity-7433960329618841600-03rz",
+          "linkedin_url": "https://www.linkedin.com/in/natasha-singh-mba-shrm-scp-pmp-9a39b642",
+          "email": null,
+          "phone": null,
+          "email_source": null,
+          "phone_source": null,
+          "email_verified": false,
+          "mutual_connection": null,
+          "checked_at": "2026-10-11",
+          "note": "Self-announced current global HR operations role; predecessor publicly names her in handover. Direct contact route and buying mandate unverified.",
+          "id": "74345ad8-f1b9-52f0-8ef4-dea79f721582",
+          "company_id": "2552c597-e93e-5997-9898-20cc3ace9718"
+        }
+      ],
+      "workday_modules": [
+        "Human Capital Management",
+        "Extend",
+        "Adaptive Planning",
+        "Time and Attendance",
+        "Absence"
+      ],
+      "workforce_source": "https://www.workday.com/en-us/customer-stories/a-h/hilti-one-global-system-for-all.html",
+      "workforce_note": "Dated Workday customer-story workforce snapshot; current exact headcount not verified.",
+      "workday_confirmation": "Primary Workday customer story confirms use.",
+      "general_contact_route": null,
+      "rising": {
+        "status": "not_confirmed",
+        "source": null,
+        "reason": "No 2026 attendance/presentation confirmation found in the reviewed public sources; absence is not established."
+      },
+      "additional_sources": [
+        "https://www.linkedin.com/posts/stefaniegroth_nine-years-and-one-last-trip-to-the-hilti-activity-7424464277979176960-lDq-"
+      ],
+      "gaps": [
+        "Scoring-owner assessment of Authority, Reachability and Budget points",
+        "Warm introduction and willingness to act",
+        "Mailbox deliverability verification",
+        "Exact Workday go-live date"
+      ]
+    }
+  ]
+}
