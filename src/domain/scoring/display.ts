@@ -32,4 +32,3 @@ export function displayTier(score: DisplayScore | null): string {
 export function tierSlug(score: DisplayScore | null): string {
   return displayTier(score).toLowerCase().replace(/\s+/g, "-");
 }
-

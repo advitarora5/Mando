@@ -52,4 +52,3 @@ test('all five categories must be resolved, and a valid URL cannot hide unknown 
   assert.equal(displayTier({...disqualifiedWithEvidence,reachability_evidence:'https://example.com | No verified mutual connection.'}),'Not Enough Evidence');
   assert.equal(displayTier({...disqualifiedWithEvidence,timing_evidence:'https://example.com | Assessment status: not_met. Old launch receives zero.'}),'Disqualified');
 });
-
