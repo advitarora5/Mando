@@ -6,4 +6,4 @@
 
 **Companies 105–127 evidence scoring** is a later, separately authorized step applying the scoring-session-1 policy to those 23 researched companies. See [assessment policy and results](companies105-127-scoring-20261012.md). It appends new score rows and generated qualification notes while preserving the completed research, historical scores, snapshots and manual overrides.
 
-**Reachability clarification (October 12):** Nevin authorized general public professional routes instead of a team/Adi mutual requirement. The latest consultant-route batch is calculated locally and pending background database access; its status is distinct from the earlier committed strict batch. No revised import or deployment is claimed.
+**Reachability clarification (October 12):** Nevin authorized general public professional routes instead of a team/Adi mutual requirement. The latest consultant-route batch was subsequently saved through the user-authorized authenticated Supabase session and verified in full readback. It preserves the earlier strict assessment as history. No deployment is claimed.

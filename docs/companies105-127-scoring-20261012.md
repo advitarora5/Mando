@@ -4,7 +4,9 @@ Assessed October 12, 2026, after the separately completed research-only session.
 
 ## Current status
 
-The original strict session-1 calculation was sent to Supabase and its COMMIT response returned 23 saved assessments (totals 5–40). Full exported readback was interrupted when Computer Use was stopped. Nevin then changed Reachability to a general one-step professional route, without requiring a team/Adi mutual. The revised 23 assessments below are calculated and tested locally but **not yet imported**: background database credentials are absent. The Supabase dashboard URL is not a background credential.
+**Saved and verified in Supabase on October 12, 2026.** All 23 revised consultant-route assessments are the latest score rows for their companies: 10 Maybe and 13 Not Enough Evidence under the evidence-aware display policy. The guarded import ran a successful rollback preview followed by COMMIT; complete CSV readback matches every category score and evidence field. It preserves all 211 prior global score records, 17 weekly snapshots, company/contact fields, persona/level and manual insight overrides. Total database scores are now 234; companies remain 127 and contacts 141.
+
+The earlier strict assessment is preserved as history and was also verified in the fresh backup. Nevin authorized using the authenticated Supabase session for this save after the background-only attempt lacked credentials. The optional background importer remains available for future work; no credential was extracted or committed. The Not Enough Evidence badge still requires PR17 reviewed, merged and deployed by Group1; the database retains its existing tier enum and incomplete flags.
 
 ## Original category policy
 
@@ -24,7 +26,7 @@ The original strict session-1 calculation was sent to Supabase and its COMMIT re
 
 Historical systems leadership is a disclosed willingness proxy under Nevin’s clarified interpretation, not a confirmed response, approved Mando budget, verified email or permission to message someone. The public route is a profile link; contact availability and response rates remain unknown. All other category scores/evidence are identical to the initial session-1 calculation.
 
-## Latest calculated results — pending database import
+## Latest saved results
 
 10 Maybe; 13 Not Enough Evidence; none Qualified. Reachability is 25 for 10 records and 15 for 13. Totals range from 20 to 65. Source-linked partial Reachability cannot bypass the existing evidence gate, even when the numerical total reaches 55. Budget remains unknown/partial for all companies, so these are provisional leads. SS&C, Flex and MileOne also lack confirmed HRIS/IT leadership.
 
@@ -89,4 +91,4 @@ The database retains its existing `Disqualified` enum internally. Category unkno
 
 ## Validation
 
-The frozen session-1 engine plus revised Reachability checks pass (37 tests), the 23-row background-import validation passes, and TypeScript checks and all 76 repository tests pass. The existing Windows CSV fixture reader uses the same CRLF correction already present in PR17. Database import status is explicit in `scoring-verification.json`; the latest revised import is pending.
+The frozen session-1 engine plus revised Reachability checks pass (37 tests), the 23-row background-import validation passes, and TypeScript checks and all 76 repository tests pass. The existing Windows CSV fixture reader uses the same CRLF correction already present in PR17. Database import verification is recorded in `scoring-verification.json`; all 23 latest revised assessments are saved and verified.

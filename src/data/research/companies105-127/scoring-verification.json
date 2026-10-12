@@ -7,7 +7,7 @@
       "authority_verified": 20,
       "partial_budget_proxies": 15
     },
-    "full_exported_readback": "pending; Computer Use stopped"
+    "full_exported_readback": "verified in fresh pre-revision backup; all 23 initial score rows present"
   },
   "latest_consultant_batch": {
     "calculated": 23,
@@ -21,8 +21,23 @@
       20,
       65
     ],
-    "database_imported": false,
-    "reason": "No background Supabase credentials configured; user requested no Computer Use"
+    "database_imported": true,
+    "verification": {
+      "all_23_saved_rows_and_category_evidence_match": true,
+      "latest_assessment_for_each_company": true,
+      "generated_qualification_notes_match": true,
+      "existing_score_rows_preserved": 211,
+      "weekly_snapshots_preserved": 17,
+      "companies_and_contacts_unchanged": true,
+      "manual_overrides_persona_and_level_preserved": true,
+      "global_counts_after": {
+        "companies": 127,
+        "contacts": 141,
+        "scores": 234,
+        "snapshots": 17
+      },
+      "method": "Guarded transaction preview ROLLBACK, then COMMIT; complete authenticated Supabase CSV readback and field/digest comparisons. Private backups retained outside Git."
+    }
   },
   "validation": {
     "frozen_engine_and_reachability_tests_passed": 37,
