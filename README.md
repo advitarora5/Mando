@@ -47,7 +47,11 @@ Production builds use the supported Webpack option because Turbopack worker port
 
 ## Fictional demo fixture
 
-`npm run seed:demo` writes nine fictional companies named Demo Company 1–9, with John Smith contacts and Google placeholder links. Totals range from 38 to 95, including tier boundaries of 55 and 80. Stable IDs avoid duplicates, and Company 1 reuses the original demo record. Existing assessments are preserved; reruns reset demo company/contact fields and generated insights but preserve manual insight overrides. These are testing fixtures, not researched prospects or automated scoring results. The source spreadsheet is not imported.
+`npm run seed:demo` is local-only: `SUPABASE_URL` must point to a loopback Supabase instance, for example `http://127.0.0.1:54321`. Shared and cloud projects, including the team's production project, are rejected before database credentials are read or the database client is loaded. There is no cloud override flag.
+
+On a local test database, the command writes nine fictional companies named Demo Company 1–9, with John Smith contacts and Google placeholder links. Totals range from 38 to 95, including tier boundaries of 55 and 80. Stable IDs avoid duplicates, and Company 1 reuses the original demo record. Existing assessments are preserved; reruns reset demo company/contact fields and generated insights but preserve manual insight overrides. These are testing fixtures, not researched prospects or automated scoring results. The source spreadsheet is not imported.
+
+Do not run a seed command to undo a research import. Review and reverse the exact imported records using a backup. Deleting fixtures from Supabase removes them from the hosted dashboard without a Git commit or redeploy. Everyone must pull the updated main branch to get this command's guard; an older checkout or a manual database restore can still recreate fixtures. This guard adds no database schema changes and does not prevent privileged SQL imports or restores.
 
 ## Company detail
 
