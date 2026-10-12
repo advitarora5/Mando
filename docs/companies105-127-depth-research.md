@@ -2,6 +2,8 @@
 
 Research checked October 12, 2026. This is separate from **scoring session 1**. Scope: 23 company UUIDs frozen from Supabase positions 105–127 when ordered by ID ascending; current dashboard ranking is not the roster order.
 
+Later authorized scoring is documented separately in [the scoring report](companies105-127-scoring-20261012.md); statements below about unchanged scores describe the original research-only import.
+
 ## Coverage and date policy
 
 All 23 dossiers contain company facts, Workday modules, deployment findings, contact research, category-relevant evidence, a suggested why-now and explicit gaps. The prepared import includes 48 contacts (42 new) and 23 generated research notes. No scores, category point allocations, tiers or snapshots are written. Existing manual overrides are preserved.

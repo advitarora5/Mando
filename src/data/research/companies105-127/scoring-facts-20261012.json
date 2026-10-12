@@ -1,0 +1,1228 @@
+{
+  "assessed_at": "2026-10-12T08:27:45Z",
+  "selection": "Frozen researched companies 105-127 inclusive (23), ordered by company ID, not dashboard rank.",
+  "assessment_policy": "Authority 25 for sourced HRIS/IT leadership and workforce >=3,000. Reachability 25 only for verified one-degree connection and authority/willingness. Budget 20 for verified purchase timeline plus financial stability; 10 partial credit for documented adjacent-tool adoption; otherwise 0 pending evidence. Same explicit interpretation as scoring session 1 (PR17); GitHub does not supply granular first-three-category bands. Release and timing use the unchanged GitHub engine. Unknown is not a verified failure.",
+  "engine_commit": "c7260bbc92d7073aaeb2a14b68d0ffd14a1dbd08",
+  "engine_pr": "https://github.com/advitarora5/Mando-CUBE/pull/17",
+  "companies": [
+    {
+      "company_name": "Sanofi",
+      "number": 105,
+      "facts": {
+        "company_id": "d4a07a57-e44e-5c1e-89be-103cf7e621e0",
+        "workforce": {
+          "count": 74846,
+          "source": "https://www.sanofi.com/assets/dotcom/content-app/publications/esg-reports/sanofi-sustainability-statement-2025.pdf",
+          "reason": "Year-end 2025 global headcount; excludes garden leave and executive committee; retained Opella only."
+        },
+        "leadership": {
+          "verified": true,
+          "source": "https://www.sanofi.com/en/media-room/press-releases/2026/2026-07-21-16-00-00-3330752",
+          "reason": "Emmanuel Frenehard, Chief Digital Officer; official current digital leadership. This establishes functional leadership, not a Mando buying mandate."
+        },
+        "one_degree_connection": {
+          "verified": null,
+          "source": "https://www.sanofi.com/en/our-company/governance/executive-committee/veronique-jaillet",
+          "reason": "Public professional/employer route is documented, but no team/Adi direct or one-degree mutual connection is verified."
+        },
+        "authority_and_willingness": {
+          "verified": null,
+          "source": "https://www.sanofi.com/en/media-room/press-releases/2026/2026-07-21-16-00-00-3330752",
+          "reason": "Buying mandate and willingness to act on Mando are unverified; a public profile, email, implementation or conference appearance alone does not prove them."
+        },
+        "adjacent_tool_purchase": {
+          "verified": true,
+          "source": "https://www.elementum.ai/blog/legacy-system-modernization-sanofi-ai-native",
+          "reason": "Vendor's September 15, 2026 account documents deployed Elementum/Snowflake AI workflows; adjacent automation adoption, not a confirmed Mando budget or renewal."
+        },
+        "purchase_timeline": {
+          "verified": null,
+          "source": "https://www.elementum.ai/blog/legacy-system-modernization-sanofi-ai-native",
+          "reason": "No verified current purchasing or renewal window for this opportunity; historical adoption and rollout plans are not a committed procurement deadline."
+        },
+        "financial_stability": {
+          "verified": null,
+          "source": "https://www.workday.com/en-us/customer-stories/q-z/sanofi-improves-workforce-insights-with-real-time-data.html",
+          "reason": "No corresponding verified fact established in reviewed sources. Financial stability for this regional/entity scope is not established; no negative financial conclusion inferred."
+        },
+        "workday_live": {
+          "verified": true,
+          "source": "https://www.workday.com/en-us/customer-stories/q-z/sanofi-improves-workforce-insights-with-real-time-data.html",
+          "reason": "Completed production Workday usage is confirmed by reviewed customer/implementation evidence. Modules: Human Capital Management, Talent Management, Performance Management."
+        },
+        "go_live": {
+          "date": null,
+          "historical_window_older_than_year": true,
+          "source": "https://en-sg.newsroom.workday.com/2015-05-26-The-Coca-Cola-Company-and-Dell-Take-HR-to-the-Cloud-as-More-Global-Companies-Choose-Workday",
+          "reason": "Workday newsroom confirms Sanofi live by 2015-05-26. Sanofi states rollout 2015–2017, core HR waves 2016–2017. Exact enterprise completion day not found; do not use announcement day as go-live. Precision: multi-year rollout / latest bound. Other sources: https://www.sanofi.com/assets/dotcom/content-app/publications/esg-reports/2020-01-01-declaration-of-extra-financial-performance-en.pdf"
+        }
+      }
+    },
+    {
+      "company_name": "Asda",
+      "number": 106,
+      "facts": {
+        "company_id": "d5689f2d-d89e-54bc-96d9-c3700b0c7e4a",
+        "workforce": {
+          "count": 140000,
+          "source": "https://corporate.asda.com/newsroom/2026/09/02/asda-calls-on-government-to-rethink-plans-to-defund-leadership-apprenticeships",
+          "reason": "More than 140,000 UK colleagues, official February 2026 release; lower-bound rounded count."
+        },
+        "leadership": {
+          "verified": true,
+          "source": "https://corporate.asda.com/our-story/leadership",
+          "reason": "Cal Corcoran, Chief Information Officer, confirmed by current employer roster. This establishes functional leadership, not a Mando buying mandate."
+        },
+        "one_degree_connection": {
+          "verified": null,
+          "source": "https://corporate.asda.com/james-goodman",
+          "reason": "Public professional/employer route is documented, but no team/Adi direct or one-degree mutual connection is verified."
+        },
+        "authority_and_willingness": {
+          "verified": null,
+          "source": "https://corporate.asda.com/our-story/leadership",
+          "reason": "Buying mandate and willingness to act on Mando are unverified; a public profile, email, implementation or conference appearance alone does not prove them."
+        },
+        "adjacent_tool_purchase": {
+          "verified": true,
+          "source": "https://s205.q4cdn.com/537566246/files/doc_news/ASDA-and-ServiceNow-expand-collaboration-to-enhance-employee-and-customer-experiences-10-30-2024-traffic-2024.pdf",
+          "reason": "ServiceNow expansion October 2024 includes integrations with Workday and SAP: direct adjacent workflow purchase/adoption proxy."
+        },
+        "purchase_timeline": {
+          "verified": null,
+          "source": "https://s205.q4cdn.com/537566246/files/doc_news/ASDA-and-ServiceNow-expand-collaboration-to-enhance-employee-and-customer-experiences-10-30-2024-traffic-2024.pdf",
+          "reason": "No verified current purchasing or renewal window for this opportunity; historical adoption and rollout plans are not a committed procurement deadline."
+        },
+        "financial_stability": {
+          "verified": null,
+          "source": "https://corporate.asda.com/newsroom/2026/27/03/asda-fy2025-trading-update-edging-forwards",
+          "reason": "FY2025 adjusted EBITDA £764m, down 33.1%; net debt £3.1bn. Capacity exists but turnaround/debt constrain spending. Financial stability for this regional/entity scope is not established; no negative financial conclusion inferred."
+        },
+        "workday_live": {
+          "verified": true,
+          "source": "https://www.workday.com/en-us/customer-stories/a-h/asda-transforms-hr-at-scale-workday-hcm.html",
+          "reason": "Completed production Workday usage is confirmed by reviewed customer/implementation evidence. Modules: Human Capital Management, Recruiting."
+        },
+        "go_live": {
+          "date": null,
+          "historical_window_older_than_year": true,
+          "source": "https://www.workday.com/en-us/customer-stories/a-h/asda-transforms-hr-at-scale-workday-hcm.html",
+          "reason": "People Function went live March 2024, 140,000 colleagues / 700 UK locations. Exact day not confirmed in primary sources. Project Future completion in 2025 is wider IT separation, not a new Workday HCM go-live. Precision: month. Other sources: "
+        }
+      }
+    },
+    {
+      "company_name": "Patagonia",
+      "number": 107,
+      "facts": {
+        "company_id": "d61013b8-dfbd-5c63-bf4b-53608c4db63a",
+        "workforce": {
+          "count": 4000,
+          "source": "https://www.cultureamp.com/podcast/patagonia-purpose-and-performance",
+          "reason": "Nearly 4,000 globally in July 2026 CPO interview; rounded estimate, not audited headcount."
+        },
+        "leadership": {
+          "verified": true,
+          "source": "https://www.workday.com/en-us/customer-stories/i-p/patagonia-unifies-its-workforce-to-drive-engagement-and-growth.html",
+          "reason": "Kylie Riley, People Tech & Portfolio Enablement Leader, owns Workday HR technology and process standardization. This establishes functional leadership, not a Mando buying mandate."
+        },
+        "one_degree_connection": {
+          "verified": null,
+          "source": "https://www.cultureamp.com/podcast/patagonia-purpose-and-performance",
+          "reason": "Public professional/employer route is documented, but no team/Adi direct or one-degree mutual connection is verified."
+        },
+        "authority_and_willingness": {
+          "verified": null,
+          "source": "https://www.workday.com/en-us/customer-stories/i-p/patagonia-unifies-its-workforce-to-drive-engagement-and-growth.html",
+          "reason": "Buying mandate and willingness to act on Mando are unverified; a public profile, email, implementation or conference appearance alone does not prove them."
+        },
+        "adjacent_tool_purchase": {
+          "verified": true,
+          "source": "https://www.cultureamp.com/podcast/patagonia",
+          "reason": "Culture Amp host explicitly says Patagonia became a customer; adjacent HR software adoption, no contract value or current purchasing window."
+        },
+        "purchase_timeline": {
+          "verified": null,
+          "source": "https://www.cultureamp.com/podcast/patagonia",
+          "reason": "No verified current purchasing or renewal window for this opportunity; historical adoption and rollout plans are not a committed procurement deadline."
+        },
+        "financial_stability": {
+          "verified": null,
+          "source": "https://www.workday.com/en-us/customer-stories/i-p/patagonia-unifies-its-workforce-to-drive-engagement-and-growth.html",
+          "reason": "No corresponding verified fact established in reviewed sources. Financial stability for this regional/entity scope is not established; no negative financial conclusion inferred."
+        },
+        "workday_live": {
+          "verified": true,
+          "source": "https://www.workday.com/en-us/customer-stories/i-p/patagonia-unifies-its-workforce-to-drive-engagement-and-growth.html",
+          "reason": "Completed production Workday usage is confirmed by reviewed customer/implementation evidence. Modules: Human Capital Management, Recruiting, Payroll and Workforce Management, Scheduling and Labor Optimization, Illuminate skills suggestions."
+        },
+        "go_live": {
+          "date": null,
+          "historical_window_older_than_year": true,
+          "source": "https://en-au.newsroom.workday.com/2017-06-27-Medium-Enterprise-Organizations-Continue-to-Drive-Business-Value-With-Workday",
+          "reason": "Workday newsroom confirms deployed HCM/recruiting by June 27, 2017. Later Workday Scheduling holiday-season deployment completed, but year/day absent. Neither is a newly verified exact go-live. Precision: latest bound / unspecified holiday season. Other sources: https://www.workday.com/en-us/customer-stories/i-p/patagonia-unifies-its-workforce-to-drive-engagement-and-growth.html"
+        }
+      }
+    },
+    {
+      "company_name": "H.Essers",
+      "number": 108,
+      "facts": {
+        "company_id": "d634b3cb-af91-511a-a52a-9a4bfcc3c153",
+        "workforce": {
+          "count": 7000,
+          "source": "https://www.essers.com/who-are-we/about-us/",
+          "reason": "More than 7,000 in official FY2025 corporate profile; lower bound. Older case says 7,500."
+        },
+        "leadership": {
+          "verified": true,
+          "source": "https://www.essers.com/who-are-we/organization/",
+          "reason": "Erik Lamoral, Chief Information Officer, confirmed by current employer roster. This establishes functional leadership, not a Mando buying mandate."
+        },
+        "one_degree_connection": {
+          "verified": null,
+          "source": "https://www.essers.com/who-are-we/organization/",
+          "reason": "Public professional/employer route is documented, but no team/Adi direct or one-degree mutual connection is verified."
+        },
+        "authority_and_willingness": {
+          "verified": null,
+          "source": "https://www.essers.com/who-are-we/organization/",
+          "reason": "Buying mandate and willingness to act on Mando are unverified; a public profile, email, implementation or conference appearance alone does not prove them."
+        },
+        "adjacent_tool_purchase": {
+          "verified": null,
+          "source": "https://www.workday.com/en-ca/customer-stories/a-h/h-essers-innovative-logistics-leader-empowers-talent.html",
+          "reason": "No verified adjacent testing/workflow automation purchase established. Implementation partner services alone do not establish an adjacent software purchase."
+        },
+        "purchase_timeline": {
+          "verified": null,
+          "source": "https://www.workday.com/en-ca/customer-stories/a-h/h-essers-innovative-logistics-leader-empowers-talent.html",
+          "reason": "No verified current purchasing or renewal window for this opportunity; historical adoption and rollout plans are not a committed procurement deadline."
+        },
+        "financial_stability": {
+          "verified": null,
+          "source": "https://www.workday.com/en-ca/customer-stories/a-h/h-essers-innovative-logistics-leader-empowers-talent.html",
+          "reason": "No corresponding verified fact established in reviewed sources. Financial stability for this regional/entity scope is not established; no negative financial conclusion inferred."
+        },
+        "workday_live": {
+          "verified": true,
+          "source": "https://www.workday.com/en-ca/customer-stories/a-h/h-essers-innovative-logistics-leader-empowers-talent.html",
+          "reason": "Completed production Workday usage is confirmed by reviewed customer/implementation evidence. Modules: Human Capital Management, Talent Acquisition, Learning, Talent Management."
+        },
+        "go_live": {
+          "date": null,
+          "historical_window_older_than_year": true,
+          "source": "https://news.pwc.be/workforce-podcast-transform-your-tomorrow-tech-enabled-hr-transformation/",
+          "reason": "PwC June 2, 2021 confirms successful global transformation during COVID. Initial implementation took 10 months across 14 countries; exact calendar dates unavailable. Precision: latest bound. Other sources: https://www.pwc.be/en/news-publications/client-case-studies/nurturing-h-essers-growth-ambitions.html"
+        }
+      }
+    },
+    {
+      "company_name": "Discount Tire",
+      "number": 109,
+      "facts": {
+        "company_id": "d6956351-5110-5442-aabd-8fc1ce15c556",
+        "workforce": {
+          "count": 30000,
+          "source": "https://kc.discounttire.com/content/dam/dtkc/global/en/docs/company/annual-report-2024.pdf",
+          "reason": "Over 30,000 in official 2024 annual report; lower bound, group includes acquired businesses."
+        },
+        "leadership": {
+          "verified": true,
+          "source": "https://www.linkedin.com/posts/discount-tire-company_discounttire-leadership-activity-7169470575722057728-xIzR",
+          "reason": "Gary Desai, Chief Information Officer, identified by employer announcement and current public profile. This establishes functional leadership, not a Mando buying mandate."
+        },
+        "one_degree_connection": {
+          "verified": null,
+          "source": "https://www.linkedin.com/posts/discount-tire-company_discounttire-leadership-activity-7169470575722057728-xIzR",
+          "reason": "Public professional/employer route is documented, but no team/Adi direct or one-degree mutual connection is verified."
+        },
+        "authority_and_willingness": {
+          "verified": null,
+          "source": "https://www.linkedin.com/posts/discount-tire-company_discounttire-leadership-activity-7169470575722057728-xIzR",
+          "reason": "Buying mandate and willingness to act on Mando are unverified; a public profile, email, implementation or conference appearance alone does not prove them."
+        },
+        "adjacent_tool_purchase": {
+          "verified": true,
+          "source": "https://www.linkedin.com/in/kristina-eckenboy-clms-5b84a232a",
+          "reason": "Reposted company HR leader announcement describes internal UKG timekeeping program serving 30K; adjacent HR-system investment, contract value unavailable."
+        },
+        "purchase_timeline": {
+          "verified": null,
+          "source": "https://www.linkedin.com/in/kristina-eckenboy-clms-5b84a232a",
+          "reason": "No verified current purchasing or renewal window for this opportunity; historical adoption and rollout plans are not a committed procurement deadline."
+        },
+        "financial_stability": {
+          "verified": null,
+          "source": "https://www.workday.com/en-us/customer-stories/a-h/discount-tire-drives-hr-efficiency-scalability-to-support-growth.html",
+          "reason": "No corresponding verified fact established in reviewed sources. Financial stability for this regional/entity scope is not established; no negative financial conclusion inferred."
+        },
+        "workday_live": {
+          "verified": true,
+          "source": "https://www.workday.com/en-us/customer-stories/a-h/discount-tire-drives-hr-efficiency-scalability-to-support-growth.html",
+          "reason": "Completed production Workday usage is confirmed by reviewed customer/implementation evidence. Modules: Human Capital Management, Compensation, Absence, Payroll, Benefits, Talent Management."
+        },
+        "go_live": {
+          "date": null,
+          "historical_window_older_than_year": false,
+          "source": "https://www.workday.com/en-us/customer-stories/a-h/discount-tire-drives-hr-efficiency-scalability-to-support-growth.html",
+          "reason": "Completed HCM/payroll implementation confirmed by Workday case. Old pre-hire guide has 2012 publication footer and mentions Workday, but document revision history not established; not accepted as go-live day. Precision: unknown. Other sources: "
+        }
+      }
+    },
+    {
+      "company_name": "Land O’Lakes",
+      "number": 110,
+      "facts": {
+        "company_id": "d6abfb39-4e7c-5d56-a2e8-3af7afb3c277",
+        "workforce": {
+          "count": 9000,
+          "source": "https://www.workday.com/en-se/customer-stories/i-p/land-o-lakes-saves-time-payroll-boosts-compliance.html",
+          "reason": "9,000 worldwide in official Workday customer case; undated historical estimate, current count not confirmed."
+        },
+        "leadership": {
+          "verified": true,
+          "source": "https://www.landolakesinc.com/who-we-are/leadership/",
+          "reason": "Teddy Bekele, Chief Technology Officer, confirmed by current employer roster. This establishes functional leadership, not a Mando buying mandate."
+        },
+        "one_degree_connection": {
+          "verified": null,
+          "source": "https://www.landolakesinc.com/who-we-are/leadership/",
+          "reason": "Public professional/employer route is documented, but no team/Adi direct or one-degree mutual connection is verified."
+        },
+        "authority_and_willingness": {
+          "verified": null,
+          "source": "https://www.landolakesinc.com/who-we-are/leadership/",
+          "reason": "Buying mandate and willingness to act on Mando are unverified; a public profile, email, implementation or conference appearance alone does not prove them."
+        },
+        "adjacent_tool_purchase": {
+          "verified": true,
+          "source": "https://goldcast.ondemand.goldcast.io/on-demand/0f271132-65e7-4ef7-a739-f7fcaff028a2",
+          "reason": "Buyer describes purchased SaaS time-clock licenses/hardware and paid Helios implementation; genuine adjacent time-system spend, no current renewal window."
+        },
+        "purchase_timeline": {
+          "verified": null,
+          "source": "https://goldcast.ondemand.goldcast.io/on-demand/0f271132-65e7-4ef7-a739-f7fcaff028a2",
+          "reason": "No verified current purchasing or renewal window for this opportunity; historical adoption and rollout plans are not a committed procurement deadline."
+        },
+        "financial_stability": {
+          "verified": null,
+          "source": "https://www.workday.com/en-se/customer-stories/i-p/land-o-lakes-saves-time-payroll-boosts-compliance.html",
+          "reason": "No corresponding verified fact established in reviewed sources. Financial stability for this regional/entity scope is not established; no negative financial conclusion inferred."
+        },
+        "workday_live": {
+          "verified": true,
+          "source": "https://www.workday.com/en-se/customer-stories/i-p/land-o-lakes-saves-time-payroll-boosts-compliance.html",
+          "reason": "Completed production Workday usage is confirmed by reviewed customer/implementation evidence. Modules: Human Capital Management, Payroll, Learning, Talent Acquisition, Data Hub, Time Tracking."
+        },
+        "go_live": {
+          "date": null,
+          "historical_window_older_than_year": true,
+          "source": "https://goldcast.ondemand.goldcast.io/on-demand/0f271132-65e7-4ef7-a739-f7fcaff028a2",
+          "reason": "Land O’Lakes / Helios webinar confirms Workday Time Tracking live May 2023 after ten-month implementation. Earlier HCM/payroll was live before 2020 pandemic. John Gardner profile contains January 2017 project, but employer attribution not explicit; not assigned to Land O’Lakes. Precision: month for Time Tracking; initial HCM date unknown. Other sources: https://forms.workday.com/content/dam/web/en-us/documents/case-studies/cs-cm-LandOLakes-enus.pdf"
+        }
+      }
+    },
+    {
+      "company_name": "Blue Yonder",
+      "number": 111,
+      "facts": {
+        "company_id": "db71855e-9dd9-542a-8da9-647042bab6ea",
+        "workforce": {
+          "count": 7900,
+          "source": "https://blog.blueyonder.com/adding-a-decade-of-first-and-last-mile-lessons-to-blue-yonders-future/",
+          "reason": "Close to 7,900 in company-owned 2024 Doddle integration article; estimate, newer audited count unavailable."
+        },
+        "leadership": {
+          "verified": true,
+          "source": "https://blueyonder.com/about/leadership/simona-darjan",
+          "reason": "Simona Darjan, Chief Transformation Officer, explicitly owns internal IT, people operations and integration. This establishes functional leadership, not a Mando buying mandate."
+        },
+        "one_degree_connection": {
+          "verified": null,
+          "source": "https://blueyonder.com/about/leadership/simona-darjan",
+          "reason": "Public professional/employer route is documented, but no team/Adi direct or one-degree mutual connection is verified."
+        },
+        "authority_and_willingness": {
+          "verified": null,
+          "source": "https://blueyonder.com/about/leadership/simona-darjan",
+          "reason": "Buying mandate and willingness to act on Mando are unverified; a public profile, email, implementation or conference appearance alone does not prove them."
+        },
+        "adjacent_tool_purchase": {
+          "verified": null,
+          "source": "https://www.workday.com/en-us/customer-stories/a-h/blue-yonder-maintain-growth-financial-management-tools.html",
+          "reason": "No verified adjacent testing/workflow automation purchase established. Selling automation is not evidence of buying it."
+        },
+        "purchase_timeline": {
+          "verified": null,
+          "source": "https://www.workday.com/en-us/customer-stories/a-h/blue-yonder-maintain-growth-financial-management-tools.html",
+          "reason": "No verified current purchasing or renewal window for this opportunity; historical adoption and rollout plans are not a committed procurement deadline."
+        },
+        "financial_stability": {
+          "verified": null,
+          "source": "https://www.workday.com/en-us/customer-stories/a-h/blue-yonder-maintain-growth-financial-management-tools.html",
+          "reason": "No corresponding verified fact established in reviewed sources. Financial stability for this regional/entity scope is not established; no negative financial conclusion inferred."
+        },
+        "workday_live": {
+          "verified": true,
+          "source": "https://www.workday.com/en-us/customer-stories/a-h/blue-yonder-maintain-growth-financial-management-tools.html",
+          "reason": "Completed production Workday usage is confirmed by reviewed customer/implementation evidence. Modules: Human Capital Management, Financial Management, Workforce Planning."
+        },
+        "go_live": {
+          "date": null,
+          "historical_window_older_than_year": true,
+          "source": "https://investor.workday.com/files/doc_news/JDA-Software-Selects-Workday-Financial-Management-to-Drive-Business-Into-the-Future-03-13-2014-2014.pdf",
+          "reason": "JDA selected Financial Management March 13, 2014; this is selection, not go-live. Company October 2019 employee story explicitly describes Financials go-live in the past. HCM/Financials production also confirmed by Workday case; exact day/year not established. Precision: latest bound. Other sources: https://blog.blueyonder.com/endless-career-possibilities/"
+        }
+      }
+    },
+    {
+      "company_name": "SoftwareOne",
+      "number": 112,
+      "facts": {
+        "company_id": "dc448146-ee50-53a2-83bb-b9766eb10394",
+        "workforce": {
+          "count": 12973,
+          "source": "https://report.softwareone.com/ar25/category/social_en",
+          "reason": "Year-end 2025 global employees after Crayon combination; audited annual report."
+        },
+        "leadership": {
+          "verified": true,
+          "source": "https://www.workday.com/en-us/customer-stories/q-z/softwareone-streamlines-hr-with-workday.html",
+          "reason": "Jane Tandy, HR Chief of Staff, describes leading Workday launch scope, configuration and global HR process standardization; current public employer profile corroborated in research. Functional HRIS leadership, not title alone. This establishes functional leadership, not a Mando buying mandate."
+        },
+        "one_degree_connection": {
+          "verified": null,
+          "source": "https://www.softwareone.com/en/media-releases/2026/03/31/softwareone-full-year-2025-financial-results",
+          "reason": "Public professional/employer route is documented, but no team/Adi direct or one-degree mutual connection is verified."
+        },
+        "authority_and_willingness": {
+          "verified": null,
+          "source": "https://www.workday.com/en-us/customer-stories/q-z/softwareone-streamlines-hr-with-workday.html",
+          "reason": "Buying mandate and willingness to act on Mando are unverified; a public profile, email, implementation or conference appearance alone does not prove them."
+        },
+        "adjacent_tool_purchase": {
+          "verified": true,
+          "source": "https://report.softwareone.com/ar25/s1-own-workforce",
+          "reason": "Docebo learning platform consumes Workday employee IDs; Talentsoft decommissioned November 2025 and unified learning planned 2026."
+        },
+        "purchase_timeline": {
+          "verified": null,
+          "source": "https://report.softwareone.com/ar25/s1-own-workforce",
+          "reason": "No verified current purchasing or renewal window for this opportunity; historical adoption and rollout plans are not a committed procurement deadline."
+        },
+        "financial_stability": {
+          "verified": true,
+          "source": "https://www.softwareone.com/en/media-releases/2026/08/26/softwareone-half-year-2026-financial-results",
+          "reason": "H1 2026 growth 11.6% and adjusted EBITDA margin 24.9%; no HR tool purchasing deadline."
+        },
+        "workday_live": {
+          "verified": true,
+          "source": "https://www.workday.com/en-us/customer-stories/q-z/softwareone-streamlines-hr-with-workday.html",
+          "reason": "Completed production Workday usage is confirmed by reviewed customer/implementation evidence. Modules: Human Capital Management, Talent Management, Time and Attendance, Data Hub."
+        },
+        "go_live": {
+          "date": null,
+          "historical_window_older_than_year": true,
+          "source": "https://www.softwareone.com/-/media/files/investors/softwareone-2024-q1-2024-trading-update-webcast-transcript.pdf?hash=F71FF07EC92CFDEB01369B730C3A64CD&sc_lang=en",
+          "reason": "May 15, 2024 earnings-call transcript says Workday went live a few weeks earlier. Likely spring 2024, but no exact day/month inferred. Minimum core HCM launch completed; Crayon still used separate HRIS in 2025, so do not claim combined group fully migrated. Precision: relative bound. Other sources: https://report.softwareone.com/ar25/s1-own-workforce"
+        }
+      }
+    },
+    {
+      "company_name": "SS&C Technologies",
+      "number": 113,
+      "facts": {
+        "company_id": "df141ae3-8162-549f-ba1e-2a4d2c3280b1",
+        "workforce": {
+          "count": 29000,
+          "source": "https://www.ssctech.com/about/about-us",
+          "reason": "Current corporate 40th-anniversary profile, rounded global count."
+        },
+        "leadership": {
+          "verified": null,
+          "source": "https://investor.ssctech.com/corporate-governance/management-team",
+          "reason": "Official current global HR executive confirmed; actual Workday systems buyer not identified. A named current HRIS/IT leader meeting the rubric is not established; a generic HR executive or non-lead analyst is insufficient. This is unknown, not evidence that no such leader exists."
+        },
+        "one_degree_connection": {
+          "verified": null,
+          "source": "https://investor.ssctech.com/corporate-governance/management-team",
+          "reason": "Public professional/employer route is documented, but no team/Adi direct or one-degree mutual connection is verified."
+        },
+        "authority_and_willingness": {
+          "verified": null,
+          "source": "https://investor.ssctech.com/corporate-governance/management-team",
+          "reason": "Buying mandate and willingness to act on Mando are unverified; a public profile, email, implementation or conference appearance alone does not prove them."
+        },
+        "adjacent_tool_purchase": {
+          "verified": null,
+          "source": "https://www.workday.com/en-us/customer-stories/q-z/collaboration-leads-to-better-service-for-ssc-clients.html",
+          "reason": "No verified adjacent testing/workflow automation purchase established. Owning Blue Prism is not evidence of an external adjacent-tool purchase."
+        },
+        "purchase_timeline": {
+          "verified": null,
+          "source": "https://www.workday.com/en-us/customer-stories/q-z/collaboration-leads-to-better-service-for-ssc-clients.html",
+          "reason": "No verified current purchasing or renewal window for this opportunity; historical adoption and rollout plans are not a committed procurement deadline."
+        },
+        "financial_stability": {
+          "verified": true,
+          "source": "https://investor.ssctech.com/news-releases/news-release-details/ssc-technologies-releases-record-q4-and-full-year-2025-financial",
+          "reason": "FY2025 revenue $6.272bn, net income attributable $796.9m; operating cash $1.745bn and gross debt $7.473bn."
+        },
+        "workday_live": {
+          "verified": true,
+          "source": "https://www.workday.com/en-us/customer-stories/q-z/collaboration-leads-to-better-service-for-ssc-clients.html",
+          "reason": "Completed production Workday usage is confirmed by reviewed customer/implementation evidence. Modules: Human Capital Management, Financial Management, Benefits."
+        },
+        "go_live": {
+          "date": null,
+          "historical_window_older_than_year": false,
+          "source": "https://www.workday.com/en-us/customer-stories/q-z/collaboration-leads-to-better-service-for-ssc-clients.html",
+          "reason": "Official Workday case confirms production HCM/Financials. No exact parent-company deployment date found. Third-party Intralinks 2013 claim concerns a subsidiary and is not applied to SS&C parent. Precision: unknown. Other sources: "
+        }
+      }
+    },
+    {
+      "company_name": "Focus Financial Partners",
+      "number": 114,
+      "facts": {
+        "company_id": "dfda5ba6-f671-50a4-a1a1-44c34a963525",
+        "workforce": {
+          "count": 6825,
+          "source": "https://www.reveliolabs.com/companies/focus-financial-partners/employees",
+          "reason": "Existing 6,825 matches Revelio March 2026 estimate; not company-reported. Conflicting directories exist; retain as estimate pending primary headcount."
+        },
+        "leadership": {
+          "verified": true,
+          "source": "https://corporate.focuspartners.com/our-leadership",
+          "reason": "Denis Andreyev, Chief Information Security Officer, confirmed by current employer roster. This establishes functional leadership, not a Mando buying mandate."
+        },
+        "one_degree_connection": {
+          "verified": null,
+          "source": "https://corporate.focuspartners.com/people/abha-bhandair",
+          "reason": "Public professional/employer route is documented, but no team/Adi direct or one-degree mutual connection is verified."
+        },
+        "authority_and_willingness": {
+          "verified": null,
+          "source": "https://corporate.focuspartners.com/our-leadership",
+          "reason": "Buying mandate and willingness to act on Mando are unverified; a public profile, email, implementation or conference appearance alone does not prove them."
+        },
+        "adjacent_tool_purchase": {
+          "verified": true,
+          "source": "https://markets.financialcontent.com/decaturdailydemocrat/article/bizwire-2026-1-22-jump-and-focus-financial-partners-launch-partnership-to-elevate-advisor-and-business-manager-productivity-through-power-of-ai",
+          "reason": "Jump-issued January 22, 2026 release documents AI workflow partnership; adjacent automation adoption, not dedicated HR testing budget."
+        },
+        "purchase_timeline": {
+          "verified": null,
+          "source": "https://markets.financialcontent.com/decaturdailydemocrat/article/bizwire-2026-1-22-jump-and-focus-financial-partners-launch-partnership-to-elevate-advisor-and-business-manager-productivity-through-power-of-ai",
+          "reason": "No verified current purchasing or renewal window for this opportunity; historical adoption and rollout plans are not a committed procurement deadline."
+        },
+        "financial_stability": {
+          "verified": null,
+          "source": "https://corporate.focuspartners.com/our-leadership",
+          "reason": "No corresponding verified fact established in reviewed sources. Financial stability for this regional/entity scope is not established; no negative financial conclusion inferred."
+        },
+        "workday_live": {
+          "verified": true,
+          "source": "https://corporate.focuspartners.com/our-leadership",
+          "reason": "Completed production Workday usage is confirmed by reviewed customer/implementation evidence. Modules: Human Capital Management, Timekeeping."
+        },
+        "go_live": {
+          "date": null,
+          "historical_window_older_than_year": false,
+          "source": "https://www.linkedin.com/in/matthew-m-sackett",
+          "reason": "Matthew Sackett's public post explicitly celebrates Workday go-live; payroll team post describes first payroll under new HRIS/timekeeping. Public pages give relative ages only; no reliable calendar day. Completed rollout confirmed, recency requires exact dated source. Precision: relative / day unavailable. Other sources: https://www.linkedin.com/in/gopal"
+        }
+      }
+    },
+    {
+      "company_name": "Sovereign Network Group (SNG)",
+      "number": 115,
+      "facts": {
+        "company_id": "e35a0325-9045-52db-a232-c1e3979f12ca",
+        "workforce": {
+          "count": 3000,
+          "source": "https://en-gb.newsroom.workday.com/2026-04-28-SNG-Deploys-Workday-to-Transform-HR-and-Finance-Operations-and-Accelerate-Community-Impact",
+          "reason": "More than 3,000 in April 2026 Workday release; rounded lower bound."
+        },
+        "leadership": {
+          "verified": true,
+          "source": "https://www.sng.org.uk/about-us/meet-our-executive-board",
+          "reason": "Kevin Ives, Chief Information Officer, confirmed by current employer roster. This establishes functional leadership, not a Mando buying mandate."
+        },
+        "one_degree_connection": {
+          "verified": null,
+          "source": "https://www.linkedin.com/posts/steven-barber-31562147_really-enjoyed-hosting-this-event-alongside-activity-7310317618505134082-bYbC",
+          "reason": "Public professional/employer route is documented, but no team/Adi direct or one-degree mutual connection is verified."
+        },
+        "authority_and_willingness": {
+          "verified": null,
+          "source": "https://www.sng.org.uk/about-us/meet-our-executive-board",
+          "reason": "Buying mandate and willingness to act on Mando are unverified; a public profile, email, implementation or conference appearance alone does not prove them."
+        },
+        "adjacent_tool_purchase": {
+          "verified": null,
+          "source": "https://en-gb.newsroom.workday.com/2026-04-28-SNG-Deploys-Workday-to-Transform-HR-and-Finance-Operations-and-Accelerate-Community-Impact",
+          "reason": "No verified adjacent testing/workflow automation purchase established. A planned unnamed enterprise service platform is not a confirmed purchase."
+        },
+        "purchase_timeline": {
+          "verified": null,
+          "source": "https://en-gb.newsroom.workday.com/2026-04-28-SNG-Deploys-Workday-to-Transform-HR-and-Finance-Operations-and-Accelerate-Community-Impact",
+          "reason": "No verified current purchasing or renewal window for this opportunity; historical adoption and rollout plans are not a committed procurement deadline."
+        },
+        "financial_stability": {
+          "verified": true,
+          "source": "https://www.sng.org.uk/press-release/sng-increases-investment-new-homes",
+          "reason": "FY2025/26 turnover GBP817.6m, operating surplus GBP193m; cash/undrawn facilities GBP1.064bn."
+        },
+        "workday_live": {
+          "verified": true,
+          "source": "https://en-gb.newsroom.workday.com/2026-04-28-SNG-Deploys-Workday-to-Transform-HR-and-Finance-Operations-and-Accelerate-Community-Impact",
+          "reason": "Completed production Workday usage is confirmed by reviewed customer/implementation evidence. Modules: Human Capital Management, Financial Management, Payroll, Procurement."
+        },
+        "go_live": {
+          "date": null,
+          "historical_window_older_than_year": false,
+          "source": "https://en-gb.newsroom.workday.com/2026-04-28-SNG-Deploys-Workday-to-Transform-HR-and-Finance-Operations-and-Accelerate-Community-Impact",
+          "reason": "Workday release dated April 29, 2026 confirms completed first-phase deployment; URL says April 28, neither is actual go-live day. Careers cutover followed March 31 and first-person launch posts reference financial new year. Exact day not proven. Remove existing 2026-04-28 placeholder from automatic date field. Precision: spring 2026 / completed by announcement. Other sources: https://www.linkedin.com/posts/mohitojain_workday-go-live-it-started-with-a-merger-activity-7455167755927838720-yKnX; https://www.sng.org.uk/careers"
+        }
+      }
+    },
+    {
+      "company_name": "Flex",
+      "number": 116,
+      "facts": {
+        "company_id": "e53f08f9-86da-54fe-b068-f730bd77e256",
+        "workforce": {
+          "count": 149686,
+          "source": "https://www.sec.gov/Archives/edgar/data/866374/000086637426000012/flex-20260331.htm",
+          "reason": "March 31, 2026 global workforce including contractors, Form 10-K table. Not employees-only headcount."
+        },
+        "leadership": {
+          "verified": null,
+          "source": "https://flex.com/downloads/xavier-boza-2024-executive-bio",
+          "reason": "Corporate CHRO biography states global human capital management responsibility. A named current HRIS/IT leader meeting the rubric is not established; a generic HR executive or non-lead analyst is insufficient. This is unknown, not evidence that no such leader exists."
+        },
+        "one_degree_connection": {
+          "verified": null,
+          "source": "https://flex.com/downloads/xavier-boza-2024-executive-bio",
+          "reason": "Public professional/employer route is documented, but no team/Adi direct or one-degree mutual connection is verified."
+        },
+        "authority_and_willingness": {
+          "verified": null,
+          "source": "https://flex.com/downloads/xavier-boza-2024-executive-bio",
+          "reason": "Buying mandate and willingness to act on Mando are unverified; a public profile, email, implementation or conference appearance alone does not prove them."
+        },
+        "adjacent_tool_purchase": {
+          "verified": true,
+          "source": "https://www.techtarget.com/it-infrastructure/news/252522170/ServiceNow-ITSM-users-recharge-workflows-with-familiar-tools",
+          "reason": "Named Flex IT executive describes ServiceNow ITSM and Loom/AIOps deployment; attributable interview, historical adjacent IT spend."
+        },
+        "purchase_timeline": {
+          "verified": null,
+          "source": "https://www.techtarget.com/it-infrastructure/news/252522170/ServiceNow-ITSM-users-recharge-workflows-with-familiar-tools",
+          "reason": "No verified current purchasing or renewal window for this opportunity; historical adoption and rollout plans are not a committed procurement deadline."
+        },
+        "financial_stability": {
+          "verified": true,
+          "source": "https://investors.flex.com/financials/quarterly-results/default.aspx",
+          "reason": "FY2026 sales $27.9bn and GAAP operating margin 4.9%; no Mando purchasing window."
+        },
+        "workday_live": {
+          "verified": true,
+          "source": "https://www.workday.com/en-us/customer-stories/a-h/flex-maintains-simplicity-single-system-global-workforce.html",
+          "reason": "Completed production Workday usage is confirmed by reviewed customer/implementation evidence. Modules: Human Capital Management, Payroll."
+        },
+        "go_live": {
+          "date": null,
+          "historical_window_older_than_year": true,
+          "source": "https://www.sec.gov/Archives/edgar/data/1327811/000119312512409980/d385110ds1a.htm",
+          "reason": "Workday SEC 2012 filing confirms global HCM deployed; first provided May 2008 is contract/service start, not completed rollout. NelsonHall research reports completion by December 2011; primary exact completion day not located. Precision: month claim / primary bound. Other sources: https://research.nelson-hall.com/about-nelsonhall/our-team/elizabeth-rennie.html?avpage-views=article&fv=1&id=80814"
+        }
+      }
+    },
+    {
+      "company_name": "Hungry Jack’s",
+      "number": 117,
+      "facts": {
+        "company_id": "e57b2dff-84b6-5a94-ada4-c8d0ec2b149d",
+        "workforce": {
+          "count": 26000,
+          "source": "https://www.linkedin.com/company/hungryjacks",
+          "reason": "Company LinkedIn page reports 26,000+ team members; lower bound, not a precise payroll census. Workday's undated customer story reports 30,000, while the payroll launch post describes 20,000 people in that pay run; these are different scopes."
+        },
+        "leadership": {
+          "verified": true,
+          "source": "https://au.linkedin.com/in/charlottestone92",
+          "reason": "Charlotte Stone, HR Systems Lead / Workday Functional Owner, current public profile and first-person implementation ownership. This establishes functional leadership, not a Mando buying mandate."
+        },
+        "one_degree_connection": {
+          "verified": null,
+          "source": "https://au.linkedin.com/in/charlottestone92",
+          "reason": "Public professional/employer route is documented, but no team/Adi direct or one-degree mutual connection is verified."
+        },
+        "authority_and_willingness": {
+          "verified": null,
+          "source": "https://au.linkedin.com/in/charlottestone92",
+          "reason": "Buying mandate and willingness to act on Mando are unverified; a public profile, email, implementation or conference appearance alone does not prove them."
+        },
+        "adjacent_tool_purchase": {
+          "verified": true,
+          "source": "https://www.trintech.com/news/trintech-to-showcase-governed-ai-for-finance-at-workday-rising-2026/",
+          "reason": "October 8, 2026 vendor release confirms Hungry Jack’s uses Trintech with Workday for roughly 300 million annual transaction matches; direct adjacent finance automation adoption."
+        },
+        "purchase_timeline": {
+          "verified": null,
+          "source": "https://www.trintech.com/news/trintech-to-showcase-governed-ai-for-finance-at-workday-rising-2026/",
+          "reason": "No verified current purchasing or renewal window for this opportunity; historical adoption and rollout plans are not a committed procurement deadline."
+        },
+        "financial_stability": {
+          "verified": null,
+          "source": "https://www.workday.com/en-us/customer-stories/a-h/hungry-jacks-flips-script-on-hiring-workforce-planning.html",
+          "reason": "No corresponding verified fact established in reviewed sources. Financial stability for this regional/entity scope is not established; no negative financial conclusion inferred."
+        },
+        "workday_live": {
+          "verified": true,
+          "source": "https://www.workday.com/en-us/customer-stories/a-h/hungry-jacks-flips-script-on-hiring-workforce-planning.html",
+          "reason": "Completed production Workday usage is confirmed by reviewed customer/implementation evidence. Modules: Human Capital Management, Recruiting, Core Compensation, Advanced Compensation, Absence, Talent, Performance, Peakon Employee Voice, Payroll (Australia)."
+        },
+        "go_live": {
+          "date": null,
+          "historical_window_older_than_year": true,
+          "source": "https://modernslaveryregister.gov.au/statements/D06DE0tej1gnWWf/pdf/",
+          "reason": "Initial HCM go-live April 2025, confirmed by the company's FY2025 modern slavery statement and its HR systems lead. Australian payroll subsequently completed an eight-month implementation and its first pay run; the public post does not provide a reliable exact calendar date. Adaptive Planning was selected in 2024 but production deployment was not confirmed. Precision: month. Other sources: https://www.linkedin.com/posts/charlottestone92_peoplepower-hungryjacks-thepeoplearebetter-activity-7442508614009008128-vf1I"
+        }
+      }
+    },
+    {
+      "company_name": "Li & Fung",
+      "number": 118,
+      "facts": {
+        "company_id": "e963b98a-6dde-52a1-a82a-c5a4b8ba9e20",
+        "workforce": {
+          "count": 5000,
+          "source": "https://www.workday.com/en-us/customer-stories/i-p/li-fung-embeds-agility-adapt-changing-environments.html",
+          "reason": "Workday customer story reports more than 5,000 colleagues across 40 markets; undated lower bound. Do not substitute historical pre-divestiture 17,000 employee counts."
+        },
+        "leadership": {
+          "verified": true,
+          "source": "https://links.sgx.com/FileOpen/LI%20N%20FUNG%20LIMITED%20-%20Final%20Offering%20Circular.ashx?App=Prospectus&FileID=67006",
+          "reason": "Keith Ip, Chief Technology Officer, leads technology and AI in company-issued offering circular. This establishes functional leadership, not a Mando buying mandate."
+        },
+        "one_degree_connection": {
+          "verified": null,
+          "source": "https://www.linkedin.com/posts/deepika-rana-a2ab35143_the-li-and-fung-annual-conference-2026-was-activity-7439918288756891648-rl_u",
+          "reason": "Public professional/employer route is documented, but no team/Adi direct or one-degree mutual connection is verified."
+        },
+        "authority_and_willingness": {
+          "verified": null,
+          "source": "https://links.sgx.com/FileOpen/LI%20N%20FUNG%20LIMITED%20-%20Final%20Offering%20Circular.ashx?App=Prospectus&FileID=67006",
+          "reason": "Buying mandate and willingness to act on Mando are unverified; a public profile, email, implementation or conference appearance alone does not prove them."
+        },
+        "adjacent_tool_purchase": {
+          "verified": null,
+          "source": "https://www.lifung.com/wp-content/uploads/2025/06/ESG-2024-Report_FINAL-2_June_2025_Lo.pdf",
+          "reason": "No verified adjacent testing/workflow automation purchase established. An internally developed AI portal and conference attendance are not external tool purchases."
+        },
+        "purchase_timeline": {
+          "verified": null,
+          "source": "https://www.lifung.com/wp-content/uploads/2025/06/ESG-2024-Report_FINAL-2_June_2025_Lo.pdf",
+          "reason": "No verified current purchasing or renewal window for this opportunity; historical adoption and rollout plans are not a committed procurement deadline."
+        },
+        "financial_stability": {
+          "verified": null,
+          "source": "https://www.workday.com/en-us/customer-stories/i-p/li-fung-embeds-agility-adapt-changing-environments.html",
+          "reason": "No corresponding verified fact established in reviewed sources. Financial stability for this regional/entity scope is not established; no negative financial conclusion inferred."
+        },
+        "workday_live": {
+          "verified": true,
+          "source": "https://www.workday.com/en-us/customer-stories/i-p/li-fung-embeds-agility-adapt-changing-environments.html",
+          "reason": "Completed production Workday usage is confirmed by reviewed customer/implementation evidence. Modules: Human Capital Management, Talent Acquisition, Learning, Performance Management."
+        },
+        "go_live": {
+          "date": null,
+          "historical_window_older_than_year": true,
+          "source": "https://www.lifung.com/wp-content/uploads/2018/08/LiFung_AR_2018.pdf",
+          "reason": "September 2018 HRIS go-live explicitly stated in the company's 2018 annual report, printed page 100. No exact day or new 2026 launch confirmed. Precision: month. Other sources: "
+        }
+      }
+    },
+    {
+      "company_name": "RaceTrac",
+      "number": 119,
+      "facts": {
+        "company_id": "ed44b10f-a81d-52ce-b808-7c5ebc14e793",
+        "workforce": {
+          "count": 15000,
+          "source": "https://www.sec.gov/Archives/edgar/data/1195734/000110465925101702/tm2528884d2_ex99-a5a.htm",
+          "reason": "Current CPO's public recruitment post describes more than 15,000 enterprise team members. Company acquisition release filed with SEC also reports this scope, including Potbelly and affiliates; older Workday story's 8,000 is historical."
+        },
+        "leadership": {
+          "verified": true,
+          "source": "https://www.linkedin.com/in/ameetshetty",
+          "reason": "Ameet Shetty, Chief Information Officer, current professional profile corroborates enterprise IT leadership. This establishes functional leadership, not a Mando buying mandate."
+        },
+        "one_degree_connection": {
+          "verified": null,
+          "source": "https://www.linkedin.com/in/megan-wallace-091931284",
+          "reason": "Public professional/employer route is documented, but no team/Adi direct or one-degree mutual connection is verified."
+        },
+        "authority_and_willingness": {
+          "verified": null,
+          "source": "https://www.linkedin.com/in/ameetshetty",
+          "reason": "Buying mandate and willingness to act on Mando are unverified; a public profile, email, implementation or conference appearance alone does not prove them."
+        },
+        "adjacent_tool_purchase": {
+          "verified": true,
+          "source": "https://www.kainos.com/insights/success-stories/how-racetrac-navigates-workday-change-confidently-with-smart-test",
+          "reason": "Vendor explicitly confirms RaceTrac uses Smart Test for automated Workday regression testing."
+        },
+        "purchase_timeline": {
+          "verified": null,
+          "source": "https://www.kainos.com/insights/success-stories/how-racetrac-navigates-workday-change-confidently-with-smart-test",
+          "reason": "No verified current purchasing or renewal window for this opportunity; historical adoption and rollout plans are not a committed procurement deadline."
+        },
+        "financial_stability": {
+          "verified": null,
+          "source": "https://www.workday.com/en-us/customer-stories/q-z/racetrac-shifts-financial-management-into-high-gear.html",
+          "reason": "No corresponding verified fact established in reviewed sources. Financial stability for this regional/entity scope is not established; no negative financial conclusion inferred."
+        },
+        "workday_live": {
+          "verified": true,
+          "source": "https://www.workday.com/en-us/customer-stories/q-z/racetrac-shifts-financial-management-into-high-gear.html",
+          "reason": "Completed production Workday usage is confirmed by reviewed customer/implementation evidence. Modules: Financial Management, Human Capital Management, Payroll, Procure to Pay, Expenses, Projects."
+        },
+        "go_live": {
+          "date": null,
+          "historical_window_older_than_year": true,
+          "source": "https://www.trintech.com/case-study/racetrac/",
+          "reason": "Workday Financials migration in 2020 confirmed by Trintech's customer case study. Kainos later integrated acquired Gulf Oil into the existing tenant in six months, with a services extension signed in 2024. No exact original or acquisition-phase go-live day established. Precision: year. Other sources: https://get.kainos.com/FY26-Q1-WDY-WBN-Racetrac-Test_Registration.html"
+        }
+      }
+    },
+    {
+      "company_name": "Amadeus",
+      "number": 120,
+      "facts": {
+        "company_id": "f3f8581b-b489-5a20-a507-0039d20a69d3",
+        "workforce": {
+          "count": 20605,
+          "source": "https://amadeus.com/en/annual-reports/global-report-2025",
+          "reason": "2025 Global Report workforce graph: 12,703 male + 7,900 female + 2 other = 20,605. Report's total workforce scope; replaces historical 16,500 customer-story count."
+        },
+        "leadership": {
+          "verified": true,
+          "source": "https://amadeus.com/en/about/leadership",
+          "reason": "Sylvain Roy, Chief Technology Officer, confirmed by current official leadership roster; current CTO replaces former Christophe Bousquet. This establishes functional leadership, not a Mando buying mandate."
+        },
+        "one_degree_connection": {
+          "verified": null,
+          "source": "https://es.linkedin.com/in/ana-doval",
+          "reason": "Public professional/employer route is documented, but no team/Adi direct or one-degree mutual connection is verified."
+        },
+        "authority_and_willingness": {
+          "verified": null,
+          "source": "https://amadeus.com/en/about/leadership",
+          "reason": "Buying mandate and willingness to act on Mando are unverified; a public profile, email, implementation or conference appearance alone does not prove them."
+        },
+        "adjacent_tool_purchase": {
+          "verified": true,
+          "source": "https://dev.amadeus.com/en/blog/articles/how-to-help-the-travel-industry-innovate-with-confidence",
+          "reason": "Company's own interview states it signed for the full ServiceNow suite including ITSM/ITOM and NowAssist."
+        },
+        "purchase_timeline": {
+          "verified": null,
+          "source": "https://dev.amadeus.com/en/blog/articles/how-to-help-the-travel-industry-innovate-with-confidence",
+          "reason": "No verified current purchasing or renewal window for this opportunity; historical adoption and rollout plans are not a committed procurement deadline."
+        },
+        "financial_stability": {
+          "verified": true,
+          "source": "https://amadeus.com/en/annual-reports/global-report-2025",
+          "reason": "FY2025 issuer report records profitable operations (approximately EUR1.42bn profit and EUR6.5bn revenue); financial-capacity context, not a committed software allocation."
+        },
+        "workday_live": {
+          "verified": true,
+          "source": "https://www.workday.com/en-us/customer-stories/a-h/amadeus-changing-mindsets-while-remaining-true-to-core.html",
+          "reason": "Completed production Workday usage is confirmed by reviewed customer/implementation evidence. Modules: Human Capital Management, Talent Acquisition."
+        },
+        "go_live": {
+          "date": null,
+          "historical_window_older_than_year": false,
+          "source": "https://www.workday.com/en-us/customer-stories/a-h/amadeus-changing-mindsets-while-remaining-true-to-core.html",
+          "reason": "Workday's customer story confirms completed HCM deployment, but neither an exact day nor a reliable launch month was found. Public repost mentions a 20-month transformation, which is duration rather than launch date. Precision: unknown. Other sources: "
+        }
+      }
+    },
+    {
+      "company_name": "Capita",
+      "number": 121,
+      "facts": {
+        "company_id": "f4db56e0-db5d-5693-8227-9a1fc90810bd",
+        "workforce": {
+          "count": 34000,
+          "source": "https://www.capita.com/sitemap",
+          "reason": "Current company website reports approximately 34,000 colleagues. Undated rounded current-site estimate; Workday story's 32,000 is a different snapshot."
+        },
+        "leadership": {
+          "verified": true,
+          "source": "https://www.capita.com/about-us/our-leadership",
+          "reason": "Sameer Vuyyuru, Chief AI & Technology Officer, owns operation of the internal IT estate on current employer roster. This establishes functional leadership, not a Mando buying mandate."
+        },
+        "one_degree_connection": {
+          "verified": null,
+          "source": "https://www.linkedin.com/posts/adolfohernandezf_delighted-to-welcome-sameer-vuyyuru-to-the-activity-7254869379329183745-ngGb",
+          "reason": "Public professional/employer route is documented, but no team/Adi direct or one-degree mutual connection is verified."
+        },
+        "authority_and_willingness": {
+          "verified": null,
+          "source": "https://www.capita.com/about-us/our-leadership",
+          "reason": "Buying mandate and willingness to act on Mando are unverified; a public profile, email, implementation or conference appearance alone does not prove them."
+        },
+        "adjacent_tool_purchase": {
+          "verified": true,
+          "source": "https://www.workday.com/en-us/customer-stories/a-h/capita-accelerates-hiring-hr-transformation-with-ai.html",
+          "reason": "Customer confirms implemented HiredScore alongside Recruiting and Workday Assistant through Teams, demonstrating adjacent HR automation adoption."
+        },
+        "purchase_timeline": {
+          "verified": null,
+          "source": "https://www.workday.com/en-us/customer-stories/a-h/capita-accelerates-hiring-hr-transformation-with-ai.html",
+          "reason": "No verified current purchasing or renewal window for this opportunity; historical adoption and rollout plans are not a committed procurement deadline."
+        },
+        "financial_stability": {
+          "verified": null,
+          "source": "https://www.workday.com/en-us/customer-stories/a-h/capita-accelerates-hiring-hr-transformation-with-ai.html",
+          "reason": "No corresponding verified fact established in reviewed sources. Financial stability for this regional/entity scope is not established; no negative financial conclusion inferred."
+        },
+        "workday_live": {
+          "verified": true,
+          "source": "https://www.workday.com/en-us/customer-stories/a-h/capita-accelerates-hiring-hr-transformation-with-ai.html",
+          "reason": "Completed production Workday usage is confirmed by reviewed customer/implementation evidence. Modules: Human Capital Management, Talent Acquisition / Recruiting, Talent Management, HiredScore, Workday Assistant in Microsoft Teams, Group mentoring."
+        },
+        "go_live": {
+          "date": null,
+          "historical_window_older_than_year": true,
+          "source": "https://www.capita.com/sites/g/files/nginej291/files/2020-03/capita-annual-report-2019_0.pdf",
+          "reason": "December 2019 global Workday people-management launch confirmed in Capita's 2019 annual report, printed page 35. More recent HiredScore, Teams Assistant and mentoring additions are separate phases; exact rollout dates not established. Precision: month. Other sources: "
+        }
+      }
+    },
+    {
+      "company_name": "Affin Bank",
+      "number": 122,
+      "facts": {
+        "company_id": "f51f6c35-229a-5f15-8ae1-eae30e5f6dbf",
+        "workforce": {
+          "count": 5600,
+          "source": "https://www.workday.com/en-us/customer-stories/a-h/affin-bank-fostering-workplace-where-ideas-flourish.html",
+          "reason": "Workday customer story reports 5,600 employees; undated rounded figure retained pending a current exact group census."
+        },
+        "leadership": {
+          "verified": true,
+          "source": "https://www.affingroup.com/en/affin-bank-berhad",
+          "reason": "TS Zainal Azlan Zainudin, Acting Group Chief Technology & Operating Officer, confirmed by current employer roster; do not reuse former CTO Risham title. This establishes functional leadership, not a Mando buying mandate."
+        },
+        "one_degree_connection": {
+          "verified": null,
+          "source": "https://my.linkedin.com/in/syukri-sudari",
+          "reason": "Public professional/employer route is documented, but no team/Adi direct or one-degree mutual connection is verified."
+        },
+        "authority_and_willingness": {
+          "verified": null,
+          "source": "https://www.affingroup.com/en/affin-bank-berhad",
+          "reason": "Buying mandate and willingness to act on Mando are unverified; a public profile, email, implementation or conference appearance alone does not prove them."
+        },
+        "adjacent_tool_purchase": {
+          "verified": true,
+          "source": "https://affin.listedcompany.com/newsroom/25_Mar_2026_-_Affin_Bank_Berhad_-_Annual_Report_Part__2.pdf",
+          "reason": "FY2025 transition from Lenses 3.0 to Workday Peakon confirms additional employee-listening technology adoption."
+        },
+        "purchase_timeline": {
+          "verified": null,
+          "source": "https://affin.listedcompany.com/newsroom/25_Mar_2026_-_Affin_Bank_Berhad_-_Annual_Report_Part__2.pdf",
+          "reason": "No verified current purchasing or renewal window for this opportunity; historical adoption and rollout plans are not a committed procurement deadline."
+        },
+        "financial_stability": {
+          "verified": true,
+          "source": "https://affin.listedcompany.com/newsroom/Media_Release_-_AFFINBANK_Q4_2025.pdf",
+          "reason": "Issuer reports FY2025 profit before tax RM755.7m, up 7.8%; capacity context, not an approved testing allocation."
+        },
+        "workday_live": {
+          "verified": true,
+          "source": "https://www.workday.com/en-us/customer-stories/a-h/affin-bank-fostering-workplace-where-ideas-flourish.html",
+          "reason": "Completed production Workday usage is confirmed by reviewed customer/implementation evidence. Modules: Human Capital Management, Learning, Talent Acquisition, Peakon Employee Voice."
+        },
+        "go_live": {
+          "date": null,
+          "historical_window_older_than_year": false,
+          "source": "https://www.linkedin.com/posts/rabiatul-adawiyah-8b3496b2_projectrockstar-teamaffin-affinawesome-activity-7149599981694242816-MHkR",
+          "reason": "Project Rockstar HCM launch is confirmed by the implementation lead's first-person celebration post and Deloitte's project case, but the accessible post supplies only 'last Friday', not a reliable calendar date. Separate Peakon Employee Voice transition completed during FY2025 according to the 2025 annual report; exact month/day unknown. Precision: unknown. Other sources: https://www.deloitte.com/southeast-asia/en/services/consulting/perspectives/affin-workday-hcm.html; https://affin.listedcompany.com/newsroom/25_Mar_2026_-_Affin_Bank_Berhad_-_Annual_Report_Part__2.pdf"
+        }
+      }
+    },
+    {
+      "company_name": "Rochester Regional Health",
+      "number": 123,
+      "facts": {
+        "company_id": "f72c302d-8220-5b51-bb34-8678fd7cdea1",
+        "workforce": {
+          "count": 20000,
+          "source": "https://www.rochesterregional.org/hub/charlene-wilson-rbj-inclusion-award",
+          "reason": "Employer April 27, 2026 announcement says nearly 20,000 team members; rounded estimate, not an exact census."
+        },
+        "leadership": {
+          "verified": true,
+          "source": "https://www.workday.com/en-us/customer-stories/q-z/rochester-regional-health-lower-attrition-better-care.html",
+          "reason": "Jason Frank, SVP Integrated Workforce & Operations Technology, owns HRIS/Workday and has corroborated current employer profile. This establishes functional leadership, not a Mando buying mandate."
+        },
+        "one_degree_connection": {
+          "verified": null,
+          "source": "https://www.linkedin.com/in/jason-frank",
+          "reason": "Public professional/employer route is documented, but no team/Adi direct or one-degree mutual connection is verified."
+        },
+        "authority_and_willingness": {
+          "verified": null,
+          "source": "https://www.workday.com/en-us/customer-stories/q-z/rochester-regional-health-lower-attrition-better-care.html",
+          "reason": "Buying mandate and willingness to act on Mando are unverified; a public profile, email, implementation or conference appearance alone does not prove them."
+        },
+        "adjacent_tool_purchase": {
+          "verified": true,
+          "source": "https://www.rochesterregional.org/contact-us",
+          "reason": "Employer confirms Equifax The Work Number adoption for automated employment/income verification; adjacent HR automation use, not verified new testing procurement."
+        },
+        "purchase_timeline": {
+          "verified": null,
+          "source": "https://www.rochesterregional.org/contact-us",
+          "reason": "No verified current purchasing or renewal window for this opportunity; historical adoption and rollout plans are not a committed procurement deadline."
+        },
+        "financial_stability": {
+          "verified": null,
+          "source": "https://www.workday.com/en-us/customer-stories/q-z/rochester-regional-health-lower-attrition-better-care.html",
+          "reason": "No corresponding verified fact established in reviewed sources. Financial stability for this regional/entity scope is not established; no negative financial conclusion inferred."
+        },
+        "workday_live": {
+          "verified": true,
+          "source": "https://www.workday.com/en-us/customer-stories/q-z/rochester-regional-health-lower-attrition-better-care.html",
+          "reason": "Completed production Workday usage is confirmed by reviewed customer/implementation evidence. Modules: Human Capital Management, Peakon Employee Voice, Talent Acquisition, Payroll, Time and Attendance, Prism Analytics, Financial Management, Supply Chain."
+        },
+        "go_live": {
+          "date": null,
+          "historical_window_older_than_year": true,
+          "source": "https://www.deloitte.com/content/dam/assets-shared/docs/alliances/workday/2023/gx-deloitte-case-study-rochester-college.pdf",
+          "reason": "Deloitte confirms initial Rochester General Health Workday deployment in April 2014 and the Unity transition in early 2015 after the merger. These phases must not be conflated with a new whole-group launch. Exact days and later Finance/Peakon launch dates unavailable. Precision: month. Other sources: "
+        }
+      }
+    },
+    {
+      "company_name": "MileOne Autogroup",
+      "number": 124,
+      "facts": {
+        "company_id": "f8999d86-8581-5148-9b55-466217b6dd0f",
+        "workforce": {
+          "count": 4000,
+          "source": "https://www.workday.com/en-us/customer-stories/i-p/workforce-management-drives-employee-engagement-at-mileone.html",
+          "reason": "Workday customer story reports 4,000 employees; undated estimate retained, not a fresh exact census."
+        },
+        "leadership": {
+          "verified": null,
+          "source": "https://www.linkedin.com/posts/mileoneautogroup_leadership-in-action-mileone-autogroup-activity-7472296286512189440-634Q",
+          "reason": "Employer identifies G Mossanen as current Chief Human Resources Officer. A named current HRIS/IT leader meeting the rubric is not established; a generic HR executive or non-lead analyst is insufficient. This is unknown, not evidence that no such leader exists."
+        },
+        "one_degree_connection": {
+          "verified": null,
+          "source": "https://www.linkedin.com/in/ghoncheh",
+          "reason": "Public professional/employer route is documented, but no team/Adi direct or one-degree mutual connection is verified."
+        },
+        "authority_and_willingness": {
+          "verified": null,
+          "source": "https://www.linkedin.com/posts/mileoneautogroup_leadership-in-action-mileone-autogroup-activity-7472296286512189440-634Q",
+          "reason": "Buying mandate and willingness to act on Mando are unverified; a public profile, email, implementation or conference appearance alone does not prove them."
+        },
+        "adjacent_tool_purchase": {
+          "verified": null,
+          "source": "https://www.workday.com/en-us/customer-stories/i-p/workforce-management-drives-employee-engagement-at-mileone.html",
+          "reason": "No verified adjacent testing/workflow automation purchase established. Installed core Workday modules are not an independent testing/automation purchase proxy."
+        },
+        "purchase_timeline": {
+          "verified": null,
+          "source": "https://www.workday.com/en-us/customer-stories/i-p/workforce-management-drives-employee-engagement-at-mileone.html",
+          "reason": "No verified current purchasing or renewal window for this opportunity; historical adoption and rollout plans are not a committed procurement deadline."
+        },
+        "financial_stability": {
+          "verified": null,
+          "source": "https://www.workday.com/en-us/customer-stories/i-p/workforce-management-drives-employee-engagement-at-mileone.html",
+          "reason": "No corresponding verified fact established in reviewed sources. Financial stability for this regional/entity scope is not established; no negative financial conclusion inferred."
+        },
+        "workday_live": {
+          "verified": true,
+          "source": "https://www.workday.com/en-us/customer-stories/i-p/workforce-management-drives-employee-engagement-at-mileone.html",
+          "reason": "Completed production Workday usage is confirmed by reviewed customer/implementation evidence. Modules: Human Capital Management, Payroll, Time Tracking, Absence Management, Scheduling and Labor Optimization, Benefits, Learning."
+        },
+        "go_live": {
+          "date": null,
+          "historical_window_older_than_year": true,
+          "source": "https://images.mileone.com/James/2018/08/workday/workday-email.html",
+          "reason": "Company's dated September 6, 2018 employee security notice refers to active Workday accounts, confirming production use by that date. It is not the launch day. Later workforce-management customer case confirms completed scheduling/time/absence modernization but supplies no rollout date. Precision: completed_by_bound. Other sources: https://www.workday.com/en-us/customer-stories/i-p/workforce-management-drives-employee-engagement-at-mileone.html"
+        }
+      }
+    },
+    {
+      "company_name": "Flix",
+      "number": 125,
+      "facts": {
+        "company_id": "fc4bdc61-c1d7-5d37-ad30-a9e84761c4c0",
+        "workforce": {
+          "count": 5421,
+          "source": "https://corporate.flix.com/wp-content/uploads/2026/04/2025_Flix_ESG-Report.pdf",
+          "reason": "FY2025 ESG Report, page 39: 5,421 employees at December 31, 2025, excluding contingent workers; replaces older 5,600 estimate."
+        },
+        "leadership": {
+          "verified": true,
+          "source": "https://corporate.flix.com/flix-management-leadership-team/",
+          "reason": "Daniel Krauss, CIO and CHRO, current employer roster confirms combined technology/people remit. This establishes functional leadership, not a Mando buying mandate."
+        },
+        "one_degree_connection": {
+          "verified": null,
+          "source": "https://de.linkedin.com/in/dorit-schindler-07630217",
+          "reason": "Public professional/employer route is documented, but no team/Adi direct or one-degree mutual connection is verified."
+        },
+        "authority_and_willingness": {
+          "verified": null,
+          "source": "https://corporate.flix.com/flix-management-leadership-team/",
+          "reason": "Buying mandate and willingness to act on Mando are unverified; a public profile, email, implementation or conference appearance alone does not prove them."
+        },
+        "adjacent_tool_purchase": {
+          "verified": null,
+          "source": "https://s21.q4cdn.com/387111300/files/doc_news/FlixMobility-Drives-Digital-Innovation-with-MobileIron-Cloud.pdf",
+          "reason": "No verified adjacent testing/workflow automation purchase established. Historical MobileIron mobile-security spend is broader IT spend; no Workday-adjacent testing/workflow purchase was established."
+        },
+        "purchase_timeline": {
+          "verified": null,
+          "source": "https://s21.q4cdn.com/387111300/files/doc_news/FlixMobility-Drives-Digital-Innovation-with-MobileIron-Cloud.pdf",
+          "reason": "No verified current purchasing or renewal window for this opportunity; historical adoption and rollout plans are not a committed procurement deadline."
+        },
+        "financial_stability": {
+          "verified": null,
+          "source": "https://www.workday.com/en-us/customer-stories/i-p/flix-transforms-global-planning-with-workday.html",
+          "reason": "No corresponding verified fact established in reviewed sources. Financial stability for this regional/entity scope is not established; no negative financial conclusion inferred."
+        },
+        "workday_live": {
+          "verified": true,
+          "source": "https://www.workday.com/en-us/customer-stories/i-p/flix-transforms-global-planning-with-workday.html",
+          "reason": "Completed production Workday usage is confirmed by reviewed customer/implementation evidence. Modules: Human Capital Management, Adaptive Planning."
+        },
+        "go_live": {
+          "date": null,
+          "historical_window_older_than_year": true,
+          "source": "https://www.globenewswire.com/news-release/2018/11/13/1650671/0/en/workday-continues-momentum-across-emea-as-more-customers-go-live.html",
+          "reason": "Workday's November 13, 2018 issuer release identifies FlixMobility among customers that went live. Exact HCM day/month not supplied. Current customer case confirms Adaptive Planning is live and connected to HCM; its original launch date is unavailable. Secondary report's inferred January–May 2018 window is not treated as verified. Precision: year. Other sources: https://www.workday.com/en-us/customer-stories/i-p/flix-transforms-global-planning-with-workday.html"
+        }
+      }
+    },
+    {
+      "company_name": "Concentrix",
+      "number": 126,
+      "facts": {
+        "company_id": "fd1944dc-6a8e-5075-bed9-2ae50cad52c5",
+        "workforce": {
+          "count": 455000,
+          "source": "https://s21.q4cdn.com/257053467/files/doc_financials/2025/ar/Concentrix-2026-Annual-Report.pdf",
+          "reason": "Issuer FY2025 annual report states approximately 455,000 full-time employees at November 30, 2025; replaces older 450,000 story snapshot."
+        },
+        "leadership": {
+          "verified": true,
+          "source": "https://www.workday.com/en-us/perspectives/hr/rupesh-ahluwalia-concentrix.html",
+          "reason": "Rupesh Ahluwalia, global HRIS/transformation VP, named Workday systems owner with current professional profile. This establishes functional leadership, not a Mando buying mandate."
+        },
+        "one_degree_connection": {
+          "verified": null,
+          "source": "https://www.linkedin.com/in/abhishek-jain-54a27ba",
+          "reason": "Public professional/employer route is documented, but no team/Adi direct or one-degree mutual connection is verified."
+        },
+        "authority_and_willingness": {
+          "verified": null,
+          "source": "https://www.workday.com/en-us/perspectives/hr/rupesh-ahluwalia-concentrix.html",
+          "reason": "Buying mandate and willingness to act on Mando are unverified; a public profile, email, implementation or conference appearance alone does not prove them."
+        },
+        "adjacent_tool_purchase": {
+          "verified": null,
+          "source": "https://ir.concentrix.com/news/news-details/Concentrix-Reports-Fourth-Quarter-and-Fiscal-Year-2025-Results/",
+          "reason": "No verified adjacent testing/workflow automation purchase established. Internally developed AI and services delivered to customers do not establish an internal external-vendor purchase."
+        },
+        "purchase_timeline": {
+          "verified": null,
+          "source": "https://ir.concentrix.com/news/news-details/Concentrix-Reports-Fourth-Quarter-and-Fiscal-Year-2025-Results/",
+          "reason": "No verified current purchasing or renewal window for this opportunity; historical adoption and rollout plans are not a committed procurement deadline."
+        },
+        "financial_stability": {
+          "verified": null,
+          "source": "https://www.workday.com/en-us/customer-stories/a-h/concentrix-streamlines-hiring-onboarding.html",
+          "reason": "No corresponding verified fact established in reviewed sources. Financial stability for this regional/entity scope is not established; no negative financial conclusion inferred."
+        },
+        "workday_live": {
+          "verified": true,
+          "source": "https://www.workday.com/en-us/customer-stories/a-h/concentrix-streamlines-hiring-onboarding.html",
+          "reason": "Completed production Workday usage is confirmed by reviewed customer/implementation evidence. Modules: Human Capital Management, Financial Management, Professional Services Automation, Talent Acquisition / Recruiting, Talent Management."
+        },
+        "go_live": {
+          "date": null,
+          "historical_window_older_than_year": false,
+          "source": "https://www.workday.com/en-us/customer-stories/a-h/concentrix-streamlines-hiring-onboarding.html",
+          "reason": "Current customer case confirms completed unified Workday deployment with 400+ integrations across 70+ countries. A public Workday interview says Finance went live 'one year ago' but lacks a reliable absolute interview date in the accessible transcript; no exact launch day/month inferred. Initial HCM date remains unavailable. Precision: unknown. Other sources: https://www.linkedin.com/posts/workday_you-dont-need-every-question-answered-on-activity-7480923828735479809-g-pb"
+        }
+      }
+    },
+    {
+      "company_name": "Veolia UK & Ireland",
+      "number": 127,
+      "facts": {
+        "company_id": "fdae1414-9777-5775-9ed1-dc67d2aa5498",
+        "workforce": {
+          "count": 15000,
+          "source": "https://www.veolia.co.uk/about-us/environmental-security",
+          "reason": "Current UK company page describes 15,000 employees across the UK; regional estimate and UK-only scope, not global Veolia's 220,000+ and not an exact UK&I combined census."
+        },
+        "leadership": {
+          "verified": true,
+          "source": "https://www.veolia.co.uk/about-us/executive-committee",
+          "reason": "Gaj Premnath, CIO Northern Europe, confirmed by current regional employer roster. This establishes functional leadership, not a Mando buying mandate."
+        },
+        "one_degree_connection": {
+          "verified": null,
+          "source": "https://uk.linkedin.com/in/beth-whittaker-fcipd-813286b5",
+          "reason": "Public professional/employer route is documented, but no team/Adi direct or one-degree mutual connection is verified."
+        },
+        "authority_and_willingness": {
+          "verified": null,
+          "source": "https://www.veolia.co.uk/about-us/executive-committee",
+          "reason": "Buying mandate and willingness to act on Mando are unverified; a public profile, email, implementation or conference appearance alone does not prove them."
+        },
+        "adjacent_tool_purchase": {
+          "verified": true,
+          "source": "https://www.konverso.ai/en/blog/veolia-automation-it-help-desk-konverso",
+          "reason": "Vendor explicitly confirms UK&I IT help-desk automation deployed on ServiceNow, an adjacent automation spend proxy."
+        },
+        "purchase_timeline": {
+          "verified": null,
+          "source": "https://www.konverso.ai/en/blog/veolia-automation-it-help-desk-konverso",
+          "reason": "No verified current purchasing or renewal window for this opportunity; historical adoption and rollout plans are not a committed procurement deadline."
+        },
+        "financial_stability": {
+          "verified": null,
+          "source": "https://www.workday.com/en-us/customer-stories/q-z/veolia-group-seamless-launch-new-finance-HR-system.html",
+          "reason": "No corresponding verified fact established in reviewed sources. Financial stability for this regional/entity scope is not established; no negative financial conclusion inferred."
+        },
+        "workday_live": {
+          "verified": true,
+          "source": "https://www.workday.com/en-us/customer-stories/q-z/veolia-group-seamless-launch-new-finance-HR-system.html",
+          "reason": "Completed production Workday usage is confirmed by reviewed customer/implementation evidence. Modules: Financial Management, Human Capital Management, Spend Management, Procure to Pay, Strategic Sourcing."
+        },
+        "go_live": {
+          "date": null,
+          "historical_window_older_than_year": true,
+          "source": "https://uk.linkedin.com/in/mark-eaglefield-30701b23",
+          "reason": "Project director Mark Eaglefield's first-person profile dates the UK&I HCM/Finance/Infor EAM implementation August 2019–April 2021 and states successful big-bang go-live. April 2021 is a project-end bound, not an independently explicit launch day. Workday's customer case confirms completed 20-month deployment. January 2021 in a group interview was a planned date for three units, not verified UK&I completion. Precision: project_end_bound. Other sources: https://www.workday.com/en-us/customer-stories/q-z/veolia-group-seamless-launch-new-finance-HR-system.html"
+        }
+      }
+    }
+  ]
+}

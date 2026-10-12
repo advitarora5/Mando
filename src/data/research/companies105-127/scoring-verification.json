@@ -1,0 +1,34 @@
+{
+  "initial_strict_batch": {
+    "supabase_commit_response": {
+      "saved_assessments": 23,
+      "lowest_total": 5,
+      "highest_total": 40,
+      "authority_verified": 20,
+      "partial_budget_proxies": 15
+    },
+    "full_exported_readback": "pending; Computer Use stopped"
+  },
+  "latest_consultant_batch": {
+    "calculated": 23,
+    "maybe": 10,
+    "not_enough_evidence": 13,
+    "reachability_points": {
+      "25": 10,
+      "15": 13
+    },
+    "total_range": [
+      20,
+      65
+    ],
+    "database_imported": false,
+    "reason": "No background Supabase credentials configured; user requested no Computer Use"
+  },
+  "validation": {
+    "frozen_engine_and_reachability_tests_passed": 37,
+    "background_import_validate_only_passed": 23,
+    "typescript_passed": true,
+    "repository_tests_passed": 76
+  },
+  "display_dependency": "PR17 must be reviewed, merged and deployed by Group1"
+}

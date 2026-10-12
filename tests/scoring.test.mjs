@@ -159,7 +159,7 @@ test('saved rows fit the scores table: columns, required fields, score limits an
  assert.match(columns.find(line => name(line) === 'tier'), /in \('Qualified', 'Maybe', 'Disqualified'\)/);
 });
 test('the demo sheet is valid for the nine seeded demo companies', () => {
- const [header, ...lines] = readFileSync(new URL('../scripts/assessments-demo.csv', import.meta.url), 'utf8').trim().split('\n').map(line => line.split(','));
+ const [header, ...lines] = readFileSync(new URL('../scripts/assessments-demo.csv', import.meta.url), 'utf8').trim().split('\n').map(line => line.trimEnd().split(','));
  const rows = lines.map(cells => Object.fromEntries(header.map((key, i) => [key, cells[i]])));
  const companies = lines.map((_, i) => ({ id: `demo-${i + 1}`, name: `Demo Company ${i + 1}`, workday_signal_date: `2026-08-0${i + 1}` }));
  const results = assessSheet(rows, companies, new Date('2026-10-06T18:00:00Z'));
