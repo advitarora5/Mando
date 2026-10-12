@@ -8,7 +8,8 @@ import { WeeklyHistory } from "@/features/weekly-history/history";
 import type { Snapshot } from "@/domain/history";
 import { ContactDrafts } from "@/features/outreach/drafts";
 import type { StoredDraft } from "@/server/repositories/outreach-drafts";
-import { saveCompany, saveContact, saveInsights } from "@/features/company-editor/actions";
+import { saveCompany, saveContact, saveInsights, saveLeadStatus } from "@/features/company-editor/actions";
+import { leadStatuses, leadStatusLabels } from "@/domain/lead-status";
 import { parseEvidence } from "@/domain/scoring/evidence";
 import { goLiveScore } from "@/domain/scoring/go-live";
 import { rubric } from "@/domain/scoring/rubric";
@@ -127,6 +128,9 @@ export function Detail({ company: c, snapshots = [], drafts = [] }: { company: C
         <dl className="facts"><div><dt>Buyer persona</dt><dd>{insights?.persona_override ?? insights?.persona_generated ?? "Not generated"}</dd></div><div><dt>Level</dt><dd>{insights?.level_override ?? insights?.level_generated ?? "Not generated"}</dd></div><div className="full-width"><dt>Why now</dt><dd>{insights?.why_now_override ?? insights?.why_now_generated ?? "Not generated"}</dd></div></dl>
       </Editor></section>
     </div>
+    <section className="panel detail-section"><Editor title="Lead status" action={saveLeadStatus} hidden={{ company_id: c.id, updated_at: c.updated_at, previous_status: c.lead_status }} fields={[{ name: "lead_status", label: "Status", type: "select", value: c.lead_status, options: leadStatuses.map(status => ({ value: status, label: leadStatusLabels[status] })), help: "Sending a draft marks the lead contacted automatically." }]}>
+      <dl className="facts"><div><dt>Status</dt><dd>{leadStatusLabels[c.lead_status] ?? c.lead_status}</dd></div><div><dt>Contacted</dt><dd>{c.contacted_at ? new Date(c.contacted_at).toLocaleDateString("en-US", { timeZone: "America/Chicago" }) : "Not yet"}</dd></div><div><dt>Replied</dt><dd>{c.replied_at ? new Date(c.replied_at).toLocaleDateString("en-US", { timeZone: "America/Chicago" }) : "Not yet"}</dd></div><div><dt>Demo booked</dt><dd>{c.demo_booked_at ? new Date(c.demo_booked_at).toLocaleDateString("en-US", { timeZone: "America/Chicago" }) : "Not yet"}</dd></div></dl>
+    </Editor></section>
     <ImportedResearch evidence={c.score?.authority_evidence ?? ""} />
     <section className="panel detail-section"><div className="section-title"><h2>Qualification evidence</h2><span className="muted">{c.score ? `Assessed ${new Date(c.score.assessed_at).toLocaleDateString("en-US", { timeZone: "America/Chicago" })}` : "No assessment yet"}</span></div>
       <div className="evidence-grid">{categories.map(category => {
