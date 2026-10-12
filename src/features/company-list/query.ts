@@ -35,9 +35,9 @@ export function queryCompanies(companies: CompanyListItem[], filters: Filters) {
   }).toSorted((a, b) => {
     const tie = names.compare(a.name, b.name) || a.id.localeCompare(b.id);
     if (filters.sort.startsWith("tier")) {
-      const order = { Disqualified: 0, Maybe: 1, Qualified: 2 };
+      const order: Record<string, number> = { Disqualified: 0, "Not Enough Evidence": 1, Maybe: 2, Qualified: 3 };
       if (!a.score || !b.score) return a.score === b.score ? tie : !a.score ? 1 : -1;
-      const difference = order[a.score.tier] - order[b.score.tier];
+      const difference = order[displayTier(a.score)] - order[displayTier(b.score)];
       return (filters.sort === "tier-asc" ? difference : -difference) || scoreOrder(a, b);
     }
     if (filters.sort === "name-asc") return tie;
