@@ -1,0 +1,111 @@
+{
+  "case_id": "case-02",
+  "source_publication_dates": [
+    {
+      "capture_ref": "job-boards-2026-10-10T05-16-21-164Z/capture-14",
+      "published_date": null
+    }
+  ],
+  "companies": [
+    {
+      "name": "Hays Electrical Services",
+      "role": "end_customer",
+      "attribution": "explicit",
+      "identity_evidence": [
+        {
+          "capture_ref": "job-boards-2026-10-10T05-16-21-164Z/capture-14",
+          "segment_id": "capture-14-page",
+          "quote": "Hays Electrical Services is seeking a Workday System Analyst"
+        }
+      ],
+      "workday_products": [
+        {
+          "name": "Workday HCM",
+          "evidence": [
+            {
+              "capture_ref": "job-boards-2026-10-10T05-16-21-164Z/capture-14",
+              "segment_id": "capture-14-page",
+              "quote": "our Workday HCM platform"
+            }
+          ]
+        }
+      ],
+      "signals": [
+        {
+          "type": "hiring",
+          "description": "Hiring described in saved posting",
+          "source_status": "active_in_source",
+          "current_status_verified": false,
+          "evidence": [
+            {
+              "capture_ref": "job-boards-2026-10-10T05-16-21-164Z/capture-14",
+              "segment_id": "capture-14-page",
+              "quote": "Hays Electrical Services is seeking a Workday System Analyst"
+            }
+          ]
+        },
+        {
+          "type": "implementation",
+          "description": "Active implementation described; present status unverified",
+          "source_status": "active_in_source",
+          "current_status_verified": false,
+          "evidence": [
+            {
+              "capture_ref": "job-boards-2026-10-10T05-16-21-164Z/capture-14",
+              "segment_id": "capture-14-page",
+              "quote": "this role starts by supporting the active implementation"
+            }
+          ]
+        },
+        {
+          "type": "parallel_testing",
+          "description": "Parallel payroll and benefits testing support",
+          "source_status": "responsibility",
+          "current_status_verified": false,
+          "evidence": [
+            {
+              "capture_ref": "job-boards-2026-10-10T05-16-21-164Z/capture-14",
+              "segment_id": "capture-14-page",
+              "quote": "Help prepare and validate parallel payroll and benefits testing materials"
+            }
+          ]
+        },
+        {
+          "type": "cutover_readiness",
+          "description": "Cutover and go-live readiness support",
+          "source_status": "responsibility",
+          "current_status_verified": false,
+          "evidence": [
+            {
+              "capture_ref": "job-boards-2026-10-10T05-16-21-164Z/capture-14",
+              "segment_id": "capture-14-page",
+              "quote": "Support cutover and go-live readiness activities"
+            }
+          ]
+        },
+        {
+          "type": "release_testing",
+          "description": "Semi-annual release testing responsibility",
+          "source_status": "responsibility",
+          "current_status_verified": false,
+          "evidence": [
+            {
+              "capture_ref": "job-boards-2026-10-10T05-16-21-164Z/capture-14",
+              "segment_id": "capture-14-page",
+              "quote": "Support semi-annual Workday release testing"
+            }
+          ]
+        }
+      ],
+      "event_dates": [],
+      "employee_count": null,
+      "named_contacts": [],
+      "uncertainties": [
+        "Publication date unknown",
+        "Go-live date unknown",
+        "Present vacancy and implementation status unverified",
+        "Buyer authority, budget and reachability unknown"
+      ]
+    }
+  ]
+}

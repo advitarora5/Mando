@@ -1,0 +1,465 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "case_id": {
+      "type": "string"
+    },
+    "source_publication_dates": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "capture_ref": {
+            "type": "string"
+          },
+          "published_date": {
+            "anyOf": [
+              {
+                "type": "null"
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "raw": {
+                    "type": "string"
+                  },
+                  "normalized": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "precision": {
+                    "type": "string",
+                    "enum": [
+                      "day",
+                      "month",
+                      "year",
+                      "relative",
+                      "unknown"
+                    ]
+                  }
+                },
+                "required": [
+                  "raw",
+                  "normalized",
+                  "precision"
+                ],
+                "additionalProperties": false
+              }
+            ]
+          }
+        },
+        "required": [
+          "capture_ref",
+          "published_date"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "companies": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "role": {
+            "type": "string",
+            "enum": [
+              "end_customer",
+              "provider",
+              "parent",
+              "candidate",
+              "unknown"
+            ]
+          },
+          "attribution": {
+            "type": "string",
+            "enum": [
+              "explicit",
+              "explicit_index",
+              "contextual",
+              "tentative",
+              "unknown"
+            ]
+          },
+          "identity_evidence": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "capture_ref": {
+                  "type": "string"
+                },
+                "segment_id": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "quote": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "required": [
+                "capture_ref",
+                "segment_id",
+                "quote"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "workday_products": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "evidence": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "capture_ref": {
+                        "type": "string"
+                      },
+                      "segment_id": {
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      },
+                      "quote": {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    },
+                    "required": [
+                      "capture_ref",
+                      "segment_id",
+                      "quote"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "minItems": 1
+                }
+              },
+              "required": [
+                "name",
+                "evidence"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "signals": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "enum": [
+                    "hiring",
+                    "implementation",
+                    "parallel_testing",
+                    "cutover_readiness",
+                    "release_testing",
+                    "optimization",
+                    "other"
+                  ]
+                },
+                "description": {
+                  "type": "string"
+                },
+                "source_status": {
+                  "type": "string",
+                  "enum": [
+                    "active_in_source",
+                    "planned",
+                    "completed",
+                    "closed",
+                    "responsibility",
+                    "unknown"
+                  ]
+                },
+                "current_status_verified": {
+                  "type": "boolean",
+                  "const": false
+                },
+                "evidence": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "capture_ref": {
+                        "type": "string"
+                      },
+                      "segment_id": {
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      },
+                      "quote": {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    },
+                    "required": [
+                      "capture_ref",
+                      "segment_id",
+                      "quote"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "minItems": 1
+                }
+              },
+              "required": [
+                "type",
+                "description",
+                "source_status",
+                "current_status_verified",
+                "evidence"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "event_dates": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "event_type": {
+                  "type": "string",
+                  "enum": [
+                    "project_start",
+                    "go_live",
+                    "completion",
+                    "vacancy_removed",
+                    "application_deadline",
+                    "webinar",
+                    "other"
+                  ]
+                },
+                "date": {
+                  "type": "object",
+                  "properties": {
+                    "raw": {
+                      "type": "string"
+                    },
+                    "normalized": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "precision": {
+                      "type": "string",
+                      "enum": [
+                        "day",
+                        "month",
+                        "year",
+                        "relative",
+                        "unknown"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "raw",
+                    "normalized",
+                    "precision"
+                  ],
+                  "additionalProperties": false
+                },
+                "evidence": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "capture_ref": {
+                        "type": "string"
+                      },
+                      "segment_id": {
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      },
+                      "quote": {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    },
+                    "required": [
+                      "capture_ref",
+                      "segment_id",
+                      "quote"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "minItems": 1
+                }
+              },
+              "required": [
+                "event_type",
+                "date",
+                "evidence"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "employee_count": {
+            "anyOf": [
+              {
+                "type": "null"
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "value": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "comparison": {
+                    "type": "string",
+                    "enum": [
+                      "exact",
+                      "approximately",
+                      "greater_than",
+                      "at_least"
+                    ]
+                  },
+                  "evidence": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "capture_ref": {
+                          "type": "string"
+                        },
+                        "segment_id": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "quote": {
+                          "type": "string",
+                          "minLength": 1
+                        }
+                      },
+                      "required": [
+                        "capture_ref",
+                        "segment_id",
+                        "quote"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "minItems": 1
+                  }
+                },
+                "required": [
+                  "value",
+                  "comparison",
+                  "evidence"
+                ],
+                "additionalProperties": false
+              }
+            ]
+          },
+          "named_contacts": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "title": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "current_role_verified": {
+                  "type": "boolean",
+                  "const": false
+                },
+                "evidence": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "capture_ref": {
+                        "type": "string"
+                      },
+                      "segment_id": {
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      },
+                      "quote": {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    },
+                    "required": [
+                      "capture_ref",
+                      "segment_id",
+                      "quote"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "minItems": 1
+                }
+              },
+              "required": [
+                "name",
+                "title",
+                "current_role_verified",
+                "evidence"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "uncertainties": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "name",
+          "role",
+          "attribution",
+          "identity_evidence",
+          "workday_products",
+          "signals",
+          "event_dates",
+          "employee_count",
+          "named_contacts",
+          "uncertainties"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": [
+    "case_id",
+    "source_publication_dates",
+    "companies"
+  ],
+  "additionalProperties": false
+}

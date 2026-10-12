@@ -1,0 +1,141 @@
+{
+  "case_id": "case-04",
+  "source_publication_dates": [
+    {
+      "capture_ref": "partner-websites-2026-10-10T05-17-25-515Z/capture-14",
+      "published_date": null
+    }
+  ],
+  "companies": [
+    {
+      "name": "Miami University",
+      "role": "end_customer",
+      "attribution": "explicit",
+      "identity_evidence": [
+        {
+          "capture_ref": "partner-websites-2026-10-10T05-17-25-515Z/capture-14",
+          "segment_id": null,
+          "quote": "Miami University"
+        }
+      ],
+      "workday_products": [
+        {
+          "name": "Workday HCM",
+          "evidence": [
+            {
+              "capture_ref": "partner-websites-2026-10-10T05-17-25-515Z/capture-14",
+              "segment_id": "capture-14-page",
+              "quote": "HCM, FIN and Payroll implementation"
+            }
+          ]
+        },
+        {
+          "name": "Workday FIN",
+          "evidence": [
+            {
+              "capture_ref": "partner-websites-2026-10-10T05-17-25-515Z/capture-14",
+              "segment_id": "capture-14-page",
+              "quote": "HCM, FIN and Payroll implementation"
+            }
+          ]
+        },
+        {
+          "name": "Workday Payroll",
+          "evidence": [
+            {
+              "capture_ref": "partner-websites-2026-10-10T05-17-25-515Z/capture-14",
+              "segment_id": "capture-14-page",
+              "quote": "HCM, FIN and Payroll implementation"
+            }
+          ]
+        },
+        {
+          "name": "Workday Student",
+          "evidence": [
+            {
+              "capture_ref": "partner-websites-2026-10-10T05-17-25-515Z/capture-14",
+              "segment_id": "capture-14-page",
+              "quote": "Workday Student scheduled for deployment in October 2026"
+            }
+          ]
+        }
+      ],
+      "signals": [
+        {
+          "type": "implementation",
+          "description": "Implementation of Workday HCM, FIN, and Payroll",
+          "source_status": "completed",
+          "current_status_verified": false,
+          "evidence": [
+            {
+              "capture_ref": "partner-websites-2026-10-10T05-17-25-515Z/capture-14",
+              "segment_id": "capture-14-page",
+              "quote": "The HCM, FIN, and Payroll implementation went live successfully in July 2024"
+            }
+          ]
+        },
+        {
+          "type": "implementation",
+          "description": "Implementation of Workday Student",
+          "source_status": "planned",
+          "current_status_verified": false,
+          "evidence": [
+            {
+              "capture_ref": "partner-websites-2026-10-10T05-17-25-515Z/capture-14",
+              "segment_id": "capture-14-page",
+              "quote": "Building on the success of the Workday platform implementation, Miami University is now working with Avaap to implement Workday Student, scheduled to go live in October 2026"
+            }
+          ]
+        }
+      ],
+      "event_dates": [
+        {
+          "event_type": "project_start",
+          "date": {
+            "raw": "July 2024",
+            "normalized": null,
+            "precision": "year"
+          },
+          "evidence": [
+            {
+              "capture_ref": "partner-websites-2026-10-10T05-17-25-515Z/capture-14",
+              "segment_id": "capture-14-page",
+              "quote": "The HCM, FIN, and Payroll implementation went live successfully in July 2024"
+            }
+          ]
+        },
+        {
+          "event_type": "project_start",
+          "date": {
+            "raw": "October 2026",
+            "normalized": null,
+            "precision": "year"
+          },
+          "evidence": [
+            {
+              "capture_ref": "partner-websites-2026-10-10T05-17-25-515Z/capture-14",
+              "segment_id": "capture-14-page",
+              "quote": "Building on the success of the Workday platform implementation, Miami University is now working with Avaap to implement Workday Student, scheduled to go live in October 2026"
+            }
+          ]
+        }
+      ],
+      "employee_count": null,
+      "named_contacts": [
+        {
+          "name": "Avaap",
+          "title": null,
+          "current_role_verified": false,
+          "evidence": [
+            {
+              "capture_ref": "partner-websites-2026-10-10T05-17-25-515Z/capture-14",
+              "segment_id": "capture-14-page",
+              "quote": "Miami selected Avaap as their implementation partner due to their strong presence and expertise in higher education, especially in Ohio institutions"
+            }
+          ]
+        }
+      ],
+      "uncertainties": []
+    }
+  ]
+}

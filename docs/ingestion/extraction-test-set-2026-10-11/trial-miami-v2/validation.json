@@ -1,0 +1,30 @@
+{
+  "schema_valid": true,
+  "schema_errors": null,
+  "evidence_entries_checked": 10,
+  "quote_failures": [
+    {
+      "path": "/companies/0/identity_evidence/0",
+      "capture_ref": "partner-websites-2026-10-10T05-17-25-515Z/capture-14",
+      "segment_id": null,
+      "quote": "Miami University",
+      "reason": "Title quotation must match full title"
+    },
+    {
+      "path": "/companies/0/signals/0/evidence/0",
+      "capture_ref": "partner-websites-2026-10-10T05-17-25-515Z/capture-14",
+      "segment_id": "capture-14-page",
+      "quote": "The HCM, FIN, and Payroll implementation went live successfully in July 2024",
+      "reason": "Quote not an exact substring of referenced segment"
+    },
+    {
+      "path": "/companies/0/event_dates/0/evidence/0",
+      "capture_ref": "partner-websites-2026-10-10T05-17-25-515Z/capture-14",
+      "segment_id": "capture-14-page",
+      "quote": "The HCM, FIN, and Payroll implementation went live successfully in July 2024",
+      "reason": "Quote not an exact substring of referenced segment"
+    }
+  ],
+  "done_reason": "stop",
+  "duration_seconds": 58.936979291
+}
