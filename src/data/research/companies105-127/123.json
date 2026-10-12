@@ -1,0 +1,92 @@
+{
+  "number": 123,
+  "company_id": "f72c302d-8220-5b51-bb34-8678fd7cdea1",
+  "name": "Rochester Regional Health",
+  "research_status": "reviewed",
+  "domain": "rochesterregional.org",
+  "industry": "Healthcare and hospital system",
+  "headquarters": "Rochester, New York, United States",
+  "employee_count": 20000,
+  "employee_basis": "Employer April 27, 2026 announcement says nearly 20,000 team members; rounded estimate, not an exact census.",
+  "company_source": "https://www.workday.com/en-us/customer-stories/q-z/rochester-regional-health-lower-attrition-better-care.html",
+  "modules": [
+    "Human Capital Management",
+    "Peakon Employee Voice",
+    "Talent Acquisition",
+    "Payroll",
+    "Time and Attendance",
+    "Prism Analytics",
+    "Financial Management",
+    "Supply Chain"
+  ],
+  "go_live": {
+    "date": null,
+    "precision": "month",
+    "status": "completed",
+    "description": "Deloitte confirms initial Rochester General Health Workday deployment in April 2014 and the Unity transition in early 2015 after the merger. These phases must not be conflated with a new whole-group launch. Exact days and later Finance/Peakon launch dates unavailable.",
+    "sources": [
+      "https://www.deloitte.com/content/dam/assets-shared/docs/alliances/workday/2023/gx-deloitte-case-study-rochester-college.pdf"
+    ]
+  },
+  "contacts": [
+    {
+      "name": "Charlene Wilson",
+      "title": "Executive Vice President and Chief People Officer",
+      "linkedin_url": "https://www.linkedin.com/in/charlene-wilson-1259bb345",
+      "source": "https://www.rochesterregional.org/hub/charlene-wilson-rbj-inclusion-award",
+      "role_status": "current_official",
+      "notes": "2026 employer release verifies title; public profile matches employer and Rochester location."
+    },
+    {
+      "name": "Jason Frank",
+      "title": "Senior Vice President, Integrated Workforce & Operations Technology",
+      "linkedin_url": "https://www.linkedin.com/in/jason-frank",
+      "source": "https://www.workday.com/en-us/customer-stories/q-z/rochester-regional-health-lower-attrition-better-care.html",
+      "role_status": "current_public_profile",
+      "notes": "Workday story gives SVP title; current public profile confirms employer and active Workday integration recruitment/event participation. Older posts call him VP HRIT."
+    }
+  ],
+  "evidence": [
+    {
+      "category": "company",
+      "source": "https://www.rochesterregional.org/hub/charlene-wilson-rbj-inclusion-award",
+      "reason": "April 2026 employer announcement confirms current CPO and nearly 20,000 workforce."
+    },
+    {
+      "category": "authority",
+      "source": "https://www.workday.com/en-us/customer-stories/q-z/rochester-regional-health-lower-attrition-better-care.html",
+      "reason": "Named SVP owns workforce technology and discusses HRIS, analytics, compliance and employee engagement."
+    },
+    {
+      "category": "reachability",
+      "source": "https://www.linkedin.com/in/jason-frank",
+      "reason": "Current public professional profile provides a relevant technology leader; his recent post says he is heading to Workday Rising, but no team mutual or buying intent confirmed."
+    },
+    {
+      "category": "budget",
+      "source": "https://www.rochesterregional.org/contact-us",
+      "reason": "Employer confirms Equifax The Work Number adoption for automated employment/income verification; adjacent HR automation use, not verified new testing procurement."
+    },
+    {
+      "category": "budget",
+      "source": "https://www.rochesterregional.org/about/facts-and-statistics",
+      "reason": "Company quick facts report $3.2bn operating revenue, but figure is undated and does not establish profitability or available software budget."
+    },
+    {
+      "category": "timing",
+      "source": "https://www.deloitte.com/content/dam/assets-shared/docs/alliances/workday/2023/gx-deloitte-case-study-rochester-college.pdf",
+      "reason": "Implementation partner explicitly confirms April 2014 initial deployment and early-2015 Unity transition."
+    }
+  ],
+  "why_now": "Expanded Workday analytics, employee listening and Finance/Supply Chain integrations make change assurance relevant to clinical workforce compliance and retention. Jason Frank's public Rising participation and integration leadership hiring suggest an accessible conversation topic; an immediate procurement deadline is unconfirmed.",
+  "persona": "Integrated workforce technology / HRIS leader, with CPO sponsor",
+  "level": "Senior vice president and C-suite",
+  "gaps": [
+    "Exact initial and later module go-live days unavailable.",
+    "No verified direct buyer work email or phone, mutual introduction or willingness to purchase.",
+    "No confirmed external Workday test-automation purchase or new purchasing timeline.",
+    "Current consolidated profitability/financial stability not established from available quick facts."
+  ],
+  "research_notes": "Do not confuse RRH with University of Rochester/URMC or City of Rochester; those Workday projects and launch dates are separate. A public recruiter email reposted by Jason is for benefits-job referrals, not his direct buyer email. Current first-person post states Rising attendance, but accessible relative age does not independently establish the year; avoid asserting 2026 without dated confirmation. No scores changed.",
+  "research_checked_on": "2026-10-12"
+}

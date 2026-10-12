@@ -1,0 +1,90 @@
+{
+  "number": 107,
+  "company_id": "d61013b8-dfbd-5c63-bf4b-53608c4db63a",
+  "name": "Patagonia",
+  "research_status": "reviewed",
+  "domain": "patagonia.com",
+  "industry": "Outdoor apparel retail",
+  "headquarters": "Ventura, California, United States",
+  "employee_count": 4000,
+  "employee_basis": "Nearly 4,000 globally in July 2026 CPO interview; rounded estimate, not audited headcount.",
+  "company_source": "https://www.workday.com/en-us/customer-stories/i-p/patagonia-unifies-its-workforce-to-drive-engagement-and-growth.html",
+  "modules": [
+    "Human Capital Management",
+    "Recruiting",
+    "Payroll and Workforce Management",
+    "Scheduling and Labor Optimization",
+    "Illuminate skills suggestions"
+  ],
+  "go_live": {
+    "date": null,
+    "precision": "latest bound / unspecified holiday season",
+    "status": "completed",
+    "description": "Workday newsroom confirms deployed HCM/recruiting by June 27, 2017. Later Workday Scheduling holiday-season deployment completed, but year/day absent. Neither is a newly verified exact go-live.",
+    "sources": [
+      "https://en-au.newsroom.workday.com/2017-06-27-Medium-Enterprise-Organizations-Continue-to-Drive-Business-Value-With-Workday",
+      "https://www.workday.com/en-us/customer-stories/i-p/patagonia-unifies-its-workforce-to-drive-engagement-and-growth.html"
+    ]
+  },
+  "contacts": [
+    {
+      "name": "Theresita Richard",
+      "title": "Chief People and Culture Officer",
+      "linkedin_url": "https://www.linkedin.com/in/theresitarichard",
+      "source": "https://www.cultureamp.com/podcast/patagonia-purpose-and-performance",
+      "role_status": "current_public_profile"
+    },
+    {
+      "name": "Kylie Riley",
+      "title": "People Tech & Portfolio Enablement Leader",
+      "linkedin_url": "https://www.linkedin.com/in/kylie-riley-3693647a",
+      "source": "https://www.workday.com/en-us/customer-stories/i-p/patagonia-unifies-its-workforce-to-drive-engagement-and-growth.html",
+      "role_status": "current_public_profile",
+      "notes": "Public profile lists Patagonia and Workday Pro credentials; case names exact role."
+    }
+  ],
+  "evidence": [
+    {
+      "category": "company_size",
+      "source": "https://www.cultureamp.com/podcast/patagonia-purpose-and-performance",
+      "reason": "July 29, 2026 CPO interview describes nearly 4,000 employees worldwide."
+    },
+    {
+      "category": "company_identity",
+      "source": "https://www.linkedin.com/company/patagonia_2/",
+      "reason": "Company page confirms Ventura headquarters and official domain."
+    },
+    {
+      "category": "authority",
+      "source": "https://www.workday.com/en-us/customer-stories/i-p/patagonia-unifies-its-workforce-to-drive-engagement-and-growth.html",
+      "reason": "Kylie Riley describes HR technology standardization, scheduling and Workday AI use."
+    },
+    {
+      "category": "budget_proxy",
+      "source": "https://www.cultureamp.com/podcast/patagonia",
+      "reason": "Culture Amp host explicitly says Patagonia became a customer; adjacent HR software adoption, no contract value or current purchasing window."
+    },
+    {
+      "category": "timing_trigger",
+      "source": "https://www.workday.com/en-us/customer-stories/i-p/patagonia-unifies-its-workforce-to-drive-engagement-and-growth.html",
+      "reason": "Skills suggestions already used; scheduling optimization is future interest. No dated new implementation."
+    },
+    {
+      "category": "reachability",
+      "source": "https://www.cultureamp.com/podcast/patagonia-purpose-and-performance",
+      "reason": "Public professional role identified; direct verified contact channel, team mutual connection and willingness to buy are not established."
+    }
+  ],
+  "why_now": "Frontline scheduling, skills-based mobility and employee listening provide concrete HR technology use cases. Existing Workday/Culture Amp adoption supports an integration and process discussion; current buying intent is unconfirmed.",
+  "persona": "People technology / HRIS platform owner",
+  "level": "Leader / C-suite",
+  "gaps": [
+    "Exact initial and Scheduling go-live dates",
+    "Direct emails/phones",
+    "Warm connection and willingness",
+    "Private-company financial capacity and purchasing window",
+    "Workday Rising participation"
+  ],
+  "research_notes": "Do not classify Mark Fisher as CIO: public profile is global integrated business planning leadership. No scores assigned.",
+  "research_checked_on": "2026-10-12"
+}

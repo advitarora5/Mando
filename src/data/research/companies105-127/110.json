@@ -1,0 +1,98 @@
+{
+  "number": 110,
+  "company_id": "d6abfb39-4e7c-5d56-a2e8-3af7afb3c277",
+  "name": "Land O’Lakes",
+  "research_status": "reviewed",
+  "domain": "landolakesinc.com",
+  "industry": "Agricultural cooperative, dairy foods and animal nutrition",
+  "headquarters": "Arden Hills, Minnesota, United States",
+  "employee_count": 9000,
+  "employee_basis": "9,000 worldwide in official Workday customer case; undated historical estimate, current count not confirmed.",
+  "company_source": "https://www.workday.com/en-se/customer-stories/i-p/land-o-lakes-saves-time-payroll-boosts-compliance.html",
+  "modules": [
+    "Human Capital Management",
+    "Payroll",
+    "Learning",
+    "Talent Acquisition",
+    "Data Hub",
+    "Time Tracking"
+  ],
+  "go_live": {
+    "date": null,
+    "precision": "month for Time Tracking; initial HCM date unknown",
+    "status": "completed",
+    "description": "Land O’Lakes / Helios webinar confirms Workday Time Tracking live May 2023 after ten-month implementation. Earlier HCM/payroll was live before 2020 pandemic. John Gardner profile contains January 2017 project, but employer attribution not explicit; not assigned to Land O’Lakes.",
+    "sources": [
+      "https://goldcast.ondemand.goldcast.io/on-demand/0f271132-65e7-4ef7-a739-f7fcaff028a2",
+      "https://forms.workday.com/content/dam/web/en-us/documents/case-studies/cs-cm-LandOLakes-enus.pdf"
+    ]
+  },
+  "contacts": [
+    {
+      "name": "Julie Sexton",
+      "title": "Senior Vice President & Chief Human Resources Officer",
+      "linkedin_url": null,
+      "source": "https://www.landolakesinc.com/who-we-are/leadership/",
+      "role_status": "current_official"
+    },
+    {
+      "name": "Teddy Bekele",
+      "title": "Senior Vice President & Chief Technology Officer",
+      "linkedin_url": "https://www.linkedin.com/in/teddy-bekele-b48219",
+      "source": "https://www.landolakesinc.com/who-we-are/leadership/",
+      "role_status": "current_official"
+    },
+    {
+      "name": "John Gardner",
+      "title": "Payroll and Compliance Manager",
+      "linkedin_url": "https://www.linkedin.com/in/johngardnercpp",
+      "source": "https://www.workday.com/en-se/customer-stories/i-p/land-o-lakes-saves-time-payroll-boosts-compliance.html",
+      "role_status": "current_public_profile",
+      "notes": "Current employer/hiring posts corroborate; exact present title may have changed from case-study title."
+    }
+  ],
+  "evidence": [
+    {
+      "category": "company_size",
+      "source": "https://www.workday.com/en-se/customer-stories/i-p/land-o-lakes-saves-time-payroll-boosts-compliance.html",
+      "reason": "Case identifies 9,000 global employees and HCM/payroll production outcomes."
+    },
+    {
+      "category": "authority",
+      "source": "https://www.landolakesinc.com/who-we-are/leadership/",
+      "reason": "Official current CHRO and CTO roster; payroll owner has public Workday-specific engagement."
+    },
+    {
+      "category": "budget_proxy",
+      "source": "https://goldcast.ondemand.goldcast.io/on-demand/0f271132-65e7-4ef7-a739-f7fcaff028a2",
+      "reason": "Buyer describes purchased SaaS time-clock licenses/hardware and paid Helios implementation; genuine adjacent time-system spend, no current renewal window."
+    },
+    {
+      "category": "timing_trigger",
+      "source": "https://www.linkedin.com/in/johngardnercpp",
+      "reason": "Public current HR Technology Analyst and payroll hiring shares indicate ongoing system capacity needs; relative ages not converted to exact dates."
+    },
+    {
+      "category": "company_identity",
+      "source": "https://www.landolakesinc.com/who-we-are/leadership/",
+      "reason": "Official corporate office address in Arden Hills and domain."
+    },
+    {
+      "category": "reachability",
+      "source": "https://www.landolakesinc.com/who-we-are/leadership/",
+      "reason": "Public professional role identified; direct verified contact channel, team mutual connection and willingness to buy are not established."
+    }
+  ],
+  "why_now": "Workday Time Tracking rollout and ongoing HR technology/payroll recruitment support a discussion about integrations, testing and multi-site compliance; mature HCM deployment, no verified new go-live.",
+  "persona": "HR technology / payroll platform operations",
+  "level": "Manager / C-suite",
+  "gaps": [
+    "Exact initial HCM and Time Tracking go-live day",
+    "Current dated headcount and audited financial details",
+    "Buyer direct emails/phones",
+    "Warm connection and purchasing deadline",
+    "Rising participation"
+  ],
+  "research_notes": "Corporate 651-375-2222 / communications2@landolakes.com are public switchboard/communications channels, not direct buyer reachability. No scores assigned.",
+  "research_checked_on": "2026-10-12"
+}

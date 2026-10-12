@@ -1,0 +1,90 @@
+{
+  "number": 124,
+  "company_id": "f8999d86-8581-5148-9b55-466217b6dd0f",
+  "name": "MileOne Autogroup",
+  "research_status": "reviewed",
+  "domain": "mileone.com",
+  "industry": "Automotive retail and dealership services",
+  "headquarters": "Towson, Maryland, United States",
+  "employee_count": 4000,
+  "employee_basis": "Workday customer story reports 4,000 employees; undated estimate retained, not a fresh exact census.",
+  "company_source": "https://www.workday.com/en-us/customer-stories/i-p/workforce-management-drives-employee-engagement-at-mileone.html",
+  "modules": [
+    "Human Capital Management",
+    "Payroll",
+    "Time Tracking",
+    "Absence Management",
+    "Scheduling and Labor Optimization",
+    "Benefits",
+    "Learning"
+  ],
+  "go_live": {
+    "date": null,
+    "precision": "completed_by_bound",
+    "status": "completed",
+    "description": "Company's dated September 6, 2018 employee security notice refers to active Workday accounts, confirming production use by that date. It is not the launch day. Later workforce-management customer case confirms completed scheduling/time/absence modernization but supplies no rollout date.",
+    "sources": [
+      "https://images.mileone.com/James/2018/08/workday/workday-email.html",
+      "https://www.workday.com/en-us/customer-stories/i-p/workforce-management-drives-employee-engagement-at-mileone.html"
+    ]
+  },
+  "contacts": [
+    {
+      "name": "G Mossanen",
+      "title": "Chief Human Resources Officer",
+      "linkedin_url": "https://www.linkedin.com/in/ghoncheh",
+      "source": "https://www.linkedin.com/posts/mileoneautogroup_leadership-in-action-mileone-autogroup-activity-7472296286512189440-634Q",
+      "role_status": "current_official",
+      "notes": "Employer's current leadership interview verifies CHRO promotion; older Workday story calls her Senior Director and names Debora Feinberg as then-CHRO."
+    },
+    {
+      "name": "Krupa Pandya",
+      "title": "Workday Administrator / Analyst",
+      "linkedin_url": "https://www.linkedin.com/in/krupa-pandya-1311a414",
+      "source": "https://www.linkedin.com/in/krupa-pandya-1311a414",
+      "role_status": "current_public_profile",
+      "notes": "Current public profile identifies MileOne and Workday configuration expertise; functional practitioner, not a verified director or budget owner."
+    },
+    {
+      "name": "Houshyar Karimabadi",
+      "title": "Chief Information Officer (directory claim; unconfirmed)",
+      "linkedin_url": "https://www.linkedin.com/in/houshyar-karimabadi-7b180811",
+      "source": "https://www.linkedin.com/in/houshyar-karimabadi-7b180811",
+      "role_status": "current_employer_title_unconfirmed",
+      "notes": "Current employer profile confirmed, but displayed summary is marketing/operations. Third-party directories claim CIO since 2024; do not import the title as verified without employer confirmation."
+    }
+  ],
+  "evidence": [
+    {
+      "category": "authority",
+      "source": "https://www.linkedin.com/posts/mileoneautogroup_leadership-in-action-mileone-autogroup-activity-7472296286512189440-634Q",
+      "reason": "Employer identifies G Mossanen as current Chief Human Resources Officer."
+    },
+    {
+      "category": "reachability",
+      "source": "https://www.linkedin.com/in/ghoncheh",
+      "reason": "Professional profile matches the employer-confirmed CHRO; no direct verified channel, team mutual or willingness to act established."
+    },
+    {
+      "category": "budget",
+      "source": "https://www.workday.com/en-us/customer-stories/i-p/workforce-management-drives-employee-engagement-at-mileone.html",
+      "reason": "Customer confirms investment in Workday scheduling/time/absence modernization and consolidation of five payroll systems; this is installed technology, not a separate test-tool purchase or new allocation."
+    },
+    {
+      "category": "timing",
+      "source": "https://images.mileone.com/James/2018/08/workday/workday-email.html",
+      "reason": "Dated September 2018 corporate notice proves existing Workday use, without dating go-live."
+    }
+  ],
+  "why_now": "An acquisition-shaped payroll estate has consolidated into Workday and expanded workforce scheduling, time and absence automation. Frontline labor optimization and a promoted CHRO provide plausible topics for testing and change assurance; no recent launch or active procurement trigger was confirmed.",
+  "persona": "HR technology practitioner with CHRO sponsor",
+  "level": "Analyst and C-suite",
+  "gaps": [
+    "Exact initial and workforce-management go-live dates unavailable.",
+    "Current exact employee census and CIO identity/title require confirmation.",
+    "No verified direct buyer emails/phones or team mutual connections.",
+    "External Workday-adjacent tool purchases, financial stability details and committed purchasing timeline not confirmed."
+  ],
+  "research_notes": "Company handbook https://images.mileone.com/hr-connection-cbiz-docs/20-05426-MOAutogroup-MOC_Employee_Handbook.pdf publishes employeeconnect@mileone.com and 410-427-6910 as shared employee HR support, not a buyer's direct channel; deliverability unverified. Historical Henry Lederer business contact in a 2014 SEC filing was not imported because current role is unconfirmed. No scores changed.",
+  "research_checked_on": "2026-10-12"
+}

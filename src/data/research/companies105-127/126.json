@@ -1,0 +1,93 @@
+{
+  "number": 126,
+  "company_id": "fd1944dc-6a8e-5075-bed9-2ae50cad52c5",
+  "name": "Concentrix",
+  "research_status": "reviewed",
+  "domain": "concentrix.com",
+  "industry": "Customer experience technology and business services",
+  "headquarters": "Newark, California, United States",
+  "employee_count": 455000,
+  "employee_basis": "Issuer FY2025 annual report states approximately 455,000 full-time employees at November 30, 2025; replaces older 450,000 story snapshot.",
+  "company_source": "https://www.workday.com/en-us/customer-stories/a-h/concentrix-streamlines-hiring-onboarding.html",
+  "modules": [
+    "Human Capital Management",
+    "Financial Management",
+    "Professional Services Automation",
+    "Talent Acquisition / Recruiting",
+    "Talent Management"
+  ],
+  "go_live": {
+    "date": null,
+    "precision": "unknown",
+    "status": "completed",
+    "description": "Current customer case confirms completed unified Workday deployment with 400+ integrations across 70+ countries. A public Workday interview says Finance went live 'one year ago' but lacks a reliable absolute interview date in the accessible transcript; no exact launch day/month inferred. Initial HCM date remains unavailable.",
+    "sources": [
+      "https://www.workday.com/en-us/customer-stories/a-h/concentrix-streamlines-hiring-onboarding.html",
+      "https://www.linkedin.com/posts/workday_you-dont-need-every-question-answered-on-activity-7480923828735479809-g-pb"
+    ]
+  },
+  "contacts": [
+    {
+      "name": "Rupesh Ahluwalia",
+      "title": "Vice President, Global HR Information Systems and Transformation",
+      "linkedin_url": null,
+      "source": "https://www.workday.com/en-us/perspectives/hr/rupesh-ahluwalia-concentrix.html",
+      "role_status": "current_official",
+      "notes": "Workday customer leadership feature and September 2026 event organizer roster agree on VP role. Correct public LinkedIn profile not confidently identified."
+    },
+    {
+      "name": "Abhishek Jain",
+      "title": "HRIS Director",
+      "linkedin_url": "https://www.linkedin.com/in/abhishek-jain-54a27ba",
+      "source": "https://www.workday.com/en-us/customer-stories/a-h/concentrix-streamlines-hiring-onboarding.html",
+      "role_status": "current_public_profile",
+      "notes": "Current public profile confirms Concentrix, global Workday responsibility and 450,000+ workforce experience; Dallas-based technology leader, not same-name finance/recruiting profiles."
+    },
+    {
+      "name": "Diane Hanson",
+      "title": "Senior Vice President, People Solutions (historical employer-report title)",
+      "linkedin_url": "https://www.linkedin.com/in/diane-hanson-a3482a7",
+      "source": "https://www.concentrix.com/resource/sustainability-report-2023-mobile/",
+      "role_status": "current_employer_title_unconfirmed",
+      "notes": "Current public employer affiliation matches, but latest exact formal title not independently reconfirmed."
+    }
+  ],
+  "evidence": [
+    {
+      "category": "company",
+      "source": "https://s21.q4cdn.com/257053467/files/doc_financials/2025/ar/Concentrix-2026-Annual-Report.pdf",
+      "reason": "Issuer reports 455,000 full-time staff as of November 30, 2025."
+    },
+    {
+      "category": "authority",
+      "source": "https://www.workday.com/en-us/perspectives/hr/rupesh-ahluwalia-concentrix.html",
+      "reason": "Named global HRIS/transformation VP oversees enterprise HR systems across 70 countries."
+    },
+    {
+      "category": "reachability",
+      "source": "https://www.linkedin.com/in/abhishek-jain-54a27ba",
+      "reason": "Current relevant HRIS director has a public professional profile; no warm connection, direct verified channel or willingness to act established."
+    },
+    {
+      "category": "budget",
+      "source": "https://ir.concentrix.com/news/news-details/Concentrix-Reports-Fourth-Quarter-and-Fiscal-Year-2025-Results/",
+      "reason": "Issuer FY2025 results provide financial capacity context, but GAAP loss includes substantial noncash goodwill impairment; do not assume revenue proves unrestricted budget."
+    },
+    {
+      "category": "timing",
+      "source": "https://www.linkedin.com/posts/workday_you-dont-need-every-question-answered-on-activity-7480923828735479809-g-pb",
+      "reason": "HRIS VP describes relatively recent Finance go-live and HR AI-agent development; accessible relative timing cannot populate an exact date."
+    }
+  ],
+  "why_now": "Acquisition consolidation and more than 400 Workday integrations create significant regression and cross-system assurance needs. A relatively recent Finance launch and manager-facing HR AI agent provide modernization topics, while the named global HRIS leaders offer relevant contacts. Procurement timing and testing-tool allocation remain unknown.",
+  "persona": "Global HRIS and transformation owner",
+  "level": "Director and vice president",
+  "gaps": [
+    "Exact initial HCM and Finance go-live calendar dates unavailable.",
+    "Rupesh's LinkedIn URL and Diane's current exact title not confidently verified.",
+    "No direct buyer emails/phones, verified deliverability, team mutuals or willingness to buy.",
+    "No confirmed external adjacent testing/automation purchase or committed purchasing timeline."
+  ],
+  "research_notes": "Headquarters Newark, CA comes from FY2025 issuer annual-report address. ServiceNow implementation cases published by Concentrix describe unnamed customers, not proof of Concentrix's internal purchase. ServiceSource historical sales wins naming Workday reverse the buyer/seller relationship and cannot date Concentrix's deployment. No scores changed.",
+  "research_checked_on": "2026-10-12"
+}

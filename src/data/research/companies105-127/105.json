@@ -1,0 +1,85 @@
+{
+  "number": 105,
+  "company_id": "d4a07a57-e44e-5c1e-89be-103cf7e621e0",
+  "name": "Sanofi",
+  "research_status": "reviewed",
+  "domain": "sanofi.com",
+  "industry": "Biopharmaceuticals",
+  "headquarters": "Paris, France",
+  "employee_count": 74846,
+  "employee_basis": "Year-end 2025 global headcount; excludes garden leave and executive committee; retained Opella only.",
+  "company_source": "https://www.workday.com/en-us/customer-stories/q-z/sanofi-improves-workforce-insights-with-real-time-data.html",
+  "modules": [
+    "Human Capital Management",
+    "Talent Management",
+    "Performance Management"
+  ],
+  "go_live": {
+    "date": null,
+    "precision": "multi-year rollout / latest bound",
+    "status": "completed",
+    "description": "Workday newsroom confirms Sanofi live by 2015-05-26. Sanofi states rollout 2015–2017, core HR waves 2016–2017. Exact enterprise completion day not found; do not use announcement day as go-live.",
+    "sources": [
+      "https://en-sg.newsroom.workday.com/2015-05-26-The-Coca-Cola-Company-and-Dell-Take-HR-to-the-Cloud-as-More-Global-Companies-Choose-Workday",
+      "https://www.sanofi.com/assets/dotcom/content-app/publications/esg-reports/2020-01-01-declaration-of-extra-financial-performance-en.pdf"
+    ]
+  },
+  "contacts": [
+    {
+      "name": "Véronique Jaillet",
+      "title": "Interim Chief People Officer",
+      "linkedin_url": "https://www.linkedin.com/in/veronique-jaillet-1ba852173/",
+      "source": "https://www.sanofi.com/en/our-company/governance/executive-committee/veronique-jaillet",
+      "role_status": "current_official",
+      "notes": "Appointed June 2026. Official biography links this LinkedIn profile; public profile retrieval restricted."
+    },
+    {
+      "name": "Emmanuel Frenehard",
+      "title": "Chief Digital Officer",
+      "linkedin_url": "https://www.linkedin.com/in/frenehard",
+      "source": "https://www.sanofi.com/en/media-room/press-releases/2026/2026-07-21-16-00-00-3330752",
+      "role_status": "current_official",
+      "notes": "July 2026 announcement confirms continuing direct report to CEO; public professional profile corroborates."
+    }
+  ],
+  "evidence": [
+    {
+      "category": "company_size",
+      "source": "https://www.sanofi.com/assets/dotcom/content-app/publications/esg-reports/sanofi-sustainability-statement-2025.pdf",
+      "reason": "2025 workforce table reports 74,846 employees; Skills Power uses Workday."
+    },
+    {
+      "category": "authority",
+      "source": "https://www.sanofi.com/en/media-room/press-releases/2026/2026-07-21-16-00-00-3330752",
+      "reason": "Current People and Digital executives identified, effective September 2026; purchasing authority for Mando not established."
+    },
+    {
+      "category": "budget_proxy",
+      "source": "https://www.elementum.ai/blog/legacy-system-modernization-sanofi-ai-native",
+      "reason": "Vendor's September 15, 2026 account documents deployed Elementum/Snowflake AI workflows; adjacent automation adoption, not a confirmed Mando budget or renewal."
+    },
+    {
+      "category": "timing_trigger",
+      "source": "https://www.sanofi.com/assets/dotcom/content-app/publications/esg-reports/sanofi-sustainability-statement-2025.pdf",
+      "reason": "Skills Power rolled out October 2025 with Workday support; ongoing talent-system modernization."
+    },
+    {
+      "category": "reachability",
+      "source": "https://www.sanofi.com/en/our-company/governance/executive-committee/veronique-jaillet",
+      "reason": "Public professional role identified; direct verified contact channel, team mutual connection and willingness to buy are not established."
+    }
+  ],
+  "why_now": "Current AI workflow modernization and the 2026 People leadership transition create a research-backed reason to discuss HR-system governance and automation. Workday is a mature deployment, not a recent go-live.",
+  "persona": "HR systems / People transformation and enterprise digital leadership",
+  "level": "C-suite",
+  "gaps": [
+    "Exact enterprise go-live day",
+    "Current named HRIS platform owner",
+    "Direct work emails and phones",
+    "One-degree mutual connection and willingness to act",
+    "Mando-specific purchasing timeline",
+    "Workday Rising 2026 participation not confirmed"
+  ],
+  "research_notes": "Natalie Bickford is a former Sanofi contact (left May 31, 2026); do not add her as current. Historical case-study speakers Roberto Pucci and Denis Sacré are not treated as current. Public profile presence is not warm reachability. No scores assigned.",
+  "research_checked_on": "2026-10-12"
+}
