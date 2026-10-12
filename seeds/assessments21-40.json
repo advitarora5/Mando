@@ -1,0 +1,1493 @@
+[
+  {
+    "row": 21,
+    "company_id": "273c8483-a7d0-5601-975c-9640b8e555af",
+    "assessment_id": "c8b83f0d-86b1-5f3d-aa5c-61b939a597d6",
+    "rubric_version": "week2-100",
+    "as_of": "2026-10-12",
+    "category_scores": {
+      "authority": {
+        "score": 12.5,
+        "source_url": "https://www.linkedin.com/in/jennifer-klein-phr-27619720",
+        "reason": "Archived CHRO/HCM modernization leads retained; WSU directory and profiles failed live retrieval, so current title remains secondary evidence."
+      },
+      "reachability": {
+        "score": 12.5,
+        "source_url": "https://www.linkedin.com/in/jennifer-klein-phr-27619720",
+        "reason": "Retained professional profile/provenance gives a public route only; no verified direct email/phone. Profiles do not prove a team connection."
+      },
+      "budget": {
+        "score": 20,
+        "source_url": "https://www.workday.com/en-us/customer-stories/q-z/washington-state-university-greater-r1-research-success.html",
+        "reason": "Confirmed Workday expansion: customer story explicitly says WSU is expanding its use of Workday; no committed Mando budget is inferred."
+      },
+      "timing": {
+        "score": 0,
+        "source_url": "https://www.workday.com/en-us/customer-stories/q-z/washington-state-university-greater-r1-research-success.html",
+        "reason": "2021-01-01 Finance processes; HR/payroll was December 2020 launch (archived_only); 2110–2110 days elapsed, exact goLiveBands score 0; missing day/month precision is not fabricated."
+      },
+      "release": {
+        "score": 5,
+        "source_url": "https://workday.csusystem.edu/maintenance-schedule/",
+        "reason": "2027-03-13 standard production feature release is 152 days (21.7 weeks) away, more than 18 weeks; exact releaseBands score = 5."
+      }
+    },
+    "category_points": {
+      "authority": 12.5,
+      "reachability": 12.5,
+      "budget": 20,
+      "timing": 0,
+      "release": 5
+    },
+    "total": 50.0,
+    "tier": "Disqualified",
+    "calculated_tier": "Disqualified",
+    "final_tier": null,
+    "status": "Source-backed scoring snapshot; unresolved fields documented",
+    "needs_research": true,
+    "go_live": "2021-01-01",
+    "go_live_precision": "day",
+    "go_live_verification": "archived_only",
+    "go_live_raw_score": 0,
+    "timing_calculation": {
+      "raw_score": 0,
+      "points": 0,
+      "method": "go_live_bands",
+      "days_since_min": 2110,
+      "days_since_max": 2110,
+      "calculation_bounds": [
+        "2021-01-01",
+        "2021-01-01"
+      ],
+      "reason": "All possible launch days in the stated period yield the same direct band."
+    },
+    "next_release": "2027-03-13",
+    "days_until_release": 152,
+    "release_raw_score": 5,
+    "release_applicable": true,
+    "scoring_rationale": {
+      "authority": "Archived CHRO/HCM modernization leads retained; WSU directory and profiles failed live retrieval, so current title remains secondary evidence.",
+      "reachability": "Retained professional profile/provenance gives a public route only; no verified direct email/phone. Profiles do not prove a team connection.",
+      "budget": "Confirmed Workday expansion: customer story explicitly says WSU is expanding its use of Workday; no committed Mando budget is inferred."
+    },
+    "archived_scores": {
+      "stored_authority_score": 0.0,
+      "stored_reachability_score": 0.0,
+      "stored_budget_score": 0.0,
+      "stored_timing_score": 0.0,
+      "stored_release_score": 5.0
+    }
+  },
+  {
+    "row": 22,
+    "company_id": "27e35692-f806-5cd4-ac74-5559780ad8a4",
+    "assessment_id": "c9dc3670-22fc-5408-a93f-7c5171eea8a7",
+    "rubric_version": "week2-100",
+    "as_of": "2026-10-12",
+    "category_scores": {
+      "authority": {
+        "score": 12.5,
+        "source_url": "https://www.linkedin.com/in/susan-tenney-8750a74",
+        "reason": "The Org labels Susan Tenney VP HR as Unverified; public LinkedIn identity alone does not establish confirmed HRIS/IT leadership."
+      },
+      "reachability": {
+        "score": 12.5,
+        "source_url": "https://www.linkedin.com/in/susan-tenney-8750a74",
+        "reason": "Retained professional profile/provenance gives a public route only; no verified direct email/phone. Profiles do not prove a team connection."
+      },
+      "budget": {
+        "score": 10,
+        "source_url": "https://www.sec.gov/Archives/edgar/data/912463/000091246325000078/a991erq3fy26narrative.htm",
+        "reason": "General corporate expansion: SEC exhibit confirms acquisition and integration of rag & bone operating assets on April 2, 2024. This historical proxy is not current Workday expansion or funding."
+      },
+      "timing": {
+        "score": 0,
+        "source_url": "https://newsroom.workday.com/2026-08-27-Workday-Announces-Fiscal-2027-Second-Quarter-Financial-Results",
+        "reason": "2026-08-27 Customer win/selection announcement (publication); No completed deployment or launch date verified; selection/announcement is not deployment; no undated baseline applied."
+      },
+      "release": {
+        "score": 5,
+        "source_url": "https://workday.csusystem.edu/maintenance-schedule/",
+        "reason": "2027-03-13 standard production feature release is 152 days (21.7 weeks) away, more than 18 weeks; exact releaseBands score = 5. Calendar alignment is a global proxy; completed tenant deployment/applicability remains unverified."
+      }
+    },
+    "category_points": {
+      "authority": 12.5,
+      "reachability": 12.5,
+      "budget": 10,
+      "timing": 0,
+      "release": 5
+    },
+    "total": 40.0,
+    "tier": "Disqualified",
+    "calculated_tier": "Disqualified",
+    "final_tier": null,
+    "status": "Source-backed scoring snapshot; unresolved fields documented",
+    "needs_research": true,
+    "go_live": null,
+    "go_live_precision": null,
+    "go_live_verification": "unknown",
+    "go_live_raw_score": null,
+    "timing_calculation": {
+      "raw_score": null,
+      "points": 0,
+      "method": "unconfirmed_deployment",
+      "reason": "No completed deployment or launch date verified; selection/announcement is not deployment; no undated baseline applied."
+    },
+    "next_release": "2027-03-13",
+    "days_until_release": 152,
+    "release_raw_score": 5,
+    "release_applicable": false,
+    "scoring_rationale": {
+      "authority": "The Org labels Susan Tenney VP HR as Unverified; public LinkedIn identity alone does not establish confirmed HRIS/IT leadership.",
+      "reachability": "Retained professional profile/provenance gives a public route only; no verified direct email/phone. Profiles do not prove a team connection.",
+      "budget": "General corporate expansion: SEC exhibit confirms acquisition and integration of rag & bone operating assets on April 2, 2024. This historical proxy is not current Workday expansion or funding."
+    },
+    "archived_scores": {
+      "stored_authority_score": 6.0,
+      "stored_reachability_score": 3.0,
+      "stored_budget_score": 10.0,
+      "stored_timing_score": 4.0,
+      "stored_release_score": 0.0
+    }
+  },
+  {
+    "row": 23,
+    "company_id": "28b86c2d-b75e-564c-a3c1-2b3b56d8d8ee",
+    "assessment_id": "402d5e0f-2326-5df7-a016-d6a070dbac4b",
+    "rubric_version": "week2-100",
+    "as_of": "2026-10-12",
+    "category_scores": {
+      "authority": {
+        "score": 25,
+        "source_url": "https://www.linkedin.com/in/esther-s-2b6a001a4",
+        "reason": "Workday identifies Esther Schürmann as Vice President, People Technology and AI, directly responsible for this HR technology program."
+      },
+      "reachability": {
+        "score": 12.5,
+        "source_url": "https://www.linkedin.com/in/esther-s-2b6a001a4",
+        "reason": "Retained professional profile/provenance gives a public route only; no verified direct email/phone. Profiles do not prove a team connection."
+      },
+      "budget": {
+        "score": 20,
+        "source_url": "https://www.workday.com/en-us/customer-stories/a-h/gea-group-standardizes-hr-processes-globally.html",
+        "reason": "Confirmed ecosystem adoption: Kainos Employee Document Management, Smart Test, Smart Audit and AMS; not merely corporate financial capacity."
+      },
+      "timing": {
+        "score": 0,
+        "source_url": "https://www.workday.com/en-us/customer-stories/a-h/gea-group-standardizes-hr-processes-globally.html",
+        "reason": "Summer 2017 global HCM launch is dated in the Kainos case study; this Workday case corroborates deployment; 3207–3571 days elapsed, so the exact >365-day goLiveBands score is 0; launch month/day remain unknown."
+      },
+      "release": {
+        "score": 5,
+        "source_url": "https://workday.csusystem.edu/maintenance-schedule/",
+        "reason": "2027-03-13 standard production feature release is 152 days (21.7 weeks) away, more than 18 weeks; exact releaseBands score = 5."
+      }
+    },
+    "category_points": {
+      "authority": 25,
+      "reachability": 12.5,
+      "budget": 20,
+      "timing": 0,
+      "release": 5
+    },
+    "total": 62.5,
+    "tier": "Maybe",
+    "calculated_tier": "Maybe",
+    "final_tier": null,
+    "status": "Source-backed scoring snapshot; unresolved fields documented",
+    "needs_research": true,
+    "go_live": "2017",
+    "go_live_precision": "year",
+    "go_live_verification": "live_primary",
+    "go_live_raw_score": 0,
+    "timing_calculation": {
+      "raw_score": 0,
+      "points": 0,
+      "method": "go_live_bands",
+      "days_since_min": 3207,
+      "days_since_max": 3571,
+      "calculation_bounds": [
+        "2017-01-01",
+        "2017-12-31"
+      ],
+      "reason": "All possible launch days in the stated period yield the same direct band."
+    },
+    "next_release": "2027-03-13",
+    "days_until_release": 152,
+    "release_raw_score": 5,
+    "release_applicable": true,
+    "scoring_rationale": {
+      "authority": "Workday identifies Esther Schürmann as Vice President, People Technology and AI, directly responsible for this HR technology program.",
+      "reachability": "Retained professional profile/provenance gives a public route only; no verified direct email/phone. Profiles do not prove a team connection.",
+      "budget": "Confirmed ecosystem adoption: Kainos Employee Document Management, Smart Test, Smart Audit and AMS; not merely corporate financial capacity."
+    },
+    "archived_scores": {
+      "stored_authority_score": 0.0,
+      "stored_reachability_score": 0.0,
+      "stored_budget_score": 0.0,
+      "stored_timing_score": 0.0,
+      "stored_release_score": 5.0
+    },
+    "timing_date_source_url": "https://www.kainos.com/insights/success-stories/leading-process-technology-manufacturer--supplier-gea-optimises-workday-with-smart-test"
+  },
+  {
+    "row": 24,
+    "company_id": "28f1118b-1f41-53c3-bc32-ae8b8ea7ec80",
+    "assessment_id": "6a65b415-8e6e-5fb3-aa9f-7df152016678",
+    "rubric_version": "week2-100",
+    "as_of": "2026-10-12",
+    "category_scores": {
+      "authority": {
+        "score": 25,
+        "source_url": "https://www.linkedin.com/in/murielschulz",
+        "reason": "Workday identifies Muriel Shulz as People Foresight and Innovation Executive Director, discussing the group HR technology rollout. Archived Schulz/Shulz spelling discrepancy is retained as a gap."
+      },
+      "reachability": {
+        "score": 12.5,
+        "source_url": "https://www.linkedin.com/in/murielschulz",
+        "reason": "Retained professional profile/provenance gives a public route only; no verified direct email/phone. Profiles do not prove a team connection."
+      },
+      "budget": {
+        "score": 20,
+        "source_url": "https://www.workday.com/en-us/customer-stories/a-h/adeo-strengthens-culture-HR-with-workday.html",
+        "reason": "Confirmed organizational Workday expansion: rollout across 26 group companies is completed. Plans for unspecified additional modules remain uncommitted."
+      },
+      "timing": {
+        "score": 6,
+        "source_url": "https://www.workday.com/en-us/customer-stories/a-h/adeo-strengthens-culture-HR-with-workday.html",
+        "reason": "Confirmed Workday deployment; exact go-live day/month/year not stated; user-approved undated historical baseline = 6."
+      },
+      "release": {
+        "score": 5,
+        "source_url": "https://workday.csusystem.edu/maintenance-schedule/",
+        "reason": "2027-03-13 standard production feature release is 152 days (21.7 weeks) away, more than 18 weeks; exact releaseBands score = 5."
+      }
+    },
+    "category_points": {
+      "authority": 25,
+      "reachability": 12.5,
+      "budget": 20,
+      "timing": 6,
+      "release": 5
+    },
+    "total": 68.5,
+    "tier": "Maybe",
+    "calculated_tier": "Maybe",
+    "final_tier": null,
+    "status": "Source-backed scoring snapshot; unresolved fields documented",
+    "needs_research": true,
+    "go_live": null,
+    "go_live_precision": null,
+    "go_live_verification": "unknown",
+    "go_live_raw_score": 6,
+    "timing_calculation": {
+      "raw_score": 6,
+      "points": 6,
+      "method": "undated_confirmed_baseline",
+      "reason": "Confirmed Workday deployment; exact go-live day/month/year not stated; user-approved undated historical baseline = 6."
+    },
+    "next_release": "2027-03-13",
+    "days_until_release": 152,
+    "release_raw_score": 5,
+    "release_applicable": true,
+    "scoring_rationale": {
+      "authority": "Workday identifies Muriel Shulz as People Foresight and Innovation Executive Director, discussing the group HR technology rollout. Archived Schulz/Shulz spelling discrepancy is retained as a gap.",
+      "reachability": "Retained professional profile/provenance gives a public route only; no verified direct email/phone. Profiles do not prove a team connection.",
+      "budget": "Confirmed organizational Workday expansion: rollout across 26 group companies is completed. Plans for unspecified additional modules remain uncommitted."
+    },
+    "archived_scores": {
+      "stored_authority_score": 0.0,
+      "stored_reachability_score": 0.0,
+      "stored_budget_score": 0.0,
+      "stored_timing_score": 0.0,
+      "stored_release_score": 5.0
+    }
+  },
+  {
+    "row": 25,
+    "company_id": "29b4e402-901c-57df-8ea5-10c20a610b88",
+    "assessment_id": "b79912ba-9382-552a-a193-b74967b365ad",
+    "rubric_version": "week2-100",
+    "as_of": "2026-10-12",
+    "category_scores": {
+      "authority": {
+        "score": 25,
+        "source_url": "https://www.linkedin.com/in/alvinvaleriano",
+        "reason": "Alvin Valeriano is the Global Director, Data Planning and Management COE responsible for selection and global HR data transformation."
+      },
+      "reachability": {
+        "score": 12.5,
+        "source_url": "https://www.linkedin.com/in/alvinvaleriano",
+        "reason": "Retained professional profile/provenance gives a public route only; no verified direct email/phone. Profiles do not prove a team connection."
+      },
+      "budget": {
+        "score": 0,
+        "source_url": "https://www.yokogawa.com/about/ir/finance/forecast/",
+        "reason": "Financial capacity and existing HCM are established, but no incremental committed Workday expansion, adjacent-tool adoption or general corporate expansion is verified in reviewed sources."
+      },
+      "timing": {
+        "score": 6,
+        "source_url": "https://www.workday.com/en-us/customer-stories/q-z/yokogawa-electric-transforms-hr-data-ai-personalization.html",
+        "reason": "Confirmed Workday deployment; exact go-live day/month/year not stated; user-approved undated historical baseline = 6."
+      },
+      "release": {
+        "score": 5,
+        "source_url": "https://workday.csusystem.edu/maintenance-schedule/",
+        "reason": "2027-03-13 standard production feature release is 152 days (21.7 weeks) away, more than 18 weeks; exact releaseBands score = 5."
+      }
+    },
+    "category_points": {
+      "authority": 25,
+      "reachability": 12.5,
+      "budget": 0,
+      "timing": 6,
+      "release": 5
+    },
+    "total": 48.5,
+    "tier": "Disqualified",
+    "calculated_tier": "Disqualified",
+    "final_tier": null,
+    "status": "Source-backed scoring snapshot; unresolved fields documented",
+    "needs_research": true,
+    "go_live": null,
+    "go_live_precision": null,
+    "go_live_verification": "unknown",
+    "go_live_raw_score": 6,
+    "timing_calculation": {
+      "raw_score": 6,
+      "points": 6,
+      "method": "undated_confirmed_baseline",
+      "reason": "Confirmed Workday deployment; exact go-live day/month/year not stated; user-approved undated historical baseline = 6."
+    },
+    "next_release": "2027-03-13",
+    "days_until_release": 152,
+    "release_raw_score": 5,
+    "release_applicable": true,
+    "scoring_rationale": {
+      "authority": "Alvin Valeriano is the Global Director, Data Planning and Management COE responsible for selection and global HR data transformation.",
+      "reachability": "Retained professional profile/provenance gives a public route only; no verified direct email/phone. Profiles do not prove a team connection.",
+      "budget": "Financial capacity and existing HCM are established, but no incremental committed Workday expansion, adjacent-tool adoption or general corporate expansion is verified in reviewed sources."
+    },
+    "archived_scores": {
+      "stored_authority_score": 0.0,
+      "stored_reachability_score": 0.0,
+      "stored_budget_score": 0.0,
+      "stored_timing_score": 0.0,
+      "stored_release_score": 5.0
+    }
+  },
+  {
+    "row": 26,
+    "company_id": "2db82b39-effe-59bd-912a-a3df0af2f9d1",
+    "assessment_id": "ef9ca1c2-568d-5dcc-a1fc-47641914a275",
+    "rubric_version": "week2-100",
+    "as_of": "2026-10-12",
+    "category_scores": {
+      "authority": {
+        "score": 25,
+        "source_url": "https://www.linkedin.com/in/kerrysmithj",
+        "reason": "Official executive profile confirms Kerry Smith as Chief People Officer leading HR/People functions; equivalent executive HR authority."
+      },
+      "reachability": {
+        "score": 12.5,
+        "source_url": "https://www.linkedin.com/in/kerrysmithj",
+        "reason": "Retained professional profile/provenance gives a public route only; no verified direct email/phone. Profiles do not prove a team connection."
+      },
+      "budget": {
+        "score": 20,
+        "source_url": "https://www.workday.com/en-us/customer-stories/a-h/british-heart-foundation-improved-talent-retention-skills.html",
+        "reason": "Confirmed incremental ecosystem adoption: Workday Skills Cloud and Peakon surveys are in use."
+      },
+      "timing": {
+        "score": 6,
+        "source_url": "https://www.workday.com/en-us/customer-stories/a-h/british-heart-foundation-improved-talent-retention-skills.html",
+        "reason": "Confirmed Workday deployment; exact go-live day/month/year not stated; user-approved undated historical baseline = 6."
+      },
+      "release": {
+        "score": 5,
+        "source_url": "https://workday.csusystem.edu/maintenance-schedule/",
+        "reason": "2027-03-13 standard production feature release is 152 days (21.7 weeks) away, more than 18 weeks; exact releaseBands score = 5."
+      }
+    },
+    "category_points": {
+      "authority": 25,
+      "reachability": 12.5,
+      "budget": 20,
+      "timing": 6,
+      "release": 5
+    },
+    "total": 68.5,
+    "tier": "Maybe",
+    "calculated_tier": "Maybe",
+    "final_tier": null,
+    "status": "Source-backed scoring snapshot; unresolved fields documented",
+    "needs_research": true,
+    "go_live": null,
+    "go_live_precision": null,
+    "go_live_verification": "unknown",
+    "go_live_raw_score": 6,
+    "timing_calculation": {
+      "raw_score": 6,
+      "points": 6,
+      "method": "undated_confirmed_baseline",
+      "reason": "Confirmed Workday deployment; exact go-live day/month/year not stated; user-approved undated historical baseline = 6."
+    },
+    "next_release": "2027-03-13",
+    "days_until_release": 152,
+    "release_raw_score": 5,
+    "release_applicable": true,
+    "scoring_rationale": {
+      "authority": "Official executive profile confirms Kerry Smith as Chief People Officer leading HR/People functions; equivalent executive HR authority.",
+      "reachability": "Retained professional profile/provenance gives a public route only; no verified direct email/phone. Profiles do not prove a team connection.",
+      "budget": "Confirmed incremental ecosystem adoption: Workday Skills Cloud and Peakon surveys are in use."
+    },
+    "archived_scores": {
+      "stored_authority_score": 0.0,
+      "stored_reachability_score": 0.0,
+      "stored_budget_score": 0.0,
+      "stored_timing_score": 0.0,
+      "stored_release_score": 5.0
+    }
+  },
+  {
+    "row": 27,
+    "company_id": "2edf52e7-25ec-5084-9671-487fcf595917",
+    "assessment_id": "b930c331-2dd6-56f2-a06e-5b647d8f668e",
+    "rubric_version": "week2-100",
+    "as_of": "2026-10-12",
+    "category_scores": {
+      "authority": {
+        "score": 25,
+        "source_url": "https://www.linkedin.com/in/sarah-o-hare-38801a10",
+        "reason": "Workday confirms Sarah O’Hare as Global Head of HR and describes her ownership of Workday selection and rollout; equivalent executive HR authority."
+      },
+      "reachability": {
+        "score": 12.5,
+        "source_url": "https://www.linkedin.com/in/sarah-o-hare-38801a10",
+        "reason": "Retained professional profile/provenance gives a public route only; no verified direct email/phone. Profiles do not prove a team connection."
+      },
+      "budget": {
+        "score": 20,
+        "source_url": "https://www.workday.com/en-us/customer-stories/a-h/hr-implementation-revolutionizes-freudenberg-group.html",
+        "reason": "Confirmed incremental Workday expansion: Recruiting deployed a year after initial deployment."
+      },
+      "timing": {
+        "score": 0,
+        "source_url": "https://www.workday.com/en-us/customer-stories/a-h/hr-implementation-revolutionizes-freudenberg-group.html",
+        "reason": "2020-05 Group-wide core deployment launch (archived_only); 2325–2355 days elapsed, exact goLiveBands score 0; missing day/month precision is not fabricated."
+      },
+      "release": {
+        "score": 5,
+        "source_url": "https://workday.csusystem.edu/maintenance-schedule/",
+        "reason": "2027-03-13 standard production feature release is 152 days (21.7 weeks) away, more than 18 weeks; exact releaseBands score = 5."
+      }
+    },
+    "category_points": {
+      "authority": 25,
+      "reachability": 12.5,
+      "budget": 20,
+      "timing": 0,
+      "release": 5
+    },
+    "total": 62.5,
+    "tier": "Maybe",
+    "calculated_tier": "Maybe",
+    "final_tier": null,
+    "status": "Source-backed scoring snapshot; unresolved fields documented",
+    "needs_research": true,
+    "go_live": "2020-05",
+    "go_live_precision": "month",
+    "go_live_verification": "archived_only",
+    "go_live_raw_score": 0,
+    "timing_calculation": {
+      "raw_score": 0,
+      "points": 0,
+      "method": "go_live_bands",
+      "days_since_min": 2325,
+      "days_since_max": 2355,
+      "calculation_bounds": [
+        "2020-05-01",
+        "2020-05-31"
+      ],
+      "reason": "All possible launch days in the stated period yield the same direct band."
+    },
+    "next_release": "2027-03-13",
+    "days_until_release": 152,
+    "release_raw_score": 5,
+    "release_applicable": true,
+    "scoring_rationale": {
+      "authority": "Workday confirms Sarah O’Hare as Global Head of HR and describes her ownership of Workday selection and rollout; equivalent executive HR authority.",
+      "reachability": "Retained professional profile/provenance gives a public route only; no verified direct email/phone. Profiles do not prove a team connection.",
+      "budget": "Confirmed incremental Workday expansion: Recruiting deployed a year after initial deployment."
+    },
+    "archived_scores": {
+      "stored_authority_score": 0.0,
+      "stored_reachability_score": 0.0,
+      "stored_budget_score": 0.0,
+      "stored_timing_score": 0.0,
+      "stored_release_score": 5.0
+    }
+  },
+  {
+    "row": 28,
+    "company_id": "31981bd6-f31c-599c-b080-71099efd4004",
+    "assessment_id": "6ccf2ad8-4b0d-5e69-a095-f7e18fc75c5a",
+    "rubric_version": "week2-100",
+    "as_of": "2026-10-12",
+    "category_scores": {
+      "authority": {
+        "score": 25,
+        "source_url": "https://www.linkedin.com/in/karineparent",
+        "reason": "Official Azelis page confirms Karine Parent as Group HR Director."
+      },
+      "reachability": {
+        "score": 25,
+        "source_url": "https://www.azelis.com/en/ethicsandcompliance",
+        "reason": "Exact work email published by company; no deliverability test or warm introduction claimed."
+      },
+      "budget": {
+        "score": 20,
+        "source_url": "https://www.workday.com/en-us/customer-stories/a-h/workday-powers-azelis-integration-strategy.html",
+        "reason": "Confirmed Workday expansion through M&A: 50 acquisitions since the 2019 deployment and a standard three-month integration process."
+      },
+      "timing": {
+        "score": 0,
+        "source_url": "https://www.workday.com/en-us/customer-stories/a-h/workday-powers-azelis-integration-strategy.html",
+        "reason": "2019 HCM and Absence/Performance/Advanced Compensation/Learning/Time Tracking launch (live_primary); 2477–2841 days elapsed, exact goLiveBands score 0; missing day/month precision is not fabricated."
+      },
+      "release": {
+        "score": 5,
+        "source_url": "https://workday.csusystem.edu/maintenance-schedule/",
+        "reason": "2027-03-13 standard production feature release is 152 days (21.7 weeks) away, more than 18 weeks; exact releaseBands score = 5."
+      }
+    },
+    "category_points": {
+      "authority": 25,
+      "reachability": 25,
+      "budget": 20,
+      "timing": 0,
+      "release": 5
+    },
+    "total": 75,
+    "tier": "Maybe",
+    "calculated_tier": "Maybe",
+    "final_tier": null,
+    "status": "Source-backed scoring snapshot; unresolved fields documented",
+    "needs_research": true,
+    "go_live": "2019",
+    "go_live_precision": "year",
+    "go_live_verification": "live_primary",
+    "go_live_raw_score": 0,
+    "timing_calculation": {
+      "raw_score": 0,
+      "points": 0,
+      "method": "go_live_bands",
+      "days_since_min": 2477,
+      "days_since_max": 2841,
+      "calculation_bounds": [
+        "2019-01-01",
+        "2019-12-31"
+      ],
+      "reason": "All possible launch days in the stated period yield the same direct band."
+    },
+    "next_release": "2027-03-13",
+    "days_until_release": 152,
+    "release_raw_score": 5,
+    "release_applicable": true,
+    "scoring_rationale": {
+      "authority": "Official Azelis page confirms Karine Parent as Group HR Director.",
+      "reachability": "Exact work email published by company; no deliverability test or warm introduction claimed.",
+      "budget": "Confirmed Workday expansion through M&A: 50 acquisitions since the 2019 deployment and a standard three-month integration process."
+    },
+    "archived_scores": {
+      "stored_authority_score": 0.0,
+      "stored_reachability_score": 0.0,
+      "stored_budget_score": 0.0,
+      "stored_timing_score": 0.0,
+      "stored_release_score": 5.0
+    }
+  },
+  {
+    "row": 29,
+    "company_id": "3462609e-b445-55f7-b42c-b9d714516846",
+    "assessment_id": "7a438f28-374c-51e7-a325-06cf07cf00eb",
+    "rubric_version": "week2-100",
+    "as_of": "2026-10-12",
+    "category_scores": {
+      "authority": {
+        "score": 12.5,
+        "source_url": "https://www.linkedin.com/in/sunggeelee",
+        "reason": "Workday confirms Sunggee Lee as senior manager, Human Respect Team; operational program lead rather than VP/Director."
+      },
+      "reachability": {
+        "score": 12.5,
+        "source_url": "https://www.linkedin.com/in/sunggeelee",
+        "reason": "Retained professional profile/provenance gives a public route only; no verified direct email/phone. Profiles do not prove a team connection."
+      },
+      "budget": {
+        "score": 20,
+        "source_url": "https://www.workday.com/en-us/customer-stories/i-p/kolmar-digital-transformation-employee-experience.html",
+        "reason": "Confirmed ecosystem adoption: first Korean deployments of Workday Peakon Employee Voice and Extend."
+      },
+      "timing": {
+        "score": 6,
+        "source_url": "https://www.workday.com/en-us/customer-stories/i-p/kolmar-digital-transformation-employee-experience.html",
+        "reason": "Confirmed Workday deployment; exact go-live day/month/year not stated; user-approved undated historical baseline = 6."
+      },
+      "release": {
+        "score": 5,
+        "source_url": "https://workday.csusystem.edu/maintenance-schedule/",
+        "reason": "2027-03-13 standard production feature release is 152 days (21.7 weeks) away, more than 18 weeks; exact releaseBands score = 5."
+      }
+    },
+    "category_points": {
+      "authority": 12.5,
+      "reachability": 12.5,
+      "budget": 20,
+      "timing": 6,
+      "release": 5
+    },
+    "total": 56.0,
+    "tier": "Maybe",
+    "calculated_tier": "Maybe",
+    "final_tier": null,
+    "status": "Source-backed scoring snapshot; unresolved fields documented",
+    "needs_research": true,
+    "go_live": null,
+    "go_live_precision": null,
+    "go_live_verification": "unknown",
+    "go_live_raw_score": 6,
+    "timing_calculation": {
+      "raw_score": 6,
+      "points": 6,
+      "method": "undated_confirmed_baseline",
+      "reason": "Confirmed Workday deployment; exact go-live day/month/year not stated; user-approved undated historical baseline = 6."
+    },
+    "next_release": "2027-03-13",
+    "days_until_release": 152,
+    "release_raw_score": 5,
+    "release_applicable": true,
+    "scoring_rationale": {
+      "authority": "Workday confirms Sunggee Lee as senior manager, Human Respect Team; operational program lead rather than VP/Director.",
+      "reachability": "Retained professional profile/provenance gives a public route only; no verified direct email/phone. Profiles do not prove a team connection.",
+      "budget": "Confirmed ecosystem adoption: first Korean deployments of Workday Peakon Employee Voice and Extend."
+    },
+    "archived_scores": {
+      "stored_authority_score": 0.0,
+      "stored_reachability_score": 0.0,
+      "stored_budget_score": 0.0,
+      "stored_timing_score": 0.0,
+      "stored_release_score": 5.0
+    }
+  },
+  {
+    "row": 30,
+    "company_id": "34d06ced-211d-595b-80e7-e86ce410903a",
+    "assessment_id": "73fd4188-79a0-580f-a878-40d485fecb39",
+    "rubric_version": "week2-100",
+    "as_of": "2026-10-12",
+    "category_scores": {
+      "authority": {
+        "score": 25,
+        "source_url": "https://www.linkedin.com/in/reginakrug",
+        "reason": "Workday confirms Regina Krug as Head of Global HRIS and owner of HCM, Recruiting and Prism rollout; equivalent HRIS leadership."
+      },
+      "reachability": {
+        "score": 12.5,
+        "source_url": "https://www.linkedin.com/in/reginakrug",
+        "reason": "Retained professional profile/provenance gives a public route only; no verified direct email/phone. Profiles do not prove a team connection."
+      },
+      "budget": {
+        "score": 20,
+        "source_url": "https://www.workday.com/en-us/customer-stories/q-z/rakuten-leverages-data-supports-global-growth.html",
+        "reason": "Confirmed incremental Workday adoption: Regina Krug introduced Prism Analytics after HCM/Recruiting; customer also uses Workday Success Plans."
+      },
+      "timing": {
+        "score": 6,
+        "source_url": "https://www.workday.com/en-us/customer-stories/q-z/rakuten-leverages-data-supports-global-growth.html",
+        "reason": "Confirmed Workday deployment; exact go-live day/month/year not stated; user-approved undated historical baseline = 6."
+      },
+      "release": {
+        "score": 5,
+        "source_url": "https://workday.csusystem.edu/maintenance-schedule/",
+        "reason": "2027-03-13 standard production feature release is 152 days (21.7 weeks) away, more than 18 weeks; exact releaseBands score = 5."
+      }
+    },
+    "category_points": {
+      "authority": 25,
+      "reachability": 12.5,
+      "budget": 20,
+      "timing": 6,
+      "release": 5
+    },
+    "total": 68.5,
+    "tier": "Maybe",
+    "calculated_tier": "Maybe",
+    "final_tier": null,
+    "status": "Source-backed scoring snapshot; unresolved fields documented",
+    "needs_research": true,
+    "go_live": null,
+    "go_live_precision": null,
+    "go_live_verification": "unknown",
+    "go_live_raw_score": 6,
+    "timing_calculation": {
+      "raw_score": 6,
+      "points": 6,
+      "method": "undated_confirmed_baseline",
+      "reason": "Confirmed Workday deployment; exact go-live day/month/year not stated; user-approved undated historical baseline = 6."
+    },
+    "next_release": "2027-03-13",
+    "days_until_release": 152,
+    "release_raw_score": 5,
+    "release_applicable": true,
+    "scoring_rationale": {
+      "authority": "Workday confirms Regina Krug as Head of Global HRIS and owner of HCM, Recruiting and Prism rollout; equivalent HRIS leadership.",
+      "reachability": "Retained professional profile/provenance gives a public route only; no verified direct email/phone. Profiles do not prove a team connection.",
+      "budget": "Confirmed incremental Workday adoption: Regina Krug introduced Prism Analytics after HCM/Recruiting; customer also uses Workday Success Plans."
+    },
+    "archived_scores": {
+      "stored_authority_score": 0.0,
+      "stored_reachability_score": 0.0,
+      "stored_budget_score": 0.0,
+      "stored_timing_score": 0.0,
+      "stored_release_score": 5.0
+    }
+  },
+  {
+    "row": 31,
+    "company_id": "354673ea-47f9-5871-8a88-26d9a239085b",
+    "assessment_id": "2f3ce8a6-7963-5d2a-a03f-1ab225e885ce",
+    "rubric_version": "week2-100",
+    "as_of": "2026-10-12",
+    "category_scores": {
+      "authority": {
+        "score": 12.5,
+        "source_url": "https://www.linkedin.com/in/antonketelaars",
+        "reason": "Anton Ketelaars is a confirmed Global HR Leader, Processes & Solutions. Neither VP nor Director rank is stated; retain operational-lead points."
+      },
+      "reachability": {
+        "score": 12.5,
+        "source_url": "https://www.linkedin.com/in/antonketelaars",
+        "reason": "Retained professional profile/provenance gives a public route only; no verified direct email/phone. Profiles do not prove a team connection."
+      },
+      "budget": {
+        "score": 20,
+        "source_url": "https://stradaglobal.com/asia/insights/bdr-thermea-workday-transformation/",
+        "reason": "Confirmed funded-program proxy: Strada partnership for phased Workday-aligned global payroll transformation starting in 2026; launch milestones are not specified."
+      },
+      "timing": {
+        "score": 6,
+        "source_url": "https://www.workday.com/en-us/customer-stories/a-h/bdr-thermea-revolutionizes-hr-sustainable-future.html",
+        "reason": "Confirmed Workday deployment; exact go-live day/month/year not stated; user-approved undated historical baseline = 6."
+      },
+      "release": {
+        "score": 5,
+        "source_url": "https://workday.csusystem.edu/maintenance-schedule/",
+        "reason": "2027-03-13 standard production feature release is 152 days (21.7 weeks) away, more than 18 weeks; exact releaseBands score = 5."
+      }
+    },
+    "category_points": {
+      "authority": 12.5,
+      "reachability": 12.5,
+      "budget": 20,
+      "timing": 6,
+      "release": 5
+    },
+    "total": 56.0,
+    "tier": "Maybe",
+    "calculated_tier": "Maybe",
+    "final_tier": null,
+    "status": "Source-backed scoring snapshot; unresolved fields documented",
+    "needs_research": true,
+    "go_live": null,
+    "go_live_precision": null,
+    "go_live_verification": "unknown",
+    "go_live_raw_score": 6,
+    "timing_calculation": {
+      "raw_score": 6,
+      "points": 6,
+      "method": "undated_confirmed_baseline",
+      "reason": "Confirmed Workday deployment; exact go-live day/month/year not stated; user-approved undated historical baseline = 6."
+    },
+    "next_release": "2027-03-13",
+    "days_until_release": 152,
+    "release_raw_score": 5,
+    "release_applicable": true,
+    "scoring_rationale": {
+      "authority": "Anton Ketelaars is a confirmed Global HR Leader, Processes & Solutions. Neither VP nor Director rank is stated; retain operational-lead points.",
+      "reachability": "Retained professional profile/provenance gives a public route only; no verified direct email/phone. Profiles do not prove a team connection.",
+      "budget": "Confirmed funded-program proxy: Strada partnership for phased Workday-aligned global payroll transformation starting in 2026; launch milestones are not specified."
+    },
+    "archived_scores": {
+      "stored_authority_score": 0.0,
+      "stored_reachability_score": 0.0,
+      "stored_budget_score": 0.0,
+      "stored_timing_score": 0.0,
+      "stored_release_score": 5.0
+    }
+  },
+  {
+    "row": 32,
+    "company_id": "36890587-f5bf-59af-ad10-f62c4b822862",
+    "assessment_id": "2c883f73-b279-54d1-aeb4-8445d0ec491f",
+    "rubric_version": "week2-100",
+    "as_of": "2026-10-12",
+    "category_scores": {
+      "authority": {
+        "score": 12.5,
+        "source_url": "https://www.linkedin.com/in/ashley-kruse-6613b22a",
+        "reason": "Ashley Kruse is confirmed as manager of HR Technology and Automation, an operational Workday owner."
+      },
+      "reachability": {
+        "score": 12.5,
+        "source_url": "https://www.linkedin.com/in/ashley-kruse-6613b22a",
+        "reason": "Retained professional profile/provenance gives a public route only; no verified direct email/phone. Profiles do not prove a team connection."
+      },
+      "budget": {
+        "score": 20,
+        "source_url": "https://www.workday.com/en-us/customer-stories/a-h/3m-extend-global-product-powerhouse.html",
+        "reason": "Confirmed ecosystem expansion: globally developed Workday Extend apps and Workday Studio/Prism integrations."
+      },
+      "timing": {
+        "score": 6,
+        "source_url": "https://www.workday.com/en-us/customer-stories/a-h/3m-extend-global-product-powerhouse.html",
+        "reason": "Confirmed Workday deployment; exact go-live day/month/year not stated; user-approved undated historical baseline = 6."
+      },
+      "release": {
+        "score": 5,
+        "source_url": "https://workday.csusystem.edu/maintenance-schedule/",
+        "reason": "2027-03-13 standard production feature release is 152 days (21.7 weeks) away, more than 18 weeks; exact releaseBands score = 5."
+      }
+    },
+    "category_points": {
+      "authority": 12.5,
+      "reachability": 12.5,
+      "budget": 20,
+      "timing": 6,
+      "release": 5
+    },
+    "total": 56.0,
+    "tier": "Maybe",
+    "calculated_tier": "Maybe",
+    "final_tier": null,
+    "status": "Source-backed scoring snapshot; unresolved fields documented",
+    "needs_research": true,
+    "go_live": null,
+    "go_live_precision": null,
+    "go_live_verification": "unknown",
+    "go_live_raw_score": 6,
+    "timing_calculation": {
+      "raw_score": 6,
+      "points": 6,
+      "method": "undated_confirmed_baseline",
+      "reason": "Confirmed Workday deployment; exact go-live day/month/year not stated; user-approved undated historical baseline = 6."
+    },
+    "next_release": "2027-03-13",
+    "days_until_release": 152,
+    "release_raw_score": 5,
+    "release_applicable": true,
+    "scoring_rationale": {
+      "authority": "Ashley Kruse is confirmed as manager of HR Technology and Automation, an operational Workday owner.",
+      "reachability": "Retained professional profile/provenance gives a public route only; no verified direct email/phone. Profiles do not prove a team connection.",
+      "budget": "Confirmed ecosystem expansion: globally developed Workday Extend apps and Workday Studio/Prism integrations."
+    },
+    "archived_scores": {
+      "stored_authority_score": 0.0,
+      "stored_reachability_score": 0.0,
+      "stored_budget_score": 0.0,
+      "stored_timing_score": 0.0,
+      "stored_release_score": 5.0
+    }
+  },
+  {
+    "row": 33,
+    "company_id": "37342b6c-13ee-5365-b43f-675c0ea5db85",
+    "assessment_id": "91121c09-fe8a-5ef0-a630-87c4fb7d9658",
+    "rubric_version": "week2-100",
+    "as_of": "2026-10-12",
+    "category_scores": {
+      "authority": {
+        "score": 12.5,
+        "source_url": "https://www.linkedin.com/in/jackie-adams-01b1087",
+        "reason": "CHRO Association verifies Jackie Adams as Director, Benefits and People Analytics, an adjacent role rather than a confirmed HRIS/IT director."
+      },
+      "reachability": {
+        "score": 12.5,
+        "source_url": "https://www.linkedin.com/in/jackie-adams-01b1087",
+        "reason": "Retained professional profile/provenance gives a public route only; no verified direct email/phone. Profiles do not prove a team connection."
+      },
+      "budget": {
+        "score": 10,
+        "source_url": "https://newsroom.meijer.com/2026-05-06-Meijer-Opens-New-Ohio-Supercenter-in-Bainbridge-Township",
+        "reason": "General corporate expansion: new Ohio supercenter in Bainbridge Township opened in 2026. Existing baseline Workday suite is not counted as new ecosystem-tool adoption."
+      },
+      "timing": {
+        "score": 6,
+        "source_url": "https://www.workday.com/en-us/customer-stories/i-p/meijer-improves-efficiency-with-flexible-hr-system.html",
+        "reason": "Confirmed Workday deployment; exact go-live day/month/year not stated; user-approved undated historical baseline = 6."
+      },
+      "release": {
+        "score": 5,
+        "source_url": "https://workday.csusystem.edu/maintenance-schedule/",
+        "reason": "2027-03-13 standard production feature release is 152 days (21.7 weeks) away, more than 18 weeks; exact releaseBands score = 5."
+      }
+    },
+    "category_points": {
+      "authority": 12.5,
+      "reachability": 12.5,
+      "budget": 10,
+      "timing": 6,
+      "release": 5
+    },
+    "total": 46.0,
+    "tier": "Disqualified",
+    "calculated_tier": "Disqualified",
+    "final_tier": null,
+    "status": "Source-backed scoring snapshot; unresolved fields documented",
+    "needs_research": true,
+    "go_live": null,
+    "go_live_precision": null,
+    "go_live_verification": "unknown",
+    "go_live_raw_score": 6,
+    "timing_calculation": {
+      "raw_score": 6,
+      "points": 6,
+      "method": "undated_confirmed_baseline",
+      "reason": "Confirmed Workday deployment; exact go-live day/month/year not stated; user-approved undated historical baseline = 6."
+    },
+    "next_release": "2027-03-13",
+    "days_until_release": 152,
+    "release_raw_score": 5,
+    "release_applicable": true,
+    "scoring_rationale": {
+      "authority": "CHRO Association verifies Jackie Adams as Director, Benefits and People Analytics, an adjacent role rather than a confirmed HRIS/IT director.",
+      "reachability": "Retained professional profile/provenance gives a public route only; no verified direct email/phone. Profiles do not prove a team connection.",
+      "budget": "General corporate expansion: new Ohio supercenter in Bainbridge Township opened in 2026. Existing baseline Workday suite is not counted as new ecosystem-tool adoption."
+    },
+    "archived_scores": {
+      "stored_authority_score": 0.0,
+      "stored_reachability_score": 0.0,
+      "stored_budget_score": 0.0,
+      "stored_timing_score": 0.0,
+      "stored_release_score": 5.0
+    }
+  },
+  {
+    "row": 34,
+    "company_id": "3848c998-8623-5e63-a782-0d210afdabbf",
+    "assessment_id": "c85ca53c-139b-5b7d-a88d-e66ea312f3bc",
+    "rubric_version": "week2-100",
+    "as_of": "2026-10-12",
+    "category_scores": {
+      "authority": {
+        "score": 12.5,
+        "source_url": "https://www.linkedin.com/in/karen-wuest-6775037",
+        "reason": "Karen Wuest’s LinkedIn page confirms name/company; Manager of Human Resources title remains archived and not independently exposed in the public view."
+      },
+      "reachability": {
+        "score": 12.5,
+        "source_url": "https://www.linkedin.com/in/karen-wuest-6775037",
+        "reason": "Retained professional profile/provenance gives a public route only; no verified direct email/phone. Profiles do not prove a team connection."
+      },
+      "budget": {
+        "score": 0,
+        "source_url": "https://www.michels.us/michels-construction-inc/news/michels-ranks-38th-on-enr-top-400-list/",
+        "reason": "ENR ranking is scale, not expansion. Full-suite selection is known but incremental deployment, adjacent tools or an expansion project is not confirmed."
+      },
+      "timing": {
+        "score": 0,
+        "source_url": "https://www.workday.com/content/dam/web/en-us/documents/investor/workday-fiscal-2026-second-quarter-prepared-remarks.pdf",
+        "reason": "2025-08-21 Full-suite customer win (publication); No completed deployment or launch date verified; selection/announcement is not deployment; no undated baseline applied."
+      },
+      "release": {
+        "score": 5,
+        "source_url": "https://workday.csusystem.edu/maintenance-schedule/",
+        "reason": "2027-03-13 standard production feature release is 152 days (21.7 weeks) away, more than 18 weeks; exact releaseBands score = 5. Calendar alignment is a global proxy; completed tenant deployment/applicability remains unverified."
+      }
+    },
+    "category_points": {
+      "authority": 12.5,
+      "reachability": 12.5,
+      "budget": 0,
+      "timing": 0,
+      "release": 5
+    },
+    "total": 30.0,
+    "tier": "Disqualified",
+    "calculated_tier": "Disqualified",
+    "final_tier": null,
+    "status": "Source-backed scoring snapshot; unresolved fields documented",
+    "needs_research": true,
+    "go_live": null,
+    "go_live_precision": null,
+    "go_live_verification": "unknown",
+    "go_live_raw_score": null,
+    "timing_calculation": {
+      "raw_score": null,
+      "points": 0,
+      "method": "unconfirmed_deployment",
+      "reason": "No completed deployment or launch date verified; selection/announcement is not deployment; no undated baseline applied."
+    },
+    "next_release": "2027-03-13",
+    "days_until_release": 152,
+    "release_raw_score": 5,
+    "release_applicable": false,
+    "scoring_rationale": {
+      "authority": "Karen Wuest’s LinkedIn page confirms name/company; Manager of Human Resources title remains archived and not independently exposed in the public view.",
+      "reachability": "Retained professional profile/provenance gives a public route only; no verified direct email/phone. Profiles do not prove a team connection.",
+      "budget": "ENR ranking is scale, not expansion. Full-suite selection is known but incremental deployment, adjacent tools or an expansion project is not confirmed."
+    },
+    "archived_scores": {
+      "stored_authority_score": 14.0,
+      "stored_reachability_score": 10.0,
+      "stored_budget_score": 10.0,
+      "stored_timing_score": 4.0,
+      "stored_release_score": 0.0
+    }
+  },
+  {
+    "row": 35,
+    "company_id": "3b08e722-9790-55ee-911f-eb0e89bd4ac1",
+    "assessment_id": "c3f5a11a-860b-5ba3-ae96-d2672cbcbfe2",
+    "rubric_version": "week2-100",
+    "as_of": "2026-10-12",
+    "category_scores": {
+      "authority": {
+        "score": 25,
+        "source_url": "https://www.linkedin.com/in/margie-vargas-64844227",
+        "reason": "Official leadership page confirms Margie Vargas as SVP/CHRO; Workday also names the IT owner Samir Wadhwa in its case study."
+      },
+      "reachability": {
+        "score": 12.5,
+        "source_url": "https://www.linkedin.com/in/margie-vargas-64844227",
+        "reason": "Retained professional profile/provenance gives a public route only; no verified direct email/phone. Profiles do not prove a team connection."
+      },
+      "budget": {
+        "score": 20,
+        "source_url": "https://www.workday.com/en-us/customer-stories/i-p/memorial-healthcare-system-elevates-patient-care.html",
+        "reason": "Confirmed Workday rollout expansion: Mobile App launched with 65% adoption within 39 days; no launch calendar date or Mando allocation is inferred."
+      },
+      "timing": {
+        "score": 6,
+        "source_url": "https://www.workday.com/en-us/customer-stories/i-p/memorial-healthcare-system-elevates-patient-care.html",
+        "reason": "Confirmed Workday deployment; exact go-live day/month/year not stated; user-approved undated historical baseline = 6."
+      },
+      "release": {
+        "score": 5,
+        "source_url": "https://workday.csusystem.edu/maintenance-schedule/",
+        "reason": "2027-03-13 standard production feature release is 152 days (21.7 weeks) away, more than 18 weeks; exact releaseBands score = 5."
+      }
+    },
+    "category_points": {
+      "authority": 25,
+      "reachability": 12.5,
+      "budget": 20,
+      "timing": 6,
+      "release": 5
+    },
+    "total": 68.5,
+    "tier": "Maybe",
+    "calculated_tier": "Maybe",
+    "final_tier": null,
+    "status": "Source-backed scoring snapshot; unresolved fields documented",
+    "needs_research": true,
+    "go_live": null,
+    "go_live_precision": null,
+    "go_live_verification": "unknown",
+    "go_live_raw_score": 6,
+    "timing_calculation": {
+      "raw_score": 6,
+      "points": 6,
+      "method": "undated_confirmed_baseline",
+      "reason": "Confirmed Workday deployment; exact go-live day/month/year not stated; user-approved undated historical baseline = 6."
+    },
+    "next_release": "2027-03-13",
+    "days_until_release": 152,
+    "release_raw_score": 5,
+    "release_applicable": true,
+    "scoring_rationale": {
+      "authority": "Official leadership page confirms Margie Vargas as SVP/CHRO; Workday also names the IT owner Samir Wadhwa in its case study.",
+      "reachability": "Retained professional profile/provenance gives a public route only; no verified direct email/phone. Profiles do not prove a team connection.",
+      "budget": "Confirmed Workday rollout expansion: Mobile App launched with 65% adoption within 39 days; no launch calendar date or Mando allocation is inferred."
+    },
+    "archived_scores": {
+      "stored_authority_score": 0.0,
+      "stored_reachability_score": 0.0,
+      "stored_budget_score": 0.0,
+      "stored_timing_score": 0.0,
+      "stored_release_score": 5.0
+    }
+  },
+  {
+    "row": 36,
+    "company_id": "3bf17c01-c151-5d52-b6b8-94f2d32f14be",
+    "assessment_id": "c9c52845-ac5b-5255-aab2-0c1eadab4b5f",
+    "rubric_version": "week2-100",
+    "as_of": "2026-10-12",
+    "category_scores": {
+      "authority": {
+        "score": 25,
+        "source_url": "https://www.linkedin.com/in/sabina-sopov-9a2ba561",
+        "reason": "Official executive profile confirms Sabina Sopov as Chief People Officer in 2026, leading global People & Culture; equivalent executive HR authority."
+      },
+      "reachability": {
+        "score": 12.5,
+        "source_url": "https://www.linkedin.com/in/sabina-sopov-9a2ba561",
+        "reason": "Retained professional profile/provenance gives a public route only; no verified direct email/phone. Profiles do not prove a team connection."
+      },
+      "budget": {
+        "score": 10,
+        "source_url": "https://assets.cochlear.com/api/public/content/0b55c80777054c1aafbe150960c27a1b?v=0d3358e0",
+        "reason": "General corporate modernization: FY2026 core-cloud investment of AUD66m and FY2027 completion target. No proof that this specific project is Workday. Adaptive Planning is forward-looking in the case narrative."
+      },
+      "timing": {
+        "score": 6,
+        "source_url": "https://www.workday.com/en-us/customer-stories/a-h/cochlear-embeds-ai-in-its-hr-organization.html",
+        "reason": "Confirmed Workday deployment; exact go-live day/month/year not stated; user-approved undated historical baseline = 6."
+      },
+      "release": {
+        "score": 5,
+        "source_url": "https://workday.csusystem.edu/maintenance-schedule/",
+        "reason": "2027-03-13 standard production feature release is 152 days (21.7 weeks) away, more than 18 weeks; exact releaseBands score = 5."
+      }
+    },
+    "category_points": {
+      "authority": 25,
+      "reachability": 12.5,
+      "budget": 10,
+      "timing": 6,
+      "release": 5
+    },
+    "total": 58.5,
+    "tier": "Maybe",
+    "calculated_tier": "Maybe",
+    "final_tier": null,
+    "status": "Source-backed scoring snapshot; unresolved fields documented",
+    "needs_research": true,
+    "go_live": null,
+    "go_live_precision": null,
+    "go_live_verification": "unknown",
+    "go_live_raw_score": 6,
+    "timing_calculation": {
+      "raw_score": 6,
+      "points": 6,
+      "method": "undated_confirmed_baseline",
+      "reason": "Confirmed Workday deployment; exact go-live day/month/year not stated; user-approved undated historical baseline = 6."
+    },
+    "next_release": "2027-03-13",
+    "days_until_release": 152,
+    "release_raw_score": 5,
+    "release_applicable": true,
+    "scoring_rationale": {
+      "authority": "Official executive profile confirms Sabina Sopov as Chief People Officer in 2026, leading global People & Culture; equivalent executive HR authority.",
+      "reachability": "Retained professional profile/provenance gives a public route only; no verified direct email/phone. Profiles do not prove a team connection.",
+      "budget": "General corporate modernization: FY2026 core-cloud investment of AUD66m and FY2027 completion target. No proof that this specific project is Workday. Adaptive Planning is forward-looking in the case narrative."
+    },
+    "archived_scores": {
+      "stored_authority_score": 0.0,
+      "stored_reachability_score": 0.0,
+      "stored_budget_score": 0.0,
+      "stored_timing_score": 0.0,
+      "stored_release_score": 5.0
+    }
+  },
+  {
+    "row": 37,
+    "company_id": "3c87bbb2-782c-50c5-b416-fcf672dfa9d9",
+    "assessment_id": "254ac5fa-0564-5a19-ab0f-d6ff241a03c4",
+    "rubric_version": "week2-100",
+    "as_of": "2026-10-12",
+    "category_scores": {
+      "authority": {
+        "score": 25,
+        "source_url": "https://www.linkedin.com/in/paolo-emilio-testa-b8333414",
+        "reason": "Official SoftServe author profile confirms Paolo Emilio Testa as Chief People Officer, alongside named Workday Solutions Manager Orest Oleksovskyy."
+      },
+      "reachability": {
+        "score": 12.5,
+        "source_url": "https://www.linkedin.com/in/paolo-emilio-testa-b8333414",
+        "reason": "Retained professional profile/provenance gives a public route only; no verified direct email/phone. Profiles do not prove a team connection."
+      },
+      "budget": {
+        "score": 20,
+        "source_url": "https://www.workday.com/en-us/customer-stories/q-z/softserve-workday-extend-flexibility-smart-architecture.html",
+        "reason": "Confirmed ecosystem expansion: 12 Workday Extend apps deployed and another 10 in development pipeline."
+      },
+      "timing": {
+        "score": 0,
+        "source_url": "https://www.workday.com/en-us/customer-stories/q-z/softserve-workday-extend-flexibility-smart-architecture.html",
+        "reason": "2017 Original HR digital transformation deployment launch (live_primary); 3207–3571 days elapsed, exact goLiveBands score 0; missing day/month precision is not fabricated."
+      },
+      "release": {
+        "score": 5,
+        "source_url": "https://workday.csusystem.edu/maintenance-schedule/",
+        "reason": "2027-03-13 standard production feature release is 152 days (21.7 weeks) away, more than 18 weeks; exact releaseBands score = 5."
+      }
+    },
+    "category_points": {
+      "authority": 25,
+      "reachability": 12.5,
+      "budget": 20,
+      "timing": 0,
+      "release": 5
+    },
+    "total": 62.5,
+    "tier": "Maybe",
+    "calculated_tier": "Maybe",
+    "final_tier": null,
+    "status": "Source-backed scoring snapshot; unresolved fields documented",
+    "needs_research": true,
+    "go_live": "2017",
+    "go_live_precision": "year",
+    "go_live_verification": "live_primary",
+    "go_live_raw_score": 0,
+    "timing_calculation": {
+      "raw_score": 0,
+      "points": 0,
+      "method": "go_live_bands",
+      "days_since_min": 3207,
+      "days_since_max": 3571,
+      "calculation_bounds": [
+        "2017-01-01",
+        "2017-12-31"
+      ],
+      "reason": "All possible launch days in the stated period yield the same direct band."
+    },
+    "next_release": "2027-03-13",
+    "days_until_release": 152,
+    "release_raw_score": 5,
+    "release_applicable": true,
+    "scoring_rationale": {
+      "authority": "Official SoftServe author profile confirms Paolo Emilio Testa as Chief People Officer, alongside named Workday Solutions Manager Orest Oleksovskyy.",
+      "reachability": "Retained professional profile/provenance gives a public route only; no verified direct email/phone. Profiles do not prove a team connection.",
+      "budget": "Confirmed ecosystem expansion: 12 Workday Extend apps deployed and another 10 in development pipeline."
+    },
+    "archived_scores": {
+      "stored_authority_score": 0.0,
+      "stored_reachability_score": 0.0,
+      "stored_budget_score": 0.0,
+      "stored_timing_score": 0.0,
+      "stored_release_score": 5.0
+    }
+  },
+  {
+    "row": 38,
+    "company_id": "3fb3afbb-7a0f-5036-be75-3dde891191a1",
+    "assessment_id": "e513cdeb-d3e3-5f6b-a300-7b34d729fd52",
+    "rubric_version": "week2-100",
+    "as_of": "2026-10-12",
+    "category_scores": {
+      "authority": {
+        "score": 25,
+        "source_url": "https://www.linkedin.com/in/jdgallegos-hr",
+        "reason": "Official governance biography confirms Juan Gallegos as VP People and Culture/CHRO; equivalent executive HR authority."
+      },
+      "reachability": {
+        "score": 12.5,
+        "source_url": "https://www.linkedin.com/in/jdgallegos-hr",
+        "reason": "Retained professional profile/provenance gives a public route only; no verified direct email/phone. Profiles do not prove a team connection."
+      },
+      "budget": {
+        "score": 20,
+        "source_url": "https://www.workday.com/en-us/customer-stories/i-p/portland-general-electric-sustainable-renewal.html",
+        "reason": "Confirmed incremental Workday expansion: recent Workday Help deployment is explicitly described."
+      },
+      "timing": {
+        "score": 6,
+        "source_url": "https://www.workday.com/en-us/customer-stories/i-p/portland-general-electric-sustainable-renewal.html",
+        "reason": "Confirmed Workday deployment; exact go-live day/month/year not stated; user-approved undated historical baseline = 6."
+      },
+      "release": {
+        "score": 5,
+        "source_url": "https://workday.csusystem.edu/maintenance-schedule/",
+        "reason": "2027-03-13 standard production feature release is 152 days (21.7 weeks) away, more than 18 weeks; exact releaseBands score = 5."
+      }
+    },
+    "category_points": {
+      "authority": 25,
+      "reachability": 12.5,
+      "budget": 20,
+      "timing": 6,
+      "release": 5
+    },
+    "total": 68.5,
+    "tier": "Maybe",
+    "calculated_tier": "Maybe",
+    "final_tier": null,
+    "status": "Source-backed scoring snapshot; unresolved fields documented",
+    "needs_research": true,
+    "go_live": null,
+    "go_live_precision": null,
+    "go_live_verification": "unknown",
+    "go_live_raw_score": 6,
+    "timing_calculation": {
+      "raw_score": 6,
+      "points": 6,
+      "method": "undated_confirmed_baseline",
+      "reason": "Confirmed Workday deployment; exact go-live day/month/year not stated; user-approved undated historical baseline = 6."
+    },
+    "next_release": "2027-03-13",
+    "days_until_release": 152,
+    "release_raw_score": 5,
+    "release_applicable": true,
+    "scoring_rationale": {
+      "authority": "Official governance biography confirms Juan Gallegos as VP People and Culture/CHRO; equivalent executive HR authority.",
+      "reachability": "Retained professional profile/provenance gives a public route only; no verified direct email/phone. Profiles do not prove a team connection.",
+      "budget": "Confirmed incremental Workday expansion: recent Workday Help deployment is explicitly described."
+    },
+    "archived_scores": {
+      "stored_authority_score": 0.0,
+      "stored_reachability_score": 0.0,
+      "stored_budget_score": 0.0,
+      "stored_timing_score": 0.0,
+      "stored_release_score": 5.0
+    }
+  },
+  {
+    "row": 39,
+    "company_id": "43aa9418-67ae-5f33-810b-0064d3ffa9cd",
+    "assessment_id": "0b93ef47-6095-5f0f-a3ab-812175fe7aa9",
+    "rubric_version": "week2-100",
+    "as_of": "2026-10-12",
+    "category_scores": {
+      "authority": {
+        "score": 12.5,
+        "source_url": "https://www.linkedin.com/in/dan-watson-a3735b11",
+        "reason": "The live The Org person page names Dan Watson as Director Human Resources but explicitly labels the profile Unverified; retain secondary evidence. An active CPO search is not a filled position."
+      },
+      "reachability": {
+        "score": 12.5,
+        "source_url": "https://www.linkedin.com/in/dan-watson-a3735b11",
+        "reason": "Retained professional profile/provenance gives a public route only; no verified direct email/phone. Profiles do not prove a team connection."
+      },
+      "budget": {
+        "score": 0,
+        "source_url": "https://projects.propublica.org/nonprofits/organizations/620850498",
+        "reason": "Financial/operational scale and an HR executive search are known; no qualifying expansion or adjacent-tool adoption is verified."
+      },
+      "timing": {
+        "score": 6,
+        "source_url": "https://www.workday.com/en-us/customer-stories/a-h/dialysis-clinic-fresh-solution-business-workflows.html",
+        "reason": "Confirmed Workday deployment; exact go-live day/month/year not stated; user-approved undated historical baseline = 6."
+      },
+      "release": {
+        "score": 5,
+        "source_url": "https://workday.csusystem.edu/maintenance-schedule/",
+        "reason": "2027-03-13 standard production feature release is 152 days (21.7 weeks) away, more than 18 weeks; exact releaseBands score = 5."
+      }
+    },
+    "category_points": {
+      "authority": 12.5,
+      "reachability": 12.5,
+      "budget": 0,
+      "timing": 6,
+      "release": 5
+    },
+    "total": 36.0,
+    "tier": "Disqualified",
+    "calculated_tier": "Disqualified",
+    "final_tier": null,
+    "status": "Source-backed scoring snapshot; unresolved fields documented",
+    "needs_research": true,
+    "go_live": null,
+    "go_live_precision": null,
+    "go_live_verification": "unknown",
+    "go_live_raw_score": 6,
+    "timing_calculation": {
+      "raw_score": 6,
+      "points": 6,
+      "method": "undated_confirmed_baseline",
+      "reason": "Confirmed Workday deployment; exact go-live day/month/year not stated; user-approved undated historical baseline = 6."
+    },
+    "next_release": "2027-03-13",
+    "days_until_release": 152,
+    "release_raw_score": 5,
+    "release_applicable": true,
+    "scoring_rationale": {
+      "authority": "The live The Org person page names Dan Watson as Director Human Resources but explicitly labels the profile Unverified; retain secondary evidence. An active CPO search is not a filled position.",
+      "reachability": "Retained professional profile/provenance gives a public route only; no verified direct email/phone. Profiles do not prove a team connection.",
+      "budget": "Financial/operational scale and an HR executive search are known; no qualifying expansion or adjacent-tool adoption is verified."
+    },
+    "archived_scores": {
+      "stored_authority_score": 0.0,
+      "stored_reachability_score": 0.0,
+      "stored_budget_score": 0.0,
+      "stored_timing_score": 0.0,
+      "stored_release_score": 5.0
+    }
+  },
+  {
+    "row": 40,
+    "company_id": "446363c7-2e61-5ad9-a4f7-1453219bd9c1",
+    "assessment_id": "0b604c37-83d9-5512-ac8e-bdb61b401aa6",
+    "rubric_version": "week2-100",
+    "as_of": "2026-10-12",
+    "category_scores": {
+      "authority": {
+        "score": 25,
+        "source_url": "https://www.linkedin.com/in/gonzalo-cajade-b244ab7",
+        "reason": "Official appointment announcement confirms Gonzalo Cajade as CHRO, effective June 1, 2025; equivalent executive HR authority."
+      },
+      "reachability": {
+        "score": 12.5,
+        "source_url": "https://www.linkedin.com/in/gonzalo-cajade-b244ab7",
+        "reason": "Retained professional profile/provenance gives a public route only; no verified direct email/phone. Profiles do not prove a team connection."
+      },
+      "budget": {
+        "score": 10,
+        "source_url": "https://investors.bwxt.com/news-releases/news-release-details/bwx-technologies-reports-second-quarter-2026-results",
+        "reason": "General corporate expansion: PCG acquisition closed July 1, 2026 and commercial nuclear manufacturing expansion in the US."
+      },
+      "timing": {
+        "score": 0,
+        "source_url": "https://newsroom.workday.com/2026-08-27-Workday-Announces-Fiscal-2027-Second-Quarter-Financial-Results",
+        "reason": "2026-08-27 Customer win/selection announcement (publication); No completed deployment or launch date verified; selection/announcement is not deployment; no undated baseline applied."
+      },
+      "release": {
+        "score": 5,
+        "source_url": "https://workday.csusystem.edu/maintenance-schedule/",
+        "reason": "2027-03-13 standard production feature release is 152 days (21.7 weeks) away, more than 18 weeks; exact releaseBands score = 5. Calendar alignment is a global proxy; completed tenant deployment/applicability remains unverified."
+      }
+    },
+    "category_points": {
+      "authority": 25,
+      "reachability": 12.5,
+      "budget": 10,
+      "timing": 0,
+      "release": 5
+    },
+    "total": 52.5,
+    "tier": "Disqualified",
+    "calculated_tier": "Disqualified",
+    "final_tier": null,
+    "status": "Source-backed scoring snapshot; unresolved fields documented",
+    "needs_research": true,
+    "go_live": null,
+    "go_live_precision": null,
+    "go_live_verification": "unknown",
+    "go_live_raw_score": null,
+    "timing_calculation": {
+      "raw_score": null,
+      "points": 0,
+      "method": "unconfirmed_deployment",
+      "reason": "No completed deployment or launch date verified; selection/announcement is not deployment; no undated baseline applied."
+    },
+    "next_release": "2027-03-13",
+    "days_until_release": 152,
+    "release_raw_score": 5,
+    "release_applicable": false,
+    "scoring_rationale": {
+      "authority": "Official appointment announcement confirms Gonzalo Cajade as CHRO, effective June 1, 2025; equivalent executive HR authority.",
+      "reachability": "Retained professional profile/provenance gives a public route only; no verified direct email/phone. Profiles do not prove a team connection.",
+      "budget": "General corporate expansion: PCG acquisition closed July 1, 2026 and commercial nuclear manufacturing expansion in the US."
+    },
+    "archived_scores": {
+      "stored_authority_score": 20.0,
+      "stored_reachability_score": 6.0,
+      "stored_budget_score": 15.0,
+      "stored_timing_score": 2.0,
+      "stored_release_score": 0.0
+    }
+  }
+]
