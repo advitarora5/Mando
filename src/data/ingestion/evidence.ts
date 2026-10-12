@@ -2,8 +2,10 @@ import type { ExtractedClaim } from "./extraction.ts";
 
 type Source = { capture_ref: string; segments: { id: string; text: string }[] };
 
-// Only whitespace is normalized (line breaks in captured text); case and punctuation must match exactly.
-const squash = (value: string) => value.replace(/\s+/g, " ").trim();
+const MIN_QUOTE_WORDS = 3;
+
+// Only typography is forgiven: line breaks and curly vs straight quotes. Wording and case must match exactly.
+const squash = (value: string) => value.replace(/[‘’‚‛]/g, "'").replace(/[“”„]/g, '"').replace(/\s+/g, " ").trim();
 
 /** Returns why the claim's evidence is not usable, or null when its quote is verbatim in the cited segment. */
 export function evidenceProblem(claim: ExtractedClaim, sources: Source[]): string | null {
@@ -12,6 +14,7 @@ export function evidenceProblem(claim: ExtractedClaim, sources: Source[]): strin
   if (!source) return `unknown capture_ref ${capture_ref}`;
   const segment = source.segments.find(item => item.id === segment_id);
   if (!segment) return `unknown segment_id ${segment_id} in ${capture_ref}`;
+  if (squash(quote).split(" ").length < MIN_QUOTE_WORDS) return `quote is shorter than ${MIN_QUOTE_WORDS} words`;
   if (!squash(segment.text).includes(squash(quote))) return `quote is not verbatim in ${segment_id}`;
   return null;
 }
