@@ -1,0 +1,862 @@
+[
+  {
+    "row": 21,
+    "company_id": "273c8483-a7d0-5601-975c-9640b8e555af",
+    "assessment_id": "c8b83f0d-86b1-5f3d-aa5c-61b939a597d6",
+    "rubric_version": "week2-100",
+    "as_of": "2026-10-12",
+    "category_scores": {
+      "authority": {
+        "score": 15,
+        "source_url": "https://www.linkedin.com/in/jennifer-klein-phr-27619720",
+        "reason": "Archived HR leadership contacts remain partially verified because current profiles could not be retrieved."
+      },
+      "reachability": {
+        "score": 15,
+        "source_url": "https://www.linkedin.com/in/jennifer-klein-phr-27619720",
+        "reason": "A public professional profile provides a contact route without verified direct email or phone details."
+      },
+      "budget": {
+        "score": 20,
+        "source_url": "https://www.workday.com/en-us/customer-stories/q-z/washington-state-university-greater-r1-research-success.html",
+        "reason": "WSU’s customer story confirms continued expansion of its Workday platform."
+      },
+      "timing": {
+        "score": 0,
+        "source_url": "https://www.workday.com/en-us/customer-stories/q-z/washington-state-university-greater-r1-research-success.html",
+        "reason": "The archived January 2021 finance launch is older than 365 days."
+      },
+      "release": {
+        "score": 5,
+        "source_url": "https://workday.csusystem.edu/maintenance-schedule/",
+        "reason": "The March 13, 2027 release is 21.7 weeks away, placing alignment in the five-point tier."
+      }
+    },
+    "category_points": {
+      "authority": 15,
+      "reachability": 15,
+      "budget": 20,
+      "timing": 0,
+      "release": 5
+    },
+    "total": 55,
+    "tier": "Maybe"
+  },
+  {
+    "row": 22,
+    "company_id": "27e35692-f806-5cd4-ac74-5559780ad8a4",
+    "assessment_id": "c9dc3670-22fc-5408-a93f-7c5171eea8a7",
+    "rubric_version": "week2-100",
+    "as_of": "2026-10-12",
+    "category_scores": {
+      "authority": {
+        "score": 15,
+        "source_url": "https://www.linkedin.com/in/susan-tenney-8750a74",
+        "reason": "Susan Tenney’s HR leadership profile remains unverified and does not confirm HRIS ownership."
+      },
+      "reachability": {
+        "score": 15,
+        "source_url": "https://www.linkedin.com/in/susan-tenney-8750a74",
+        "reason": "A public professional profile provides a contact route without verified direct email or phone details."
+      },
+      "budget": {
+        "score": 10,
+        "source_url": "https://www.sec.gov/Archives/edgar/data/912463/000091246325000078/a991erq3fy26narrative.htm",
+        "reason": "The SEC filing confirms the rag and bone acquisition as a historical corporate expansion proxy."
+      },
+      "timing": {
+        "score": 0,
+        "source_url": "https://newsroom.workday.com/2026-08-27-Workday-Announces-Fiscal-2027-Second-Quarter-Financial-Results",
+        "reason": "The August 27, 2026 announcement confirms selection, but no completed deployment date."
+      },
+      "release": {
+        "score": 5,
+        "source_url": "https://workday.csusystem.edu/maintenance-schedule/",
+        "reason": "The March 13, 2027 release is 21.7 weeks away, placing alignment in the five-point tier."
+      }
+    },
+    "category_points": {
+      "authority": 15,
+      "reachability": 15,
+      "budget": 10,
+      "timing": 0,
+      "release": 5
+    },
+    "total": 45,
+    "tier": "Disqualified"
+  },
+  {
+    "row": 23,
+    "company_id": "28b86c2d-b75e-564c-a3c1-2b3b56d8d8ee",
+    "assessment_id": "402d5e0f-2326-5df7-a016-d6a070dbac4b",
+    "rubric_version": "week2-100",
+    "as_of": "2026-10-12",
+    "category_scores": {
+      "authority": {
+        "score": 25,
+        "source_url": "https://www.linkedin.com/in/esther-s-2b6a001a4",
+        "reason": "Esther Schürmann is confirmed as Vice President of People Technology and AI."
+      },
+      "reachability": {
+        "score": 15,
+        "source_url": "https://www.linkedin.com/in/esther-s-2b6a001a4",
+        "reason": "A public professional profile provides a contact route without verified direct email or phone details."
+      },
+      "budget": {
+        "score": 20,
+        "source_url": "https://www.workday.com/en-us/customer-stories/a-h/gea-group-standardizes-hr-processes-globally.html",
+        "reason": "GEA uses Kainos document management, automated testing, auditing, and application management services."
+      },
+      "timing": {
+        "score": 0,
+        "source_url": "https://www.workday.com/en-us/customer-stories/a-h/gea-group-standardizes-hr-processes-globally.html",
+        "reason": "The confirmed summer 2017 deployment is older than 365 days."
+      },
+      "release": {
+        "score": 5,
+        "source_url": "https://workday.csusystem.edu/maintenance-schedule/",
+        "reason": "The March 13, 2027 release is 21.7 weeks away, placing alignment in the five-point tier."
+      }
+    },
+    "category_points": {
+      "authority": 25,
+      "reachability": 15,
+      "budget": 20,
+      "timing": 0,
+      "release": 5
+    },
+    "total": 65,
+    "tier": "Maybe"
+  },
+  {
+    "row": 24,
+    "company_id": "28f1118b-1f41-53c3-bc32-ae8b8ea7ec80",
+    "assessment_id": "6a65b415-8e6e-5fb3-aa9f-7df152016678",
+    "rubric_version": "week2-100",
+    "as_of": "2026-10-12",
+    "category_scores": {
+      "authority": {
+        "score": 25,
+        "source_url": "https://www.linkedin.com/in/murielschulz",
+        "reason": "Muriel Schulz is identified as the executive director responsible for people innovation and HR transformation."
+      },
+      "reachability": {
+        "score": 15,
+        "source_url": "https://www.linkedin.com/in/murielschulz",
+        "reason": "A public professional profile provides a contact route without verified direct email or phone details."
+      },
+      "budget": {
+        "score": 20,
+        "source_url": "https://www.workday.com/en-us/customer-stories/a-h/adeo-strengthens-culture-HR-with-workday.html",
+        "reason": "ADEO completed Workday rollout across 26 group companies, demonstrating organizational expansion."
+      },
+      "timing": {
+        "score": 5,
+        "source_url": "https://www.workday.com/en-us/customer-stories/a-h/adeo-strengthens-culture-HR-with-workday.html",
+        "reason": "The customer story confirms an undated deployment, assigned five points under the new standardized score tiers."
+      },
+      "release": {
+        "score": 5,
+        "source_url": "https://workday.csusystem.edu/maintenance-schedule/",
+        "reason": "The March 13, 2027 release is 21.7 weeks away, placing alignment in the five-point tier."
+      }
+    },
+    "category_points": {
+      "authority": 25,
+      "reachability": 15,
+      "budget": 20,
+      "timing": 5,
+      "release": 5
+    },
+    "total": 70,
+    "tier": "Maybe"
+  },
+  {
+    "row": 25,
+    "company_id": "29b4e402-901c-57df-8ea5-10c20a610b88",
+    "assessment_id": "b79912ba-9382-552a-a193-b74967b365ad",
+    "rubric_version": "week2-100",
+    "as_of": "2026-10-12",
+    "category_scores": {
+      "authority": {
+        "score": 25,
+        "source_url": "https://www.linkedin.com/in/alvinvaleriano",
+        "reason": "Alvin Valeriano directs global HR data planning and technology transformation."
+      },
+      "reachability": {
+        "score": 15,
+        "source_url": "https://www.linkedin.com/in/alvinvaleriano",
+        "reason": "A public professional profile provides a contact route without verified direct email or phone details."
+      },
+      "budget": {
+        "score": 0,
+        "source_url": "https://www.yokogawa.com/about/ir/finance/forecast/",
+        "reason": "Reviewed financial disclosures do not establish qualifying Workday expansion or ecosystem adoption."
+      },
+      "timing": {
+        "score": 5,
+        "source_url": "https://www.workday.com/en-us/customer-stories/q-z/yokogawa-electric-transforms-hr-data-ai-personalization.html",
+        "reason": "The customer story confirms an undated deployment, assigned five points under the new standardized score tiers."
+      },
+      "release": {
+        "score": 5,
+        "source_url": "https://workday.csusystem.edu/maintenance-schedule/",
+        "reason": "The March 13, 2027 release is 21.7 weeks away, placing alignment in the five-point tier."
+      }
+    },
+    "category_points": {
+      "authority": 25,
+      "reachability": 15,
+      "budget": 0,
+      "timing": 5,
+      "release": 5
+    },
+    "total": 50,
+    "tier": "Disqualified"
+  },
+  {
+    "row": 26,
+    "company_id": "2db82b39-effe-59bd-912a-a3df0af2f9d1",
+    "assessment_id": "ef9ca1c2-568d-5dcc-a1fc-47641914a275",
+    "rubric_version": "week2-100",
+    "as_of": "2026-10-12",
+    "category_scores": {
+      "authority": {
+        "score": 25,
+        "source_url": "https://www.linkedin.com/in/kerrysmithj",
+        "reason": "Kerry Smith is the confirmed Chief People Officer responsible for HR leadership."
+      },
+      "reachability": {
+        "score": 15,
+        "source_url": "https://www.linkedin.com/in/kerrysmithj",
+        "reason": "A public professional profile provides a contact route without verified direct email or phone details."
+      },
+      "budget": {
+        "score": 20,
+        "source_url": "https://www.workday.com/en-us/customer-stories/a-h/british-heart-foundation-improved-talent-retention-skills.html",
+        "reason": "British Heart Foundation uses Workday Skills Cloud and Peakon, confirming ecosystem adoption."
+      },
+      "timing": {
+        "score": 5,
+        "source_url": "https://www.workday.com/en-us/customer-stories/a-h/british-heart-foundation-improved-talent-retention-skills.html",
+        "reason": "The customer story confirms an undated deployment, assigned five points under the new standardized score tiers."
+      },
+      "release": {
+        "score": 5,
+        "source_url": "https://workday.csusystem.edu/maintenance-schedule/",
+        "reason": "The March 13, 2027 release is 21.7 weeks away, placing alignment in the five-point tier."
+      }
+    },
+    "category_points": {
+      "authority": 25,
+      "reachability": 15,
+      "budget": 20,
+      "timing": 5,
+      "release": 5
+    },
+    "total": 70,
+    "tier": "Maybe"
+  },
+  {
+    "row": 27,
+    "company_id": "2edf52e7-25ec-5084-9671-487fcf595917",
+    "assessment_id": "b930c331-2dd6-56f2-a06e-5b647d8f668e",
+    "rubric_version": "week2-100",
+    "as_of": "2026-10-12",
+    "category_scores": {
+      "authority": {
+        "score": 25,
+        "source_url": "https://www.linkedin.com/in/sarah-o-hare-38801a10",
+        "reason": "Sarah O’Hare is the confirmed global HR leader responsible for Workday selection and rollout."
+      },
+      "reachability": {
+        "score": 15,
+        "source_url": "https://www.linkedin.com/in/sarah-o-hare-38801a10",
+        "reason": "A public professional profile provides a contact route without verified direct email or phone details."
+      },
+      "budget": {
+        "score": 20,
+        "source_url": "https://www.workday.com/en-us/customer-stories/a-h/hr-implementation-revolutionizes-freudenberg-group.html",
+        "reason": "Freudenberg expanded Workday by deploying Recruiting after its initial implementation."
+      },
+      "timing": {
+        "score": 0,
+        "source_url": "https://www.workday.com/en-us/customer-stories/a-h/hr-implementation-revolutionizes-freudenberg-group.html",
+        "reason": "The archived May 2020 deployment is older than 365 days."
+      },
+      "release": {
+        "score": 5,
+        "source_url": "https://workday.csusystem.edu/maintenance-schedule/",
+        "reason": "The March 13, 2027 release is 21.7 weeks away, placing alignment in the five-point tier."
+      }
+    },
+    "category_points": {
+      "authority": 25,
+      "reachability": 15,
+      "budget": 20,
+      "timing": 0,
+      "release": 5
+    },
+    "total": 65,
+    "tier": "Maybe"
+  },
+  {
+    "row": 28,
+    "company_id": "31981bd6-f31c-599c-b080-71099efd4004",
+    "assessment_id": "6ccf2ad8-4b0d-5e69-a095-f7e18fc75c5a",
+    "rubric_version": "week2-100",
+    "as_of": "2026-10-12",
+    "category_scores": {
+      "authority": {
+        "score": 25,
+        "source_url": "https://www.linkedin.com/in/karineparent",
+        "reason": "Karine Parent is confirmed as Group HR Director on Azelis’s official website."
+      },
+      "reachability": {
+        "score": 25,
+        "source_url": "https://www.azelis.com/en/ethicsandcompliance",
+        "reason": "Azelis publishes Karine Parent’s exact work email, providing a verified direct contact route."
+      },
+      "budget": {
+        "score": 20,
+        "source_url": "https://www.workday.com/en-us/customer-stories/a-h/workday-powers-azelis-integration-strategy.html",
+        "reason": "Azelis expanded Workday integration across 50 acquisitions following its original deployment."
+      },
+      "timing": {
+        "score": 0,
+        "source_url": "https://www.workday.com/en-us/customer-stories/a-h/workday-powers-azelis-integration-strategy.html",
+        "reason": "The confirmed 2019 deployment is older than 365 days."
+      },
+      "release": {
+        "score": 5,
+        "source_url": "https://workday.csusystem.edu/maintenance-schedule/",
+        "reason": "The March 13, 2027 release is 21.7 weeks away, placing alignment in the five-point tier."
+      }
+    },
+    "category_points": {
+      "authority": 25,
+      "reachability": 25,
+      "budget": 20,
+      "timing": 0,
+      "release": 5
+    },
+    "total": 75,
+    "tier": "Maybe"
+  },
+  {
+    "row": 29,
+    "company_id": "3462609e-b445-55f7-b42c-b9d714516846",
+    "assessment_id": "7a438f28-374c-51e7-a325-06cf07cf00eb",
+    "rubric_version": "week2-100",
+    "as_of": "2026-10-12",
+    "category_scores": {
+      "authority": {
+        "score": 15,
+        "source_url": "https://www.linkedin.com/in/sunggeelee",
+        "reason": "Sunggee Lee is a confirmed operational HR transformation manager rather than a director or vice president."
+      },
+      "reachability": {
+        "score": 15,
+        "source_url": "https://www.linkedin.com/in/sunggeelee",
+        "reason": "A public professional profile provides a contact route without verified direct email or phone details."
+      },
+      "budget": {
+        "score": 20,
+        "source_url": "https://www.workday.com/en-us/customer-stories/i-p/kolmar-digital-transformation-employee-experience.html",
+        "reason": "Kolmar adopted Workday Peakon Employee Voice and Extend, confirming ecosystem investment."
+      },
+      "timing": {
+        "score": 5,
+        "source_url": "https://www.workday.com/en-us/customer-stories/i-p/kolmar-digital-transformation-employee-experience.html",
+        "reason": "The customer story confirms an undated deployment, assigned five points under the new standardized score tiers."
+      },
+      "release": {
+        "score": 5,
+        "source_url": "https://workday.csusystem.edu/maintenance-schedule/",
+        "reason": "The March 13, 2027 release is 21.7 weeks away, placing alignment in the five-point tier."
+      }
+    },
+    "category_points": {
+      "authority": 15,
+      "reachability": 15,
+      "budget": 20,
+      "timing": 5,
+      "release": 5
+    },
+    "total": 60,
+    "tier": "Maybe"
+  },
+  {
+    "row": 30,
+    "company_id": "34d06ced-211d-595b-80e7-e86ce410903a",
+    "assessment_id": "73fd4188-79a0-580f-a878-40d485fecb39",
+    "rubric_version": "week2-100",
+    "as_of": "2026-10-12",
+    "category_scores": {
+      "authority": {
+        "score": 25,
+        "source_url": "https://www.linkedin.com/in/reginakrug",
+        "reason": "Regina Krug leads global HRIS and owns Workday rollout and analytics adoption."
+      },
+      "reachability": {
+        "score": 15,
+        "source_url": "https://www.linkedin.com/in/reginakrug",
+        "reason": "A public professional profile provides a contact route without verified direct email or phone details."
+      },
+      "budget": {
+        "score": 20,
+        "source_url": "https://www.workday.com/en-us/customer-stories/q-z/rakuten-leverages-data-supports-global-growth.html",
+        "reason": "Rakuten expanded Workday through Prism Analytics adoption and Success Plans services."
+      },
+      "timing": {
+        "score": 5,
+        "source_url": "https://www.workday.com/en-us/customer-stories/q-z/rakuten-leverages-data-supports-global-growth.html",
+        "reason": "The customer story confirms an undated deployment, assigned five points under the new standardized score tiers."
+      },
+      "release": {
+        "score": 5,
+        "source_url": "https://workday.csusystem.edu/maintenance-schedule/",
+        "reason": "The March 13, 2027 release is 21.7 weeks away, placing alignment in the five-point tier."
+      }
+    },
+    "category_points": {
+      "authority": 25,
+      "reachability": 15,
+      "budget": 20,
+      "timing": 5,
+      "release": 5
+    },
+    "total": 70,
+    "tier": "Maybe"
+  },
+  {
+    "row": 31,
+    "company_id": "354673ea-47f9-5871-8a88-26d9a239085b",
+    "assessment_id": "2f3ce8a6-7963-5d2a-a03f-1ab225e885ce",
+    "rubric_version": "week2-100",
+    "as_of": "2026-10-12",
+    "category_scores": {
+      "authority": {
+        "score": 15,
+        "source_url": "https://www.linkedin.com/in/antonketelaars",
+        "reason": "Anton Ketelaars leads HR processes and solutions without a verified director or vice president title."
+      },
+      "reachability": {
+        "score": 15,
+        "source_url": "https://www.linkedin.com/in/antonketelaars",
+        "reason": "A public professional profile provides a contact route without verified direct email or phone details."
+      },
+      "budget": {
+        "score": 20,
+        "source_url": "https://stradaglobal.com/asia/insights/bdr-thermea-workday-transformation/",
+        "reason": "BDR Thermea partnered with Strada for a phased global Workday payroll transformation."
+      },
+      "timing": {
+        "score": 5,
+        "source_url": "https://www.workday.com/en-us/customer-stories/a-h/bdr-thermea-revolutionizes-hr-sustainable-future.html",
+        "reason": "The customer story confirms an undated deployment, assigned five points under the new standardized score tiers."
+      },
+      "release": {
+        "score": 5,
+        "source_url": "https://workday.csusystem.edu/maintenance-schedule/",
+        "reason": "The March 13, 2027 release is 21.7 weeks away, placing alignment in the five-point tier."
+      }
+    },
+    "category_points": {
+      "authority": 15,
+      "reachability": 15,
+      "budget": 20,
+      "timing": 5,
+      "release": 5
+    },
+    "total": 60,
+    "tier": "Maybe"
+  },
+  {
+    "row": 32,
+    "company_id": "36890587-f5bf-59af-ad10-f62c4b822862",
+    "assessment_id": "2c883f73-b279-54d1-aeb4-8445d0ec491f",
+    "rubric_version": "week2-100",
+    "as_of": "2026-10-12",
+    "category_scores": {
+      "authority": {
+        "score": 15,
+        "source_url": "https://www.linkedin.com/in/ashley-kruse-6613b22a",
+        "reason": "Ashley Kruse manages HR technology and automation as an operational Workday owner."
+      },
+      "reachability": {
+        "score": 15,
+        "source_url": "https://www.linkedin.com/in/ashley-kruse-6613b22a",
+        "reason": "A public professional profile provides a contact route without verified direct email or phone details."
+      },
+      "budget": {
+        "score": 20,
+        "source_url": "https://www.workday.com/en-us/customer-stories/a-h/3m-extend-global-product-powerhouse.html",
+        "reason": "3M expanded its ecosystem through Workday Extend applications and Studio integrations."
+      },
+      "timing": {
+        "score": 5,
+        "source_url": "https://www.workday.com/en-us/customer-stories/a-h/3m-extend-global-product-powerhouse.html",
+        "reason": "The customer story confirms an undated deployment, assigned five points under the new standardized score tiers."
+      },
+      "release": {
+        "score": 5,
+        "source_url": "https://workday.csusystem.edu/maintenance-schedule/",
+        "reason": "The March 13, 2027 release is 21.7 weeks away, placing alignment in the five-point tier."
+      }
+    },
+    "category_points": {
+      "authority": 15,
+      "reachability": 15,
+      "budget": 20,
+      "timing": 5,
+      "release": 5
+    },
+    "total": 60,
+    "tier": "Maybe"
+  },
+  {
+    "row": 33,
+    "company_id": "37342b6c-13ee-5365-b43f-675c0ea5db85",
+    "assessment_id": "91121c09-fe8a-5ef0-a630-87c4fb7d9658",
+    "rubric_version": "week2-100",
+    "as_of": "2026-10-12",
+    "category_scores": {
+      "authority": {
+        "score": 15,
+        "source_url": "https://www.linkedin.com/in/jackie-adams-01b1087",
+        "reason": "Jackie Adams leads benefits and people analytics without confirmed HRIS or IT ownership."
+      },
+      "reachability": {
+        "score": 15,
+        "source_url": "https://www.linkedin.com/in/jackie-adams-01b1087",
+        "reason": "A public professional profile provides a contact route without verified direct email or phone details."
+      },
+      "budget": {
+        "score": 10,
+        "source_url": "https://newsroom.meijer.com/2026-05-06-Meijer-Opens-New-Ohio-Supercenter-in-Bainbridge-Township",
+        "reason": "Meijer’s new Ohio supercenter provides a general corporate expansion proxy."
+      },
+      "timing": {
+        "score": 5,
+        "source_url": "https://www.workday.com/en-us/customer-stories/i-p/meijer-improves-efficiency-with-flexible-hr-system.html",
+        "reason": "The customer story confirms an undated deployment, assigned five points under the new standardized score tiers."
+      },
+      "release": {
+        "score": 5,
+        "source_url": "https://workday.csusystem.edu/maintenance-schedule/",
+        "reason": "The March 13, 2027 release is 21.7 weeks away, placing alignment in the five-point tier."
+      }
+    },
+    "category_points": {
+      "authority": 15,
+      "reachability": 15,
+      "budget": 10,
+      "timing": 5,
+      "release": 5
+    },
+    "total": 50,
+    "tier": "Disqualified"
+  },
+  {
+    "row": 34,
+    "company_id": "3848c998-8623-5e63-a782-0d210afdabbf",
+    "assessment_id": "c85ca53c-139b-5b7d-a88d-e66ea312f3bc",
+    "rubric_version": "week2-100",
+    "as_of": "2026-10-12",
+    "category_scores": {
+      "authority": {
+        "score": 15,
+        "source_url": "https://www.linkedin.com/in/karen-wuest-6775037",
+        "reason": "Karen Wuest’s company identity is confirmed, while her HR manager title remains archival."
+      },
+      "reachability": {
+        "score": 15,
+        "source_url": "https://www.linkedin.com/in/karen-wuest-6775037",
+        "reason": "A public professional profile provides a contact route without verified direct email or phone details."
+      },
+      "budget": {
+        "score": 0,
+        "source_url": "https://www.michels.us/michels-construction-inc/news/michels-ranks-38th-on-enr-top-400-list/",
+        "reason": "The contractor ranking establishes scale without confirming qualifying expansion or ecosystem adoption."
+      },
+      "timing": {
+        "score": 0,
+        "source_url": "https://www.workday.com/content/dam/web/en-us/documents/investor/workday-fiscal-2026-second-quarter-prepared-remarks.pdf",
+        "reason": "The August 21, 2025 announcement confirms selection, but no completed deployment date."
+      },
+      "release": {
+        "score": 5,
+        "source_url": "https://workday.csusystem.edu/maintenance-schedule/",
+        "reason": "The March 13, 2027 release is 21.7 weeks away, placing alignment in the five-point tier."
+      }
+    },
+    "category_points": {
+      "authority": 15,
+      "reachability": 15,
+      "budget": 0,
+      "timing": 0,
+      "release": 5
+    },
+    "total": 35,
+    "tier": "Disqualified"
+  },
+  {
+    "row": 35,
+    "company_id": "3b08e722-9790-55ee-911f-eb0e89bd4ac1",
+    "assessment_id": "c3f5a11a-860b-5ba3-ae96-d2672cbcbfe2",
+    "rubric_version": "week2-100",
+    "as_of": "2026-10-12",
+    "category_scores": {
+      "authority": {
+        "score": 25,
+        "source_url": "https://www.linkedin.com/in/margie-vargas-64844227",
+        "reason": "Margie Vargas is the confirmed Chief Human Resources Officer with executive HR authority."
+      },
+      "reachability": {
+        "score": 15,
+        "source_url": "https://www.linkedin.com/in/margie-vargas-64844227",
+        "reason": "A public professional profile provides a contact route without verified direct email or phone details."
+      },
+      "budget": {
+        "score": 20,
+        "source_url": "https://www.workday.com/en-us/customer-stories/i-p/memorial-healthcare-system-elevates-patient-care.html",
+        "reason": "Memorial expanded Workday access through a documented mobile application rollout."
+      },
+      "timing": {
+        "score": 5,
+        "source_url": "https://www.workday.com/en-us/customer-stories/i-p/memorial-healthcare-system-elevates-patient-care.html",
+        "reason": "The customer story confirms an undated deployment, assigned five points under the new standardized score tiers."
+      },
+      "release": {
+        "score": 5,
+        "source_url": "https://workday.csusystem.edu/maintenance-schedule/",
+        "reason": "The March 13, 2027 release is 21.7 weeks away, placing alignment in the five-point tier."
+      }
+    },
+    "category_points": {
+      "authority": 25,
+      "reachability": 15,
+      "budget": 20,
+      "timing": 5,
+      "release": 5
+    },
+    "total": 70,
+    "tier": "Maybe"
+  },
+  {
+    "row": 36,
+    "company_id": "3bf17c01-c151-5d52-b6b8-94f2d32f14be",
+    "assessment_id": "c9c52845-ac5b-5255-aab2-0c1eadab4b5f",
+    "rubric_version": "week2-100",
+    "as_of": "2026-10-12",
+    "category_scores": {
+      "authority": {
+        "score": 25,
+        "source_url": "https://www.linkedin.com/in/sabina-sopov-9a2ba561",
+        "reason": "Sabina Sopov is the confirmed Chief People Officer leading global people and culture."
+      },
+      "reachability": {
+        "score": 15,
+        "source_url": "https://www.linkedin.com/in/sabina-sopov-9a2ba561",
+        "reason": "A public professional profile provides a contact route without verified direct email or phone details."
+      },
+      "budget": {
+        "score": 10,
+        "source_url": "https://assets.cochlear.com/api/public/content/0b55c80777054c1aafbe150960c27a1b?v=0d3358e0",
+        "reason": "Cochlear’s core-cloud modernization investment provides a corporate expansion proxy without verified Workday attribution."
+      },
+      "timing": {
+        "score": 5,
+        "source_url": "https://www.workday.com/en-us/customer-stories/a-h/cochlear-embeds-ai-in-its-hr-organization.html",
+        "reason": "The customer story confirms an undated deployment, assigned five points under the new standardized score tiers."
+      },
+      "release": {
+        "score": 5,
+        "source_url": "https://workday.csusystem.edu/maintenance-schedule/",
+        "reason": "The March 13, 2027 release is 21.7 weeks away, placing alignment in the five-point tier."
+      }
+    },
+    "category_points": {
+      "authority": 25,
+      "reachability": 15,
+      "budget": 10,
+      "timing": 5,
+      "release": 5
+    },
+    "total": 60,
+    "tier": "Maybe"
+  },
+  {
+    "row": 37,
+    "company_id": "3c87bbb2-782c-50c5-b416-fcf672dfa9d9",
+    "assessment_id": "254ac5fa-0564-5a19-ab0f-d6ff241a03c4",
+    "rubric_version": "week2-100",
+    "as_of": "2026-10-12",
+    "category_scores": {
+      "authority": {
+        "score": 25,
+        "source_url": "https://www.linkedin.com/in/paolo-emilio-testa-b8333414",
+        "reason": "Paolo Emilio Testa is the confirmed Chief People Officer alongside a named Workday solutions manager."
+      },
+      "reachability": {
+        "score": 15,
+        "source_url": "https://www.linkedin.com/in/paolo-emilio-testa-b8333414",
+        "reason": "A public professional profile provides a contact route without verified direct email or phone details."
+      },
+      "budget": {
+        "score": 20,
+        "source_url": "https://www.workday.com/en-us/customer-stories/q-z/softserve-workday-extend-flexibility-smart-architecture.html",
+        "reason": "SoftServe deployed 12 Workday Extend applications and has additional applications in development."
+      },
+      "timing": {
+        "score": 0,
+        "source_url": "https://www.workday.com/en-us/customer-stories/q-z/softserve-workday-extend-flexibility-smart-architecture.html",
+        "reason": "The confirmed 2017 deployment is older than 365 days."
+      },
+      "release": {
+        "score": 5,
+        "source_url": "https://workday.csusystem.edu/maintenance-schedule/",
+        "reason": "The March 13, 2027 release is 21.7 weeks away, placing alignment in the five-point tier."
+      }
+    },
+    "category_points": {
+      "authority": 25,
+      "reachability": 15,
+      "budget": 20,
+      "timing": 0,
+      "release": 5
+    },
+    "total": 65,
+    "tier": "Maybe"
+  },
+  {
+    "row": 38,
+    "company_id": "3fb3afbb-7a0f-5036-be75-3dde891191a1",
+    "assessment_id": "e513cdeb-d3e3-5f6b-a300-7b34d729fd52",
+    "rubric_version": "week2-100",
+    "as_of": "2026-10-12",
+    "category_scores": {
+      "authority": {
+        "score": 25,
+        "source_url": "https://www.linkedin.com/in/jdgallegos-hr",
+        "reason": "Juan Gallegos is the confirmed vice president and Chief Human Resources Officer."
+      },
+      "reachability": {
+        "score": 15,
+        "source_url": "https://www.linkedin.com/in/jdgallegos-hr",
+        "reason": "A public professional profile provides a contact route without verified direct email or phone details."
+      },
+      "budget": {
+        "score": 20,
+        "source_url": "https://www.workday.com/en-us/customer-stories/i-p/portland-general-electric-sustainable-renewal.html",
+        "reason": "PGE’s customer story confirms incremental expansion through Workday Help deployment."
+      },
+      "timing": {
+        "score": 5,
+        "source_url": "https://www.workday.com/en-us/customer-stories/i-p/portland-general-electric-sustainable-renewal.html",
+        "reason": "The customer story confirms an undated deployment, assigned five points under the new standardized score tiers."
+      },
+      "release": {
+        "score": 5,
+        "source_url": "https://workday.csusystem.edu/maintenance-schedule/",
+        "reason": "The March 13, 2027 release is 21.7 weeks away, placing alignment in the five-point tier."
+      }
+    },
+    "category_points": {
+      "authority": 25,
+      "reachability": 15,
+      "budget": 20,
+      "timing": 5,
+      "release": 5
+    },
+    "total": 70,
+    "tier": "Maybe"
+  },
+  {
+    "row": 39,
+    "company_id": "43aa9418-67ae-5f33-810b-0064d3ffa9cd",
+    "assessment_id": "0b93ef47-6095-5f0f-a3ab-812175fe7aa9",
+    "rubric_version": "week2-100",
+    "as_of": "2026-10-12",
+    "category_scores": {
+      "authority": {
+        "score": 15,
+        "source_url": "https://www.linkedin.com/in/dan-watson-a3735b11",
+        "reason": "Dan Watson’s third-party HR director profile remains explicitly unverified."
+      },
+      "reachability": {
+        "score": 15,
+        "source_url": "https://www.linkedin.com/in/dan-watson-a3735b11",
+        "reason": "A public professional profile provides a contact route without verified direct email or phone details."
+      },
+      "budget": {
+        "score": 0,
+        "source_url": "https://projects.propublica.org/nonprofits/organizations/620850498",
+        "reason": "Reviewed financial information does not establish qualifying expansion or Workday ecosystem adoption."
+      },
+      "timing": {
+        "score": 5,
+        "source_url": "https://www.workday.com/en-us/customer-stories/a-h/dialysis-clinic-fresh-solution-business-workflows.html",
+        "reason": "The customer story confirms an undated deployment, assigned five points under the new standardized score tiers."
+      },
+      "release": {
+        "score": 5,
+        "source_url": "https://workday.csusystem.edu/maintenance-schedule/",
+        "reason": "The March 13, 2027 release is 21.7 weeks away, placing alignment in the five-point tier."
+      }
+    },
+    "category_points": {
+      "authority": 15,
+      "reachability": 15,
+      "budget": 0,
+      "timing": 5,
+      "release": 5
+    },
+    "total": 40,
+    "tier": "Disqualified"
+  },
+  {
+    "row": 40,
+    "company_id": "446363c7-2e61-5ad9-a4f7-1453219bd9c1",
+    "assessment_id": "0b604c37-83d9-5512-ac8e-bdb61b401aa6",
+    "rubric_version": "week2-100",
+    "as_of": "2026-10-12",
+    "category_scores": {
+      "authority": {
+        "score": 25,
+        "source_url": "https://www.linkedin.com/in/gonzalo-cajade-b244ab7",
+        "reason": "Gonzalo Cajade’s official appointment confirms executive authority as Chief Human Resources Officer."
+      },
+      "reachability": {
+        "score": 15,
+        "source_url": "https://www.linkedin.com/in/gonzalo-cajade-b244ab7",
+        "reason": "A public professional profile provides a contact route without verified direct email or phone details."
+      },
+      "budget": {
+        "score": 10,
+        "source_url": "https://investors.bwxt.com/news-releases/news-release-details/bwx-technologies-reports-second-quarter-2026-results",
+        "reason": "BWXT’s manufacturing expansion and PCG acquisition provide a general corporate expansion proxy."
+      },
+      "timing": {
+        "score": 0,
+        "source_url": "https://newsroom.workday.com/2026-08-27-Workday-Announces-Fiscal-2027-Second-Quarter-Financial-Results",
+        "reason": "The August 27, 2026 announcement confirms selection, but no completed deployment date."
+      },
+      "release": {
+        "score": 5,
+        "source_url": "https://workday.csusystem.edu/maintenance-schedule/",
+        "reason": "The March 13, 2027 release is 21.7 weeks away, placing alignment in the five-point tier."
+      }
+    },
+    "category_points": {
+      "authority": 25,
+      "reachability": 15,
+      "budget": 10,
+      "timing": 0,
+      "release": 5
+    },
+    "total": 55,
+    "tier": "Maybe"
+  }
+]
