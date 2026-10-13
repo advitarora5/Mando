@@ -140,6 +140,21 @@ test('regression (round 1): with type checks, a signal whose quote does not supp
   assert.equal(ok.signals.length, 1);
 });
 
+test('round 2: a "quote" longer than 60 words (e.g. the whole posting) is not evidence and is dropped', () => {
+  const long = Array.from({ length: 70 }, (_, i) => `word${i}`).join(' ') + ' Workday';
+  const out = { company_name: null, workday_products: [], project_type: null, role_seniority: null, timing_words: [], signals: [{ type: 'known_customer', quote: long, date_text: null }] };
+  assert.equal(groundExtraction(out, long, { typeEvidence: true }).signals.length, 0);
+});
+
+test('regression (round 1): v2 grounding clears company values that are descriptions, not names', () => {
+  const text = 'We are partnering with a client is a globally recognized sports and entertainment organization. As a Partner AI Advisor (oCFO) you support Workday. Acme Corp uses Workday.';
+  const out = name => groundExtraction({ company_name: name, workday_products: [], project_type: null, role_seniority: null, timing_words: [], signals: [] }, text, { typeEvidence: true }).output.company_name;
+  assert.equal(out('a globally recognized sports and entertainment organization'), null);
+  assert.equal(out('oCFO'), null);
+  assert.equal(out('Acme Corp'), 'Acme Corp');
+  assert.equal(groundExtraction({ company_name: 'oCFO', workday_products: [], project_type: null, role_seniority: null, timing_words: [], signals: [] }, text).output.company_name, 'oCFO', 'v1 grounding unchanged');
+});
+
 test('regression (round 1): a posting that only lists Workday as a skill is a weaker hiring signal than a Workday role', () => {
   assert.equal(hiringStrength('Compensation Business Partner', '- Expertise with analytics, Excel, PowerPoint, and Workday'), 'skill');
   assert.equal(hiringStrength('Sr Engineer - Workday', 'You will prototype, design, build, and support features in Workday.'), 'role');

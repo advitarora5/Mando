@@ -93,6 +93,9 @@ export async function extractStage(ctx: PipelineContext, opts: { limit: number; 
     } catch (error) {
       bump(r, "error_extract");
       r.errors.push(`extract ${capture.url}: ${message(error)}`);
+      // A capture its reader cannot read would fail on every run: dead-letter it once, with the reason.
+      try { await ctx.store.saveExtraction({ capture_id: capture.id, run_id: ctx.runId, method: "structured", model: "", prompt_version: "", status: "dead_letter", output: null, error: message(error).slice(0, 500), attempts: 1, cost_usd: 0 }); }
+      catch { /* the store is failing too; the capture stays queued */ }
     }
   }
   return r;
@@ -170,7 +173,8 @@ export async function matchStage(ctx: PipelineContext, opts: { dryRun?: boolean 
         created++;
         bump(r, "new_companies");
       } else {
-        const item = await ctx.store.addReviewItem({ candidate_name: displayName(name, lookup.name), normalized_name: normalized, candidate_domain: lookup.domain, employee_count: null, suggested_company_id: decision.suggested_company_id, reason: decision.reason });
+        // Only a confirmed website is stored: approving an item must never create a company with a wrong guess.
+        const item = await ctx.store.addReviewItem({ candidate_name: displayName(name, lookup.name), normalized_name: normalized, candidate_domain: lookup.confirmed ? lookup.domain : null, employee_count: null, suggested_company_id: decision.suggested_company_id, reason: decision.reason });
         await ctx.store.assignSignals(ids, { review_item_id: item.id });
         await ctx.store.linkWorkdaySites(normalized, { review_item_id: item.id });
         bump(r, item.inserted ? `review_${decision.reason}` : "review_existing");

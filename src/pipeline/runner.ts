@@ -54,6 +54,9 @@ async function checkAlerts(ctx: PipelineContext, report: RunReport, sourceId: st
 export async function runPipeline(ctx: PipelineContext, opts: RunOptions): Promise<RunReport> {
   const report: RunReport = { jobs: [], alerts: [], ms: 0, treg_spend_usd: 0, llm_spend_usd: 0 };
   const started = Date.now();
+  // A run that crashed stays "running" forever; close those (older than 6 hours) so health shows the truth.
+  try { const closed = await ctx.store.closeStaleRuns(new Date(ctx.now().getTime() - 6 * 3600000).toISOString()); if (closed) ctx.log.warn(`closed ${closed} stale run(s) as failed`); }
+  catch (error) { ctx.log.error(`could not close stale runs: ${(error as Error).message}`); }
   const sources = await ctx.store.sources();
   const byId = (id: string) => sources.find(s => s.id === id);
   const collect = async (source: SourceRow | undefined) => {
@@ -66,11 +69,16 @@ export async function runPipeline(ctx: PipelineContext, opts: RunOptions): Promi
   const match = () => job(ctx, report, "match", null, opts.trigger, () => matchStage(ctx, { dryRun: opts.dryRun }));
   const score = () => job(ctx, report, "score", null, opts.trigger, () => scoreStage(ctx));
   const enrich = () => job(ctx, report, "enrich", null, opts.trigger, () => enrichStage(ctx, { maxCompanies: opts.enrichCompanies ?? opts.limit, dryRun: opts.dryRun }));
-  const discovery = async () => { await collect(byId("sec-company-list")); await collect(byId("workday-site-resolver")); await extract(); await match(); };
+  // Each plan collects only sources of its frequency, so a weekly paid feed never runs daily.
+  const discoveryIds = ["sec-company-list", "workday-site-resolver"];
+  const discovery = async () => {
+    for (const id of discoveryIds) await collect(byId(id));
+    for (const s of sources.filter(s => s.frequency === "weekly" && !discoveryIds.includes(s.id))) await collect(s);
+    await extract(); await match();
+  };
   const daily = async () => {
     await collect(byId("workday-career-sites"));
     for (const s of sources.filter(s => s.frequency === "daily" && s.id !== "workday-career-sites")) await collect(s);
-    for (const s of sources.filter(s => s.type === "treg_reddit" || s.type === "treg_tech_lookup")) await collect(s);
     await extract(); await match(); await score(); await enrich();
   };
 

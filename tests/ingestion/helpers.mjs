@@ -97,7 +97,8 @@ export function randomNames(count, seed = Date.now()) {
   const syl = ['ba', 'ko', 'ri', 'zu', 'te', 'mo', 'la', 'vex', 'dar', 'qui', 'pol', 'sen', 'tor', 'gal', 'fin', 'yem', 'hu', 'wex', 'cor', 'nim'];
   const kinds = ['Robotics Inc', 'Logistics Corp', 'Health Systems', 'Foods Inc', 'Energy Corp', 'Insurance Group', 'Mining Ltd', 'Retail Inc', 'Chemicals Corp', 'Freight Co'];
   return Array.from({ length: count }, (_, i) => {
-    const word = Array.from({ length: 4 }, () => syl[Math.floor(rand() * syl.length)]).join('');
+    // Six syllables: long enough that two runs' names are almost never "similar" (Dice < 0.8) in a shared local database.
+    const word = Array.from({ length: 6 }, () => syl[Math.floor(rand() * syl.length)]).join('');
     return `${word[0].toUpperCase()}${word.slice(1)} ${kinds[i % kinds.length]}`;
   });
 }

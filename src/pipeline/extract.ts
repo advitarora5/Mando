@@ -8,7 +8,8 @@ import { htmlToText, verifyQuote } from "../domain/ingestion/quote.ts";
 import { sitesFromRobots, primarySites, origin } from "./collectors/workday.ts";
 import type { CaptureRow, LLMProvider, SignalInput } from "./types.ts";
 
-export const PROMPT_VERSION = process.env.PIPELINE_PROMPT_VERSION ?? "extract-v1";
+// extract-v2 (prompt + type/company/length checks) beat v1 on the golden set in round 1; v1 stays for comparison.
+export const PROMPT_VERSION = process.env.PIPELINE_PROMPT_VERSION ?? "extract-v2";
 export const MAX_TEXT_CHARS = 10000;
 
 export function loadPrompt(version: string = PROMPT_VERSION): string {
@@ -172,7 +173,9 @@ export async function extractCapture(capture: CaptureRow & { meta?: Meta }, llm:
         model = reading;
         if (!reading.ok) { if (reading.retryable) break; continue; }
         for (const sig of reading.checked.signals) {
-          signals.push({ ...base(reading.checked.output.company_name), type: sig.type, signal_date: isoDay(sig.date_text) ?? post.created, source_url: post.url, quote: sig.quote, confidence: 0.6,
+          signals.push({ ...base(reading.checked.output.company_name), type: sig.type,
+            // A post's publication date is not an event date: go-live keeps only a date stated in its own sentence.
+            signal_date: sig.type === "go_live" ? isoDay(sig.date_text) : isoDay(sig.date_text) ?? post.created, source_url: post.url, quote: sig.quote, confidence: 0.6,
             products: reading.checked.output.workday_products.length ? reading.checked.output.workday_products : null, project_type: reading.checked.output.project_type, role_seniority: null,
             timing_words: reading.checked.output.timing_words.length ? reading.checked.output.timing_words : null, method: "llm" });
         }

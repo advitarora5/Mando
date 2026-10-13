@@ -292,3 +292,51 @@ test('dry run writes nothing to the given store', async () => {
 });
 
 test('world names are fictional', () => { assert.ok(WORLD_NAMES.every(n => !/nvidia|target/i.test(n))); });
+
+// ---------- Round 2: edge cases from a fresh review ----------
+
+test('round 2: a Reddit go-live without its own date never takes the post date as the go-live date', async () => {
+  const { extractCapture } = await import('../../src/pipeline/extract.ts');
+  const body = JSON.stringify({ data: [{ title: 'Go live went fine', selftext: 'We finally went live on Workday HCM after a long implementation project.', permalink: '/r/workday/comments/abc/x/', created_utc: 1791000000 }] });
+  const llm = fakeLLM(() => ({ company_name: null, workday_products: ['HCM'], project_type: 'implementation', role_seniority: null, timing_words: [], signals: [{ type: 'go_live', quote: 'We finally went live on Workday HCM after a long implementation project.', date_text: null }, { type: 'known_customer', quote: 'We finally went live on Workday HCM after a long implementation project.', date_text: null }] }));
+  const out = await extractCapture({ id: 'c', source_id: 'treg-reddit-workday', url: 'https://www.reddit.com/r/workday/new/', fetched_at: '', http_status: 200, content_type: 'application/json', content_hash: 'x', body, run_id: null, meta: { kind: 'reddit_feed' } }, llm, 'prompt');
+  assert.equal(out.signals.find(s => s.type === 'go_live').signal_date, null);
+  assert.ok(out.signals.find(s => s.type === 'known_customer').signal_date, 'non-go-live signals keep the publication date');
+});
+
+test('round 2: a capture whose reader throws is dead-lettered once, not retried on every run', async () => {
+  const { ctx, store } = world();
+  await store.saveCapture({ source: 'workday-career-sites', url: 'https://x.wd5.myworkdayjobs.com/wday/cxs/x/X/job/1', fetched_at: '2026-10-13T00:00:00Z', http_status: 200, content_type: 'application/json', raw: '<html>not json</html>', fingerprint: 'f'.repeat(64), meta: { kind: 'workday_job' } }, null);
+  const first = await extractStage(ctx, { limit: 10 });
+  assert.equal(first.counts.error_extract, 1);
+  assert.equal((await store.pendingCaptures(10)).length, 0);
+  assert.equal(store.extractions.find(e => e.status === 'dead_letter').method, 'structured');
+});
+
+test('round 2: an unconfirmed website guess is not stored on the review item, so approving cannot create a wrong website', async () => {
+  const { ctx, store } = world({ tregOpts: { unconfirmed: ['Birchway Logistics Corp'] } });
+  await run(ctx, 'weekly');
+  const item = store.reviews.find(r => r.candidate_name.startsWith('Birchway'));
+  assert.equal(item.candidate_domain, null);
+});
+
+test('round 2: the daily plan does not run weekly sources (paid treg feeds keep their frequency)', async () => {
+  const treg = worldTreg({ extra: { 'tikhub.x.reddit-app-fetch-subreddit-feed': () => ({ ok: true, status: 200, body: { data: [] }, cost_usd: 0.001, call_id: 'r' }) } });
+  const { ctx, store } = world({ treg });
+  store.sourceRows.find(s => s.id === 'treg-reddit-workday').enabled = true;
+  await run(ctx, 'daily');
+  assert.equal(treg.calls.filter(c => c.endpoint.startsWith('tikhub')).length, 0);
+  await run(ctx, 'weekly');
+  assert.equal(treg.calls.filter(c => c.endpoint.startsWith('tikhub')).length, 1);
+});
+
+test('round 2: runs left "running" by a crash are closed as failed at the next start, so health shows the truth', async () => {
+  const now = clock();
+  const { ctx, store } = world({ now });
+  await store.startRun({ job: 'collect', source_id: 'workday-career-sites', trigger: 'manual' });
+  now.advanceDays(1);
+  await run(ctx, 'score');
+  const stale = store.runs[0];
+  assert.equal(stale.status, 'failed');
+  assert.match(stale.error, /did not finish/);
+});

@@ -125,3 +125,19 @@ test('review functions on the database: one pending item per name; approve creat
   const health = await store.health();
   for (const k of ['review_queue_pending', 'new_companies_7d', 'last_run_at', 'dead_letters']) assert.ok(k in health, k);
 });
+
+test('round 2: reads past the API row limit (1,000): every company is visible to matching and scoring', { skip }, async () => {
+  const { count: before } = await db.from('companies').select('id', { count: 'exact', head: true });
+  const need = Math.max(0, 1005 - before);
+  const tag = `pagetest${seed}`;
+  for (let i = 0; i < need; i += 500) {
+    const rows = Array.from({ length: Math.min(500, need - i) }, (_, j) => ({ name: `${tag} ${i + j}`, domain: `${tag}-${i + j}.example` }));
+    const { error } = await db.from('companies').insert(rows);
+    assert.equal(error, null);
+  }
+  const store = new SupabaseStore(url, key);
+  const all = await store.companies();
+  const { count } = await db.from('companies').select('id', { count: 'exact', head: true });
+  assert.ok(count > 1000);
+  assert.equal(all.length, count, 'no company is silently cut off at 1,000');
+});

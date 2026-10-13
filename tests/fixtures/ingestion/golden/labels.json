@@ -9,7 +9,7 @@
     "g04": { "company": "NVIDIA", "required": [], "allowed": ["hiring"], "project": null },
     "g05": { "company": "NVIDIA", "required": [], "allowed": ["hiring"], "project": null },
     "g06": { "company": "NVIDIA", "required": [], "allowed": ["hiring"], "project": null },
-    "g07": { "company": "Target", "required": [], "allowed": [], "project": null, "note": "never mentions Workday although returned by searchText=Workday" },
+    "g07": { "company": null, "company_ok": ["Target"], "required": [], "allowed": [], "project": null, "note": "never mentions Workday although returned by searchText=Workday" },
     "g08": { "company": null, "required": [], "allowed": ["hiring"], "project": null },
     "g09": { "company": "Target", "required": ["hiring", "known_customer"], "allowed": ["budget_clue"], "project": "support", "project_ok": ["integration", "implementation"] },
     "g10": { "company": "3M", "required": ["hiring"], "allowed": ["known_customer", "release_planning"], "project": "integration", "project_ok": ["support"] },

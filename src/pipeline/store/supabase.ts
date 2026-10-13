@@ -18,6 +18,7 @@ export function assertAllowedTarget(url: string, allowRemote: string | undefined
 }
 
 const CONTACT_FIELDS = "id, company_id, name, title, source, linkedin_url, email, email_status, email_source, phone, phone_status, phone_source, mutual_connection, contact_sources";
+const PAGE = 1000;
 const SCORE_FIELDS = "id, company_id, assessed_at, rubric_version, tier, authority_score, authority_evidence, reachability_score, reachability_evidence, budget_score, budget_evidence, release_score, release_evidence, timing_score, timing_evidence";
 
 export class SupabaseStore implements PipelineStore {
@@ -26,6 +27,17 @@ export class SupabaseStore implements PipelineStore {
   constructor(url: string, key: string, allowRemote?: string) {
     assertAllowedTarget(url, allowRemote);
     this.db = createClient(url, key, { auth: { persistSession: false, autoRefreshToken: false } });
+  }
+
+  // The API returns at most max_rows (1,000 by default) per request, silently. Every list read pages through all rows
+  // in a stable order, so matching and scoring never miss companies past the first page.
+  private async all<T>(make: () => { range(from: number, to: number): PromiseLike<{ data: unknown; error: { message: string } | null }> }, what: string): Promise<T[]> {
+    const out: T[] = [];
+    for (let from = 0; ; from += PAGE) {
+      const page = this.check(await make().range(from, from + PAGE - 1), what) as T[];
+      out.push(...page);
+      if (page.length < PAGE) return out;
+    }
   }
 
   private check<T>(result: { data: T; error: { message: string } | null }, what: string): T {
@@ -42,6 +54,10 @@ export class SupabaseStore implements PipelineStore {
   }
   async finishRun(id: string, r: { status: RunStatus; counts: RunCounts; requests: number; llm_spend_usd: number; treg_spend_usd: number; error: string | null }) {
     this.check(await this.db.from("pipeline_runs").update({ status: r.status, counts: r.counts, requests_made: r.requests, llm_spend_usd: r.llm_spend_usd, treg_spend_usd: r.treg_spend_usd, error: r.error, finished_at: new Date().toISOString() }).eq("id", id), "finish run");
+  }
+  async closeStaleRuns(startedBefore: string) {
+    const rows = this.check(await this.db.from("pipeline_runs").update({ status: "failed", finished_at: new Date().toISOString(), error: "run did not finish (closed at a later start)" }).eq("status", "running").lt("started_at", startedBefore).select("id"), "close stale runs") as { id: string }[];
+    return rows.length;
   }
   async recentRuns(sourceId: string, n: number) {
     const rows = this.check(await this.db.from("pipeline_runs").select("status, counts, error").eq("source_id", sourceId).not("finished_at", "is", null).order("started_at", { ascending: false }).limit(n), "recent runs") as { status: RunStatus; counts: RunCounts; error: string | null }[];
@@ -87,17 +103,17 @@ export class SupabaseStore implements PipelineStore {
     return rows.length;
   }
   async unassignedSignals() {
-    return this.check(await this.db.from("signals").select("*").is("company_id", null).is("review_item_id", null).limit(5000), "unassigned signals") as SignalRow[];
+    return this.all<SignalRow>(() => this.db.from("signals").select("*").is("company_id", null).is("review_item_id", null).order("id"), "unassigned signals");
   }
   async assignSignals(ids: string[], target: { company_id: string } | { review_item_id: string }) {
     if (ids.length) this.check(await this.db.from("signals").update(target).in("id", ids), "assign signals");
   }
   async signalsForCompany(companyId: string) {
-    return this.check(await this.db.from("signals").select("*").eq("company_id", companyId), "company signals") as SignalRow[];
+    return this.all<SignalRow>(() => this.db.from("signals").select("*").eq("company_id", companyId).order("id"), "company signals");
   }
 
   async companies(): Promise<CompanyRow[]> {
-    const rows = this.check(await this.db.from("companies").select("id, name, domain, employee_count, company_origins(origin)").limit(20000), "companies") as { id: string; name: string; domain: string | null; employee_count: number | null; company_origins: unknown }[];
+    const rows = await this.all<{ id: string; name: string; domain: string | null; employee_count: number | null; company_origins: unknown }>(() => this.db.from("companies").select("id, name, domain, employee_count, company_origins(origin)").order("id"), "companies");
     return rows.map(r => ({ id: r.id, name: r.name, domain: r.domain, employee_count: r.employee_count, pipeline: Array.isArray(r.company_origins) ? r.company_origins.length > 0 : !!r.company_origins }));
   }
   async createPipelineCompany(c: { name: string; domain: string | null; employee_count: number | null; source: string }, runId: string | null, attach: { signal_ids: string[]; normalized_name: string | null }) {
@@ -111,9 +127,10 @@ export class SupabaseStore implements PipelineStore {
     return { id: (this.check(res, "add review item") as { id: string }).id, inserted: true };
   }
   async reviewItems(status?: ReviewItem["status"]) {
-    let query = this.db.from("review_queue").select("*").order("created_at", { ascending: false });
-    if (status) query = query.eq("status", status);
-    return this.check(await query, "review items") as ReviewItem[];
+    return this.all<ReviewItem>(() => {
+      const query = this.db.from("review_queue").select("*").order("created_at", { ascending: false }).order("id");
+      return status ? query.eq("status", status) : query;
+    }, "review items");
   }
   async resolveReview(itemId: string, decision: { action: "approve"; domain?: string | null } | { action: "merge"; company_id: string } | { action: "reject" }, note: string, runId: string | null) {
     if (decision.action === "approve") return this.check(await this.db.rpc("review_approve", { p_item: itemId, p_domain: decision.domain ?? "", p_note: note, p_run_id: runId }), "approve") as string;
@@ -123,9 +140,10 @@ export class SupabaseStore implements PipelineStore {
   }
 
   async workdaySites(onlyEnabled: boolean) {
-    let query = this.db.from("workday_sites").select("*").order("created_at");
-    if (onlyEnabled) query = query.eq("enabled", true);
-    return this.check(await query, "workday sites") as WorkdaySite[];
+    return this.all<WorkdaySite>(() => {
+      const query = this.db.from("workday_sites").select("*").order("created_at").order("id");
+      return onlyEnabled ? query.eq("enabled", true) : query;
+    }, "workday sites");
   }
   async upsertWorkdaySite(site: Omit<WorkdaySite, "id" | "company_id" | "review_item_id" | "enabled"> & { discovered_from: string }) {
     const found = this.check(await this.db.from("workday_sites").select("id").eq("tenant", site.tenant).eq("pod", site.pod).eq("site", site.site).maybeSingle(), "find site") as { id: string } | null;

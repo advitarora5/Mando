@@ -63,6 +63,11 @@ export class MemoryStore implements PipelineStore {
     const run = this.runs.find(r => r.id === id);
     if (run) Object.assign(run, result, { finished_at: this.now().toISOString() });
   }
+  async closeStaleRuns(startedBefore: string) {
+    const stale = this.runs.filter(r => r.status === "running" && r.started_at < startedBefore);
+    for (const r of stale) Object.assign(r, { status: "failed", finished_at: this.now().toISOString(), error: "run did not finish (closed at a later start)" });
+    return stale.length;
+  }
   async recentRuns(sourceId: string, n: number) {
     return this.runs.filter(r => r.source_id === sourceId && r.finished_at).slice(-n).reverse().map(r => ({ status: r.status, items: Number(r.counts.items ?? 0), error: r.error }));
   }

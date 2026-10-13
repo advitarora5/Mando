@@ -55,13 +55,20 @@ export function groundExtraction(output: ExtractionOutput, text: string, opts: {
     dropped.push({ field, value, reason: "not in source text" });
     return false;
   });
-  const company = output.company_name && present(output.company_name, text) ? output.company_name.trim() : null;
+  let company = output.company_name && present(output.company_name, text) ? output.company_name.trim() : null;
   if (output.company_name && !company) dropped.push({ field: "company_name", value: output.company_name, reason: "not in source text" });
+  // v2+: a company is a name ("Acme Corp"), not a description ("a globally recognized ... organization") or a role tag ("oCFO").
+  if (company && opts.typeEvidence && (!/^[A-Z0-9]/.test(company) || company.split(/\s+/).length > 6)) {
+    dropped.push({ field: "company_name", value: company, reason: "not a proper organisation name" });
+    company = null;
+  }
   const signals: CheckedSignal[] = [];
   const seen = new Set<string>();
   for (const signal of output.signals) {
     const check = verifyQuote(signal.quote, text);
     if (!check.ok) { dropped.push({ field: `signals.${signal.type}.quote`, value: signal.quote, reason: check.reason }); continue; }
+    // v2+: a quote is one sentence of evidence, not the whole page.
+    if (opts.typeEvidence && check.quote.split(/\s+/).length > 60) { dropped.push({ field: `signals.${signal.type}.quote`, value: check.quote.slice(0, 120), reason: "quote longer than 60 words" }); continue; }
     if (opts.typeEvidence && !TYPE_EVIDENCE[signal.type].test(check.quote)) { dropped.push({ field: `signals.${signal.type}.type`, value: check.quote, reason: `quote does not support type ${signal.type}` }); continue; }
     const key = `${signal.type}|${check.quote}`;
     if (seen.has(key)) continue;

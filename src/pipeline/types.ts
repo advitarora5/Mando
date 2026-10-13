@@ -147,6 +147,7 @@ export interface PipelineStore {
   sources(): Promise<SourceRow[]>;
   startRun(run: { job: string; source_id: string | null; trigger: "schedule" | "manual" | "import_button" }): Promise<string>;
   finishRun(id: string, result: { status: RunStatus; counts: RunCounts; requests: number; llm_spend_usd: number; treg_spend_usd: number; error: string | null }): Promise<void>;
+  closeStaleRuns(startedBefore: string): Promise<number>;
   recentRuns(sourceId: string, n: number): Promise<{ status: RunStatus; items: number; error: string | null }[]>;
 
   saveCapture(item: RawItem, runId: string | null): Promise<{ id: string; inserted: boolean }>;

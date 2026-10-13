@@ -32,7 +32,7 @@ for (const item of chosen) {
   const perRun = [];
   for (let r = 0; r < runs; r++) {
     if (!needsModelText(item.kind, item.title, item.text)) { perRun.push({ skipped: true, ok: true, attempts: 0, company: null, types: [], quotes: [], project: null, rawQuotes: 0, rawVerbatim: 0, filled: 0, dropped: 0, ms: 0, firstValid: true }); continue; }
-    const reading = await readWithModel(llm, item.kind, item.title, item.text, prompt);
+    const reading = await readWithModel(llm, item.kind, item.title, item.text, prompt, promptVersion);
     cost += reading.cost_usd;
     if (!reading.ok) { perRun.push({ ok: false, error: reading.error, attempts: reading.attempts, ms: reading.ms, firstValid: false, company: null, types: [], quotes: [], project: null, rawQuotes: 0, rawVerbatim: 0, filled: 0, dropped: 0 }); continue; }
     const { checked } = reading;
@@ -51,6 +51,8 @@ for (const item of chosen) {
   }
   const first = perRun[0];
   const types = new Set(first.types);
+  // What the pipeline keeps: the model's signals plus the structured hiring signal every Workday job posting gets.
+  const pipelineTypes = new Set([...first.types, ...(/job posting/i.test(item.kind) && needsModelText(item.kind, item.title, item.text) ? ["hiring"] : [])]);
   const required = label.required ?? [], allowed = new Set([...(label.required ?? []), ...(label.allowed ?? [])]);
   const companyOk = label.company === null ? (!first.company || (label.company_ok ?? []).some(c => isSimilarName(c, first.company))) : !!first.company && [label.company, ...(label.company_ok ?? [])].some(c => isSimilarName(c, first.company));
   const projectOk = [label.project, ...(label.project_ok ?? [])].includes(first.project ?? null);
@@ -59,6 +61,8 @@ for (const item of chosen) {
     company_ok: companyOk, project_ok: projectOk,
     required_found: required.filter(t => types.has(t)).length, required_total: required.length,
     false_types: [...types].filter(t => !allowed.has(t)),
+    pipeline_required_found: required.filter(t => pipelineTypes.has(t)).length,
+    pipeline_false_types: [...pipelineTypes].filter(t => !allowed.has(t)), pipeline_predicted: pipelineTypes.size,
     consistency: { company: mode(perRun.map(p => norm(p.company))), types: mode(perRun.map(p => p.types.join(","))), quotes: mode(perRun.map(p => p.quotes.join("|"))) },
   });
   process.stdout.write(`${item.id} ${first.ok ? "" : "INVALID "}types=[${first.types}] company=${first.company ?? "-"} project=${first.project ?? "-"} ${companyOk ? "" : "COMPANY-MISS "}${results.at(-1).false_types.length ? `FALSE=${results.at(-1).false_types} ` : ""}${results.at(-1).required_found < required.length ? `MISSED=${required.filter(t => !types.has(t))} ` : ""}\n`);
@@ -82,6 +86,8 @@ function summarize(rs) {
     project_accuracy: avg(rs, r => (r.project_ok ? 1 : 0)),
     signal_recall: req ? found / req : 1,
     signal_precision: predicted ? (predicted - falseTypes) / predicted : 1,
+    pipeline_signal_recall: req ? sum(rs, r => r.pipeline_required_found) / req : 1,
+    pipeline_signal_precision: sum(rs, r => r.pipeline_predicted) ? (sum(rs, r => r.pipeline_predicted) - sum(rs, r => r.pipeline_false_types.length)) / sum(rs, r => r.pipeline_predicted) : 1,
     false_type_items: rs.filter(r => r.false_types.length).map(r => `${r.id}:${r.false_types}`),
     consistency_company: avg(rs, r => r.consistency.company),
     consistency_types: avg(rs, r => r.consistency.types),
