@@ -689,4 +689,3 @@ ID: fdae1414-9777-5775-9ed1-dc67d2aa5498. Total 55 → 47/100; displayed tier **
 Why now: Confirmed ongoing Workday operation creates an operational testing opportunity; recent urgency is unconfirmed. Public professional routes support outreach research, while deliverability and a present Mando purchase commitment remain unconfirmed.
 
 Next action: Validate the selected contact’s direct route and ask about the next Workday testing or procurement milestone.
-
