@@ -2,16 +2,25 @@ import { requirePageSession } from "@/server/auth/session";
 import { notFound } from "next/navigation";
 import { z } from "zod";
 import { getCompanyDetail } from "@/server/repositories/company-detail";
+import { getCompanies } from "@/server/repositories/companies";
 import { getSnapshots } from "@/server/repositories/rank-history";
 import { getDrafts } from "@/server/repositories/outreach-drafts";
 import { Detail } from "@/features/company-detail/detail";
+import { AppShell, paletteCompanies } from "@/components/app-shell";
+import { companyRanks } from "@/features/company-list/query";
+import { baselineWeek, chicagoWeekStart, rankMovement } from "@/domain/history";
 
 export const dynamic = "force-dynamic";
 export default async function CompanyPage({ params }: { params: Promise<{ id: string }> }) {
   await requirePageSession();
   const { id } = await params;
   if (!z.uuid().safeParse(id).success) notFound();
-  const company = await getCompanyDetail(id);
+  const [company, snapshots, drafts, list] = await Promise.all([getCompanyDetail(id), getSnapshots(id), getDrafts(id), getCompanies()]);
   if (!company) notFound();
-  return <Detail company={company} snapshots={await getSnapshots(id)} drafts={await getDrafts(id)} />;
+  const rank = companyRanks(list.companies).get(id);
+  const week = baselineWeek(snapshots, chicagoWeekStart());
+  const movement = week ? rankMovement(rank, snapshots.find(s => s.week_start === week)?.rank) : null;
+  return <AppShell active="record" companies={paletteCompanies(list.companies)}>
+    <Detail company={company} snapshots={snapshots} drafts={drafts} rank={rank} movement={movement} />
+  </AppShell>;
 }

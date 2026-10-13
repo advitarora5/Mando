@@ -10,6 +10,16 @@ export const leadStatusLabels: Record<LeadStatus, string> = {
   demo_booked: "Demo booked",
 };
 
+// The stored status, or null when the database has no lead_status column yet
+// (migration 202610110003 not applied). Callers show "Not tracked" rather than inventing "Queued".
+export function leadStatusOf(company: { lead_status?: LeadStatus | null }): LeadStatus | null {
+  return company.lead_status && company.lead_status in leadStatusLabels ? company.lead_status : null;
+}
+export function leadStatusText(company: { lead_status?: LeadStatus | null }): string {
+  const status = leadStatusOf(company);
+  return status ? leadStatusLabels[status] : "Not tracked";
+}
+
 // The date column each status stamps when a rep selects it. queued is the initial
 // state and carries no date.
 const stampColumn: Record<LeadStatus, "contacted_at" | "replied_at" | "demo_booked_at" | null> = {
