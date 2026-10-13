@@ -1,9 +1,9 @@
-import { CircleCheck, CircleDashed, CircleHelp, CircleMinus } from "lucide-react";
+import { CircleCheck, CircleDashed, CircleDot, CircleHelp, CircleMinus } from "lucide-react";
 import type { Score } from "@/domain/contracts/company";
 import { barLevel, tierKey, tierLabel, type CategoryCell, type TierKey } from "@/domain/scoring/view";
 import { rubric } from "@/domain/scoring/rubric";
 
-const tierIcon: Record<TierKey, typeof CircleCheck> = { qualified: CircleCheck, maybe: CircleMinus, disqualified: CircleMinus, needs: CircleHelp, unscored: CircleDashed };
+const tierIcon: Record<TierKey, typeof CircleCheck> = { qualified: CircleCheck, maybe: CircleDot, disqualified: CircleMinus, needs: CircleHelp, unscored: CircleDashed };
 
 export function TierChip({ score, tier }: { score?: Score | null; tier?: TierKey }) {
   const key = tier ?? tierKey(score ?? null);
@@ -27,7 +27,7 @@ export function scoreCellLabel(cell: CategoryCell) {
 export function ScoreCell({ cell, onOpen }: { cell: CategoryCell; onOpen?: () => void }) {
   const label = scoreCellLabel(cell);
   if (cell.points === null) return <span className="empty-cell" aria-label={label}>—</span>;
-  if (cell.needsEvidence) return <button type="button" className="needs-cell" onClick={event => { event.stopPropagation(); onOpen?.(); }} aria-label={label} data-tip={label}><CircleHelp aria-hidden />Needs evidence</button>;
+  if (cell.needsEvidence) return <button type="button" className="needs-cell" onClick={event => { event.stopPropagation(); onOpen?.(); }} aria-label={label} data-tip={label}><CircleHelp aria-hidden /><span className="stacked">Needs<br />evidence</span></button>;
   return <button type="button" className={`score-cell${cell.incomplete ? " partial" : ""}`} onClick={event => { event.stopPropagation(); onOpen?.(); }} aria-label={label} data-tip={label}>
     <span className="n">{cell.points}</span><ScoreBar points={cell.points} max={cell.max} />
   </button>;

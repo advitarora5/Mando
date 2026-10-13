@@ -10,7 +10,7 @@ import type { Movement, Snapshot } from "@/domain/history";
 import { ContactDrafts } from "@/features/outreach/drafts";
 import type { StoredDraft } from "@/server/repositories/outreach-drafts";
 import { saveCompany, saveContact, saveInsights, saveLeadStatus } from "@/features/company-editor/actions";
-import { leadStatuses, leadStatusLabels } from "@/domain/lead-status";
+import { leadStatuses, leadStatusLabels, leadStatusOf, leadStatusText } from "@/domain/lead-status";
 import { goLiveScore } from "@/domain/scoring/go-live";
 import { rubric } from "@/domain/scoring/rubric";
 import { parseEvidenceDetail } from "@/domain/scoring/evidence-detail";
@@ -80,25 +80,27 @@ function ContactRow({ contact, primary, companyId, drafts }: { contact: Contact;
     </div>
     <ChannelIcons contact={contact} tipPosition="left" />
     <div className="contact-detail">
-      <div>{contact.email ? <><a href={`mailto:${contact.email}`}>{contact.email}</a> <span className={`chip ${stateChip}`}>{emailLabel(contact)}</span></> : <span className="faint">{emailLabel(contact)}</span>}</div>
-      <div>{profile ? <a href={profile} target="_blank" rel="noopener noreferrer">LinkedIn profile</a> : candidate ? <><a href={candidate} target="_blank" rel="noopener noreferrer">Possible LinkedIn profile</a> <span className="chip warn">Unconfirmed</span></> : <span className="faint">{contact.linkedin_status === "not_found" ? "LinkedIn: searched, not found" : "No LinkedIn recorded"}</span>}
-        {contact.phone && <> · <a href={`tel:${contact.phone}`}>{contact.phone}</a></>}</div>
-      <div>{contact.mutual_connection ? <>Mutual connection: {contact.mutual_connection}</> : <span className="faint">No mutual connection recorded</span>}</div>
+      <div className="contact-line">
+        {contact.email ? <span><a href={`mailto:${contact.email}`}>{contact.email}</a> <span className={`chip ${stateChip}`}>{emailLabel(contact)}</span></span> : <span className="faint">{emailLabel(contact)}</span>}
+        {profile ? <a href={profile} target="_blank" rel="noopener noreferrer">LinkedIn profile</a> : candidate ? <span><a href={candidate} target="_blank" rel="noopener noreferrer">Possible LinkedIn</a> <span className="chip warn">Unconfirmed</span></span> : <span className="faint">{contact.linkedin_status === "not_found" ? "LinkedIn not found" : "No LinkedIn"}</span>}
+        {contact.phone ? <a href={`tel:${contact.phone}`}>{contact.phone}</a> : <span className="faint">No phone</span>}
+      </div>
       {sources.flags.map(flag => <p key={flag} className="contact-flag"><TriangleAlert aria-hidden />{flag}</p>)}
-      <div className="src-row">
+      <div className="contact-line">
+        {contact.mutual_connection ? <span>Mutual: {contact.mutual_connection}</span> : <span className="faint">No mutual connection</span>}
         {safeUrl(contact.source) && <SourceChip url={contact.source!} />}
         {safeUrl(contact.email_source) && <SourceChip url={contact.email_source!} />}
+        {(sources.emailSource || sources.emailVerification || sources.providerTitle || sources.companyLine || contact.enriched_at) && <details className="raw"><summary>Verification details</summary>
+          <dl className="kv" style={{ marginTop: 8 }}>
+            {sources.emailSource && <><dt>Email found by</dt><dd>{sources.emailSource}</dd></>}
+            {sources.emailVerification && <><dt>Verification</dt><dd>{sources.emailVerification}</dd></>}
+            {sources.linkedinNote && <><dt>LinkedIn</dt><dd>{sources.linkedinNote}</dd></>}
+            {sources.providerTitle && <><dt>Title per provider</dt><dd>{sources.providerTitle}</dd></>}
+            {sources.companyLine && <><dt>Company line</dt><dd><a href={`tel:${sources.companyLine}`}>{sources.companyLine}</a></dd></>}
+            {contact.enriched_at && <><dt>Enriched</dt><dd>{formatDate(contact.enriched_at)}</dd></>}
+          </dl></details>}
+        <Editor title="" label="Edit" action={saveContact} hidden={{ company_id: companyId, id: contact.id }} fields={contactFields(contact)}>{null}</Editor>
       </div>
-      {(sources.emailSource || sources.emailVerification || sources.providerTitle || sources.companyLine || contact.enriched_at) && <details className="raw"><summary>Sources and verification</summary>
-        <dl className="kv" style={{ marginTop: 8 }}>
-          {sources.emailSource && <><dt>Email found by</dt><dd>{sources.emailSource}</dd></>}
-          {sources.emailVerification && <><dt>Verification</dt><dd>{sources.emailVerification}</dd></>}
-          {sources.linkedinNote && <><dt>LinkedIn</dt><dd>{sources.linkedinNote}</dd></>}
-          {sources.providerTitle && <><dt>Title per provider</dt><dd>{sources.providerTitle}</dd></>}
-          {sources.companyLine && <><dt>Company line</dt><dd><a href={`tel:${sources.companyLine}`}>{sources.companyLine}</a></dd></>}
-          {contact.enriched_at && <><dt>Enriched</dt><dd>{formatDate(contact.enriched_at)}</dd></>}
-        </dl></details>}
-      <Editor title="" label="Edit contact" action={saveContact} hidden={{ company_id: companyId, id: contact.id }} fields={contactFields(contact)}>{null}</Editor>
     </div>
   </div>;
 }
@@ -206,7 +208,7 @@ export function Detail({ company: c, snapshots = [], drafts = [], rank, movement
       <div className="card-body"><ContactDrafts drafts={drafts.filter(d => d.contact_id === contact.id)} companyId={c.id} email={contact.email} linkedinUrl={contact.linkedin_url} /></div>
     </section>) : <div className="card empty-state"><strong>No contacts to message yet</strong><span>Add a contact first; drafts appear here once generated.</span></div>}</div>
     <section className="card"><div className="card-body"><Editor title="Lead status" action={saveLeadStatus} hidden={{ company_id: c.id, updated_at: c.updated_at, previous_status: c.lead_status }} fields={[{ name: "lead_status", label: "Status", type: "select", value: c.lead_status, options: leadStatuses.map(status => ({ value: status, label: leadStatusLabels[status] })), help: "Sending a draft marks the lead contacted automatically." }]}>
-      <dl className="kv"><dt>Status</dt><dd><span className="chip info">{leadStatusLabels[c.lead_status] ?? c.lead_status}</span></dd>
+      <dl className="kv"><dt>Status</dt><dd>{leadStatusOf(c) ? <span className="chip info">{leadStatusText(c)}</span> : <span className="faint">Not tracked — lead status is not stored in this database yet</span>}</dd>
         <dt>Contacted</dt><dd>{formatDate(c.contacted_at) ?? <span className="faint">Not yet</span>}</dd>
         <dt>Replied</dt><dd>{formatDate(c.replied_at) ?? <span className="faint">Not yet</span>}</dd>
         <dt>Demo booked</dt><dd>{formatDate(c.demo_booked_at) ?? <span className="faint">Not yet</span>}</dd></dl>

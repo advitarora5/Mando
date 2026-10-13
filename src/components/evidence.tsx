@@ -26,11 +26,12 @@ function EvidenceCard({ score, category, open }: { score: Score; category: Categ
       <span className="ev-title"><ChevronRight aria-hidden />{rubric[category].label}</span>
       <span className="ev-points">
         {cell.needsEvidence ? <span className="chip needs"><CircleHelp aria-hidden />Needs evidence</span>
-          : <><span className="n">{cell.points}<small> / {cell.max}</small></span><ScoreBar points={cell.points ?? 0} max={cell.max} /></>}
+          : <>{cell.incomplete && <span className="chip warn" title="Points are recorded, but this category's evidence is missing or still being verified">Unverified</span>}<span className="n">{cell.points}<small> / {cell.max}</small></span><ScoreBar points={cell.points ?? 0} max={cell.max} /></>}
       </span>
       <span className="ev-reason">{reason}</span>
     </summary>
     <div className="ev-body">
+      {cell.incomplete && !cell.needsEvidence && !detail.source && <p className="contact-flag"><CircleHelp aria-hidden />{cell.points} points are recorded without a verifiable source. Treat them as provisional until evidence is added.</p>}
       {Status && detail.assessment_status && <span className={`status-label ${detail.assessment_status}`}><Status aria-hidden />{statusText[detail.assessment_status]}</span>}
       {detail.subscores.length > 0 && <div>
         <p className="ev-label">How the points add up</p>

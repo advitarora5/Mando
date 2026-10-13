@@ -3,10 +3,10 @@
 import Link from "next/link";
 import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
-import { Inbox, Search, SquareArrowOutUpRight } from "lucide-react";
+import { CircleHelp, Inbox, Search, SquareArrowOutUpRight } from "lucide-react";
 import type { CompanyListItem, LeadStatus } from "@/domain/contracts/company";
 import { contactFunction, emailLabel, emailState, functionLabel, rankContacts } from "@/domain/contacts/contact-view";
-import { leadStatusLabels } from "@/domain/lead-status";
+import { leadStatusOf, leadStatusText } from "@/domain/lead-status";
 import { tierKey } from "@/domain/scoring/view";
 import { TierChip } from "@/components/score";
 import { Avatar, ChannelIcons } from "@/components/channels";
@@ -24,7 +24,7 @@ type Row = { company: CompanyListItem; contact: CompanyListItem["contacts"][numb
 function match(r: Row, f: Filter) {
   if (f === "all") return true;
   if (f === "ready") return isReady(r.company) && emailState(r.contact) === "verified";
-  return r.company.lead_status === f;
+  return leadStatusOf(r.company) === f;
 }
 
 export function OutreachQueue({ companies }: { companies: CompanyListItem[] }) {
@@ -36,6 +36,7 @@ export function OutreachQueue({ companies }: { companies: CompanyListItem[] }) {
     .toSorted((a, b) => (b.score?.total ?? -1) - (a.score?.total ?? -1) || a.name.localeCompare(b.name))
     .flatMap(c => rankContacts(c.contacts).map((contact, i) => ({ company: c, contact, top: i === 0 }))), [companies]);
   const counts = useMemo(() => Object.fromEntries(filters.map(f => [f.id, rows.filter(r => match(r, f.id)).length])), [rows]);
+  const tracked = companies.some(c => leadStatusOf(c));
   const q = query.trim().toLowerCase();
   const visible = rows.filter(r => match(r, filter) && (!q || `${r.contact.name} ${r.contact.title ?? ""} ${r.company.name}`.toLowerCase().includes(q)));
 
@@ -48,6 +49,7 @@ export function OutreachQueue({ companies }: { companies: CompanyListItem[] }) {
       </div>
       <label className="field" style={{ marginBottom: 8 }}><Search aria-hidden /><span className="sr-only">Search contacts</span><input className="input search" type="search" placeholder="Search contact or company" value={query} onChange={e => setQuery(e.target.value)} /></label>
     </div>
+    {!tracked && <p className="active-filters" role="note"><CircleHelp aria-hidden style={{ width: 14, height: 14 }} />Lead status is not stored in this database yet, so Queued, Contacted, Replied and Demo booked stay empty and every company counts as not yet contacted. Statuses appear once the lead-status migration is applied.</p>}
     <div className="table-wrap" id="queue-panel" role="tabpanel" aria-labelledby={`queue-${filter}`}>
       <table className="dt" aria-label="Outreach queue">
         <thead><tr>
@@ -63,7 +65,7 @@ export function OutreachQueue({ companies }: { companies: CompanyListItem[] }) {
             <td className="num"><span className="cell-total" style={{ fontSize: "var(--fs-md)" }}>{c.score?.total ?? "—"}</span></td>
             <td><ChannelIcons contact={contact} /></td>
             <td><span className={`chip ${state === "verified" ? "ok" : state === "invalid" ? "err" : state === "none" || state === "not_found" ? "neutral" : "warn"}`}>{emailLabel(contact)}</span></td>
-            <td><span className={`chip ${statusChip[c.lead_status] ?? "neutral"}`}>{leadStatusLabels[c.lead_status] ?? c.lead_status}</span></td>
+            <td>{leadStatusOf(c) ? <span className={`chip ${statusChip[leadStatusOf(c)!]}`}>{leadStatusText(c)}</span> : <span className="empty-cell">Not tracked</span>}</td>
             <td onClick={e => e.stopPropagation()}><Link className="btn btn-ghost btn-icon" href={`/companies/${c.id}#outreach`} aria-label={`Open outreach for ${c.name}`} data-tip="Open outreach" data-tip-pos="left"><SquareArrowOutUpRight aria-hidden /></Link></td>
           </tr>;
         })}</tbody>

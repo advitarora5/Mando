@@ -6,7 +6,7 @@ import type { Category, CompanyListItem } from "@/domain/contracts/company";
 import { rankContacts, contactFunction, functionLabel, emailState } from "@/domain/contacts/contact-view";
 import { categoryCells } from "@/domain/scoring/view";
 import { rubric } from "@/domain/scoring/rubric";
-import { leadStatusLabels } from "@/domain/lead-status";
+import { leadStatusOf, leadStatusText } from "@/domain/lead-status";
 import { safeUrl } from "@/domain/contracts/detail";
 import { employeeLabel } from "@/data/employee-label";
 import { bullets, formatDate } from "@/domain/text";
@@ -52,7 +52,7 @@ export function CompanyPreview({ company: c, rank, movement, tab, focus, onTab, 
         <dt>Employees</dt><dd>{employees ?? <span className="faint">Not recorded</span>}</dd>
         <dt>Headquarters</dt><dd>{c.headquarters ?? <span className="faint">Not recorded</span>}</dd>
         <dt>Workday signal</dt><dd>{formatDate(c.workday_signal_date) ?? <span className="faint">Not recorded</span>}</dd>
-        <dt>Lead status</dt><dd>{leadStatusLabels[c.lead_status] ?? c.lead_status}</dd>
+        <dt>Lead status</dt><dd>{leadStatusOf(c) ? leadStatusText(c) : <span className="faint">Not tracked</span>}</dd>
         <dt>Website</dt><dd>{c.domain ? <a href={`https://${c.domain}`} target="_blank" rel="noopener noreferrer">{c.domain}</a> : <span className="faint">Not recorded</span>}</dd>
       </dl>
     </section>

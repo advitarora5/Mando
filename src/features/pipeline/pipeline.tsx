@@ -8,7 +8,7 @@ import { rankMovement } from "@/domain/history";
 import { rankContacts, emailState } from "@/domain/contacts/contact-view";
 import { categoryCells, shortLabel } from "@/domain/scoring/view";
 import { rubric } from "@/domain/scoring/rubric";
-import { leadStatusLabels } from "@/domain/lead-status";
+import { leadStatusOf, leadStatusText } from "@/domain/lead-status";
 import { employeeLabel } from "@/data/employee-label";
 import { formatDate } from "@/domain/text";
 import { companyRanks } from "@/features/company-list/query";
@@ -156,14 +156,14 @@ export function Pipeline({ companies, mode, previousWeek, previousRanks, previou
         return <button key={k.id} type="button" className="kpi" aria-pressed={pressed} title={k.tip}
           onClick={() => k.id === "verified" ? update({ verified: !state.verified }) : setView(pressed ? "all" : k.id as View)}>
           <span className="kpi-label">{k.dot && <span className={`dot ${k.dot}`} aria-hidden />}{k.label}</span>
-          <span className="kpi-value">{k.value}{k.delta != null && k.delta !== 0 && <span className={`kpi-delta ${k.delta > 0 ? "delta-up" : "delta-down"}`}>{k.delta > 0 ? "+" : ""}{k.delta} this week</span>}</span>
+          <span className="kpi-value">{k.value}{k.delta != null && k.delta !== 0 && <span className={`kpi-delta ${k.delta > 0 ? "delta-up" : "delta-down"}`}>{k.delta > 0 ? "+" : ""}{k.delta}{previousWeek ? ` vs ${formatDate(previousWeek, { month: "short", day: "numeric" })}` : ""}</span>}</span>
         </button>;
       })}
     </section>
 
     <div className="toolbar" role="search">
       <label className="field"><Search aria-hidden /><span className="sr-only">Search companies</span>
-        <input ref={search} className="input search" type="search" placeholder="Search company, industry, contact…   /" value={state.q} onChange={e => update({ q: e.target.value })} /></label>
+        <input ref={search} className="input search" type="search" placeholder="Search…" value={state.q} onChange={e => update({ q: e.target.value })} /></label>
       <details className="menu">
         <summary className="btn"><Bookmark aria-hidden />{views.find(v => v.id === state.view)!.label}</summary>
         <div className="menu-pop left" role="menu">
@@ -172,25 +172,26 @@ export function Pipeline({ companies, mode, previousWeek, previousRanks, previou
             onClick={event => { setView(v.id); (event.currentTarget.closest("details") as HTMLDetailsElement).open = false; }}>{v.label}</button>)}
         </div>
       </details>
+      <div className="toolbar-controls">
       <label className="sr-only" htmlFor="tier-filter">Tier</label>
       <select id="tier-filter" className="select" value={state.tier} onChange={e => update({ tier: e.target.value })}>{tierOptions.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}</select>
-      <span className="range-group">Score
-        <input className="input range" inputMode="numeric" aria-label="Minimum total score" placeholder="0" value={state.min} onChange={e => update({ min: e.target.value.replace(/\D/g, "").slice(0, 3) })} />–
-        <input className="input range" inputMode="numeric" aria-label="Maximum total score" placeholder="100" value={state.max} onChange={e => update({ max: e.target.value.replace(/\D/g, "").slice(0, 3) })} />
+      <span className="range-group" title="Total score range">
+        <input className="input range" inputMode="numeric" aria-label="Minimum total score" placeholder="Min" value={state.min} onChange={e => update({ min: e.target.value.replace(/\D/g, "").slice(0, 3) })} />–
+        <input className="input range" inputMode="numeric" aria-label="Maximum total score" placeholder="Max" value={state.max} onChange={e => update({ max: e.target.value.replace(/\D/g, "").slice(0, 3) })} />
       </span>
       <span className="toolbar-sep" aria-hidden />
       <button type="button" className="toggle" aria-pressed={state.verified} onClick={() => update({ verified: !state.verified })} title="At least one contact with a verified email"><BadgeCheck aria-hidden />Verified email</button>
       <button type="button" className="toggle" aria-pressed={state.gaps} onClick={() => update({ gaps: !state.gaps })} title="At least one category has no verified evidence yet"><CircleHelp aria-hidden />Evidence gaps</button>
       <button type="button" className="toggle" aria-pressed={state.release} onClick={() => update({ release: !state.release })} title="Release score above the 8-point baseline, i.e. in a Workday release-readiness window"><CalendarClock aria-hidden />Release planners</button>
+      </div>
       <div className="toolbar-end">
-        <span className="result-meta" role="status">{rows.length} of {companies.length}</span>
-        <div className="seg" role="group" aria-label="Row density">
-          <button type="button" aria-pressed={density === "comfortable"} onClick={() => density !== "comfortable" && toggleDensity()}>Comfortable</button>
-          <button type="button" aria-pressed={density === "compact"} onClick={() => density !== "compact" && toggleDensity()}>Compact</button>
-        </div>
+        <span className="result-meta" role="status" aria-label={`${rows.length} of ${companies.length} companies shown`}>{rows.length}<span className="faint"> / {companies.length}</span></span>
         <details className="menu">
-          <summary className="btn" aria-label="Choose columns"><Columns3 aria-hidden />Columns</summary>
+          <summary className="btn" aria-label="Display options"><Columns3 aria-hidden />Display</summary>
           <div className="menu-pop" role="menu">
+            <p className="menu-label">Row density</p>
+            <button type="button" role="menuitemradio" aria-checked={density === "comfortable"} className="menu-item" onClick={() => density !== "comfortable" && toggleDensity()}>Comfortable</button>
+            <button type="button" role="menuitemradio" aria-checked={density === "compact"} className="menu-item" onClick={() => density !== "compact" && toggleDensity()}>Compact</button>
             <p className="menu-label">Optional columns</p>
             {optionalColumns.map(col => <button key={col.id} type="button" role="menuitemcheckbox" aria-checked={show(col.id)} className="menu-item" onClick={() => toggleColumn(col.id)}>{col.label}</button>)}
           </div>
@@ -209,17 +210,17 @@ export function Pipeline({ companies, mode, previousWeek, previousRanks, previou
       <table className={`dt${density === "compact" ? " compact" : ""}`} aria-label="Company pipeline" aria-rowcount={rows.length}>
         <thead><tr>
           <th className="col-check sticky-1" style={{ left: STICKY.check }}><input type="checkbox" aria-label="Select all visible companies" checked={allVisibleSelected} onChange={toggleAll} /></th>
-          <th className="num sticky-1" style={{ left: STICKY.rank, width: 80 }}><SortButton label="Rank" field="rank" sort={state.sort} setSort={sort => update({ sort })} tip={previousWeek ? `Rank; change vs week of ${previousWeek}` : "Rank"} /></th>
+          <th className="sticky-1" style={{ left: STICKY.rank, width: 80 }}><SortButton label="Rank" field="rank" sort={state.sort} setSort={sort => update({ sort })} tip={previousWeek ? `Rank; change vs week of ${previousWeek}` : "Rank"} /></th>
           <th className="sticky-2" style={{ left: STICKY.company }}><SortButton label="Company" field="name" sort={state.sort} setSort={sort => update({ sort })} /></th>
           <th><SortButton label="Tier" field="tier" sort={state.sort} setSort={sort => update({ sort })} numeric /></th>
           <th className="num"><SortButton label="Total" field="score" sort={state.sort} setSort={sort => update({ sort })} numeric tip="Total score out of 100" /></th>
-          {categories.map(cat => <th key={cat}><SortButton label={`${shortLabel[cat]} /${rubric[cat].weight}`} field={cat} sort={state.sort} setSort={sort => update({ sort })} numeric tip={`${rubric[cat].label}: ${rubric[cat].explanation}`} /></th>)}
+          {categories.map(cat => <th key={cat} className="col-score"><SortButton label={shortLabel[cat]} field={cat} sort={state.sort} setSort={sort => update({ sort })} numeric tip={`${rubric[cat].label} (out of ${rubric[cat].weight}): ${rubric[cat].explanation}`} /></th>)}
           <th>Top contact</th>
-          {show("why") && <th>Why now</th>}
+          {show("why") && <th className="col-why">Why now</th>}
           {show("signal") && <th>Workday signal</th>}
           {show("lead") && <th>Lead status</th>}
           {show("employees") && <th className="num"><SortButton label="Employees" field="employees" sort={state.sort} setSort={sort => update({ sort })} numeric /></th>}
-          <th><span className="sr-only">Actions</span></th>
+          <th className="col-actions"><span className="sr-only">Actions</span></th>
         </tr></thead>
         <tbody ref={tableRef}>
           {rows.map((c, index) => {
@@ -233,24 +234,24 @@ export function Pipeline({ companies, mode, previousWeek, previousRanks, previou
             const open = (tab: PanelTab, focus: Category | null = null) => { setActive(index); setPanel({ id: c.id, tab, focus }); };
             return <tr key={c.id} className={index === active ? "is-active" : undefined} aria-selected={selected.has(c.id)} onClick={() => open("overview")}>
               <td className="col-check sticky-1" style={{ left: STICKY.check }} onClick={event => event.stopPropagation()}><input type="checkbox" aria-label={`Select ${c.name}`} checked={selected.has(c.id)} onChange={() => toggleRow(c.id)} /></td>
-              <td className="num sticky-1" style={{ left: STICKY.rank }}><span className="cell-rank"><Delta movement={movement} current={rank} /><strong>{rank ?? "—"}</strong></span></td>
+              <td className="sticky-1" style={{ left: STICKY.rank }}><span className="cell-rank"><strong>{rank ?? "—"}</strong><Delta movement={movement} current={rank} /></span></td>
               <td className="sticky-2" style={{ left: STICKY.company }}><div className="cell-company">
                 {linkable ? <Link href={`/companies/${c.id}`} onClick={event => event.stopPropagation()} title={c.name}>{c.name}</Link> : <strong title={c.name}>{c.name}</strong>}
                 <small title={c.industry ?? undefined}>{[c.industry ?? "Industry not recorded", employees && `${employees} emp.`].filter(Boolean).join(" · ")}</small>
               </div></td>
               <td><TierChip score={c.score} /></td>
               <td className="num"><span className="cell-total">{c.score?.total ?? <span className="empty-cell">—</span>}</span></td>
-              {cells.map(cell => <td key={cell.category}><ScoreCell cell={cell} onOpen={() => open("evidence", cell.category)} /></td>)}
+              {cells.map(cell => <td key={cell.category} className="col-score"><ScoreCell cell={cell} onOpen={() => open("evidence", cell.category)} /></td>)}
               <td>{top ? <div className="cell-contact">
                 <div className="person"><Avatar name={top.name} /><div className="person-text"><strong title={top.name}>{top.name}</strong><small title={top.title ?? undefined}>{top.title ?? "Title not recorded"}</small></div></div>
                 {contacts.length > 1 && <button type="button" className="btn btn-ghost more-contacts" onClick={event => { event.stopPropagation(); open("contacts"); }} aria-label={`${contacts.length - 1} more contacts`}>+{contacts.length - 1}</button>}
                 <ChannelIcons contact={top} />
               </div> : <span className="empty-cell">No contacts yet</span>}</td>
-              {show("why") && <td><span className="cell-truncate" style={{ maxWidth: 300 }} title={c.why_now ?? undefined}>{c.why_now ?? <span className="empty-cell">—</span>}</span></td>}
+              {show("why") && <td className="col-why"><span className="cell-truncate" title={c.why_now ?? undefined}>{c.why_now ?? <span className="empty-cell">—</span>}</span></td>}
               {show("signal") && <td className="cell-date">{formatDate(c.workday_signal_date) ?? <span className="empty-cell">—</span>}</td>}
-              {show("lead") && <td>{leadStatusLabels[c.lead_status] ?? c.lead_status}</td>}
+              {show("lead") && <td>{leadStatusOf(c) ? leadStatusText(c) : <span className="empty-cell">Not tracked</span>}</td>}
               {show("employees") && <td className="num">{employees ?? <span className="empty-cell">—</span>}</td>}
-              <td onClick={event => event.stopPropagation()}><span className="row-actions">
+              <td className="col-actions" onClick={event => event.stopPropagation()}><span className="row-actions">
                 {linkable && <Link className="btn btn-ghost btn-icon" href={`/companies/${c.id}`} aria-label={`Open ${c.name} record`} data-tip="Open record" data-tip-pos="left"><SquareArrowOutUpRight aria-hidden /></Link>}
                 <button type="button" className="btn btn-ghost btn-icon" disabled={!topEmail} onClick={() => topEmail && copy(topEmail, "Email")} aria-label={topEmail ? `Copy ${topEmail}` : "No verified email to copy"} data-tip={topEmail ? `Copy ${topEmail}` : "No verified email"} data-tip-pos="left"><Copy aria-hidden /></button>
               </span></td>

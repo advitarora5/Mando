@@ -44,3 +44,37 @@ Scores are 1–10 against the brief's checklist (a–j), each with one line of e
 - **Lead status:** show "Not tracked" when the column is missing, and add a queue banner.
 - **Phone toolbar:** scroll horizontally instead of wrapping.
 - **Palette:** verify it after hydration.
+
+## Round 2
+
+Changes from round 1:
+- The table fits exactly 1440px through the Top contact column, measured in the browser.
+- "Needs evidence" in score cells is a two-line dashed chip, so it no longer widens every score column.
+- Row actions are a hover overlay instead of their own column.
+- Why now takes the remaining width with an ellipsis, and hides below 1360px; it is always in the slide-over.
+- The rank cell shows the rank, then the delta.
+- The KPI delta is labelled with its comparison week.
+- Missing `lead_status` is shown as "Not tracked", with a banner in the queue.
+- Evidence cards flag unsourced points.
+- Contact rows are two compact lines.
+- An automated keyboard check passes 11/11.
+
+| # | Item | Score | Evidence |
+|---|---|---|---|
+| a | Scannability | 8 | The top 15 rows, with tier, total, five sub-scores and top contact, are all on the first screen at 1440 and 1280. Why now is only about 146px at 1440 and mostly reads "Confirmed ongoin…", so the "why" still needs the panel. |
+| b | No walls of text | 9 | Every cell is one line. The panel and record use bullets, sub-score rows and clamped reasons. Raw text sits behind toggles. |
+| c | Alignment and type | 8 | Numbers are tabular, and rank and total are right-aligned. At 1280 the toolbar wraps to a second line. |
+| d | Calm, meaningful colour | 8 | Colour is used only for tier, bars and status. The KPI strip leaves the right half of the bar empty, which looks unfinished. |
+| e | Layered evidence | 9 | Score cell, then category card, then status and sub-scores, then source chips, then Missing, then raw text (round-2-scorepanel). |
+| f | Contact channels obvious | 8 | The three icons with dots are clear in the queue and record. At table scale the 7px dots are hard to read at a glance. |
+| g | First-screen hierarchy | 8 | The shell, KPIs, toolbar and table fit in 155px of chrome. The KPI strip doesn't use its full width. |
+| h | No clipping; good empty and loading states | 8 | Nothing is clipped at 1440 or 1280. Empty states and skeletons exist. On phone the toolbar takes three rows. |
+| i | Keyboard flow | 9 | Automated: Ctrl+K, palette filter and Enter, "/", typing guard, Esc, J/K, Enter to open, J inside the panel, Esc to close, score click to evidence. 11/11 pass. |
+| j | Believable as a real product | 8 | It reads like a mid-stage SaaS CRM. The wrapping toolbar at 1280 and the sparse KPI bar are the visible tells. |
+
+**Fixes for round 3:**
+- **KPI strip:** fill its width.
+- **Toolbar toggles:** shorter labels below 1360px.
+- **Status dots:** larger.
+- **Phone toolbar:** two rows, with icon-only Display and Export buttons.
+- **Why now:** a few more pixels.

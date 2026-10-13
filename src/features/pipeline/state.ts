@@ -3,6 +3,7 @@ import { categories } from "../../domain/contracts/company.ts";
 import { queryCompanies, type Sort } from "../company-list/query.ts";
 import { emailState, rankContacts } from "../../domain/contacts/contact-view.ts";
 import { categoryCells, tierKey, type TierKey } from "../../domain/scoring/view.ts";
+import { leadStatusOf, leadStatusText } from "../../domain/lead-status.ts";
 
 // Pipeline filter state. Everything here is derived from stored rows; nothing is invented.
 
@@ -62,7 +63,8 @@ export const hasEvidenceGaps = (c: CompanyListItem) => categoryCells(c.score).so
 export const isReleasePlanner = (c: CompanyListItem) => !!c.score && Number(c.score.release_score) > 8;
 export const isReady = (c: CompanyListItem) => {
   const tier = tierKey(c.score);
-  return (tier === "qualified" || tier === "maybe") && c.lead_status === "queued" && hasVerifiedEmail(c);
+  // A missing status (column not migrated yet) means not yet contacted, the same as the "queued" default.
+  return (tier === "qualified" || tier === "maybe") && (leadStatusOf(c) ?? "queued") === "queued" && hasVerifiedEmail(c);
 };
 
 export function rangeError(state: PipelineState): string | null {
@@ -122,7 +124,7 @@ export function toCsv(rows: CompanyListItem[], ranks: Map<string, number>): stri
   const lines = rows.map(c => {
     const top = rankContacts(c.contacts)[0];
     return [ranks.get(c.id) ?? "", c.name, c.domain, c.industry, c.employee_count, c.score ? tierKey(c.score) : "unscored", c.score?.total,
-      ...categories.map(cat => c.score?.[`${cat}_score`]), c.lead_status, top?.name, top?.title, top?.email, top ? emailState(top) : "", c.why_now].map(csvCell).join(",");
+      ...categories.map(cat => c.score?.[`${cat}_score`]), leadStatusText(c), top?.name, top?.title, top?.email, top ? emailState(top) : "", c.why_now].map(csvCell).join(",");
   });
   return [header.join(","), ...lines].join("\n");
 }
