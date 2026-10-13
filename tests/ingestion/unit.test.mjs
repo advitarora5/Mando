@@ -7,15 +7,12 @@ import { groundExtraction } from '../../src/domain/ingestion/extraction-schema.t
 import { decideMatch, sizeLabel, isExcludedCompany } from '../../src/domain/ingestion/matching.ts';
 import { classifyTitle } from '../../src/domain/ingestion/titles.ts';
 import { canSpend, sessionSpend } from '../../src/domain/ingestion/budget.ts';
-import { hiringStrength } from '../../src/pipeline/extract.ts';
-import { scoreCompany, authorityFromContacts, reachabilityFromContacts, budgetFromSignals, releaseFromSignals, timingFromSignals } from '../../src/domain/ingestion/pipeline-score.ts';
-import { defaultSettings, isSignalFresh } from '../../src/domain/ingestion/settings.ts';
+import { scoreCompany } from '../../src/domain/ingestion/pipeline-score.ts';
+import { defaultSettings } from '../../src/domain/ingestion/settings.ts';
 import { displayTier, NEEDS_EVIDENCE } from '../../src/domain/scoring/display.ts';
-import { tierForTotal } from '../../src/domain/scoring/rubric.ts';
+// Scoring-rule tests for the team rubric live in team-rubric.test.mjs.
 
 const NOW = new Date('2026-10-13T12:00:00Z');
-const sig = (type, extra = {}) => ({ type, signal_date: null, source_url: `https://example.com/${type}`, quote: `evidence for ${type} here`, confidence: 0.9, first_seen_at: '2026-10-12T00:00:00Z', last_seen_at: '2026-10-12T00:00:00Z', project_type: null, ...extra });
-const contact = extra => ({ name: 'Pat Lee', title: 'Director, HRIS', source: 'https://www.linkedin.com/in/pat', linkedin_url: 'https://www.linkedin.com/in/pat', email: null, email_status: null, phone: null, phone_status: null, mutual_connection: null, ...extra });
 
 // ---------- normalization and dedupe ----------
 
@@ -155,39 +152,7 @@ test('regression (round 1): v2 grounding clears company values that are descript
   assert.equal(groundExtraction({ company_name: 'oCFO', workday_products: [], project_type: null, role_seniority: null, timing_words: [], signals: [] }, text).output.company_name, 'oCFO', 'v1 grounding unchanged');
 });
 
-test('regression (round 1): a posting that only lists Workday as a skill is a weaker hiring signal than a Workday role', () => {
-  assert.equal(hiringStrength('Compensation Business Partner', '- Expertise with analytics, Excel, PowerPoint, and Workday'), 'skill');
-  assert.equal(hiringStrength('Sr Engineer - Workday', 'You will prototype, design, build, and support features in Workday.'), 'role');
-  assert.equal(hiringStrength('Compensation Analyst', '- Workday Optimization: Partner with the HRIS/Systems team to implement, test, and define requirements for Workday performance and compensation modules'), 'role');
-  const skill = timingFromSignals([sig('hiring', { signal_date: '2026-10-13', confidence: 0.6 })], NOW).score;
-  const role = timingFromSignals([sig('hiring', { signal_date: '2026-10-13', confidence: 0.9 })], NOW).score;
-  assert.ok(skill < role, `${skill} < ${role}`);
-  assert.ok(budgetFromSignals([sig('hiring', { confidence: 0.6 })]).score < budgetFromSignals([sig('hiring', { confidence: 0.9 })]).score);
-});
-
 // ---------- freshness and decay ----------
-
-test('signals older than 14 days drop out of the score; go-live keeps its date bands', () => {
-  const stale = sig('hiring', { last_seen_at: '2026-09-28T11:00:00Z', signal_date: '2026-09-25' });
-  assert.equal(isSignalFresh(stale, defaultSettings, NOW), false);
-  const fresh = scoreCompany('c', [sig('hiring', { signal_date: '2026-10-10' })], [], defaultSettings, NOW);
-  const expired = scoreCompany('c', [stale], [], defaultSettings, NOW);
-  assert.ok(fresh.result.row.timing_score > 0);
-  assert.equal(expired.result.row.timing_score, 0);
-  assert.match(expired.result.row.timing_evidence, /Needs evidence/);
-  const goLive = scoreCompany('c', [sig('go_live', { signal_date: '2026-08-01', last_seen_at: '2025-01-01T00:00:00Z' })], [], defaultSettings, NOW);
-  assert.equal(goLive.result.row.timing_score, 15, '73 days after go-live is the 31-90 day band');
-});
-
-test('hiring timing decays with posting age and is higher for an active Workday project', () => {
-  const at = date => timingFromSignals([sig('hiring', { signal_date: date })], NOW).score;
-  assert.equal(at('2026-10-13'), 8);
-  assert.ok(at('2026-09-13') < at('2026-10-13'));
-  assert.equal(at('2025-01-01'), Math.round(8 * 0.4), 'old postings floor at 40%');
-  assert.equal(timingFromSignals([sig('hiring', { signal_date: '2026-10-13', project_type: 'implementation' })], NOW).score, 10);
-  assert.equal(timingFromSignals([sig('event')], NOW).score, 5);
-  assert.equal(timingFromSignals([], NOW).status, 'unknown');
-});
 
 // ---------- scoring rules ----------
 
@@ -200,68 +165,6 @@ test('no evidence is "Needs evidence" (status unknown, no URL), never a silent 0
     assert.doesNotMatch(a.result.row[`${cat}_evidence`], /https?:/);
   }
   assert.equal(displayTier(a.result.row), NEEDS_EVIDENCE);
-});
-
-test('every awarded point carries a source link and a one-line reason', () => {
-  const a = scoreCompany('c', [sig('known_customer'), sig('hiring', { signal_date: '2026-10-10', project_type: 'release_testing' }), sig('budget_clue')], [contact()], defaultSettings, NOW);
-  for (const cat of ['authority', 'reachability', 'budget', 'release', 'timing']) {
-    if (a.result.row[`${cat}_score`] > 0) assert.match(a.result.row[`${cat}_evidence`], /^https?:\/\/\S+ \| Assessment status: (met|partial|not_met)\. .+/, cat);
-    assert.doesNotMatch(a.result.row[`${cat}_evidence`], /\n/, `${cat} reason is one line`);
-  }
-  assert.equal(a.result.row.rubric_version, 'week2-100:pipeline-v1');
-});
-
-test('authority: function 0-10 + seniority 0-8 + owns Workday 0-4 + coverage 0-3, capped at 25 and at 5 for an unrelated function', () => {
-  const vp = authorityFromContacts([contact({ title: 'VP, HRIS and Workday' })]);
-  assert.deepEqual(vp.detail, { functional: 10, seniority: 6, owns_workday: 4, coverage: 1 });
-  assert.equal(vp.score, 21);
-  const team = authorityFromContacts([contact({ title: 'Chief People Officer, Workday HRIS' }), contact({ title: 'HRIS Manager' }), contact({ title: 'HR Director' }), contact({ title: 'IT Director' })]);
-  assert.equal(team.score, 25, 'capped at 25');
-  const unrelated = authorityFromContacts([contact({ title: 'Chief Marketing Officer' })]);
-  assert.equal(unrelated.score, 5); assert.equal(unrelated.status, 'partial');
-  assert.equal(authorityFromContacts([]).status, 'unknown');
-  assert.equal(authorityFromContacts([contact({ source: null, linkedin_url: null })]).status, 'unknown', 'a contact without a source link earns nothing');
-});
-
-test('reachability: verified channel 0-9 + warm path 0-8 + conviction 0-8 from contact-level evidence only', () => {
-  assert.equal(reachabilityFromContacts([contact({ email: 'p@x.com', email_status: 'valid' })]).score, 9);
-  assert.equal(reachabilityFromContacts([contact({ email: 'p@x.com', email_status: 'risky' })]).score, 4, 'LinkedIn 4 beats an unverified email 3');
-  assert.equal(reachabilityFromContacts([contact({ linkedin_url: null, email: 'p@x.com', email_status: 'risky' })]).score, 3);
-  assert.equal(reachabilityFromContacts([contact({ email: 'p@x.com', email_status: 'valid', mutual_connection: 'Adi', conviction: { source: 'https://talk.example', reason: 'Spoke at Workday Rising' } })]).score, 25);
-  assert.equal(reachabilityFromContacts([]).status, 'unknown');
-});
-
-test('budget: best adjacent-purchase signal of each kind, summed and capped at 20', () => {
-  assert.equal(budgetFromSignals([sig('budget_clue')]).score, 10);
-  assert.equal(budgetFromSignals([sig('budget_clue', { confidence: 0.6 })]).score, 6);
-  assert.equal(budgetFromSignals([sig('budget_clue'), sig('hiring', { project_type: 'implementation' }), sig('hiring'), sig('known_customer')]).score, 20);
-  assert.equal(budgetFromSignals([sig('known_customer')]).status, 'partial');
-  assert.equal(budgetFromSignals([]).status, 'unknown');
-});
-
-test('release: only release-planning signals earn calendar points; a customer alone is low neutral; nothing is Needs evidence', () => {
-  const planned = releaseFromSignals([sig('release_planning')], NOW);
-  assert.ok(planned.score >= 3 && planned.score <= 15); assert.equal(planned.status, 'met');
-  assert.equal(releaseFromSignals([sig('hiring', { project_type: 'release_testing' })], NOW).status, 'met');
-  assert.equal(releaseFromSignals([sig('known_customer')], NOW).score, 3);
-  assert.equal(releaseFromSignals([], NOW).status, 'unknown');
-});
-
-test('scores spread across companies with different evidence', () => {
-  const totals = [
-    [], [sig('known_customer')], [sig('known_customer'), sig('hiring', { signal_date: '2026-10-01' })],
-    [sig('known_customer'), sig('hiring', { signal_date: '2026-10-12', project_type: 'implementation' }), sig('budget_clue')],
-    [sig('release_planning'), sig('go_live', { signal_date: '2026-08-15' }), sig('budget_clue')],
-  ].map(signals => scoreCompany('c', signals, [], defaultSettings, NOW).result.total);
-  assert.equal(new Set(totals).size, totals.length, `totals ${totals}`);
-});
-
-test('tier thresholds 80 / 55 and ready-for-contacts at Budget + Release + Timing >= 25', () => {
-  assert.deepEqual([80, 79, 55, 54].map(tierForTotal), ['Qualified', 'Maybe', 'Maybe', 'Disqualified']);
-  const ready = scoreCompany('c', [sig('budget_clue'), sig('hiring', { signal_date: '2026-10-13', project_type: 'implementation' }), sig('release_planning')], [], defaultSettings, NOW);
-  assert.equal(ready.ready_for_contacts, ready.result.row.budget_score + ready.result.row.release_score + ready.result.row.timing_score >= 25);
-  assert.ok(ready.ready_for_contacts);
-  assert.equal(scoreCompany('c', [sig('known_customer')], [], defaultSettings, NOW).ready_for_contacts, false);
 });
 
 // ---------- titles and budget ----------
@@ -305,14 +208,6 @@ test('regression (round 1): display names keep acronyms and legal suffixes reada
 });
 
 // ---------- Round 3: code review ----------
-
-test('round 3: a go-live signal without a day-precise date says so (with its link) instead of "no go-live signal"', () => {
-  const t = timingFromSignals([sig('go_live', { signal_date: null, quote: 'Workday Student is scheduled to go live in October 2026' })], NOW);
-  assert.equal(t.score, 0);
-  assert.equal(t.status, 'unknown');
-  assert.equal(t.source, 'https://example.com/go_live');
-  assert.match(t.reason, /without a day-precise date/);
-});
 
 test('round 3: hexadecimal HTML entities are decoded in job text', () => {
   assert.equal(htmlToText('<p>Workday&#x27;s &#X2F; HRIS &#39;team&#39;</p>'), "Workday's / HRIS 'team'");

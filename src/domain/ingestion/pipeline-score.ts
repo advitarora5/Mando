@@ -1,16 +1,18 @@
 import type { Category } from "../contracts/company.ts";
 import { buildAssessment, type AssessmentResult, type CategoryInput } from "../scoring/assessment.ts";
-import { goLiveScore, daysSince } from "../scoring/go-live.ts";
-import { releaseScore } from "../scoring/releases.ts";
-import { rubric } from "../scoring/rubric.ts";
+import { daysSince, chicagoToday } from "../scoring/go-live.ts";
+import { firstReleaseOnOrAfter } from "../scoring/releases.ts";
+import { rubric, TEAM_RUBRIC_70 } from "../scoring/rubric.ts";
 import { isSignalFresh, readyForContacts, type PipelineSettings } from "./settings.ts";
-import { classifyTitle } from "./titles.ts";
+import { authorityBand, classifyTitle } from "./titles.ts";
 
-// Pipeline scoring policy. Weights, tiers, bands and evidence rules are the shared rubric's
-// (src/domain/scoring); this file only turns sourced signals and contacts into category inputs.
-// Every awarded point carries the signal's or contact's source link. No evidence is "Needs evidence",
-// written as "Assessment status: unknown", which the dashboard shows as Not Enough Evidence.
-export const PIPELINE_POLICY_VERSION = "pipeline-v1";
+// Pipeline scoring = the Mando team scoring rubric (provisional team revision, 2026-10-13; Qualified 70+, Maybe 55+),
+// applied to what the pipeline collects: sourced signals and contacts. Weights and the evidence gate are the shared
+// rubric's (src/domain/scoring). Rules the pipeline cannot evidence automatically (annual operating income, confirmed
+// release dates, a willing introducer) earn nothing and say so: "Needs evidence", never an invented fact or URL.
+// The rubric version decides the tier thresholds (src/domain/scoring/rubric.ts tierThresholdsFor).
+export const PIPELINE_POLICY_VERSION = "pipeline-v2";
+export const PIPELINE_RUBRIC_VERSION = `${TEAM_RUBRIC_70}:${PIPELINE_POLICY_VERSION}`;
 
 export const signalTypes = ["go_live", "hiring", "release_planning", "known_customer", "budget_clue", "event"] as const;
 export type SignalType = (typeof signalTypes)[number];
@@ -33,6 +35,8 @@ export type ScoringContact = {
   title: string | null;
   source: string | null;
   linkedin_url: string | null;
+  // provided / confirmed = a person entered or checked the profile; unconfirmed = found by the people search.
+  linkedin_status?: string | null;
   email: string | null;
   email_status: string | null;
   email_source?: string | null;
@@ -40,125 +44,138 @@ export type ScoringContact = {
   phone_status: string | null;
   phone_source?: string | null;
   mutual_connection: string | null;
-  // Contact-level conviction evidence, e.g. a dated talk about their Workday program: { source, reason }.
-  conviction?: { source: string; reason: string } | null;
+  // Provenance written by enrichment; its presence marks a contact found automatically.
+  contact_sources?: unknown;
+  // Dated personal HR-tech/Workday initiative, case study or event: { source, reason, date }.
+  conviction?: { source: string; reason: string; date?: string | null } | null;
 };
+
+// Company facts the rubric uses. Employee count earns the +3 Authority bonus only with a source link.
+export type ScoringCompany = { employee_count: number | null; employee_source?: string | null };
 
 export type CategoryResult = CategoryInput & { status: "met" | "partial" | "unknown" | "not_met"; detail: Record<string, number> };
 
 const http = (value: string | null | undefined) => (value && /^https?:\/\//i.test(value) ? value : null);
-const short = (quote: string) => (quote.length > 110 ? `${quote.slice(0, 107)}...` : quote).replace(/\s+/g, " ");
+const short = (quote: string, max = 90) => (quote.length > max ? `${quote.slice(0, max - 3)}...` : quote).replace(/\s+/g, " ");
+// Category reasons stay at most 240 characters (team rubric, excluding the URL).
+const clip = (reason: string) => (reason.length > 240 ? `${reason.slice(0, 237)}...` : reason);
 const needs = (what: string, detail: Record<string, number> = {}): CategoryResult =>
   ({ score: 0, source: null, reason: `Needs evidence: ${what}`, status: "unknown", detail });
+const withinMonths = (date: string | null | undefined, months: number, now: Date) => {
+  const days = daysSince(date, now);
+  return days !== null && days >= 0 && days <= Math.round(months * 30.44);
+};
 
-// Authority 0-25 from contacts: functional relevance 0-10 + seniority 0-8 + owns Workday 0-4 for the best contact,
-// plus coverage 0-3 (number of relevant contacts). Capped at 5 when the best contact's function is unrelated.
-export function authorityFromContacts(contacts: ScoringContact[]): CategoryResult {
-  if (!contacts.length) return needs("no contacts yet; contact lookup is pending.");
+// A contact counts as "confirmed current" when a person entered or confirmed them; people-search results do not.
+export function confirmedCurrent(contact: ScoringContact): boolean {
+  if (contact.linkedin_status === "confirmed" || contact.linkedin_status === "provided") return true;
+  const found = contact.contact_sources && typeof contact.contact_sources === "object" && "name_title_linkedin" in (contact.contact_sources as object);
+  return !found && !!http(contact.source);
+}
+
+// ---------- Authority /25: one role base per contact + bonuses for confirmed current contacts; best contact wins ----------
+export function authorityFromContacts(contacts: ScoringContact[], company: ScoringCompany = { employee_count: null }): CategoryResult {
+  if (!contacts.length) return needs("no named relevant contact yet; contact lookup is pending.");
   const rated = contacts.map(contact => {
-    const cls = classifyTitle(contact.title);
-    return { contact, cls, base: cls.functional + cls.seniority + cls.ownsWorkday, source: http(contact.source) ?? http(contact.linkedin_url) };
-  }).filter(r => r.source).sort((a, b) => b.base - a.base);
+    const band = authorityBand(contact.title);
+    const confirmed = confirmedCurrent(contact);
+    // A relevant person whose current role is unconfirmed gets the 5-point band and no bonuses.
+    const base = confirmed ? band.base : Math.min(band.base, 5);
+    const eligible = confirmed && base > 0;
+    const size = eligible && (company.employee_count ?? 0) >= 3000 && http(company.employee_source) ? 3 : 0;
+    const workday = eligible && classifyTitle(contact.title).ownsWorkday === 4 ? 2 : 0;
+    return { contact, band, confirmed, base, size, workday, score: Math.min(rubric.authority.weight, base + size + workday), source: http(contact.source) ?? http(contact.linkedin_url) };
+  }).filter(r => r.source).sort((a, b) => b.score - a.score);
   if (!rated.length) return needs("contacts have no source link for their role.");
   const best = rated[0];
-  const coverage = Math.min(3, rated.filter(r => r.cls.functional > 0).length);
-  let score = Math.min(rubric.authority.weight, best.base + coverage);
-  if (best.cls.functional === 0) score = Math.min(score, 5);
-  const detail = { functional: best.cls.functional, seniority: best.cls.seniority, owns_workday: best.cls.ownsWorkday, coverage };
+  if (!best.score) return { score: 0, source: best.source, status: "not_met", detail: { base: 0 }, reason: clip(`${best.contact.name}, ${best.contact.title ?? "title unknown"}: no relevant HR/IT systems role.`) };
+  const missing = !best.confirmed ? " Current role not yet confirmed (found by people search)." : !best.size ? " 3,000+ employer size not sourced." : "";
   return {
-    score, source: best.source, status: best.cls.functional > 0 ? "met" : "partial", detail,
-    reason: `${best.contact.name}, ${best.contact.title ?? "title unknown"}: function ${detail.functional}/10 (${best.cls.functionLabel}), seniority ${detail.seniority}/8, owns Workday ${detail.owns_workday}/4, coverage ${coverage}/3${best.cls.functional === 0 ? ", capped at 5 (unrelated function)" : ""}.`,
+    score: best.score, source: best.source, status: best.confirmed ? "met" : "partial",
+    detail: { base: best.base, size: best.size, workday: best.workday },
+    reason: clip(`${best.contact.name}, ${best.contact.title}: ${best.confirmed ? best.band.label : "role unconfirmed"} ${best.base} + size ${best.size} + Workday owner ${best.workday}.${missing}`),
   };
 }
 
-// Reachability 0-25 from contact-level signals only: verified channel 0-9 + warm path 0-8 + conviction 0-8.
+// ---------- Reachability /25: one route base per person + bonuses for confirmed current relevant contacts ----------
 export function reachabilityFromContacts(contacts: ScoringContact[]): CategoryResult {
-  if (!contacts.length) return needs("no contacts yet; contact lookup is pending.");
+  if (!contacts.length) return needs("no named contact yet; contact lookup is pending.");
   const rated = contacts.map(contact => {
-    const channels: [number, string, string | null][] = [
-      [contact.email && contact.email_status === "valid" ? 9 : 0, "verified work email", http(contact.email_source) ?? http(contact.source)],
-      [contact.phone && contact.phone_status === "live" ? 7 : 0, "live phone line (not proof of ownership)", http(contact.phone_source) ?? http(contact.source)],
-      [contact.linkedin_url ? 4 : 0, "LinkedIn profile", http(contact.linkedin_url)],
-      [contact.email && contact.email_status !== "invalid" ? 3 : 0, "unverified email", http(contact.email_source) ?? http(contact.source)],
-    ];
-    const [channel, label, source] = channels.filter(c => c[2]).sort((a, b) => b[0] - a[0])[0] ?? [0, "no channel", null];
-    const warm = contact.mutual_connection?.trim() ? 8 : 0;
-    const conviction = contact.conviction && http(contact.conviction.source) ? 8 : 0;
-    return { contact, channel, label, source, warm, conviction, total: channel + warm + conviction };
-  }).sort((a, b) => b.total - a.total);
+    // Published (sourced) or provider-verified work email; published direct phone. A live line alone is not ownership.
+    const emailSource = contact.email ? (http(contact.email_source) ?? (contact.email_status === "valid" ? http(contact.source) ?? http(contact.linkedin_url) : null)) : null;
+    const phoneSource = contact.phone ? http(contact.phone_source) : null;
+    const linkedin = http(contact.linkedin_url) && (contact.linkedin_status === "confirmed" || contact.linkedin_status === "provided") ? http(contact.linkedin_url) : null;
+    const base = emailSource && phoneSource ? 20 : emailSource || phoneSource ? 15 : linkedin ? 10 : 0;
+    const route = emailSource && phoneSource ? "named work email and direct phone" : emailSource ? "named work email" : phoneSource ? "direct phone" : linkedin ? "confirmed LinkedIn only" : "no sourced route";
+    const eligible = confirmedCurrent(contact) && classifyTitle(contact.title).functional > 0 && base > 0;
+    const linkedinBonus = eligible && base >= 15 && linkedin ? 3 : 0;
+    const initiative = eligible && contact.conviction && http(contact.conviction.source) && withinMonths(contact.conviction.date, 24, new Date()) ? 3 : 0;
+    const intro = eligible && /willing|introduc/i.test(contact.mutual_connection ?? "") ? 5 : 0;
+    return { contact, base, route, linkedinBonus, initiative, intro, score: Math.min(rubric.reachability.weight, base + linkedinBonus + initiative + intro), source: emailSource ?? phoneSource ?? linkedin };
+  }).sort((a, b) => b.score - a.score);
   const best = rated[0];
-  if (!best.total || !best.source) return needs(`no sourced channel for ${contacts.length} contact(s).`);
-  const detail = { verified_channel: best.channel, warm_path: best.warm, conviction: best.conviction };
+  if (!best.score || !best.source) return needs(`no published or verified work email, direct phone or confirmed LinkedIn for ${contacts.length} contact(s).`);
   return {
-    score: Math.min(rubric.reachability.weight, best.total), source: best.source, status: "met", detail,
-    reason: `${best.contact.name}: ${best.label} ${best.channel}/9, warm path ${best.warm}/8, conviction ${best.conviction}/8.`,
+    score: best.score, source: best.source, status: "met",
+    detail: { base: best.base, linkedin: best.linkedinBonus, initiative: best.initiative, introduction: best.intro },
+    reason: clip(`${best.contact.name}: ${best.route} ${best.base} + LinkedIn ${best.linkedinBonus} + dated initiative ${best.initiative} + willing introduction ${best.intro}. Not verified unless stated.`),
   };
 }
 
-const activeProject = (s: ScoringSignal) => s.project_type === "implementation" || s.project_type === "integration" || s.project_type === "release_testing";
-
-// Budget 0-20 from adjacent-purchase signals: the best signal of each kind, summed and capped.
-export function budgetFromSignals(signals: ScoringSignal[]): CategoryResult {
-  const parts: { points: number; signal: ScoringSignal; label: string }[] = [];
-  const pick = (list: ScoringSignal[], points: (s: ScoringSignal) => number, label: string) => {
-    const best = list.map(signal => ({ signal, points: points(signal) })).sort((a, b) => b.points - a.points)[0];
-    if (best && best.points > 0) parts.push({ ...best, label });
-  };
-  pick(signals.filter(s => s.type === "budget_clue"), s => (s.confidence >= 0.8 ? 10 : 6), "adjacent purchase or funded project");
-  pick(signals.filter(s => s.type === "hiring" && activeProject(s)), () => 6, "funded Workday project headcount");
-  // A posting that only lists Workday as a skill (confidence < 0.8) is weaker than a Workday role.
-  pick(signals.filter(s => s.type === "hiring" && !activeProject(s)), s => (s.confidence >= 0.8 ? 3 : 1), "Workday role headcount");
-  pick(signals.filter(s => s.type === "known_customer"), () => 2, "pays for Workday today");
-  if (!parts.length) return needs("no budget or adjacent-purchase signal in the last 14 days.");
-  parts.sort((a, b) => b.points - a.points);
-  const score = Math.min(rubric.budget.weight, parts.reduce((sum, p) => sum + p.points, 0));
-  return {
-    score, source: parts[0].signal.source_url, status: parts.some(p => p.points >= 6) ? "met" : "partial",
-    detail: Object.fromEntries(parts.map(p => [p.label, p.points])),
-    reason: `${parts.map(p => `${p.label} ${p.points}`).join(" + ")} (proxy, not committed funds): "${short(parts[0].signal.quote)}"`,
-  };
-}
-
-// Release 0-15 only from public release-planning signals, scored by the shared release calendar.
-// A Workday customer with no release-planning signal gets a low neutral 3, so accounts no longer share one number.
-export function releaseFromSignals(signals: ScoringSignal[], now: Date): CategoryResult {
-  const planning = signals.find(s => s.type === "release_planning") ?? signals.find(s => s.type === "hiring" && s.project_type === "release_testing");
-  if (planning) {
-    const calendar = releaseScore(now);
-    return { score: calendar.score, source: planning.source_url, status: "met", detail: { calendar: calendar.score },
-      reason: `Public release-planning signal "${short(planning.quote)}"; ${calendar.reason}` };
+// ---------- Budget /20: financial capacity + the single highest technology-investment band (proxies) ----------
+export function budgetFromSignals(signals: ScoringSignal[], now: Date): CategoryResult {
+  // Financial capacity needs matching-entity annual operating income, which the pipeline does not collect yet: 0 points.
+  const options: { points: number; signal: ScoringSignal; label: string }[] = [];
+  for (const s of signals) {
+    if (s.type === "budget_clue" && withinMonths(s.signal_date, 24, now)) options.push({ points: 8, signal: s, label: "adjacent tool purchase/deployment within 24 months" });
+    else if (s.type === "budget_clue") options.push({ points: 3, signal: s, label: "undated adjacent-tool adoption" });
+    if (s.project_type === "implementation") options.push({ points: 6, signal: s, label: "active HR modernization (Workday implementation)" });
   }
-  const customer = signals.find(s => s.type === "known_customer");
-  if (customer) return { score: 3, source: customer.source_url, status: "partial", detail: { neutral: 3 },
-    reason: "Workday customer, so subject to the R1/R2 releases, but no public release-planning signal: low neutral 3." };
-  return needs("no Workday customer or release-planning signal in the last 14 days.");
+  const best = options.sort((a, b) => b.points - a.points)[0];
+  if (!best) return needs("no technology-investment signal; annual operating income not collected.");
+  return { score: best.points, source: best.signal.source_url, status: "partial", detail: { capacity: 0, investment: best.points },
+    reason: clip(`Capacity 0 (operating income not collected) + ${best.label} ${best.points}; proxy, not committed funds: "${short(best.signal.quote)}"`) };
 }
 
-// Timing 0-15: go-live by the shared date bands; hiring decays with the posting's age; events add a small trigger.
+// ---------- Release /15: confirmed current deployment, then the confirmed next release's distance ----------
+export function releaseFromSignals(signals: ScoringSignal[], now: Date): CategoryResult {
+  const deployed = signals.find(s => s.type === "known_customer")
+    ?? signals.find(s => s.type === "release_planning")
+    ?? signals.find(s => s.type === "go_live" && s.signal_date && (daysSince(s.signal_date, now) ?? -1) >= 0);
+  if (!deployed) return needs("current Workday deployment not confirmed.");
+  const today = chicagoToday(now);
+  const next = firstReleaseOnOrAfter(today);
+  const days = Math.round((Date.parse(next.date) - Date.parse(today)) / 86400000);
+  const preparing = signals.find(s => s.type === "release_planning");
+  let score = 8, band = "deployment affected by recurring releases";
+  if (next.confirmed && days >= 42 && days <= 84) { score = preparing ? 15 : 12; band = preparing ? "42-84 days before confirmed release, with documented preparation" : "42-84 days before confirmed release"; }
+  else if (next.confirmed && days >= 85 && days <= 126) { score = 10; band = "85-126 days before confirmed release"; }
+  const note = next.confirmed ? "" : " Next release date is estimated, so higher bands cannot apply.";
+  return { score, source: (score >= 15 && preparing ? preparing : deployed).source_url, status: "met", detail: { days },
+    reason: clip(`${band} ${score}: ${next.name} ${next.confirmed ? "on" : "estimated for"} ${next.date}, ${days} days.${note}`) };
+}
+
+// ---------- Timing /15: the strongest single trigger; triggers do not stack ----------
 export function timingFromSignals(signals: ScoringSignal[], now: Date): CategoryResult {
   const candidates: { points: number; signal: ScoringSignal; why: string }[] = [];
-  for (const signal of signals) {
-    if (signal.type === "go_live" && signal.signal_date) {
-      const band = goLiveScore(signal.signal_date, now);
-      candidates.push({ points: band.score, signal, why: band.reason });
-    } else if (signal.type === "hiring") {
-      const base = activeProject(signal) ? 10 : signal.confidence >= 0.8 ? 8 : 4;
-      const age = Math.max(0, daysSince(signal.signal_date ?? signal.first_seen_at.slice(0, 10), now) ?? 0);
-      const points = Math.round(base * Math.max(0.4, 1 - age / 90));
-      candidates.push({ points, signal, why: `Workday hiring signal ${age} days old (${base} decayed to ${points})` });
-    } else if (signal.type === "event") {
-      candidates.push({ points: 5, signal, why: "Workday-related event" });
+  for (const s of signals) {
+    const days = daysSince(s.signal_date, now);
+    if (s.type === "go_live" && days !== null) {
+      if (days < 0 && days >= -183) candidates.push({ points: 15, signal: s, why: `go-live milestone in ${-days} days` });
+      else if (days >= 0 && days <= 183) candidates.push({ points: 12, signal: s, why: `completed go-live ${days} days ago` });
+      else if (days > 183 && days <= 365) candidates.push({ points: 10, signal: s, why: `dated rollout ${days} days ago` });
+    } else if (s.type === "go_live") {
+      candidates.push({ points: 5, signal: s, why: "go-live without a day-precise date: current operations baseline" });
+    } else if (s.type === "hiring" && s.confidence >= 0.8 && withinMonths(s.signal_date ?? s.first_seen_at.slice(0, 10), 12, now)) {
+      candidates.push({ points: 8, signal: s, why: "employer-posted Workday hiring within 12 months" });
+    } else if (s.type === "known_customer" || s.type === "hiring") {
+      candidates.push({ points: 5, signal: s, why: "current Workday operations, no recent dated trigger" });
     }
   }
   const best = candidates.sort((a, b) => b.points - a.points)[0];
-  // A go-live stated without a day ("scheduled for October 2026") is real evidence the bands cannot score: say so, with its link.
-  const undated = signals.find(s => s.type === "go_live" && !s.signal_date);
-  if (!best && undated) return { score: 0, source: undated.source_url, status: "unknown", detail: {},
-    reason: `Needs evidence: go-live mentioned without a day-precise date, so the go-live bands cannot score it: "${short(undated.quote)}"` };
-  if (!best) return needs("no go-live, hiring or event signal in the last 14 days.");
-  if (!best.points) return { score: 0, source: best.signal.source_url, status: "not_met", detail: { points: 0 }, reason: `${best.why}.` };
-  return { score: Math.min(rubric.timing.weight, best.points), source: best.signal.source_url, status: "met", detail: { points: best.points },
-    reason: `${best.why}: "${short(best.signal.quote)}"` };
+  if (!best) return needs("no go-live, rollout, Workday hiring or current-operations signal in the last 14 days.");
+  return { score: best.points, source: best.signal.source_url, status: "met", detail: { points: best.points },
+    reason: clip(`${best.why} (${best.points}): "${short(best.signal.quote)}"`) };
 }
 
 export type PipelineAssessment = {
@@ -168,21 +185,20 @@ export type PipelineAssessment = {
   fresh_signals: number;
 };
 
-// Builds an insert-ready score row through the shared buildAssessment and tier evaluator.
-export function scoreCompany(companyId: string, signals: ScoringSignal[], contacts: ScoringContact[], settings: PipelineSettings, now: Date = new Date()): PipelineAssessment {
+// Builds an insert-ready score row through the shared buildAssessment and tier evaluator (Qualified 70 for this version).
+export function scoreCompany(companyId: string, signals: ScoringSignal[], contacts: ScoringContact[], settings: PipelineSettings, now: Date = new Date(), company: ScoringCompany = { employee_count: null }): PipelineAssessment {
   const fresh = signals.filter(s => s.type === "go_live" || isSignalFresh(s, settings, now));
   const categories: Record<Category, CategoryResult> = {
-    authority: authorityFromContacts(contacts),
+    authority: authorityFromContacts(contacts, company),
     reachability: reachabilityFromContacts(contacts),
-    budget: budgetFromSignals(fresh),
+    budget: budgetFromSignals(fresh, now),
     release: releaseFromSignals(fresh, now),
     timing: timingFromSignals(fresh, now),
   };
   const inputs = Object.fromEntries(Object.entries(categories).map(([key, c]) =>
     [key, { score: c.score, source: c.source, reason: `Assessment status: ${c.status}. ${c.reason}` }])) as Record<Category, CategoryInput>;
-  const result = buildAssessment(companyId, inputs);
+  const result = buildAssessment(companyId, inputs, { rubricVersion: PIPELINE_RUBRIC_VERSION });
   if (result.ok) {
-    result.row.rubric_version = `${result.row.rubric_version}:${PIPELINE_POLICY_VERSION}`;
     // An unsourced zero keeps its "Needs evidence" text without a link; a URL is never invented.
     for (const [key, c] of Object.entries(categories)) {
       if (!c.source) result.row[`${key as Category}_evidence`] = inputs[key as Category].reason ?? "";

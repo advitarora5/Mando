@@ -64,12 +64,20 @@ npm run pipeline -- review list | approve <id> --domain x.com | merge <id> <comp
 | Score | `src/domain/ingestion/pipeline-score.ts` on the shared `buildAssessment` / `evaluateTier` | Only companies in scope (`scoring_scope = pipeline_only` -> pipeline companies only; matched existing companies only receive signals). No evidence = "Assessment status: unknown. Needs evidence: ..." (shown as Not Enough Evidence, never a silent 0). A row is appended when numbers, tier or sources change, and at least every 14 days. |
 | Enrich | `src/pipeline/enrich.ts` | Only companies with Budget + Release + Timing ≥ `ready_for_contacts_threshold` (25). Free people search first; then one verified work-email lookup per contact within the treg cap. Never pays for LinkedIn; "valid" only = verified; risky stored unverified; invalid not stored; never guesses; same contact + step never paid twice. No budget -> `enrichment_requests.status = skipped_budget`, Authority/Reachability stay "Needs evidence", the run continues. |
 
-Scoring policy `pipeline-v1` (category weights, tiers and bands are the shared rubric's):
-Authority = best contact's function 0-10 + seniority 0-8 + owns Workday 0-4, + coverage 0-3 (capped at 5 if function is unrelated).
-Reachability = verified channel 0-9 + warm path 0-8 + conviction 0-8 (contact-level evidence only).
-Budget = best signal of each kind: adjacent purchase 10 (6 if low confidence) + funded Workday project hiring 6 + other Workday hiring 3 + paying Workday customer 2, capped at 20.
-Release = shared release calendar band only with a release-planning signal; a known customer without one = low neutral 3.
-Timing = go-live date bands; hiring 10 (active project) / 8, decaying with posting age to 40% at 54+ days; event 5.
+Scoring = the **Mando team scoring rubric** (provisional revision of 2026-10-13), rubric version `mando-team-70:pipeline-v2`.
+Weights 25/25/20/15/15; **Qualified 70+, Maybe 55+** for rows of this version (`tierThresholdsFor` in
+`src/domain/scoring/rubric.ts`; rows of older versions keep 80/55). Code: `src/domain/ingestion/pipeline-score.ts`, tests:
+`tests/ingestion/team-rubric.test.mjs`. How each rule maps onto what the pipeline collects:
+
+| Category | Team rubric | What the pipeline can evidence automatically |
+|---|---|---|
+| Authority /25 | Role base 22/20/18/15/10/5/0; +3 employer 3,000+; +2 personal Workday responsibility; bonuses only for confirmed current contacts; best contact | Base from the title (`authorityBand`). Contacts found by the people search count as **current role unconfirmed** (5, no bonuses) until a person confirms them (`linkedin_status` confirmed/provided). +2 when the title names Workday. +3 only with a sourced employee count (company rows have none yet, so not awarded). |
+| Reachability /25 | Email+phone 20, either 15, confirmed LinkedIn only 10, general inbox 5; +3 LinkedIn alongside, +3 dated initiative, +2 leading active Workday work, +5 willing introduction | Published (sourced) or provider-verified ("valid") work email; published direct phone (a live line alone does not count); LinkedIn only when confirmed. +5 only when `mutual_connection` records willingness; +2 is not collected. |
+| Budget /20 | Operating-income capacity 10 (+1 +1) + one investment band 8/6/3; funded expansion 20; freeze 0 | Capacity is **not collected** (0, shown in the reason). Investment: dated budget clue within 24 months 8, undated/older 3, active Workday implementation 6. Labelled as a proxy. |
+| Timing /15 | Strongest single trigger 15/12/10/8/5 | Go-live within the next 6 months 15, previous 6 months 12, 6-12 months 10; employer Workday hiring within 12 months 8; known customer, skill-only posting or undated go-live 5. |
+| Release /15 | Confirmed deployment; 42-84 days before a confirmed release 12 (+3 documented preparation = 15), 85-126 days 10, otherwise 8 | Deployment = known customer, release planning or a past go-live. Bands use `releases.ts` confirmed dates; an estimated next release (2027R1 today) gives 8. |
+
+Reasons are capped at 240 characters; every awarded point carries its link; unknowns say "Needs evidence" without a URL.
 
 ## 4. Read the run log and health
 

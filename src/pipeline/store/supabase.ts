@@ -17,7 +17,7 @@ export function assertAllowedTarget(url: string, allowRemote: string | undefined
   throw new Error(`Refusing to write to remote Supabase project "${ref}". The pipeline targets a local or test database; set PIPELINE_ALLOW_REMOTE=${ref} only for an approved test project.`);
 }
 
-const CONTACT_FIELDS = "id, company_id, name, title, source, linkedin_url, email, email_status, email_source, phone, phone_status, phone_source, mutual_connection, contact_sources";
+const CONTACT_FIELDS = "id, company_id, name, title, source, linkedin_url, linkedin_status, email, email_status, email_source, phone, phone_status, phone_source, mutual_connection, contact_sources";
 const PAGE = 1000;
 const SCORE_FIELDS = "id, company_id, assessed_at, rubric_version, tier, authority_score, authority_evidence, reachability_score, reachability_evidence, budget_score, budget_evidence, release_score, release_evidence, timing_score, timing_evidence";
 

@@ -68,6 +68,13 @@ The 20 labels to hand-verify are in [labels-to-verify.md](labels-to-verify.md).
 - ToS: Reddit through a provider is a grey area (Reddit's Data API terms); LinkedIn-sourced job data was avoided.
   SEC requires a contact email in the User-Agent: a team address is needed (`PIPELINE_CONTACT`).
 
+## Scoring change after the rounds
+
+At Advit's request the pipeline now scores with the Mando team rubric (Qualified 70+), replacing `pipeline-v1`; the round
+score numbers above were produced by `pipeline-v1`. Rescored locally, the 15 companies total 13-24 (eight at 16): Release is 8 for
+every confirmed customer while 2027R1 is unconfirmed, people-search contacts count as unconfirmed, and operating income is not
+collected. No company reaches the ready-for-contacts threshold of 25 under this rubric (highest 22).
+
 ## Three next steps
 
 1. Decide the SEC contact address and treg budget, apply the migration to an approved test project, then enable the weekly

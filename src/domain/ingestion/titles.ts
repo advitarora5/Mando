@@ -38,5 +38,20 @@ export function classifyTitle(title: string | null | undefined): TitleClass {
   };
 }
 
+// Team rubric Authority role bases (22/20/18/15/10/5/0), read from the title text only.
+// "Specific" = explicitly HRIS / HR technology / HR operations / enterprise or IT systems; generic HR/IT is not specific.
+export function authorityBand(title: string | null | undefined): { base: number; label: string } {
+  const c = classifyTitle(title);
+  if (c.functional === 0) return { base: 0, label: "unrelated role" };
+  const specific = c.functional >= 6;
+  const headOnly = /\bhead\b/i.test(title ?? "") && c.seniority === 6 && !/\bvp\b|vice president/i.test(title ?? "");
+  if (specific && c.seniority >= 6) return { base: 22, label: "executive over HRIS/HR ops/enterprise systems" };
+  if (specific && c.seniority >= 4) return { base: 20, label: "director/senior manager over HR tech or enterprise systems" };
+  if (!specific && c.seniority >= 6 && !headOnly) return { base: 18, label: "general HR or IT executive" };
+  if (!specific && (c.seniority === 5 || headOnly)) return { base: 15, label: "general HR/IT director or head" };
+  if (c.seniority >= 2) return { base: 10, label: "relevant manager, lead or specialist" };
+  return { base: 5, label: "relevant staff member" };
+}
+
 // Titles the enrichment step searches for, in priority order.
 export const TARGET_TITLES = ["VP HR", "HRIS lead", "VP Enterprise Applications", "IT operations manager", "Workday lead", "Director HRIS"];

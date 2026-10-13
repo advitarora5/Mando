@@ -244,7 +244,7 @@ test('Import button CSV: rows are validated, matched and scored like collected d
   assert.equal(out.counts.matched_existing, 1);
   assert.equal(out.counts.invalid_rows, 2);
   const quill = store.companyRows.find(c => c.name === 'Quill Analytics');
-  assert.equal((await store.latestScore(quill.id)).timing_score, 15, 'go-live 71 days ago scores the 31-90 day band');
+  assert.equal((await store.latestScore(quill.id)).timing_score, 12, 'team rubric: completed go-live within the previous 6 months');
   const before = snapshotCounts(store);
   await importCsv(ctx, csv);
   assert.deepEqual(snapshotCounts(store), before);

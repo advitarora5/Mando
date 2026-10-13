@@ -14,7 +14,7 @@ on a local isolated Supabase:
   is verbatim, and v2 grounding drops unsupported types, non-name companies and over-long quotes. Retry once, then dead-letter.
 - **Matching:** exact website merge, similar name → review, trusted new company → `origin = pipeline` (atomic SQL function),
   Workday itself excluded. Review approve/merge/reject as SQL functions and a CLI.
-- **Scoring:** `pipeline-v1` policy on the shared `buildAssessment` / `evaluateTier`. Needs evidence instead of silent zeros,
+- **Scoring:** the Mando team scoring rubric (2026-10-13 revision, Qualified 70+) as `mando-team-70:pipeline-v2`, on the shared `buildAssessment` / `evaluateTier`. Tier thresholds are now version-aware (`tierThresholdsFor`): rows of this version use 70/55, older rows keep 80/55. Needs evidence instead of silent zeros,
   14-day expiry, 14-day rescore, ready-for-contacts. Existing companies only receive signals while the scope is `pipeline_only`.
 - **Enrichment:** free people search, then a verified email within the treg cap. Never pays for LinkedIn, never repeats a
   paid call, never guesses an address.
@@ -33,7 +33,7 @@ quotes, 97% signal precision, 79% recall (50% on the held-out items). Details in
 
 - Env names: `PIPELINE_SUPABASE_URL`/`PIPELINE_SUPABASE_KEY`, deliberately not `SUPABASE_URL` (production in `.env.local`).
   Remote databases are refused unless `PIPELINE_ALLOW_REMOTE=<ref>`.
-- Scoring sub-components follow the brief (Authority 10/8/4/3, Reachability 9/8/8), not the team's v4 research rubric.
+- Scoring follows the team rubric; rules the pipeline cannot evidence automatically (operating income, confirmed contacts, confirmed release dates) earn nothing and say so. See the mapping table in `docs/ingestion-runbook.md`.
 - Aadi's branch adds a second `signals` table under the same migration timestamp; it will conflict with main's on merge.
 - Every signal type now expires after 14 days except go-live (changed `settings.ts`, with its test).
 

@@ -214,7 +214,8 @@ export async function scoreStage(ctx: PipelineContext, opts: { companyIds?: stri
       const contacts = await ctx.store.contactsForCompany(company.id);
       // A company with no evidence yet still gets a row, so the dashboard shows "Needs evidence" instead of nothing.
       if (!signals.length && !contacts.length) bump(r, "no_evidence");
-      const assessment = scoreCompany(company.id, signals as ScoringSignal[], contacts, settings, now);
+      // The employee count has no source link on the company row, so the +3 size bonus is not awarded automatically.
+      const assessment = scoreCompany(company.id, signals as ScoringSignal[], contacts, settings, now, { employee_count: company.employee_count, employee_source: null });
       if (!assessment.result.ok) { bump(r, "error_score"); r.errors.push(`${company.name}: ${assessment.result.errors.join(" ")}`); continue; }
       const latest = await ctx.store.latestScore(company.id);
       const due = !latest || now.getTime() - Date.parse(latest.assessed_at) >= RESCORE_DAYS * 86400000;
