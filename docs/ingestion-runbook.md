@@ -110,6 +110,9 @@ To turn on a schedule: uncomment its `schedule:` block, set repository secrets `
 `PIPELINE_SUPABASE_KEY`, `TREG_TOKEN` and variables `PIPELINE_ALLOW_REMOTE`, `PIPELINE_CONTACT`, `TREG_BUDGET_USD`
 (default 0 = no paid calls), `PIPELINE_LLM` (hosted runners have no Ollama; default `none` = structured signals only).
 Apply `supabase/migrations/202610130001_ingestion_pipeline.sql` to the target first (after a backup).
+**Budget in CI is per run:** the spend ledger is a local file and GitHub runners start empty, so `TREG_BUDGET_USD` caps
+each workflow run, not each day. With a daily schedule, the daily treg ceiling is `TREG_BUDGET_USD` × runs per day.
+Paid email lookups are still never repeated (`paid_calls` in the database).
 The Monday `weekly-snapshot.yml` is unchanged and still runs.
 
 ## 8. Verified Workday endpoint facts (2026-10-13)

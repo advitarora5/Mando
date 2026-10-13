@@ -151,6 +151,10 @@ export function timingFromSignals(signals: ScoringSignal[], now: Date): Category
     }
   }
   const best = candidates.sort((a, b) => b.points - a.points)[0];
+  // A go-live stated without a day ("scheduled for October 2026") is real evidence the bands cannot score: say so, with its link.
+  const undated = signals.find(s => s.type === "go_live" && !s.signal_date);
+  if (!best && undated) return { score: 0, source: undated.source_url, status: "unknown", detail: {},
+    reason: `Needs evidence: go-live mentioned without a day-precise date, so the go-live bands cannot score it: "${short(undated.quote)}"` };
   if (!best) return needs("no go-live, hiring or event signal in the last 14 days.");
   if (!best.points) return { score: 0, source: best.signal.source_url, status: "not_met", detail: { points: 0 }, reason: `${best.why}.` };
   return { score: Math.min(rubric.timing.weight, best.points), source: best.signal.source_url, status: "met", detail: { points: best.points },

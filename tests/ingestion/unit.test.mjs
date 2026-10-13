@@ -303,3 +303,17 @@ test('regression (round 1): display names keep acronyms and legal suffixes reada
   assert.equal(displayName('NVIDIA CORP', 'NVIDIA'), 'NVIDIA');
   assert.equal(displayName('Land O\'Lakes, Inc.', null), 'Land O\'Lakes, Inc.');
 });
+
+// ---------- Round 3: code review ----------
+
+test('round 3: a go-live signal without a day-precise date says so (with its link) instead of "no go-live signal"', () => {
+  const t = timingFromSignals([sig('go_live', { signal_date: null, quote: 'Workday Student is scheduled to go live in October 2026' })], NOW);
+  assert.equal(t.score, 0);
+  assert.equal(t.status, 'unknown');
+  assert.equal(t.source, 'https://example.com/go_live');
+  assert.match(t.reason, /without a day-precise date/);
+});
+
+test('round 3: hexadecimal HTML entities are decoded in job text', () => {
+  assert.equal(htmlToText('<p>Workday&#x27;s &#X2F; HRIS &#39;team&#39;</p>'), "Workday's / HRIS 'team'");
+});
