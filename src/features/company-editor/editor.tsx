@@ -18,8 +18,8 @@ export function Editor({ action, hidden, fields, children, label = "Edit", title
     return result;
   }, {});
   return <div className="editor">
-    {!editing ? <><div className="section-title"><h2>{title}</h2><button className="button secondary" onClick={() => setEditing(true)}>{label}</button></div>{children}{state.saved && <p role="status" className="success">Saved successfully.</p>}</> :
-      <form action={submit}><h2>{title}</h2>
+    {!editing ? <><div className="section-title" style={title ? undefined : { justifyContent: "flex-start", marginBottom: 0 }}>{title && <h2>{title}</h2>}<button className="button secondary" onClick={() => setEditing(true)}>{label}</button></div>{children}{state.saved && <p role="status" className="success">Saved successfully.</p>}</> :
+      <form action={submit}><h2>{title || label}</h2>
         {Object.entries(hidden).map(([name, value]) => <input key={name} type="hidden" name={name} value={value} />)}
         <div className="field-grid">{fields.map(field => <label key={field.name}>{field.label}{field.type === "checkbox" ? <input name={field.name} type="checkbox" defaultChecked={field.value === "on"} /> : field.type === "textarea" ? <textarea name={field.name} defaultValue={field.value ?? ""} rows={3} maxLength={4000} /> : field.type === "select" ? <select name={field.name} defaultValue={field.value ?? ""}>{field.options?.map(option => <option key={option.value} value={option.value}>{option.label}</option>)}</select> : <input name={field.name} type={field.type ?? "text"} defaultValue={field.value ?? ""} required={field.required} min={field.type === "number" ? 0 : undefined} step={field.type === "number" ? 1 : undefined} />}{field.help && <small>{field.help}</small>}</label>)}</div>
         {state.error && <p role="alert" className="error">{state.error}</p>}
