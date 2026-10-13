@@ -78,3 +78,32 @@ Changes from round 1:
 - **Status dots:** larger.
 - **Phone toolbar:** two rows, with icon-only Display and Export buttons.
 - **Why now:** a few more pixels.
+
+## Round 3
+
+Changes from round 2:
+- **Merged main.** Today's leads, a teammate's new page, now lives in the shared shell and appears in the view switcher and the palette. Its selection logic is unchanged.
+- **KPI strip:** fills the full width.
+- **Toolbar:** filter toggles use short labels below 1360px, so it stays on one line at 1280.
+- **Status dots:** grown from 7px to 9px with a 2px ring.
+- **Why now:** clamps to two lines in comfortable density, so about 50 characters are readable at 1440.
+- **Phone pipeline toolbar:** two rows — search with icon-only Display/Export, then the saved view and filters in a row that scrolls sideways.
+- **Outreach queue:** header, search and tabs stack on phone; the tabs scroll; the banner copy is shorter.
+- **Checks:** the keyboard check still passes 11/11, and all 132 tests pass.
+
+Note: between captures the database gained contacts (Shake Shack, Telstra and Genpact now appear in the queue), so "Ready to contact" went from 17 to 21. That is a data change, not a UI change.
+
+| # | Item | Score | Evidence |
+|---|---|---|---|
+| a | Scannability | 9 | Rank, tier, total, five sub-scores, top contact and a two-line Why now are all visible for 15 rows at 1440 (round-3-pipeline-1440). |
+| b | No walls of text | 9 | Every cell is one or two clamped lines. Long rationale stays behind "Read the full rationale" or raw toggles. |
+| c | Alignment and type | 9 | One-line toolbar at 1440 and 1280. Numbers are tabular and right-aligned. |
+| d | Calm, meaningful colour | 9 | The KPI strip spans the width. Colour carries tier, score bands and channel status only. |
+| e | Layered evidence | 9 | Unchanged from round 2: score cell, category card, sub-scores, sources, Missing, raw. |
+| f | Contact channels obvious | 9 | The 9px dots read at table scale (round-3-pipeline-1280, Top contact column). |
+| g | First-screen hierarchy | 9 | The chrome above the table is 155px, with no wasted bar space. |
+| h | No clipping; good empty and loading states | 9 | Phone pipeline and queue have no clipped controls. The wide tables scroll inside their own container with the name column sticky. |
+| i | Keyboard flow | 9 | 11/11 automated checks pass. |
+| j | Believable as a real product | 9 | Consistent shell across Pipeline, Today's leads, Outreach and records. No visible layout faults at the four widths. |
+
+Round 4 is a verification round on views not captured since round 1: compact density, active filter chips, bulk selection, the evidence tab on a record, and the no-contacts empty state.

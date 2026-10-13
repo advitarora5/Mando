@@ -53,7 +53,7 @@ kbd { display: inline-flex; align-items: center; justify-content: center; min-wi
 
 /* ---------- KPI strip ---------- */
 .kpis { display: flex; align-items: stretch; height: var(--kpi-h); background: var(--surface); border-bottom: 1px solid var(--border); overflow-x: auto; }
-.kpi { display: flex; flex-direction: column; justify-content: center; gap: 2px; min-width: 132px; padding: 0 var(--s-4); border: 0; border-right: 1px solid var(--border); background: transparent; text-align: left; cursor: pointer; }
+.kpi { flex: 1 1 0; display: flex; flex-direction: column; justify-content: center; gap: 2px; min-width: 132px; max-width: 280px; padding: 0 var(--s-4); border: 0; border-right: 1px solid var(--border); background: transparent; text-align: left; cursor: pointer; }
 .kpi:hover { background: var(--surface-hover); }
 .kpi[aria-pressed="true"] { background: var(--surface-selected); box-shadow: inset 0 -2px 0 var(--accent); }
 .kpi-label { display: flex; align-items: center; gap: 6px; color: var(--text-muted); font-size: var(--fs-sm); white-space: nowrap; }
@@ -85,6 +85,7 @@ kbd { display: inline-flex; align-items: center; justify-content: center; min-wi
 .toolbar-sep { width: 1px; height: 20px; background: var(--border); margin: 0 2px; }
 .toolbar-controls { display: flex; align-items: center; gap: var(--s-2); }
 .toolbar-end { margin-left: auto; display: flex; align-items: center; gap: var(--s-2); }
+.lbl-short { display: none; }
 .range-group { display: inline-flex; align-items: center; gap: 4px; color: var(--text-muted); font-size: var(--fs-sm); }
 .active-filters { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; padding: 6px var(--s-4); background: var(--surface); border-bottom: 1px solid var(--border); font-size: var(--fs-sm); }
 .filter-chip { display: inline-flex; align-items: center; gap: 4px; height: 24px; padding: 0 4px 0 8px; border: 1px solid var(--border); border-radius: var(--r-pill); background: var(--surface-muted); color: var(--text-secondary); }
@@ -144,6 +145,7 @@ th.num .sort { flex-direction: row-reverse; }
 .cell-total { font-size: var(--fs-lg); font-weight: var(--fw-semibold); font-variant-numeric: tabular-nums; }
 .cell-truncate { display: block; overflow: hidden; text-overflow: ellipsis; color: var(--text-secondary); }
 .dt .col-why { width: 100%; max-width: 0; min-width: 120px; }
+.dt:not(.compact) .col-why .cell-truncate { white-space: normal; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; font-size: var(--fs-sm); line-height: 1.35; }
 .cell-date { color: var(--text-secondary); font-variant-numeric: tabular-nums; }
 .empty-cell { color: var(--text-faint); }
 
@@ -195,7 +197,7 @@ th.num .sort { flex-direction: row-reverse; }
 .channel[data-state="absent"]:hover { background: transparent; }
 .channel svg { width: 15px; height: 15px; }
 .channel .mono { font-size: 11px; font-weight: var(--fw-semibold); letter-spacing: -0.02em; border: 1.5px solid currentColor; border-radius: 3px; width: 15px; height: 15px; display: grid; place-items: center; line-height: 1; }
-.channel .status { position: absolute; right: 2px; bottom: 2px; width: 7px; height: 7px; border-radius: 50%; border: 1.5px solid var(--surface); }
+.channel .status { position: absolute; right: 1px; bottom: 1px; width: 9px; height: 9px; border-radius: 50%; border: 2px solid var(--surface); }
 .channel .status.verified { background: var(--green-dot); }
 .channel .status.unverified { background: var(--amber-dot); }
 .channel .status.invalid { background: var(--red-dot); }
@@ -443,9 +445,25 @@ aside.note { padding: var(--s-3) var(--s-4); border: 1px solid var(--border); bo
 .draft input, .draft textarea { width: 100%; padding: 8px 10px; border: 1px solid var(--border-strong); border-radius: var(--r-md); background: var(--surface); font-size: var(--fs-md); line-height: var(--lh-body); }
 .empty { padding: var(--s-4); color: var(--text-muted); }
 
+/* ---------- Outreach queue ---------- */
+.queue-head { display: grid; grid-template-columns: 1fr auto; align-items: end; gap: 2px var(--s-4); padding-bottom: 0; }
+.queue-intro h1 { margin-bottom: 2px; }
+.queue-search { grid-column: 2; grid-row: 1; margin-bottom: 4px; }
+.queue-tabs { grid-column: 1 / -1; border-bottom: 0; }
+.queue-tabs .tabs { margin-top: 6px; }
+.queue-person { width: 300px; }
+.note-banner { flex-wrap: nowrap; align-items: flex-start; }
+.note-banner svg { width: 14px; height: 14px; flex: none; margin-top: 2px; }
+.queue-head > * { min-width: 0; }
+.queue-intro p { white-space: normal; }
+.queue-search .input.search { width: 260px; }
+
 /* ---------- Responsive ---------- */
 @media (max-width: 1360px) {
   .dt .col-why { display: none; }
+  .lbl-long { display: none; }
+  .lbl-short { display: inline; }
+  .input.search { width: 180px; }
   .cell-company { width: 200px; }
   .cell-contact { width: 244px; }
 }
@@ -462,10 +480,21 @@ aside.note { padding: var(--s-3) var(--s-4); border: 1px solid var(--border); bo
   .toolbar { padding: var(--s-2) var(--s-3); }
   .toolbar > .field:first-child { flex: 1 1 0; }
   .input.search { width: 100%; }
-  .toolbar-controls { order: 3; flex: 1 1 100%; overflow-x: auto; scrollbar-width: none; padding-bottom: 2px; }
+  .toolbar > .field:first-child { order: 1; min-width: 0; flex: 1 1 calc(100% - 84px); }
+  .toolbar-end { order: 2; margin-left: 0; }
+  .toolbar-end .btn { width: 30px; padding: 0; justify-content: center; }
+  .lbl-collapse { display: none; }
+  .toolbar > .menu { order: 3; flex: none; }
+  .toolbar-controls { order: 4; flex: 1 1 0; min-width: 0; overflow-x: auto; scrollbar-width: none; padding-bottom: 2px; }
   .toolbar-controls > * { flex: none; }
-  .toolbar-end { margin-left: 0; }
   .result-meta { display: none; }
+  .queue-head { grid-template-columns: 1fr; }
+  .queue-search { grid-column: 1; grid-row: auto; margin: 6px 0 0; }
+  .queue-search .input.search { width: 100%; }
+  .queue-tabs .tabs { scrollbar-width: none; }
+  .queue-tabs .tab { flex: none; }
+  .queue-person { width: 220px; }
+  .queue-person .role-tag { display: none; }
   .kpi-delta { display: none; }
   .record { padding: var(--s-3) var(--s-3) var(--s-8); }
   .record-head { flex-direction: column; gap: var(--s-3); }

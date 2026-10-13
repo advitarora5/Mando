@@ -180,14 +180,14 @@ export function Pipeline({ companies, mode, previousWeek, previousRanks, previou
         <input className="input range" inputMode="numeric" aria-label="Maximum total score" placeholder="Max" value={state.max} onChange={e => update({ max: e.target.value.replace(/\D/g, "").slice(0, 3) })} />
       </span>
       <span className="toolbar-sep" aria-hidden />
-      <button type="button" className="toggle" aria-pressed={state.verified} onClick={() => update({ verified: !state.verified })} title="At least one contact with a verified email"><BadgeCheck aria-hidden />Verified email</button>
-      <button type="button" className="toggle" aria-pressed={state.gaps} onClick={() => update({ gaps: !state.gaps })} title="At least one category has no verified evidence yet"><CircleHelp aria-hidden />Evidence gaps</button>
-      <button type="button" className="toggle" aria-pressed={state.release} onClick={() => update({ release: !state.release })} title="Release score above the 8-point baseline, i.e. in a Workday release-readiness window"><CalendarClock aria-hidden />Release planners</button>
+      <button type="button" className="toggle" aria-pressed={state.verified} onClick={() => update({ verified: !state.verified })} title="At least one contact with a verified email"><BadgeCheck aria-hidden /><span className="lbl-long">Verified email</span><span className="lbl-short">Verified</span></button>
+      <button type="button" className="toggle" aria-pressed={state.gaps} onClick={() => update({ gaps: !state.gaps })} title="At least one category has no verified evidence yet"><CircleHelp aria-hidden /><span className="lbl-long">Evidence gaps</span><span className="lbl-short">Gaps</span></button>
+      <button type="button" className="toggle" aria-pressed={state.release} onClick={() => update({ release: !state.release })} title="Release score above the 8-point baseline, i.e. in a Workday release-readiness window"><CalendarClock aria-hidden /><span className="lbl-long">Release planners</span><span className="lbl-short">Release</span></button>
       </div>
       <div className="toolbar-end">
         <span className="result-meta" role="status" aria-label={`${rows.length} of ${companies.length} companies shown`}>{rows.length}<span className="faint"> / {companies.length}</span></span>
         <details className="menu">
-          <summary className="btn" aria-label="Display options"><Columns3 aria-hidden />Display</summary>
+          <summary className="btn" aria-label="Display options"><Columns3 aria-hidden /><span className="lbl-collapse">Display</span></summary>
           <div className="menu-pop" role="menu">
             <p className="menu-label">Row density</p>
             <button type="button" role="menuitemradio" aria-checked={density === "comfortable"} className="menu-item" onClick={() => density !== "comfortable" && toggleDensity()}>Comfortable</button>
@@ -196,7 +196,7 @@ export function Pipeline({ companies, mode, previousWeek, previousRanks, previou
             {optionalColumns.map(col => <button key={col.id} type="button" role="menuitemcheckbox" aria-checked={show(col.id)} className="menu-item" onClick={() => toggleColumn(col.id)}>{col.label}</button>)}
           </div>
         </details>
-        <button type="button" className="btn" onClick={() => exportCsv()} disabled={!rows.length} title="Export the current view as CSV"><Download aria-hidden />Export</button>
+        <button type="button" className="btn" onClick={() => exportCsv()} disabled={!rows.length} title="Export the current view as CSV" aria-label="Export CSV"><Download aria-hidden /><span className="lbl-collapse">Export</span></button>
       </div>
     </div>
 

@@ -41,15 +41,15 @@ export function OutreachQueue({ companies }: { companies: CompanyListItem[] }) {
   const visible = rows.filter(r => match(r, filter) && (!q || `${r.contact.name} ${r.contact.title ?? ""} ${r.company.name}`.toLowerCase().includes(q)));
 
   return <>
-    <div className="toolbar" style={{ paddingBottom: 0, alignItems: "flex-end" }}>
-      <div style={{ flex: 1, minWidth: 0 }}>
-        <h1 style={{ marginBottom: 2 }}>Outreach queue</h1>
-        <p className="muted">Contacts at scored companies, best first. Status is the company&apos;s lead status; open a record to send a draft or update it.</p>
-        <div className="record-tabs" style={{ borderBottom: 0, marginTop: 6 }}><TabBar idPrefix="queue" value={filter} onChange={setFilter} items={filters.map(f => ({ ...f, count: counts[f.id] }))} /></div>
+    <div className="toolbar queue-head">
+      <div className="queue-intro">
+        <h1>Outreach queue</h1>
+        <p className="muted">Contacts at scored companies, best first. Open a record to send a draft or update its status.</p>
       </div>
-      <label className="field" style={{ marginBottom: 8 }}><Search aria-hidden /><span className="sr-only">Search contacts</span><input className="input search" type="search" placeholder="Search contact or company" value={query} onChange={e => setQuery(e.target.value)} /></label>
+      <label className="field queue-search"><Search aria-hidden /><span className="sr-only">Search contacts</span><input className="input search" type="search" placeholder="Search contact or company" value={query} onChange={e => setQuery(e.target.value)} /></label>
+      <div className="record-tabs queue-tabs"><TabBar idPrefix="queue" value={filter} onChange={setFilter} items={filters.map(f => ({ ...f, count: counts[f.id] }))} /></div>
     </div>
-    {!tracked && <p className="active-filters" role="note"><CircleHelp aria-hidden style={{ width: 14, height: 14 }} />Lead status is not stored in this database yet, so Queued, Contacted, Replied and Demo booked stay empty and every company counts as not yet contacted. Statuses appear once the lead-status migration is applied.</p>}
+    {!tracked && <p className="active-filters note-banner" role="note"><CircleHelp aria-hidden />Lead status isn&apos;t stored in this database yet, so every company counts as not contacted. The status tabs fill once the lead-status migration is applied.</p>}
     <div className="table-wrap" id="queue-panel" role="tabpanel" aria-labelledby={`queue-${filter}`}>
       <table className="dt" aria-label="Outreach queue">
         <thead><tr>
@@ -58,7 +58,7 @@ export function OutreachQueue({ companies }: { companies: CompanyListItem[] }) {
         <tbody>{visible.map(({ company: c, contact, top }) => {
           const state = emailState(contact);
           return <tr key={contact.id} onClick={() => router.push(`/companies/${c.id}#outreach`)}>
-            <td className="sticky-1" style={{ left: 0 }}><div className="person" style={{ width: 300 }}><Avatar name={contact.name} /><div className="person-text"><strong title={contact.name}>{contact.name}</strong><small title={contact.title ?? undefined}>{contact.title ?? "Title not recorded"}</small></div>
+            <td className="sticky-1" style={{ left: 0 }}><div className="person queue-person"><Avatar name={contact.name} /><div className="person-text"><strong title={contact.name}>{contact.name}</strong><small title={contact.title ?? undefined}>{contact.title ?? "Title not recorded"}</small></div>
               <span className="role-tag" style={{ marginLeft: "auto" }}>{top ? "Top · " : ""}{functionLabel[contactFunction(contact.title)]}</span></div></td>
             <td><Link href={`/companies/${c.id}`} onClick={e => e.stopPropagation()} className="cell-truncate" style={{ maxWidth: 240, color: "var(--text)" }} title={c.name}>{c.name}</Link></td>
             <td><TierChip tier={tierKey(c.score)} /></td>
