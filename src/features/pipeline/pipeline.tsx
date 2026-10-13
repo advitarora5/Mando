@@ -190,8 +190,8 @@ export function Pipeline({ companies, mode, previousWeek, previousRanks, previou
           <summary className="btn" aria-label="Display options"><Columns3 aria-hidden /><span className="lbl-collapse">Display</span></summary>
           <div className="menu-pop" role="menu">
             <p className="menu-label">Row density</p>
-            <button type="button" role="menuitemradio" aria-checked={density === "comfortable"} className="menu-item" onClick={() => density !== "comfortable" && toggleDensity()}>Comfortable</button>
-            <button type="button" role="menuitemradio" aria-checked={density === "compact"} className="menu-item" onClick={() => density !== "compact" && toggleDensity()}>Compact</button>
+            <button type="button" role="menuitemradio" aria-checked={density === "comfortable"} className="menu-item" onClick={event => { if (density !== "comfortable") toggleDensity(); (event.currentTarget.closest("details") as HTMLDetailsElement).open = false; }}>Comfortable</button>
+            <button type="button" role="menuitemradio" aria-checked={density === "compact"} className="menu-item" onClick={event => { if (density !== "compact") toggleDensity(); (event.currentTarget.closest("details") as HTMLDetailsElement).open = false; }}>Compact</button>
             <p className="menu-label">Optional columns</p>
             {optionalColumns.map(col => <button key={col.id} type="button" role="menuitemcheckbox" aria-checked={show(col.id)} className="menu-item" onClick={() => toggleColumn(col.id)}>{col.label}</button>)}
           </div>
@@ -207,7 +207,7 @@ export function Pipeline({ companies, mode, previousWeek, previousRanks, previou
     </div>}
 
     <div className="table-wrap">
-      <table className={`dt${density === "compact" ? " compact" : ""}`} aria-label="Company pipeline" aria-rowcount={rows.length}>
+      {rows.length > 0 && <table className={`dt${density === "compact" ? " compact" : ""}`} aria-label="Company pipeline" aria-rowcount={rows.length}>
         <thead><tr>
           <th className="col-check sticky-1" style={{ left: STICKY.check }}><input type="checkbox" aria-label="Select all visible companies" checked={allVisibleSelected} onChange={toggleAll} /></th>
           <th className="sticky-1" style={{ left: STICKY.rank, width: 80 }}><SortButton label="Rank" field="rank" sort={state.sort} setSort={sort => update({ sort })} tip={previousWeek ? `Rank; change vs week of ${previousWeek}` : "Rank"} /></th>
@@ -258,7 +258,7 @@ export function Pipeline({ companies, mode, previousWeek, previousRanks, previou
             </tr>;
           })}
         </tbody>
-      </table>
+      </table>}
       {!rows.length && <div className="empty-state">
         <SearchX aria-hidden />
         {companies.length ? <><strong>No companies match these filters</strong><span>Try removing a filter or widening the score range.</span><button type="button" className="btn" onClick={() => update({ ...defaultState })}>Clear filters</button></>
@@ -270,7 +270,7 @@ export function Pipeline({ companies, mode, previousWeek, previousRanks, previou
       <span className="num">{selected.size} selected</span>
       <button type="button" className="btn" onClick={() => {
         const emails = selectedRows.flatMap(c => c.contacts.filter(k => k.email && emailState(k) === "verified").map(k => k.email!));
-        if (emails.length) copy(emails.join(", "), `${emails.length} verified email${emails.length === 1 ? "" : "s"}`); else toast("No verified emails in the selection");
+        if (emails.length) copy(emails.join(", "), `${emails.length} verified email${emails.length === 1 ? "" : "s"}`); else toast("No verified emails in the selection", "error");
       }}><Copy aria-hidden />Copy verified emails</button>
       <button type="button" className="btn" onClick={() => exportCsv(selectedRows)}><Download aria-hidden />Export selected</button>
       <button type="button" className="btn" style={{ marginLeft: "auto" }} onClick={() => setSelected(new Set())}><X aria-hidden />Clear</button>

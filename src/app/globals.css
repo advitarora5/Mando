@@ -322,6 +322,11 @@ th.num .sort { flex-direction: row-reverse; }
 .card-head { display: flex; align-items: center; justify-content: space-between; gap: var(--s-3); padding: var(--s-3) var(--s-4); border-bottom: 1px solid var(--border); }
 .card-head h2 { font-size: var(--fs-md); }
 .card-body { padding: var(--s-4); }
+.mini-table { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
+.mini-table th, .mini-table td { height: 34px; padding: 0 var(--s-4); border-bottom: 1px solid var(--border); text-align: left; white-space: nowrap; }
+.mini-table th { color: var(--text-muted); font-size: var(--fs-sm); font-weight: var(--fw-medium); }
+.mini-table tr:last-child td { border-bottom: 0; }
+.mini-table .num { text-align: right; }
 .bullets { display: grid; gap: var(--s-2); margin: 0; padding: 0; list-style: none; }
 .bullets li { position: relative; padding-left: 16px; color: var(--text-secondary); }
 .bullets li::before { content: ""; position: absolute; left: 3px; top: 8px; width: 5px; height: 5px; border-radius: 50%; background: var(--text-faint); }
@@ -374,6 +379,7 @@ th.num .sort { flex-direction: row-reverse; }
 .toasts { position: fixed; z-index: 80; bottom: var(--s-4); left: 50%; transform: translateX(-50%); display: grid; gap: var(--s-2); }
 .toast { display: flex; align-items: center; gap: 8px; padding: 8px 12px; border-radius: var(--r-md); background: var(--text); color: #fff; font-size: var(--fs-md); box-shadow: var(--shadow-pop); }
 .toast svg { width: 14px; height: 14px; color: #75e0a7; }
+.toast.error svg { color: #fdb022; }
 
 /* ---------- Skeleton ---------- */
 .skeleton { display: block; height: 12px; border-radius: var(--r-sm); background: linear-gradient(90deg, var(--surface-muted), var(--border), var(--surface-muted)); background-size: 200% 100%; animation: shimmer 1.2s infinite linear; }

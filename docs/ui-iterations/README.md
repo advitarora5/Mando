@@ -107,3 +107,40 @@ Note: between captures the database gained contacts (Shake Shack, Telstra and Ge
 | j | Believable as a real product | 9 | Consistent shell across Pipeline, Today's leads, Outreach and records. No visible layout faults at the four widths. |
 
 Round 4 is a verification round on views not captured since round 1: compact density, active filter chips, bulk selection, the evidence tab on a record, and the no-contacts empty state.
+
+## Round 4 (interaction states)
+
+**Captured:**
+- active filters with chips and a non-default sort (`filters`)
+- an empty search result (`empty`)
+- bulk selection (`bulk`)
+- compact density with the Display menu open (`compact`)
+- row hover actions (`hover`)
+- a copy-to-clipboard toast with its tooltip (`toast`)
+- the no-contacts record (`rec-6a79c08a-contacts`)
+- the unsourced-points evidence tab (`rec-6051d8ef-evidence`)
+- the activity tab (`rec-6051d8ef-activity`)
+- Today's leads
+
+**Defects found in the first capture, all fixed in this round:**
+- The Display and Saved-view menus did not close on Esc, on an outside click, or after picking a density. A shared `MenuDismiss` listener now closes them; Esc is captured first, so it closes only the menu. Three new automated checks were added (14/14 pass).
+- The failure toast showed a green check. Toasts now have an error tone with a warning icon.
+- An empty filter result rendered a collapsed table header with the sticky Company header overlapping Tier. The table is now hidden when there are no rows.
+- Weekly history on the record used the old markup: ISO dates wrapped onto two lines and the movement read "New New". It is now a compact card table with short dates and the shared rank delta. The history logic is unchanged.
+
+The data changed during this round, as the teammate's pipeline re-scored companies: Maybe 19 → 25, Needs evidence 105 → 83. The UI reflects the new data; nothing in the UI changed what the numbers mean.
+
+| # | Item | Score after fixes | Evidence |
+|---|---|---|---|
+| a | Scannability | 9 | Filtered and sorted view (round-4-filters) keeps every column readable. |
+| b | No walls of text | 9 | Unchanged. |
+| c | Alignment and type | 9 | The history table is right-aligned and tabular, and no line wraps (round-4-rec-6051d8ef-activity). Before the fix: 8. |
+| d | Calm, meaningful colour | 9 | Unverified chips are amber, error toasts amber, success toasts green. |
+| e | Layered evidence | 9 | Fairview: every category says "Unverified" next to its points, and Authority notes the imported research. |
+| f | Contact channels obvious | 9 | The tooltip reads "gaynor.witts@rmit.edu.au — Unverified. Click to copy"; the toast confirms. |
+| g | First-screen hierarchy | 9 | Unchanged. |
+| h | No clipping; good empty and loading states | 9 | The empty filter state is clean (round-4-empty), and so is the no-contacts record. Before the fix: 8. |
+| i | Keyboard flow | 9 | 14/14 automated checks, including menu Esc and outside click. Before the fix: 8. |
+| j | Believable as a real product | 9 | No visible faults in any captured state. |
+
+Because round 4's first capture found defects, the "two rounds at 9" count restarts here. Round 5 is a full confirmation pass at every width.

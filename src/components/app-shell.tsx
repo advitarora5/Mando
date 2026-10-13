@@ -4,6 +4,7 @@ import { CalendarCheck, Inbox, LayoutList } from "lucide-react";
 import { LogoutButton } from "@/features/login/logout";
 import { CommandPalette, SearchTrigger, type PaletteCompany } from "./command-palette";
 import { ToastProvider } from "./toast";
+import { MenuDismiss } from "./menu-dismiss";
 import type { CompanyListItem } from "@/domain/contracts/company";
 import { tierKey, tierLabel } from "@/domain/scoring/view";
 
@@ -27,5 +28,6 @@ export function AppShell({ active, companies, children }: { active: "pipeline" |
       <main className="app-main" id="main">{children}</main>
     </div>
     <CommandPalette companies={companies} />
+    <MenuDismiss />
   </ToastProvider>;
 }
