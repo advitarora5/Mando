@@ -12,7 +12,11 @@
     "insights": "node --env-file=.env.local scripts/generate-insights.mjs",
     "drafts": "node --env-file=.env.local scripts/generate-drafts.mjs",
     "score:save": "node --env-file=.env.local scripts/save-assessments.mjs",
-    "test": "node --test tests/*.test.mjs"
+    "test": "node --test tests/*.test.mjs",
+    "extract": "node scripts/ingestion/extract.mjs",
+    "eval:extraction": "node scripts/ingestion/eval-extraction.mjs",
+    "ingest": "node --env-file=.env.local scripts/ingestion/ingest.mjs",
+    "pipeline": "node --env-file=.env.local scripts/ingestion/run-pipeline.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.117.2",
@@ -24,6 +28,7 @@
     "zod": "^4.6.5"
   },
   "devDependencies": {
+    "@electric-sql/pglite": "^0.5.9",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/papaparse": "^5.5.2",
