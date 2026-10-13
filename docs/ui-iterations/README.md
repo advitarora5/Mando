@@ -144,3 +144,59 @@ The data changed during this round, as the teammate's pipeline re-scored compani
 | j | Believable as a real product | 9 | No visible faults in any captured state. |
 
 Because round 4's first capture found defects, the "two rounds at 9" count restarts here. Round 5 is a full confirmation pass at every width.
+
+## Round 5 (confirmation, production build)
+
+**Setup:** captured against `next build` + `next start`, so the dev badge is gone, at 1440, 1280, 1024 and 390. That covers every view plus the round-4 interaction states, with the live site again at 1440 and 1280 for reference.
+
+**Checks:**
+- Keyboard and menus: 14/14.
+- `npm run lint`: clean.
+- `npm run build`: passes.
+- `npm test`: 132/132.
+
+No new defects were found. One possible line in the 1024 header was checked with a cropped re-render and is not there.
+
+| # | Item | Score | Evidence |
+|---|---|---|---|
+| a | Scannability | 9 | round-5-pipeline-1440: 15 companies with tier, total, five sub-scores, top contact and channels, and why now. The live site (round-5-live-pipeline-1440) shows one company on the first screen. |
+| b | No walls of text | 9 | round-5-slideover-1280: a reason line, a sub-score table and Missing bullets instead of a paragraph. |
+| c | Alignment and type | 9 | Tabular numbers; one-line toolbar at 1440 and 1280. |
+| d | Calm, meaningful colour | 9 | Blue accent; green, amber and red only for meaning. |
+| e | Layered evidence | 9 | Cell, card, sub-scores, sources, Missing, raw. |
+| f | Contact channels obvious | 9 | round-5-rec-e57b2dff-contacts: three contacts, each with channel icons, a status dot and the email state. |
+| g | First-screen hierarchy | 9 | Shell, KPIs, toolbar, table. |
+| h | No clipping; good empty and loading states | 9 | 1024 and 390 scroll inside the table with sticky rank and company. Empty and no-contact states are clean. |
+| i | Keyboard flow | 9 | 14/14. |
+| j | Believable as a real product | 9 | Consistent across all four views and four widths. |
+
+**Stopping rule:** rounds 4 (after its fixes) and 5 both have every item at 9 or higher, so iteration stops here.
+
+## Final scores
+
+| Round | a | b | c | d | e | f | g | h | i | j |
+|---|---|---|---|---|---|---|---|---|---|---|
+| 1 | 7 | 8 | 7 | 8 | 8 | 8 | 7 | 6 | 6 | 7 |
+| 2 | 8 | 9 | 8 | 8 | 9 | 8 | 8 | 8 | 9 | 8 |
+| 3 | 9 | 9 | 9 | 9 | 9 | 9 | 9 | 9 | 9 | 9 |
+| 4 (first capture) | 9 | 9 | 8 | 9 | 9 | 9 | 9 | 8 | 8 | 9 |
+| 4 (after fixes) | 9 | 9 | 9 | 9 | 9 | 9 | 9 | 9 | 9 | 9 |
+| 5 | 9 | 9 | 9 | 9 | 9 | 9 | 9 | 9 | 9 | 9 |
+
+## Before and after
+
+| View | Before (live) | After (this branch) |
+|---|---|---|
+| Pipeline table | round-0-live-pipeline-1440.png | round-5-pipeline-1440.png |
+| Evidence slide-over | round-0-live-evidence-1440.png (the old page had no slide-over; evidence lived on the record) | round-5-scorepanel-1440.png |
+| Company record | round-0-live-record-1440.png | round-5-rec-f51f6c35-1440.png, round-5-rec-f51f6c35-evidence-1440.png |
+| Contacts | round-0-live-contacts-1440.png | round-5-rec-e57b2dff-contacts-1440.png |
+| Outreach queue | no equivalent (new view) | round-5-outreach-1440.png |
+| Phone | round-0-live-pipeline-390.png | round-5-pipeline-390.png |
+
+## Still weaker than the reference products
+
+- **Sub-scores are parsed from evidence strings.** Companies whose evidence doesn't follow the "a + b + c" pattern get a reason and sources but no breakdown. Structured columns would make this exact.
+- **The phone pipeline is a scrolling table.** It is usable, but a card list would read better on a phone.
+- **No saved custom views.** The five built-in views and URL state cover sharing, but a user can't name and store a filter set.
+- **Status-driven views are empty.** The outreach queue's status tabs and "Ready" logic can't be fully used until `lead_status` exists in the database.
