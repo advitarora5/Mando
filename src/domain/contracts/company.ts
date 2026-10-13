@@ -44,5 +44,5 @@ export interface Score {
 export interface CompanyListItem extends Company {
   score: Score | null;
   why_now: string | null;
-  contacts: { id: string; name: string; title: string | null; linkedin_url: string | null; email?: string | null; email_verified?: boolean; phone?: string | null }[];
+  contacts: { id: string; name: string; title: string | null; linkedin_url: string | null; email?: string | null; email_verified?: boolean; email_status?: string | null; linkedin_status?: string | null; phone?: string | null }[];
 }

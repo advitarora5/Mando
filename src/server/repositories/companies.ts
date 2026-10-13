@@ -16,7 +16,7 @@ export async function getCompanies(): Promise<{ companies: CompanyListItem[]; mo
   }
   try {
     const db = createClient(url, key, { auth: { persistSession: false, autoRefreshToken: false } });
-    const { data, error } = await db.from("companies").select("*, scores(*), company_insights(*), contacts(id, name, title, linkedin_url, email, email_verified, phone)");
+    const { data, error } = await db.from("companies").select("*, scores(*), company_insights(*), contacts(id, name, title, linkedin_url, email, email_verified, email_status, linkedin_status, phone)");
     if (error) throw error;
     const companies = (data ?? []).map((row) => {
       const scores = row.scores as Score[];
