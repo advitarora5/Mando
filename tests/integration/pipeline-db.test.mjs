@@ -37,6 +37,10 @@ async function freshWorld(names) {
   const ids = (others ?? []).map(s => s.id);
   if (ids.length) { await db.from('workday_sites').update({ enabled: false }).in('id', ids); disabled.push(...ids); }
   const store = new SupabaseStore(url, key);
+  // Scope scoring and enrichment to this test's fictional companies (".example" websites). Regression: the shared local
+  // database also holds real pipeline companies, and an unscoped test run wrote its fake email onto their contacts.
+  const allCompanies = store.companies.bind(store);
+  store.companies = async () => (await allCompanies()).filter(c => (c.domain ?? '').endsWith('.example'));
   const now = clock(new Date().toISOString());
   return { store, ctx: makeCtx({ store, now, fetch: worldFetch({ names }), llm: groundedModel(), treg: worldTreg() }) };
 }
@@ -140,4 +144,9 @@ test('round 2: reads past the API row limit (1,000): every company is visible to
   const { count } = await db.from('companies').select('id', { count: 'exact', head: true });
   assert.ok(count > 1000);
   assert.equal(all.length, count, 'no company is silently cut off at 1,000');
+});
+
+test('regression: integration runs never write test data onto real (non-.example) companies or their contacts', { skip }, async () => {
+  const { data: fakeOnReal } = await db.from('contacts').select('id, email, companies!inner(domain)').like('email', '%.example').not('companies.domain', 'like', '%.example');
+  assert.deepEqual(fakeOnReal, []);
 });

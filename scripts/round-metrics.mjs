@@ -12,23 +12,24 @@ const url = process.env.PIPELINE_SUPABASE_URL;
 assertAllowedTarget(url, process.env.PIPELINE_ALLOW_REMOTE);
 const db = createClient(url, process.env.PIPELINE_SUPABASE_KEY, { auth: { persistSession: false } });
 const q = async (p, what) => { const { data, error } = await p; if (error) throw new Error(`${what}: ${error.message}`); return data; };
+// Read every row: the API returns at most 1,000 per request.
+const all = async (make, what) => { const out = []; for (let from = 0; ; from += 1000) { const page = await q(make().range(from, from + 999), what); out.push(...page); if (page.length < 1000) return out; } };
 const real = c => !/\.example$/.test(c.domain ?? "") && !/^Boundary |^Review /.test(c.name);
 
 const runs = await q(db.from("pipeline_runs").select("*").gte("started_at", since).order("started_at"), "runs");
 const runIds = runs.map(r => r.id);
-const origins = await q(db.from("company_origins").select("company_id, run_id, created_at").gte("created_at", since), "origins");
-const created = (await q(db.from("companies").select("id, name, domain, employee_count, source").in("id", origins.map(o => o.company_id).concat(["00000000-0000-0000-0000-000000000000"])), "companies")).filter(real);
+const created = (await all(() => db.from("companies").select("id, name, domain, employee_count, source, company_origins!inner(created_at)").gte("company_origins.created_at", since).order("id"), "companies")).filter(real);
 const createdIds = created.map(c => c.id);
 const signals = createdIds.length ? await q(db.from("signals").select("id, company_id, type, source_url, quote, method, confidence").in("company_id", createdIds), "signals") : [];
 const reviews = (await q(db.from("review_queue").select("*").gte("created_at", since), "reviews")).filter(r => !/\.example$/.test(r.candidate_domain ?? "") && !/^Review /.test(r.candidate_name));
 const scores = createdIds.length ? await q(db.from("scores").select("company_id, assessed_at, authority_score, reachability_score, budget_score, release_score, timing_score, total, tier").in("company_id", createdIds), "scores") : [];
 const latest = Object.values(scores.reduce((m, s) => ((!m[s.company_id] || m[s.company_id].assessed_at < s.assessed_at) ? { ...m, [s.company_id]: s } : m), {}));
-const allCompanies = await q(db.from("companies").select("id, name, domain"), "all companies");
+const allCompanies = await all(() => db.from("companies").select("id, name, domain").order("id"), "all companies");
 const dupNames = Object.entries(allCompanies.filter(real).reduce((m, c) => ({ ...m, [normalizeName(c.name)]: (m[normalizeName(c.name)] ?? 0) + 1 }), {})).filter(([, n]) => n > 1);
 const dupDomains = Object.entries(allCompanies.filter(c => c.domain && real(c)).reduce((m, c) => ({ ...m, [c.domain]: (m[c.domain] ?? 0) + 1 }), {})).filter(([, n]) => n > 1);
-const sigDupes = (await q(db.from("signals").select("type, source_url, quote"), "all signals")).reduce((m, s) => { const k = `${s.type}|${s.source_url}|${s.quote}`; m.set(k, (m.get(k) ?? 0) + 1); return m; }, new Map());
-const capDupes = (await q(db.from("raw_captures").select("url, content_hash").gte("fetched_at", since), "captures")).reduce((m, c) => { const k = `${c.url}|${c.content_hash}`; m.set(k, (m.get(k) ?? 0) + 1); return m; }, new Map());
-const extractions = runIds.length ? await q(db.from("extractions").select("status, method, error").in("run_id", runIds), "extractions") : [];
+const sigDupes = (await all(() => db.from("signals").select("type, source_url, quote").order("id"), "all signals")).reduce((m, s) => { const k = `${s.type}|${s.source_url}|${s.quote}`; m.set(k, (m.get(k) ?? 0) + 1); return m; }, new Map());
+const capDupes = (await all(() => db.from("raw_captures").select("url, content_hash").gte("fetched_at", since).order("id"), "captures")).reduce((m, c) => { const k = `${c.url}|${c.content_hash}`; m.set(k, (m.get(k) ?? 0) + 1); return m; }, new Map());
+const extractions = await all(() => db.from("extractions").select("status, method, error").gte("created_at", since).order("id"), "extractions");
 
 const ledger = existsSync(args.ledger ?? "var/spend-ledger.jsonl") ? readFileSync(args.ledger ?? "var/spend-ledger.jsonl", "utf8").split("\n").filter(Boolean).map(l => JSON.parse(l)).filter(e => e.at >= since) : [];
 const tregSpend = ledger.filter(e => e.provider === "treg").reduce((n, e) => n + e.cost_usd, 0);
