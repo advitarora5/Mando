@@ -12,7 +12,10 @@
     "insights": "node --env-file=.env.local scripts/generate-insights.mjs",
     "drafts": "node --env-file=.env.local scripts/generate-drafts.mjs",
     "score:save": "node --env-file=.env.local scripts/save-assessments.mjs",
-    "test": "node --test tests/*.test.mjs"
+    "test": "node --test tests/*.test.mjs tests/ingestion/*.test.mjs",
+    "test:integration": "node --env-file-if-exists=.env.pipeline.local --test tests/integration/*.test.mjs",
+    "pipeline": "node --env-file-if-exists=.env.pipeline.local scripts/pipeline.mjs",
+    "pipeline:eval": "node --env-file-if-exists=.env.pipeline.local scripts/eval-extraction.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.117.2",
