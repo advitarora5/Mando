@@ -31,6 +31,15 @@ No "Ingestion Pipeline Architecture" or "Implementation Plan" document exists in
 3. Hosted runners have no Ollama: scheduled runs use structured signals only (`PIPELINE_LLM=none`) until a model host is chosen.
 4. Aadi's branch adds a second `signals` table under the same migration timestamp; it will conflict with main's on merge.
 
-## Rounds
+## Rounds (plan trimmed on 2026-10-13: round 1 = build; rounds 2-3 = quick bug hunts)
 
-See `docs/ingestion-eval/`. (Updated below after each round.)
+| Round | What | Result |
+|---|---|---|
+| 1 | Build + first live run + v1 eval | 15 new companies at $0; 5 bugs fixed (site coverage, review bypass, type mislabels, stale SEC list, vendor as lead) |
+| 2 | Fresh-eyes review + live verification + v2 eval | 11 bugs fixed (incl. 1,000-row API limit, date semantics, tests touching real data); 11 distinct scores; v2 precision 97% |
+| 3 | Code review only | 2 fixes (undated go-live evidence, hex entities); CI budget is per run (documented) |
+
+Status: all tests green (207 + 6 integration). Default extraction: `extract-v2` on `qwen2.5:7b`.
+Next step: the open decisions above, then `docs/ingestion-eval/final-summary.md` "Three next steps".
+Local state: Supabase local stack has the 15 round-1 companies, the team's 112 researched companies (seeded copy) and
+integration-test fixtures (".example" domains). `npx supabase db reset` wipes it.

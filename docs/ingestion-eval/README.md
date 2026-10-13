@@ -20,4 +20,4 @@ Metric definitions:
 | % auto-added | new companies created / (created + sent to review) |
 | cost per new company | treg spend in the round window / new companies |
 
-Rounds: [round-1](round-1.md) · [round-2](round-2.md) · [round-3](round-3.md) · [round-4](round-4.md) · [round-5](round-5.md) · [summary](final-summary.md)
+Rounds: [round-1](round-1.md) · [round-2](round-2.md) · [round-3](round-3.md) · [summary](final-summary.md) · [labels to verify](labels-to-verify.md)
