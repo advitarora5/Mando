@@ -24,4 +24,3 @@ for(const c of companies){
 fs.writeFileSync(`${folder}/review.md`,report.trimEnd()+'\n');
 console.log(JSON.stringify(companies.map(c=>[c.number,c.company_name,c.total,c.display_tier])));
 console.log(JSON.stringify(companies.reduce((a,c)=>(a[c.display_tier]=(a[c.display_tier]||0)+1,a),{})));
-
