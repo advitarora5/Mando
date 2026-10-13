@@ -32,6 +32,7 @@ export async function collectStage(ctx: PipelineContext, source: SourceRow, opts
   for (const item of collected.items) {
     try {
       const saved = await ctx.store.saveCapture(item, ctx.runId);
+      ctx.collected = { ...ctx.collected, [source.id]: saved.id };
       if (saved.inserted) bump(r, "new_captures");
       else { bump(r, "unchanged_captures"); bump(r, "signals_refreshed", await ctx.store.touchSignals(saved.id, ctx.now().toISOString())); }
     } catch (error) { bump(r, "error_store"); r.errors.push(`save capture ${item.url}: ${message(error)}`); }
@@ -142,6 +143,7 @@ export async function matchStage(ctx: PipelineContext, opts: { dryRun?: boolean 
       const decision = decideMatch({ name, domain: lookup.domain, domain_confirmed: lookup.confirmed, best_confidence: best }, known, { canCreate: created < settings.max_new_companies_per_run });
       const ids = signals.map(s => s.id);
       if (opts.dryRun) { bump(r, `would_${decision.action}`); continue; }
+      if (decision.action === "skip") { bump(r, "excluded"); continue; }
       if (decision.action === "attach") {
         await ctx.store.assignSignals(ids, { company_id: decision.company_id });
         await ctx.store.linkWorkdaySites(normalized, { company_id: decision.company_id });

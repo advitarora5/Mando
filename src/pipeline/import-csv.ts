@@ -62,6 +62,7 @@ export async function importCsv(ctx: PipelineContext, text: string, opts: { dryR
         signalId = (await ctx.store.upsertSignal({ company_id: null, review_item_id: null, capture_id: capture.id, extraction_id: null, type: row.signal_type, signal_date: row.signal_date, source_url: row.source, quote: row.quote, confidence: 0.9, company_name: row.company, products: null, project_type: null, role_seniority: null, timing_words: null, method: "structured", seen_at: ctx.now().toISOString() })).id;
       }
       const ids = signalId ? [signalId] : [];
+      if (decision.action === "skip") { bump("excluded"); continue; }
       if (decision.action === "attach") {
         await ctx.store.assignSignals(ids, { company_id: decision.company_id });
         affected.push(decision.company_id); bump("matched_existing");

@@ -150,6 +150,7 @@ export interface PipelineStore {
 
   saveCapture(item: RawItem, runId: string | null): Promise<{ id: string; inserted: boolean }>;
   latestCapture(sourceId: string): Promise<CaptureRow | null>;
+  captureById(id: string): Promise<CaptureRow | null>;
   pendingCaptures(limit: number, sourceIds?: string[]): Promise<CaptureRow[]>;
   saveExtraction(record: ExtractionRecord): Promise<string>;
 
@@ -210,4 +211,6 @@ export type PipelineContext = {
   contact: string; // sent in every collector User-Agent
   sleep: (ms: number) => Promise<void>;
   runId: string | null;
+  // Capture each source produced (new or reused unchanged) in this run, so later stages read today's data.
+  collected?: Record<string, string>;
 };

@@ -6,6 +6,7 @@
 // a wrong site name returns HTTP 422. robots.txt allows these paths and lists each tenant's site names.
 import { contentFingerprint } from "../../domain/ingestion/fingerprint.ts";
 import { normalizeName, tenantCandidates } from "../../domain/ingestion/normalize.ts";
+import { isExcludedCompany } from "../../domain/ingestion/matching.ts";
 import { PoliteHttp, STOPPING_FAILURES, type HttpFail } from "../http.ts";
 import type { Collector, CollectLimits, CollectResult, PipelineContext, RawItem, SourceRow } from "../types.ts";
 
@@ -48,7 +49,9 @@ type SecEntry = { title: string; ticker?: string; cik_str?: number };
 
 // Names for the resolver, in SEC list order (roughly largest first), from the latest SEC capture.
 export async function resolverNames(ctx: PipelineContext, max: number): Promise<{ name: string; normalized: string }[]> {
-  const capture = await ctx.store.latestCapture("sec-company-list");
+  // Prefer the list collected in this run: an unchanged list reuses an older row, so "latest" can be stale.
+  const collectedId = ctx.collected?.["sec-company-list"];
+  const capture = (collectedId ? await ctx.store.captureById(collectedId) : null) ?? await ctx.store.latestCapture("sec-company-list");
   if (!capture) return [];
   let entries: SecEntry[] = [];
   try { entries = Object.values(JSON.parse(capture.body) as Record<string, SecEntry>); } catch { return []; }
@@ -57,7 +60,7 @@ export async function resolverNames(ctx: PipelineContext, max: number): Promise<
   const candidates: { name: string; normalized: string }[] = [];
   for (const entry of entries) {
     const normalized = normalizeName(entry?.title);
-    if (!normalized || seen.has(normalized)) continue;
+    if (!normalized || seen.has(normalized) || isExcludedCompany(entry.title)) continue;
     seen.add(normalized);
     candidates.push({ name: entry.title, normalized });
   }

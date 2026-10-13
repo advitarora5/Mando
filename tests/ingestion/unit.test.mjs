@@ -4,7 +4,7 @@ import { normalizeName, normalizeDomain, isSimilarName, nameSimilarity, tenantCa
 import { canonicalJson, contentFingerprint, paidCallKey } from '../../src/domain/ingestion/fingerprint.ts';
 import { verifyQuote, htmlToText } from '../../src/domain/ingestion/quote.ts';
 import { groundExtraction } from '../../src/domain/ingestion/extraction-schema.ts';
-import { decideMatch, sizeLabel } from '../../src/domain/ingestion/matching.ts';
+import { decideMatch, sizeLabel, isExcludedCompany } from '../../src/domain/ingestion/matching.ts';
 import { classifyTitle } from '../../src/domain/ingestion/titles.ts';
 import { canSpend, sessionSpend } from '../../src/domain/ingestion/budget.ts';
 import { scoreCompany, authorityFromContacts, reachabilityFromContacts, budgetFromSignals, releaseFromSignals, timingFromSignals } from '../../src/domain/ingestion/pipeline-score.ts';
@@ -61,6 +61,15 @@ test('matching: exact website merges, similar name and missing website go to rev
   assert.equal(decideMatch({ ...base, name: 'Newco', domain: 'newco.com', best_confidence: 0.6 }, known, { canCreate: true }).reason, 'untrusted_signal');
   assert.equal(decideMatch({ ...base, name: 'Newco', domain: 'newco.com' }, known, { canCreate: false }).reason, 'over_run_cap');
   assert.equal(decideMatch({ ...base, name: 'Newco', domain: 'newco.com' }, known, { canCreate: true }).action, 'create');
+});
+
+test('regression: Workday itself (the vendor) is never a lead, under any spelling', () => {
+  const base = { domain: 'workday.com', domain_confirmed: true, best_confidence: 0.95 };
+  for (const name of ['Workday, Inc.', 'WORKDAY INC', 'Workday']) {
+    const decision = decideMatch({ ...base, name }, [], { canCreate: true });
+    assert.equal(decision.action, 'skip', name);
+  }
+  assert.ok(isExcludedCompany('Workday, Inc.') && !isExcludedCompany('Workday Payroll Partners of Ohio'));
 });
 
 test('size: under 3,000 is labelled, not blocked; unknown size says so', () => {

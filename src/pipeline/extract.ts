@@ -9,7 +9,7 @@ import { sitesFromRobots, primarySites, origin } from "./collectors/workday.ts";
 import type { CaptureRow, LLMProvider, SignalInput } from "./types.ts";
 
 export const PROMPT_VERSION = process.env.PIPELINE_PROMPT_VERSION ?? "extract-v1";
-export const MAX_TEXT_CHARS = 12000;
+export const MAX_TEXT_CHARS = 10000;
 
 export function loadPrompt(version: string = PROMPT_VERSION): string {
   return readFileSync(new URL(`./prompts/${version}.md`, import.meta.url), "utf8");
@@ -48,6 +48,15 @@ export async function readWithModel(llm: LLMProvider, kind: string, title: strin
     return { ok: true, checked, attempts: attempt, ms, cost_usd: cost, projectDropped };
   }
   return { ok: false, error: lastError || "invalid reply", attempts: 2, retryable: false, ms, cost_usd: cost };
+}
+
+// Which texts are worth a model call. Job postings must mention Workday (Workday's own search is fuzzy:
+// searchText=Workday returns postings that never say it); Reddit posts must touch Workday or releases.
+export function needsModelText(kind: string, title: string | null, text: string): boolean {
+  const all = `${title ?? ""}\n${text}`;
+  if (/job posting/i.test(kind)) return /\bworkday\b/i.test(all);
+  if (/reddit/i.test(kind)) return /\bworkday\b|\bR[12]\b|release|rising|go-?live|implementation/i.test(all) && text.trim().length > 0;
+  return true;
 }
 
 // "March 4, 2026", "4 March 2026", "2026-03-04" -> ISO day. Month-only or relative dates stay null; a day is never invented.
@@ -171,6 +180,17 @@ export function redditPosts(body: string): RedditPost[] {
     if (!node || typeof node !== "object" || depth > 12) return;
     if (Array.isArray(node)) { node.forEach(n => visit(n, depth + 1)); return; }
     const o = node as Record<string, unknown>;
+    // Reddit app feed (tikhub): { groupId: "t3_<id>", cells: [{createdAt}, {title}, {text}, ...] } with no permalink.
+    if (typeof o.groupId === "string" && o.groupId.startsWith("t3_") && Array.isArray(o.cells)) {
+      const cells = o.cells as Record<string, unknown>[];
+      const title = cells.map(c => s(c.title)).find(Boolean);
+      const url = `https://www.reddit.com/comments/${o.groupId.slice(3)}/`;
+      if (title && !seen.has(url)) {
+        seen.add(url);
+        out.push({ title, text: cells.map(c => s(c.text)).find(Boolean) ?? "", url, created: cells.map(c => s(c.createdAt)).find(Boolean)?.slice(0, 10) ?? null });
+      }
+      return;
+    }
     const title = s(o.title) ?? s((o.postTitle as unknown));
     const permalink = s(o.permalink) ?? s(o.url) ?? s(o.link);
     if (title && permalink && /reddit\.com|^\/r\//.test(permalink)) {

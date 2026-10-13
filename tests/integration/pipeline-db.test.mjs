@@ -2,7 +2,7 @@
 // recorded fixtures so the run is deterministic; the database, its constraints and RPCs are real.
 // raw_captures is append-only, so each run uses fresh random fictional names instead of deleting rows.
 // Run: npm run test:integration   (skips when PIPELINE_SUPABASE_URL is not a reachable local database)
-import { test } from 'node:test';
+import { test, after } from 'node:test';
 import assert from 'node:assert/strict';
 import { createClient } from '@supabase/supabase-js';
 import { SupabaseStore, assertAllowedTarget } from '../../src/pipeline/store/supabase.ts';
@@ -20,10 +20,22 @@ const db = reachable ? createClient(url, key, { auth: { persistSession: false } 
 const domainOf = name => `${worldTenant(name)}.example`;
 const count = async table => (await db.from(table).select('id', { count: 'exact', head: true })).count;
 
+// Sites this test switches off so it only collects its own tenants; switched back on afterwards
+// (regression: real sites in a shared local database used to stay disabled after the tests).
+const disabled = [];
+const testTenants = [];
+after(async () => {
+  if (disabled.length) await db.from('workday_sites').update({ enabled: true }).in('id', disabled);
+  // The fictional tenants must never be crawled by a real run.
+  if (testTenants.length) await db.from('workday_sites').update({ enabled: false }).in('tenant', testTenants);
+});
+
 async function freshWorld(names) {
-  // Earlier runs left enabled Workday sites behind; this run only collects its own tenants.
   const tenants = names.map(worldTenant);
-  await db.from('workday_sites').update({ enabled: false }).not('tenant', 'in', `(${tenants.join(',')})`);
+  testTenants.push(...tenants);
+  const { data: others } = await db.from('workday_sites').select('id').eq('enabled', true).not('tenant', 'in', `(${tenants.join(',')})`);
+  const ids = (others ?? []).map(s => s.id);
+  if (ids.length) { await db.from('workday_sites').update({ enabled: false }).in('id', ids); disabled.push(...ids); }
   const store = new SupabaseStore(url, key);
   const now = clock(new Date().toISOString());
   return { store, ctx: makeCtx({ store, now, fetch: worldFetch({ names }), llm: groundedModel(), treg: worldTreg() }) };

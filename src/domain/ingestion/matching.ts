@@ -12,15 +12,23 @@ export type Candidate = {
 };
 
 export type MatchDecision =
+  | { action: "skip"; why: string }
   | { action: "attach"; company_id: string; why: string }
   | { action: "create"; why: string }
   | { action: "review"; reason: "similar_name" | "no_website" | "untrusted_signal" | "over_run_cap"; suggested_company_id: string | null; why: string };
 
 export const TRUSTED_CONFIDENCE = 0.9;
 
+// Organisations that are never leads: Workday itself (its own career site is a Workday tenant).
+const EXCLUDED = new Set(["workday"]);
+export function isExcludedCompany(name: string | null | undefined): boolean {
+  return EXCLUDED.has(normalizeName(name));
+}
+
 // Rules: an exact website match merges. A similar (or equal) name without a website match goes to review.
 // A new company with a confirmed website and a trusted signal is created. Everything else goes to review.
 export function decideMatch(candidate: Candidate, known: KnownCompany[], room: { canCreate: boolean }): MatchDecision {
+  if (isExcludedCompany(candidate.name)) return { action: "skip", why: "excluded organisation (the vendor)" };
   const domain = normalizeDomain(candidate.domain);
   if (domain) {
     const exact = known.find(company => normalizeDomain(company.domain) === domain);

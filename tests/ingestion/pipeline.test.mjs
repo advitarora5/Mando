@@ -258,6 +258,17 @@ test('alerts: a source that fails or finds nothing three runs in a row raises a 
   assert.ok(report.alerts.some(a => a.includes('workday-career-sites')));
 });
 
+test('regression: the resolver reads the SEC list collected in this run, even when an older identical capture is reused', async () => {
+  const now = clock();
+  const { ctx, store } = world({ now });
+  // Week 1 list A, week 2 a different list B, week 3 list A again (deduplicated to the week-1 row).
+  await store.saveCapture({ source: 'sec-company-list', url: 'https://www.sec.gov/files/company_tickers.json', fetched_at: '2026-09-01T00:00:00Z', http_status: 200, content_type: 'application/json', raw: (await import('./helpers.mjs')).secFixture(), fingerprint: (await import('../../src/domain/ingestion/fingerprint.ts')).contentFingerprint((await import('./helpers.mjs')).secFixture()), meta: { kind: 'sec_company_list' } }, null);
+  await store.saveCapture({ source: 'sec-company-list', url: 'https://www.sec.gov/files/company_tickers.json', fetched_at: '2026-10-01T00:00:00Z', http_status: 200, content_type: 'application/json', raw: (await import('./helpers.mjs')).secFixture(['Nobody Real Inc']), fingerprint: 'b'.repeat(64), meta: { kind: 'sec_company_list' } }, null);
+  const report = await run(ctx, 'weekly');
+  assert.ok(report.jobs.find(j => j.source_id === 'sec-company-list').counts.unchanged_captures === 1);
+  assert.equal(store.companyRows.filter(c => c.pipeline).length, 12, 'names came from list A, collected this run');
+});
+
 test('dry run writes nothing to the given store', async () => {
   const { ctx, store } = world();
   await runPipeline(ctx, { plan: 'weekly', limit: 5, dryRun: true, trigger: 'manual' });

@@ -9,11 +9,14 @@ export class OllamaProvider implements LLMProvider {
   private host: string;
   private fetchImpl: typeof fetch;
   private timeoutMs: number;
-  constructor(opts: { host?: string; model?: string; fetchImpl?: typeof fetch; timeoutMs?: number } = {}) {
+  // 6144 tokens fits prompt + 10k characters of text + reply, and keeps a 7B model fully on a 6 GB GPU.
+  private numCtx: number;
+  constructor(opts: { host?: string; model?: string; fetchImpl?: typeof fetch; timeoutMs?: number; numCtx?: number } = {}) {
     this.host = (opts.host ?? "http://localhost:11434").replace(/\/$/, "");
     this.model = opts.model ?? "qwen2.5:7b";
     this.fetchImpl = opts.fetchImpl ?? fetch;
     this.timeoutMs = opts.timeoutMs ?? 180000;
+    this.numCtx = opts.numCtx ?? Number(process.env.OLLAMA_NUM_CTX ?? 6144);
   }
   async complete(request: LLMRequest): Promise<LLMResponse> {
     const started = Date.now();
@@ -24,7 +27,7 @@ export class OllamaProvider implements LLMProvider {
         method: "POST", signal: controller.signal, headers: { "content-type": "application/json" },
         body: JSON.stringify({
           model: this.model, stream: false, format: request.schema,
-          options: { temperature: 0, seed: request.seed ?? 42, num_ctx: 8192 },
+          options: { temperature: 0, seed: request.seed ?? 42, num_ctx: this.numCtx },
           messages: [{ role: "system", content: request.system }, { role: "user", content: request.user }],
         }),
       });
