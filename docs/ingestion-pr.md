@@ -39,7 +39,7 @@ quotes, 97% signal precision, 79% recall (50% on the held-out items). Details in
 
 ## Test plan
 
-- [x] `npm test` (207: unit, collector contracts, pipeline incl. idempotency, failure injection, time travel, boundary, spend)
+- [x] `npm test` (204: unit, team rubric, collector contracts, pipeline incl. idempotency, failure injection, time travel, boundary, spend)
 - [x] `npm run test:integration` on local Supabase (6)
 - [x] `npm run lint`, `npm run typecheck`
 - [x] Live weekly + daily runs on local Supabase (`docs/ingestion-eval/round-1.md`, `round-2.md`)
