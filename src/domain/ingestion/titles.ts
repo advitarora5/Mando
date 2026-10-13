@@ -5,7 +5,7 @@ const FUNCTION_RULES: [RegExp, number, string][] = [
   [/\bworkday\b|\bhris\b|\bhcm\b|hr (technology|tech|systems|information)|people (systems|technology|tech)|human resources information/i, 10, "HR systems / Workday"],
   [/enterprise (applications|apps|systems)|business (applications|systems)|erp\b/i, 9, "Enterprise applications"],
   [/hr operations|people operations|total rewards|payroll|talent systems/i, 7, "HR operations"],
-  [/\bit\b.*(operations|ops)|it operations|infrastructure and operations|technology operations/i, 6, "IT operations"],
+  [/\bit\b.*(operations|ops)|it operations|infrastructure and operations|technology operations|information systems/i, 6, "IT operations"],
   [/\bchro\b|chief (people|human resources|hr)|human resources|\bhr\b|people\b|talent/i, 5, "HR leadership"],
   [/\bcio\b|chief (information|technology|digital)|information technology|\bit\b|technology/i, 5, "IT leadership"],
 ];
@@ -25,7 +25,8 @@ const SENIORITY_RULES: [RegExp, number, string][] = [
 export type TitleClass = { functional: number; functionLabel: string; seniority: number; seniorityLabel: string; ownsWorkday: number };
 
 export function classifyTitle(title: string | null | undefined): TitleClass {
-  const text = (title ?? "").trim();
+  // "Office of the CIO" names the org, not the person's level; "Executive Director" is a director.
+  const text = (title ?? "").trim().replace(/\boffice of the \w+/gi, "").replace(/\bexecutive director\b/gi, "Director");
   const fn = FUNCTION_RULES.find(([re]) => re.test(text));
   const level = SENIORITY_RULES.find(([re]) => re.test(text));
   // Owns Workday 0-4: the title names Workday (4) or HRIS/HCM (2). Anything else needs a sourced statement.

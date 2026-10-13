@@ -317,3 +317,17 @@ test('round 3: a go-live signal without a day-precise date says so (with its lin
 test('round 3: hexadecimal HTML entities are decoded in job text', () => {
   assert.equal(htmlToText('<p>Workday&#x27;s &#X2F; HRIS &#39;team&#39;</p>'), "Workday's / HRIS 'team'");
 });
+
+test('round 2 (live data): an org phrase like "Office of the CIO" does not make a director C-level', () => {
+  const c = classifyTitle('Executive Director Information Systems, Office of the CIO');
+  assert.equal(c.seniority, 5);
+  assert.equal(c.functional, 6, 'information systems is IT operations-level relevance, not unknown');
+  assert.equal(classifyTitle('CIO').seniority, 8);
+});
+
+test('round 2 (live data): a job duty mentioning "budget" is not a budget clue; an approved or funded budget is', () => {
+  const ground = quote => groundExtraction({ company_name: null, workday_products: [], project_type: null, role_seniority: null, timing_words: [], signals: [{ type: 'budget_clue', quote, date_text: null }] }, quote, { typeEvidence: true }).signals.length;
+  assert.equal(ground('Monitor and manage budget for the HR systems team'), 0);
+  assert.equal(ground('The board approved budget for the Workday Financials expansion'), 1);
+  assert.equal(ground('We selected Opkey to automate Workday regression testing'), 1);
+});

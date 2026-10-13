@@ -39,7 +39,7 @@ export const TYPE_EVIDENCE: Record<CheckedSignal["type"], RegExp> = {
   hiring: /hir(?:e|ing)|seek|join|looking for|role|position|candidate|you will|responsib|experience|apply|opening|recruit/i,
   release_planning: /release|\bR[12]\b|regression|semi-?annual|feature update|updates|upgrade|preview tenant/i,
   known_customer: /workday/i,
-  budget_clue: /purchas|contract|select(?:ed|s)?\b|invest|budget|fund|licen[cs]|\bbuy|bought|vendor|partner(?:ed|ing)? with|leverag|engag(?:ed|ing)|subscri|credits|\bcost|spend|\bRFP|new (?:tool|system|platform|module)/i,
+  budget_clue: /purchas|contract|select(?:ed|s)?\b|invest|(?:approved|allocated|dedicated|new) budget|budget (?:was )?approved|funded|funding|licen[cs]|\bbuy|bought|vendor|partner(?:ed|ing)? with|leverag|engag(?:ed|ing)|subscri|credits|\bcost|spend|\bRFP|new (?:tool|system|platform|module)/i,
   event: /rising|webinar|conference|summit|devcon|user group|keynote|\bevent|session|meetup|forum/i,
 };
 
