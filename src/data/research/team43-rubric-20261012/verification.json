@@ -1,0 +1,30 @@
+{
+  "saved_assessments": 43,
+  "as_of_date": "2026-10-12",
+  "tiers": {
+    "Maybe": 19,
+    "Not Enough Evidence": 22,
+    "Disqualified": 2,
+    "Qualified": 0
+  },
+  "old_scores_preserved": true,
+  "weekly_snapshots_preserved": true,
+  "companies_contacts_manual_insights_preserved": true,
+  "global_counts_before": {
+    "scores": 318,
+    "contacts": 142,
+    "companies": 127,
+    "snapshots": 144
+  },
+  "global_counts_after": {
+    "scores": 361,
+    "contacts": 142,
+    "companies": 127,
+    "snapshots": 144
+  },
+  "score_range": [
+    39,
+    76
+  ],
+  "verified_by": "Independent live Supabase readback, every score/evidence field and latest assessment ID, generated why-now and preservation digests."
+}
