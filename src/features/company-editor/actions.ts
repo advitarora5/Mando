@@ -58,7 +58,11 @@ export async function saveContact(_: SaveState, form: FormData): Promise<SaveSta
     const { id, company_id, ...values } = contactSchema.parse(Object.fromEntries(form));
     const db = database();
     if (id) {
-      const { data, error } = await db.from("contacts").update(values).eq("id", id).eq("company_id", company_id).select("id");
+      // An enrichment verdict only describes the address it checked; drop it when a person changes the email.
+      const { data: current } = await db.from("contacts").select("email").eq("id", id).eq("company_id", company_id).maybeSingle();
+      const emailChanged = current && (current.email ?? "").toLowerCase() !== (values.email ?? "");
+      const update = emailChanged ? { ...values, email_status: null } : values;
+      const { data, error } = await db.from("contacts").update(update).eq("id", id).eq("company_id", company_id).select("id");
       if (error || !data?.length) throw new Error("Could not save this contact. Refresh and try again.");
     } else {
       const { error } = await db.from("contacts").insert({ company_id, ...values });

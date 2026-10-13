@@ -7,6 +7,7 @@ import { safeUrl } from "@/domain/contracts/detail";
 import { MovementBadge } from "@/features/weekly-history/history";
 import { rankMovement } from "@/domain/history";
 import { companyRanks, queryCompanies, type Sort } from "./query";
+import { contactFunction, emailLabel, emailState, functionLabel, rankContacts, reachSummary } from "@/domain/contacts/contact-view";
 
 function ScoreCells({ score }: { score: Score | null }) {
   return categories.map(category => {
@@ -21,6 +22,31 @@ function ScoreCells({ score }: { score: Score | null }) {
     : evidence;
     return <td key={category} className="category-score"><strong>{score?.[`${category}_score`] ?? "Unscored"}</strong>{reason && <small>{reason}</small>}{url && <a className="source-link" href={url} target="_blank" rel="noopener noreferrer">Source ↗</a>}</td>;
   });
+}
+
+const MAIN_CONTACTS = 2;
+
+function ContactsCell({ company, linkable }: { company: CompanyListItem; linkable: boolean }) {
+  const ranked = rankContacts(company.contacts);
+  if (!ranked.length) return <span className="muted">Contacts pending</span>;
+  const reach = reachSummary(ranked);
+  return <div className="contact-stack">
+    {ranked.slice(0, MAIN_CONTACTS).map(contact => {
+      const profile = safeUrl(contact.linkedin_url);
+      const role = contactFunction(contact.title);
+      const state = emailState(contact);
+      return <div key={contact.id} className="contact-chip">
+        <div className="contact-chip-name">{profile ? <a className="source-link" href={profile} target="_blank" rel="noopener noreferrer">{contact.name} ↗</a> : <strong>{contact.name}</strong>}<span className={`role-tag ${role}`}>{functionLabel[role]}</span></div>
+        {contact.title && <small className="contact-chip-title">{contact.title}</small>}
+        {contact.email && <small><a className="source-link" href={`mailto:${contact.email}`}>{contact.email}</a> <span className={`email-state ${state}`}>{emailLabel(contact)}</span></small>}
+        {contact.phone && <small><a className="source-link" href={`tel:${contact.phone}`}>{contact.phone}</a></small>}
+      </div>;
+    })}
+    <p className="contact-meta">
+      {reach.total} contact{reach.total === 1 ? "" : "s"} · {reach.verified} verified email{reach.verified === 1 ? "" : "s"}
+      {linkable && <> · <Link className="company-link" href={`/companies/${company.id}#contacts`}>{ranked.length > MAIN_CONTACTS ? `View all ${ranked.length}` : "View contacts"} →</Link></>}
+    </p>
+  </div>;
 }
 
 function SortHeader({ label, field, sort, setSort }: {
@@ -69,7 +95,7 @@ export function CompanyList({ companies, mode, previousWeek = null, previousRank
       {c.why_now ?? "Research pending"}
     </p>
   </details>
-</td><td>{c.contacts.length ? c.contacts.map(contact => <div key={contact.id}>{safeUrl(contact.linkedin_url) ? <a className="source-link" href={safeUrl(contact.linkedin_url)!} target="_blank" rel="noopener noreferrer">{contact.name} ↗</a> : contact.name}<small>{contact.title}</small>{contact.email && <small><a className="source-link" href={`mailto:${contact.email}`}>{contact.email}</a>{contact.email_verified ? " ✓" : ""}</small>}{contact.phone && <small>{contact.phone}</small>}</div>) : "Contacts pending"}</td></tr>)}</tbody>
+</td><td className="contacts-cell"><ContactsCell company={c} linkable={mode === "database"} /></td></tr>)}</tbody>
     </table></div>
     {!visible.length && !invalid && <div className="empty">{companies.length ? <><p>No companies match your filters.</p><button className="button secondary" onClick={clear}>Clear filters</button></> : "No companies yet."}</div>}
   </section>;

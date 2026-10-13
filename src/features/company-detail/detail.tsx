@@ -12,6 +12,7 @@ import { saveCompany, saveContact, saveInsights } from "@/features/company-edito
 import { parseEvidence } from "@/domain/scoring/evidence";
 import { goLiveScore } from "@/domain/scoring/go-live";
 import { rubric } from "@/domain/scoring/rubric";
+import { contactFunction, contactProvenance, emailLabel, emailState, functionLabel, reachSummary } from "@/domain/contacts/contact-view";
 
 function Source({ value }: { value: string | null }) {
   const url = safeUrl(value);
@@ -96,6 +97,45 @@ if (researchStart < 0) return null;
     </section>
   );
 }
+function ContactTotals({ contacts }: { contacts: Contact[] }) {
+  const reach = reachSummary(contacts);
+  return <span className="muted">{reach.total} contact{reach.total === 1 ? "" : "s"} · {reach.verified} verified email{reach.verified === 1 ? "" : "s"} · {reach.linkedin} LinkedIn · {reach.phone} phone</span>;
+}
+
+function ContactCard({ contact, primary, companyId, drafts }: { contact: Contact; primary: boolean; companyId: string; drafts: StoredDraft[] }) {
+  const role = contactFunction(contact.title);
+  const state = emailState(contact);
+  const sources = contactProvenance(contact.contact_sources);
+  const profile = safeUrl(contact.linkedin_url);
+  const candidate = safeUrl(sources.linkedinCandidate);
+  const hasProvenance = sources.emailSource || sources.emailVerification || sources.linkedinNote || sources.companyLine || sources.providerTitle;
+  return <article className={`contact-card${primary ? " primary" : ""}`}>
+    <Editor title={contact.name} action={saveContact} hidden={{ company_id: companyId, id: contact.id }} fields={contactFields(contact)}>
+      <div className="contact-tags">{primary && <span className="role-tag primary">Main contact</span>}<span className={`role-tag ${role}`}>{functionLabel[role]}</span></div>
+      <p>{contact.title ?? "Title not provided"}</p>
+      <p className="muted">{contact.mutual_connection ?? "No mutual connection recorded"}</p>
+      <dl className="reach-list">
+        <div><dt>Email</dt><dd>{contact.email ? <a className="source-link" href={`mailto:${contact.email}`}>{contact.email}</a> : null} <span className={`email-state ${state}`}>{emailLabel(contact)}</span></dd></div>
+        <div><dt>LinkedIn</dt><dd>{profile ? <><a className="source-link" href={profile} target="_blank" rel="noopener noreferrer">View profile ↗</a>{contact.linkedin_status === "confirmed" && <span className="email-state verified">Confirmed</span>}</>
+          : candidate ? <><a className="source-link" href={candidate} target="_blank" rel="noopener noreferrer">Possible profile ↗</a> <span className="email-state risky">Unconfirmed</span></>
+          : <span className="muted">{contact.linkedin_status === "not_found" ? "Searched · not found" : "No profile recorded"}</span>}</dd></div>
+        <div><dt>Phone</dt><dd>{contact.phone ? <><a className="source-link" href={`tel:${contact.phone}`}>{contact.phone}</a>{contact.phone_status && <span className="email-state unverified">{contact.phone_status === "live" ? "Live line" : contact.phone_status}</span>}</> : <span className="muted">No phone recorded</span>}</dd></div>
+      </dl>
+      {sources.flags.map(flag => <p key={flag} className="contact-flag">⚠ {flag}</p>)}
+      {hasProvenance && <details className="provenance"><summary>Sources and verification</summary><dl>
+        {sources.emailSource && <div><dt>Email found by</dt><dd>{sources.emailSource}</dd></div>}
+        {sources.emailVerification && <div><dt>Verification</dt><dd>{sources.emailVerification}</dd></div>}
+        {sources.linkedinNote && <div><dt>LinkedIn</dt><dd>{sources.linkedinNote}</dd></div>}
+        {sources.providerTitle && <div><dt>Title per provider</dt><dd>{sources.providerTitle}</dd></div>}
+        {sources.companyLine && <div><dt>Company line</dt><dd><a className="source-link" href={`tel:${sources.companyLine}`}>{sources.companyLine}</a></dd></div>}
+        {contact.enriched_at && <div><dt>Enriched</dt><dd>{new Date(contact.enriched_at).toLocaleDateString("en-US", { timeZone: "America/Chicago" })}</dd></div>}
+      </dl></details>}
+      <div className="contact-links">{safeUrl(contact.email_source) && <a className="source-link" href={safeUrl(contact.email_source)!} target="_blank" rel="noopener noreferrer">Email source ↗</a>}<Source value={contact.source} /></div>
+      <ContactDrafts drafts={drafts} companyId={companyId} email={contact.email} linkedinUrl={contact.linkedin_url} />
+    </Editor>
+  </article>;
+}
+
 export function Detail({ company: c, snapshots = [], drafts = [] }: { company: CompanyDetail; snapshots?: Snapshot[]; drafts?: StoredDraft[] }) {
   const insights = c.insights;
   const days = c.days_since_signal;
@@ -138,7 +178,9 @@ export function Detail({ company: c, snapshots = [], drafts = [] }: { company: C
       })}</div>
     </section>
     <WeeklyHistory snapshots={snapshots} />
-    <section className="panel detail-section"><h2>Buyer contacts</h2><div className="contact-grid">{c.contacts.map(contact => <article key={contact.id} className="contact-card"><Editor title={contact.name} action={saveContact} hidden={{ company_id: c.id, id: contact.id }} fields={contactFields(contact)}><p>{contact.title ?? "Title not provided"}</p><p className="muted">{contact.mutual_connection ?? "No mutual connection recorded"}</p><div className="reach"><p>{contact.email ? <><a className="source-link" href={`mailto:${contact.email}`}>{contact.email}</a> <span className={`verify ${contact.email_verified ? "yes" : "no"}`}>{contact.email_verified ? "Verified" : "Unverified"}</span> <Source value={contact.email_source} /></> : <span className="muted">No email recorded</span>}</p><p>{contact.phone ? <><a className="source-link" href={`tel:${contact.phone}`}>{contact.phone}</a> <Source value={contact.phone_source} /></> : <span className="muted">No phone recorded</span>}</p></div><div className="contact-links">{safeUrl(contact.linkedin_url) && <a className="source-link" href={safeUrl(contact.linkedin_url)!} target="_blank" rel="noopener noreferrer">Profile ↗</a>}<Source value={contact.source} /></div><ContactDrafts drafts={drafts.filter(d => d.contact_id === contact.id)} companyId={c.id} email={contact.email} linkedinUrl={contact.linkedin_url} /></Editor></article>)}</div>
+    <section id="contacts" className="panel detail-section"><div className="section-title"><h2>Buyer contacts</h2><ContactTotals contacts={c.contacts} /></div>
+      {!c.contacts.length && <p className="muted">No contacts yet. Add the HRIS, HR, or enterprise applications owner below.</p>}
+      <div className="contact-grid">{c.contacts.map((contact, index) => <ContactCard key={contact.id} contact={contact} primary={index === 0} companyId={c.id} drafts={drafts.filter(d => d.contact_id === contact.id)} />)}</div>
       <div className="add-contact"><Editor title="New contact" label="Add contact" action={saveContact} hidden={{ company_id: c.id, id: "" }} fields={contactFields()}><p className="muted">Add a buyer or influencer and their public source links.</p></Editor></div>
     </section>
   </main>;

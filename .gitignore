@@ -42,3 +42,7 @@ next-env.d.ts
 
 !.env.example
 /supabase/.temp/
+
+# contact enrichment run artifacts (contain personal contact data)
+enrichment_ledger.jsonl
+enrichment_report_*.md

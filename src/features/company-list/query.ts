@@ -24,7 +24,7 @@ export function companyRanks(companies: CompanyListItem[]) {
 export function queryCompanies(companies: CompanyListItem[], filters: Filters) {
   const search = filters.search.trim().toLowerCase();
   return companies.filter(c => {
-    const text = [c.name, c.domain, c.industry, c.headquarters, c.why_now, ...c.contacts.flatMap(contact => [contact.name, contact.title])].filter(Boolean).join(" ").toLowerCase();
+    const text = [c.name, c.domain, c.industry, c.headquarters, c.why_now, ...c.contacts.flatMap(contact => [contact.name, contact.title, contact.email])].filter(Boolean).join(" ").toLowerCase();
     if (search && !text.includes(search)) return false;
     if (filters.tier !== "All" && (c.score?.tier ?? "Unscored") !== filters.tier) return false;
     if ((filters.min !== null || filters.max !== null) && !c.score) return false;

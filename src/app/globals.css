@@ -125,3 +125,35 @@ td.rank-cell { min-width: 75px; font-weight: 650; color: var(--accent); }
 .draft label { display: grid; gap: 4px; font-size: 12px; color: #77716b; }
 .draft textarea, .draft input { font: inherit; padding: 8px; border: 1px solid var(--border); border-radius: 6px; }
 .error-text { color: #a82b2b; font-size: 12px; }
+
+/* Buyer contacts: table summary and company page cards */
+td.contacts-cell { min-width: 270px; }
+.contact-stack { display: grid; gap: 10px; }
+.contact-chip { padding: 10px 12px; border: 1px solid var(--border); border-radius: 8px; background: #fdfcfa; }
+.contact-chip-name { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+.contact-chip-title { overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+.contact-chip small { overflow-wrap: anywhere; }
+.contact-meta { margin: 0; font-size: 12px; color: #868078; }
+.role-tag { display: inline-block; font-size: 10.5px; font-weight: 650; letter-spacing: .3px; padding: 1px 7px; border-radius: 10px; background: #f0eeea; color: #77716b; white-space: nowrap; }
+.role-tag.hr-systems { background: #e6eef8; color: #2d5c8f; }
+.role-tag.hr-leadership { background: #f4eee4; color: var(--accent); }
+.role-tag.technology { background: #eef0f2; color: #4d5866; }
+.role-tag.primary { background: var(--accent); color: white; }
+.email-state { display: inline-block; font-size: 11px; font-weight: 650; padding: 1px 7px; border-radius: 10px; margin-left: 4px; background: #f0eeea; color: #77716b; white-space: nowrap; }
+.email-state.verified { background: #e3f2e6; color: #1f7a35; }
+.email-state.risky { background: #f7efdf; color: #8b622e; }
+.email-state.invalid { background: #fbe5e5; color: #a82b2b; }
+.contact-card.primary { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent) inset; }
+.contact-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+.reach-list { display: grid; gap: 6px; margin: 12px 0; font-size: 13px; }
+.reach-list div { display: grid; grid-template-columns: 70px 1fr; gap: 8px; }
+.reach-list dt { color: #868078; }
+.reach-list dd { margin: 0; overflow-wrap: anywhere; }
+.contact-flag { margin: 6px 0; padding: 6px 10px; border-radius: 6px; background: #f7efdf; color: #8b622e; font-size: 12px; }
+.provenance { margin: 8px 0 12px; font-size: 12px; }
+.provenance summary { cursor: pointer; color: #665644; }
+.provenance dl { display: grid; gap: 6px; margin: 8px 0 0; }
+.provenance dl div { display: grid; grid-template-columns: 110px 1fr; gap: 8px; }
+.provenance dt { color: #868078; }
+.provenance dd { margin: 0; overflow-wrap: anywhere; }
+#contacts { scroll-margin-top: 24px; }
