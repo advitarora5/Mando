@@ -25,6 +25,20 @@ Review remote state before pushing. If you used SQL Editor, reconcile CLI migrat
 
 Append new score rows; never update a row referenced by history. Immutable database enforcement will be added with the history implementation.
 
+### Ingestion pipeline tables
+
+Added by `202610120001_ingestion_foundation.sql`. It only adds tables and a view; the tables above are not altered.
+
+- pipeline_settings: scoring scope (`pipeline_only` until the depth group switches it to `all`), the ready-for-contacts threshold (Budget + Release + Timing, default 25/50), signal freshness (14 days) and per-run request, model-spend and new-company caps. `src/domain/ingestion/settings.ts` validates them.
+- sources: one row per source with type, frequency, request cap, delay and an on/off switch. Only the Workday career-site collector and resolver start enabled.
+- pipeline_runs: every run with trigger, status, requests made, model spend, counts and error.
+- raw_captures: responses exactly as received with link, fetch time and SHA-256 fingerprint. A trigger rejects updates and deletes.
+- extractions: structured or model reading of one capture. Captures without a successful extraction are the queue.
+- signals: go_live, hiring, release_planning, known_customer, budget_clue, event, each with source link, date when stated, exact quote and confidence. Hiring and release-planning signals expire 14 days after `last_seen_at`.
+- review_queue: candidates awaiting approve, merge or reject, with signals attached by `review_item_id`.
+- company_origins: companies created by the pipeline (`origin = pipeline`). Kept separate so `companies` is unchanged.
+- company_contact_readiness (view): `ready_for_contacts` from each company's latest assessment and the current threshold.
+
 ## Pending rules
 
 Week 2 slide 7 is authoritative per the user: Authority 25, Reachability 25, Budget 20, Release Alignment 15, Timing Trigger 15 (100 total). Category allocation and evidence-driven automatic scoring remain to be clarified. Dashboard ranks use competition ranking for tied totals. Tier evidence gates are now enforced in the app: valid HTTP(S) source plus nonempty reason for Authority and Reachability; timing-only cannot qualify. Evidence-to-score generation remains to be clarified. The go-live timing scale is in `src/domain/scoring/rubric.ts`; Workday release dates for Release Alignment are in `src/domain/scoring/releases.ts`.

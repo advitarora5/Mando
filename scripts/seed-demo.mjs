@@ -1,9 +1,11 @@
-import { createClient } from "@supabase/supabase-js";
-import { evaluateTier } from "../src/domain/scoring/tier-rules.ts";
+import { assertLocalDemoSeedTarget } from "./demo-seed-target.mjs";
 
-const url = process.env.SUPABASE_URL;
+// Check the target before loading the database client or reading a database credential.
+const url = assertLocalDemoSeedTarget(process.env.SUPABASE_URL);
 const key = process.env.SUPABASE_SECRET_KEY;
 if (!url || !key) throw new Error("Configure database credentials in .env.local first.");
+const { evaluateTier } = await import("../src/domain/scoring/tier-rules.ts");
+const { createClient } = await import("@supabase/supabase-js");
 const db = createClient(url, key, { auth: { persistSession: false, autoRefreshToken: false } });
 const source = "https://google.com";
 const categories = ["authority", "reachability", "budget", "release", "timing"];
