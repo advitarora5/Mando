@@ -17,7 +17,6 @@ const all = async (make, what) => { const out = []; for (let from = 0; ; from +=
 const real = c => !/\.example$/.test(c.domain ?? "") && !/^Boundary |^Review /.test(c.name);
 
 const runs = await q(db.from("pipeline_runs").select("*").gte("started_at", since).order("started_at"), "runs");
-const runIds = runs.map(r => r.id);
 const created = (await all(() => db.from("companies").select("id, name, domain, employee_count, source, company_origins!inner(created_at)").gte("company_origins.created_at", since).order("id"), "companies")).filter(real);
 const createdIds = created.map(c => c.id);
 const signals = createdIds.length ? await q(db.from("signals").select("id, company_id, type, source_url, quote, method, confidence").in("company_id", createdIds), "signals") : [];
