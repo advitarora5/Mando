@@ -476,3 +476,21 @@ aside.note { padding: var(--s-3) var(--s-4); border: 1px solid var(--border); bo
   .contact-detail { padding-left: 0; }
   .timeline li { grid-template-columns: 90px 1fr; }
 }
+
+/* ---------- Today's leads ---------- */
+.leads { width: 100%; max-width: 1080px; margin: 0 auto; padding: var(--s-4) var(--s-6) var(--s-10); }
+.leads-head { display: flex; align-items: flex-end; justify-content: space-between; gap: var(--s-4); margin-bottom: var(--s-4); }
+.leads-head p { margin-top: 2px; color: var(--text-muted); }
+.lead-list { display: grid; gap: var(--s-3); }
+.lead-card { padding: var(--s-4); background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-lg); }
+.lead-head { display: flex; align-items: center; gap: var(--s-4); }
+.lead-rank { min-width: 28px; font-weight: var(--fw-semibold); font-variant-numeric: tabular-nums; color: var(--text-muted); }
+.lead-id { flex: 1; min-width: 0; }
+.lead-id a { color: var(--text); font-weight: var(--fw-semibold); font-size: var(--fs-lg); }
+.lead-id small { display: block; color: var(--text-muted); font-size: var(--fs-sm); }
+.lead-score { display: flex; align-items: center; gap: var(--s-3); }
+.lead-score strong { font-size: var(--fs-xl); font-weight: var(--fw-semibold); font-variant-numeric: tabular-nums; }
+.lead-meta { display: flex; flex-wrap: wrap; gap: 6px 16px; margin-top: var(--s-2); color: var(--text-muted); font-size: var(--fs-sm); }
+.lead-why { margin-top: var(--s-3); }
+.lead-contact { display: grid; gap: var(--s-2); margin-top: var(--s-3); padding-top: var(--s-3); border-top: 1px solid var(--border); }
+.lead-contact-head { display: flex; align-items: center; justify-content: space-between; gap: var(--s-3); }

@@ -2,7 +2,7 @@
 
 import { Fragment, useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
-import { ArrowRight, Building2, Download, Inbox, LayoutList, Rows3, Search, BookOpen, Filter } from "lucide-react";
+import { ArrowRight, Building2, Download, Inbox, LayoutList, Rows3, Search, BookOpen, Filter, CalendarCheck } from "lucide-react";
 
 export type PaletteCompany = { id: string; name: string; meta: string };
 type Entry = { id: string; group: string; label: string; meta?: string; icon: React.ReactNode; run: () => void };
@@ -45,6 +45,7 @@ export function CommandPalette({ companies }: { companies: PaletteCompany[] }) {
       ...companies.map(c => ({ id: `c-${c.id}`, group: "Companies", label: c.name, meta: c.meta, icon: <Building2 aria-hidden />, run: go(`/companies/${c.id}`) })),
       ...views.map(([id, label]) => ({ id: `v-${id}`, group: "Views", label: `View: ${label}`, icon: <Filter aria-hidden />, run: go(id === "all" ? "/" : `/?view=${id}`) })),
       { id: "n-pipeline", group: "Go to", label: "Pipeline", icon: <LayoutList aria-hidden />, run: go("/") },
+      { id: "n-leads", group: "Go to", label: "Today's leads", icon: <CalendarCheck aria-hidden />, run: go("/todays-leads") },
       { id: "n-outreach", group: "Go to", label: "Outreach queue", icon: <Inbox aria-hidden />, run: go("/outreach") },
       { id: "n-method", group: "Go to", label: "Research methodology", icon: <BookOpen aria-hidden />, run: go("/methodology") },
       { id: "a-density", group: "Actions", label: "Toggle row density", icon: <Rows3 aria-hidden />, run: pipeline("density") },
