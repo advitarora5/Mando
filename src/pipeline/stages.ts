@@ -120,7 +120,14 @@ export async function resolveDomain(ctx: PipelineContext, name: string): Promise
 export function displayName(name: string, resolved: string | null): string {
   if (resolved && normalizeName(resolved) && isSimilarName(resolved, name)) return resolved;
   const trimmed = name.replace(/\s*\/[A-Z]{2}\/?\s*$/, "").trim();
-  return trimmed === trimmed.toUpperCase() ? trimmed.toLowerCase().replace(/\b[a-z]/g, c => c.toUpperCase()) : trimmed;
+  if (trimmed !== trimmed.toUpperCase()) return trimmed;
+  // All capitals (SEC style): title-case each word, but keep a short leading acronym (ASML, KLA, 3M) and NV/SA/AG/SE.
+  const keepUpper = new Set(["NV", "SA", "AG", "SE", "LP", "LLC"]);
+  return trimmed.split(/(\s+)/).map((word, i) => {
+    const bare = word.replace(/[^A-Z0-9]/g, "");
+    if (keepUpper.has(bare) || (i === 0 && bare.length > 0 && bare.length <= 4 && bare !== "THE")) return word;
+    return word.toLowerCase().replace(/\b[a-z]/g, c => c.toUpperCase());
+  }).join("");
 }
 
 export async function matchStage(ctx: PipelineContext, opts: { dryRun?: boolean } = {}): Promise<StageResult> {
@@ -135,9 +142,17 @@ export async function matchStage(ctx: PipelineContext, opts: { dryRun?: boolean 
   bump(r, "candidates", groups.size);
   let created = 0;
   const known = await ctx.store.companies();
+  const pending = new Map((await ctx.store.reviewItems("pending")).map(item => [item.normalized_name, item.id]));
   for (const [normalized, signals] of groups) {
     try {
       const name = signals[0].company_name!;
+      // A person is already deciding about this name: new evidence joins that review item instead of a new decision.
+      const waiting = pending.get(normalized);
+      if (waiting && !opts.dryRun) {
+        await ctx.store.assignSignals(signals.map(s => s.id), { review_item_id: waiting });
+        bump(r, "joined_pending_review");
+        continue;
+      }
       const lookup = await resolveDomain(ctx, name);
       const best = Math.max(...signals.map(s => s.confidence));
       const decision = decideMatch({ name, domain: lookup.domain, domain_confirmed: lookup.confirmed, best_confidence: best }, known, { canCreate: created < settings.max_new_companies_per_run });

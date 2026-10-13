@@ -43,6 +43,16 @@ test('robots.txt lists Workday site names; non-primary sites are skipped', () =>
   assert.deepEqual(primarySites(['Futureforce_Internships']), ['Futureforce_Internships'], 'falls back when every site looks secondary');
 });
 
+test('regression (round 1): the main external career site is chosen over agency, campus, contractor and regional sites', () => {
+  const seen = {
+    amgen: [['agency', 'Careers'], 'Careers'], astrazeneca: [['Emerging-Talent', 'Careers'], 'Careers'], chevron: [['jobs', 'University'], 'jobs'],
+    kla: [['AnnArbor', 'Search'], 'Search'], mastercard: [['ContractorConversion', 'CorporateCareers'], 'CorporateCareers'],
+    novartis: [['Novartis_Careers', 'SwissRAVSwitzerlandCareerSite'], 'Novartis_Careers'], shell: [['Fasttrack', 'ShellCareers'], 'ShellCareers'],
+    workday: [['Workday', 'Workday_Early_Career', 'Workday_Executive_Site', 'Workday_Jobs'], 'Workday'],
+  };
+  for (const [tenant, [sites, expected]] of Object.entries(seen)) assert.deepEqual(primarySites(sites), [expected], tenant);
+});
+
 test('happy path: Workday jobs collector returns one raw item per posting, exactly as received, paced at 1 request/second', async () => {
   const fetch = jobsWorld({});
   const slept = [];
@@ -60,6 +70,18 @@ test('happy path: Workday jobs collector returns one raw item per posting, exact
   assert.deepEqual(JSON.parse(post.body), { appliedFacets: {}, limit: 20, offset: 0, searchText: 'Workday' });
   assert.equal(out.requests, 1 + 1 + 3, 'robots + one page + three details');
   assert.ok(slept.length >= 3 && slept.every(ms => ms <= 1000));
+});
+
+test('regression (round 1): --limit counts companies (sites), each gets its postings, and sites rotate by last check', async () => {
+  const store = new MemoryStore();
+  for (const tenant of ['aaa', 'bbb', 'ccc']) await store.upsertWorkdaySite({ tenant, pod: 'wd5', site: 'Careers', company_name: tenant, normalized_name: tenant, match_kind: 'full_name', discovered_from: 'x', capture_id: null });
+  const fetch = jobsWorld({});
+  const ctx = makeCtx({ store, fetch });
+  const out = await new WorkdayJobs().collect({ ...source('workday-career-sites'), config: { max_jobs_per_site: 3 } }, { ...limits, maxItems: 2 }, ctx);
+  assert.deepEqual([...new Set(out.items.map(i => i.meta.tenant))], ['aaa', 'bbb'], 'two sites, all their postings');
+  assert.equal(out.items.length, 6);
+  const next = await new WorkdayJobs().collect({ ...source('workday-career-sites'), config: { max_jobs_per_site: 3 } }, { ...limits, maxItems: 2 }, ctx);
+  assert.equal(next.items[0].meta.tenant, 'ccc', 'the site checked longest ago goes first');
 });
 
 test('empty result: no postings is a clean empty run', async () => {

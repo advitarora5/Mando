@@ -32,12 +32,23 @@ export type CheckedExtraction = {
   dropped: { field: string; value: string; reason: string }[];
 };
 
+// Words a quote must contain for its signal type (extraction v2+). A verbatim quote that does not support its
+// type ("implement, test ... Workday modules" labelled go_live) is an inference, so the signal is dropped.
+export const TYPE_EVIDENCE: Record<CheckedSignal["type"], RegExp> = {
+  go_live: /go[- ]?live|went live|gone live|live on|launch|deploy|roll(?:ed|ing)?[- ]?out|cut-?over|migrat|transition(?:ed)? to|switch(?:ed)? to|implementation (?:was |is )?(?:complete|finished|successful)/i,
+  hiring: /hir(?:e|ing)|seek|join|looking for|role|position|candidate|you will|responsib|experience|apply|opening|recruit/i,
+  release_planning: /release|\bR[12]\b|regression|semi-?annual|feature update|updates|upgrade|preview tenant/i,
+  known_customer: /workday/i,
+  budget_clue: /purchas|contract|select(?:ed|s)?\b|invest|budget|fund|licen[cs]|\bbuy|bought|vendor|partner(?:ed|ing)? with|leverag|engag(?:ed|ing)|subscri|credits|\bcost|spend|\bRFP|new (?:tool|system|platform|module)/i,
+  event: /rising|webinar|conference|summit|devcon|user group|keynote|\bevent|session|meetup|forum/i,
+};
+
 const present = (value: string, text: string) => value.trim().length > 1 && text.toLowerCase().includes(value.trim().toLowerCase());
 
 // Grounds a model reading in its source text. Quotes must be verbatim (otherwise the signal is dropped);
 // company, products, timing words and dates must appear in the text (otherwise they are cleared).
 // Every removal is recorded so evaluation can count hallucinations.
-export function groundExtraction(output: ExtractionOutput, text: string): CheckedExtraction {
+export function groundExtraction(output: ExtractionOutput, text: string, opts: { typeEvidence?: boolean } = {}): CheckedExtraction {
   const dropped: CheckedExtraction["dropped"] = [];
   const keep = (field: string, values: string[]) => values.filter(value => {
     if (present(value, text)) return true;
@@ -51,6 +62,7 @@ export function groundExtraction(output: ExtractionOutput, text: string): Checke
   for (const signal of output.signals) {
     const check = verifyQuote(signal.quote, text);
     if (!check.ok) { dropped.push({ field: `signals.${signal.type}.quote`, value: signal.quote, reason: check.reason }); continue; }
+    if (opts.typeEvidence && !TYPE_EVIDENCE[signal.type].test(check.quote)) { dropped.push({ field: `signals.${signal.type}.type`, value: check.quote, reason: `quote does not support type ${signal.type}` }); continue; }
     const key = `${signal.type}|${check.quote}`;
     if (seen.has(key)) continue;
     seen.add(key);

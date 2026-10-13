@@ -106,7 +106,8 @@ export function budgetFromSignals(signals: ScoringSignal[]): CategoryResult {
   };
   pick(signals.filter(s => s.type === "budget_clue"), s => (s.confidence >= 0.8 ? 10 : 6), "adjacent purchase or funded project");
   pick(signals.filter(s => s.type === "hiring" && activeProject(s)), () => 6, "funded Workday project headcount");
-  pick(signals.filter(s => s.type === "hiring" && !activeProject(s)), () => 3, "Workday role headcount");
+  // A posting that only lists Workday as a skill (confidence < 0.8) is weaker than a Workday role.
+  pick(signals.filter(s => s.type === "hiring" && !activeProject(s)), s => (s.confidence >= 0.8 ? 3 : 1), "Workday role headcount");
   pick(signals.filter(s => s.type === "known_customer"), () => 2, "pays for Workday today");
   if (!parts.length) return needs("no budget or adjacent-purchase signal in the last 14 days.");
   parts.sort((a, b) => b.points - a.points);
@@ -141,7 +142,7 @@ export function timingFromSignals(signals: ScoringSignal[], now: Date): Category
       const band = goLiveScore(signal.signal_date, now);
       candidates.push({ points: band.score, signal, why: band.reason });
     } else if (signal.type === "hiring") {
-      const base = activeProject(signal) ? 10 : 8;
+      const base = activeProject(signal) ? 10 : signal.confidence >= 0.8 ? 8 : 4;
       const age = Math.max(0, daysSince(signal.signal_date ?? signal.first_seen_at.slice(0, 10), now) ?? 0);
       const points = Math.round(base * Math.max(0.4, 1 - age / 90));
       candidates.push({ points, signal, why: `Workday hiring signal ${age} days old (${base} decayed to ${points})` });

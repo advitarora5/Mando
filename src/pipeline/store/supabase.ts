@@ -132,6 +132,9 @@ export class SupabaseStore implements PipelineStore {
     if (found) return { id: found.id, inserted: false };
     return { id: (this.check(await this.db.from("workday_sites").insert(site).select("id").single(), "add site") as { id: string }).id, inserted: true };
   }
+  async markSiteChecked(id: string, status: string, at: string) {
+    this.check(await this.db.from("workday_sites").update({ last_checked_at: at, last_status: status }).eq("id", id), "mark site");
+  }
   async linkWorkdaySites(normalizedName: string, target: { company_id: string } | { review_item_id: string }) {
     this.check(await this.db.from("workday_sites").update(target).eq("normalized_name", normalizedName).is("company_id", null), "link sites");
   }

@@ -7,6 +7,7 @@ import { groundExtraction } from '../../src/domain/ingestion/extraction-schema.t
 import { decideMatch, sizeLabel, isExcludedCompany } from '../../src/domain/ingestion/matching.ts';
 import { classifyTitle } from '../../src/domain/ingestion/titles.ts';
 import { canSpend, sessionSpend } from '../../src/domain/ingestion/budget.ts';
+import { hiringStrength } from '../../src/pipeline/extract.ts';
 import { scoreCompany, authorityFromContacts, reachabilityFromContacts, budgetFromSignals, releaseFromSignals, timingFromSignals } from '../../src/domain/ingestion/pipeline-score.ts';
 import { defaultSettings, isSignalFresh } from '../../src/domain/ingestion/settings.ts';
 import { displayTier, NEEDS_EVIDENCE } from '../../src/domain/scoring/display.ts';
@@ -121,6 +122,32 @@ test('grounding drops non-verbatim quotes and clears values that are not in the 
   assert.equal(checked.signals.length, 1);
   assert.equal(checked.dropped.length, 3);
   assert.equal(groundExtraction({ company_name: 'Globex', workday_products: [], project_type: null, role_seniority: null, timing_words: [], signals: [] }, text).output.company_name, null);
+});
+
+test('regression (round 1): with type checks, a signal whose quote does not support its type is dropped', () => {
+  const text = 'Partner with the HRIS team to implement, test, and define requirements for Workday performance modules. Experience leading APAC HR operations in a hyper-growth company.';
+  const out = { company_name: null, workday_products: [], project_type: null, role_seniority: null, timing_words: [], signals: [
+    { type: 'go_live', quote: 'implement, test, and define requirements for Workday performance modules', date_text: null },
+    { type: 'known_customer', quote: 'Experience leading APAC HR operations in a hyper-growth company', date_text: null },
+    { type: 'release_planning', quote: 'implement, test, and define requirements for Workday performance modules', date_text: null },
+  ] };
+  const loose = groundExtraction(out, text);
+  assert.equal(loose.signals.length, 3, 'extract-v1 grounding keeps verbatim quotes of any type');
+  const strict = groundExtraction(out, text, { typeEvidence: true });
+  assert.deepEqual(strict.signals.map(s => s.type), []);
+  assert.ok(strict.dropped.every(d => /does not support/.test(d.reason)));
+  const ok = groundExtraction({ ...out, signals: [{ type: 'go_live', quote: 'The HCM, FIN and Payroll implementation went live successfully in July 2024', date_text: 'July 2024' }] }, 'The HCM, FIN and Payroll implementation went live successfully in July 2024.', { typeEvidence: true });
+  assert.equal(ok.signals.length, 1);
+});
+
+test('regression (round 1): a posting that only lists Workday as a skill is a weaker hiring signal than a Workday role', () => {
+  assert.equal(hiringStrength('Compensation Business Partner', '- Expertise with analytics, Excel, PowerPoint, and Workday'), 'skill');
+  assert.equal(hiringStrength('Sr Engineer - Workday', 'You will prototype, design, build, and support features in Workday.'), 'role');
+  assert.equal(hiringStrength('Compensation Analyst', '- Workday Optimization: Partner with the HRIS/Systems team to implement, test, and define requirements for Workday performance and compensation modules'), 'role');
+  const skill = timingFromSignals([sig('hiring', { signal_date: '2026-10-13', confidence: 0.6 })], NOW).score;
+  const role = timingFromSignals([sig('hiring', { signal_date: '2026-10-13', confidence: 0.9 })], NOW).score;
+  assert.ok(skill < role, `${skill} < ${role}`);
+  assert.ok(budgetFromSignals([sig('hiring', { confidence: 0.6 })]).score < budgetFromSignals([sig('hiring', { confidence: 0.9 })]).score);
 });
 
 // ---------- freshness and decay ----------
@@ -242,4 +269,22 @@ test('ledger math: spent + worst case must stay under the cap and the known bala
   assert.equal(canSpend({ spent: 0, capUsd: 0, worstCaseUsd: 0.01 }).ok, false);
   assert.equal(canSpend({ spent: 0, capUsd: 0, worstCaseUsd: 0 }).ok, true);
   assert.equal(canSpend({ spent: 0, capUsd: 1, worstCaseUsd: NaN }).ok, false);
+});
+
+test('regression: no control characters (e.g. a backspace that silently replaced a regex \b) in pipeline source files', async () => {
+  const { readdirSync, readFileSync, statSync } = await import('node:fs');
+  const { join } = await import('node:path');
+  const walk = dir => readdirSync(dir).flatMap(name => { const p = join(dir, name); return statSync(p).isDirectory() ? walk(p) : [p]; });
+  const files = ['src/pipeline', 'src/domain/ingestion', 'scripts', 'tests/ingestion'].flatMap(walk).filter(f => /\.(ts|mjs|md)$/.test(f));
+  const bad = files.filter(f => /[\x00-\x08\x0b\x0c\x0e-\x1f]/.test(readFileSync(f, 'utf8')));
+  assert.deepEqual(bad, []);
+});
+
+test('regression (round 1): display names keep acronyms and legal suffixes readable', async () => {
+  const { displayName } = await import('../../src/pipeline/stages.ts');
+  assert.equal(displayName('ASML HOLDING NV', null), 'ASML Holding NV');
+  assert.equal(displayName('MARSH & MCLENNAN COMPANIES, INC.', null), 'Marsh & Mclennan Companies, Inc.');
+  assert.equal(displayName('3M CO', null), '3M Co');
+  assert.equal(displayName('NVIDIA CORP', 'NVIDIA'), 'NVIDIA');
+  assert.equal(displayName('Land O\'Lakes, Inc.', null), 'Land O\'Lakes, Inc.');
 });

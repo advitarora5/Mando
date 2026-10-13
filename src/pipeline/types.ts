@@ -118,6 +118,7 @@ export type WorkdaySite = {
   review_item_id: string | null;
   enabled: boolean;
   capture_id: string | null;
+  last_checked_at?: string | null;
 };
 
 export type CompanyRow = { id: string; name: string; domain: string | null; employee_count: number | null; pipeline: boolean };
@@ -170,6 +171,7 @@ export interface PipelineStore {
 
   workdaySites(onlyEnabled: boolean): Promise<WorkdaySite[]>;
   upsertWorkdaySite(site: Omit<WorkdaySite, "id" | "company_id" | "review_item_id" | "enabled"> & { discovered_from: string }): Promise<{ id: string; inserted: boolean }>;
+  markSiteChecked(id: string, status: string, at: string): Promise<void>;
   linkWorkdaySites(normalizedName: string, target: { company_id: string } | { review_item_id: string }): Promise<void>;
   resolverAttempts(names: string[]): Promise<Set<string>>;
   saveResolverAttempt(attempt: { normalized_name: string; company_name: string; found: boolean; probes: number }): Promise<void>;

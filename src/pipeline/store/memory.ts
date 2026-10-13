@@ -165,6 +165,10 @@ export class MemoryStore implements PipelineStore {
     this.sites.push({ id, ...(rest as Omit<WorkdaySite, "id" | "company_id" | "review_item_id" | "enabled">), company_id: null, review_item_id: null, enabled: true });
     return { id, inserted: true };
   }
+  async markSiteChecked(id: string, status: string, at: string) {
+    const site = this.sites.find(s => s.id === id);
+    if (site) Object.assign(site, { last_checked_at: at, last_status: status });
+  }
   async linkWorkdaySites(normalizedName: string, target: { company_id: string } | { review_item_id: string }) {
     for (const s of this.sites) if (s.normalized_name === normalizedName && !s.company_id) Object.assign(s, target);
   }
