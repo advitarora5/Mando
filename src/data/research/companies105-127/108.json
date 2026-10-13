@@ -1,0 +1,83 @@
+{
+  "number": 108,
+  "company_id": "d634b3cb-af91-511a-a52a-9a4bfcc3c153",
+  "name": "H.Essers",
+  "research_status": "reviewed",
+  "domain": "essers.com",
+  "industry": "Transport, warehousing and logistics",
+  "headquarters": "Genk, Belgium",
+  "employee_count": 7000,
+  "employee_basis": "More than 7,000 in official FY2025 corporate profile; lower bound. Older case says 7,500.",
+  "company_source": "https://www.workday.com/en-ca/customer-stories/a-h/h-essers-innovative-logistics-leader-empowers-talent.html",
+  "modules": [
+    "Human Capital Management",
+    "Talent Acquisition",
+    "Learning",
+    "Talent Management"
+  ],
+  "go_live": {
+    "date": null,
+    "precision": "latest bound",
+    "status": "completed",
+    "description": "PwC June 2, 2021 confirms successful global transformation during COVID. Initial implementation took 10 months across 14 countries; exact calendar dates unavailable.",
+    "sources": [
+      "https://news.pwc.be/workforce-podcast-transform-your-tomorrow-tech-enabled-hr-transformation/",
+      "https://www.pwc.be/en/news-publications/client-case-studies/nurturing-h-essers-growth-ambitions.html"
+    ]
+  },
+  "contacts": [
+    {
+      "name": "Mike Dautzenberg",
+      "title": "Chief Human Resources Officer",
+      "linkedin_url": "https://www.linkedin.com/in/mike-dautzenberg-40535275",
+      "source": "https://www.essers.com/who-are-we/organization/",
+      "role_status": "current_official"
+    },
+    {
+      "name": "Erik Lamoral",
+      "title": "Chief Information Officer",
+      "linkedin_url": "https://www.linkedin.com/in/eriklamoral",
+      "source": "https://www.essers.com/who-are-we/organization/",
+      "role_status": "current_official"
+    }
+  ],
+  "evidence": [
+    {
+      "category": "company_size",
+      "source": "https://www.essers.com/who-are-we/about-us/",
+      "reason": "Genk HQ, >7,000 employees; FY2025 EUR1.165bn turnover."
+    },
+    {
+      "category": "authority",
+      "source": "https://www.essers.com/who-are-we/organization/",
+      "reason": "Official roster confirms CHRO and CIO, both linked to platform in Workday case."
+    },
+    {
+      "category": "budget_context",
+      "source": "https://www.pwc.be/en/news-publications/client-case-studies/nurturing-h-essers-growth-ambitions.html",
+      "reason": "Implementation/support partnership documented; no separate testing-tool procurement or deadline."
+    },
+    {
+      "category": "timing_trigger",
+      "source": "https://www.essers.com/content/uploads/2025/06/H.Essers-Sustainability-Report-2024-EN-Mail.pdf",
+      "reason": "AI data extraction and warehouse automation investment; logistics spending is not Workday testing budget."
+    },
+    {
+      "category": "reachability",
+      "source": "https://www.essers.com/who-are-we/organization/",
+      "reason": "Public professional role identified; direct verified contact channel, team mutual connection and willingness to buy are not established."
+    }
+  ],
+  "why_now": "Acquisition onboarding and multinational HR create recurring integration and data-quality needs. No recent go-live or buying window confirmed.",
+  "persona": "Global HR services / HRIS and enterprise IT",
+  "level": "C-suite",
+  "gaps": [
+    "Exact launch days and module phases",
+    "Current named HRIS lead",
+    "Direct emails/phones and mutual connections",
+    "Adjacent Workday-tool purchase and buying timeline",
+    "Rising participation"
+  ],
+  "research_notes": "Use official current workforce lower bound over older count. Partner consultants are not company buyer contacts. No scores assigned.",
+  "research_checked_on": "2026-10-12"
+}

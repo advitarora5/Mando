@@ -1,0 +1,94 @@
+{
+  "number": 106,
+  "company_id": "d5689f2d-d89e-54bc-96d9-c3700b0c7e4a",
+  "name": "Asda",
+  "research_status": "reviewed",
+  "domain": "asda.com",
+  "industry": "Grocery and general merchandise retail",
+  "headquarters": "Leeds, United Kingdom",
+  "employee_count": 140000,
+  "employee_basis": "More than 140,000 UK colleagues, official February 2026 release; lower-bound rounded count.",
+  "company_source": "https://www.workday.com/en-us/customer-stories/a-h/asda-transforms-hr-at-scale-workday-hcm.html",
+  "modules": [
+    "Human Capital Management",
+    "Recruiting"
+  ],
+  "go_live": {
+    "date": null,
+    "precision": "month",
+    "status": "completed",
+    "description": "People Function went live March 2024, 140,000 colleagues / 700 UK locations. Exact day not confirmed in primary sources. Project Future completion in 2025 is wider IT separation, not a new Workday HCM go-live.",
+    "sources": [
+      "https://www.workday.com/en-us/customer-stories/a-h/asda-transforms-hr-at-scale-workday-hcm.html"
+    ]
+  },
+  "contacts": [
+    {
+      "name": "James Goodman",
+      "title": "Chief People Officer",
+      "linkedin_url": "https://www.linkedin.com/in/james-goodman-a605794",
+      "source": "https://corporate.asda.com/james-goodman",
+      "role_status": "current_official"
+    },
+    {
+      "name": "Cal Corcoran",
+      "title": "Group Chief Information Officer",
+      "linkedin_url": null,
+      "source": "https://corporate.asda.com/leadership/cal-corcoran",
+      "role_status": "current_official",
+      "notes": "Joined January 2026; direct public LinkedIn profile not verified."
+    },
+    {
+      "name": "Loretta Smith",
+      "title": "Senior Director, HR Transformation",
+      "linkedin_url": "https://www.linkedin.com/in/loretta-smith-fcipd-74139245",
+      "source": "https://www.workday.com/en-us/customer-stories/a-h/asda-transforms-hr-at-scale-workday-hcm.html",
+      "role_status": "customer_story_current_unconfirmed",
+      "notes": "Workday-specific transformation owner in case study; current employment needs reconfirmation."
+    }
+  ],
+  "evidence": [
+    {
+      "category": "company_size",
+      "source": "https://corporate.asda.com/newsroom/2026/09/02/asda-calls-on-government-to-rethink-plans-to-defund-leadership-apprenticeships",
+      "reason": "Official 2026 release states more than 140,000 colleagues."
+    },
+    {
+      "category": "authority",
+      "source": "https://corporate.asda.com/our-story/leadership",
+      "reason": "Current executive roster confirms Goodman and Corcoran; no Mando-specific mandate established."
+    },
+    {
+      "category": "budget_proxy",
+      "source": "https://s205.q4cdn.com/537566246/files/doc_news/ASDA-and-ServiceNow-expand-collaboration-to-enhance-employee-and-customer-experiences-10-30-2024-traffic-2024.pdf",
+      "reason": "ServiceNow expansion October 2024 includes integrations with Workday and SAP: direct adjacent workflow purchase/adoption proxy."
+    },
+    {
+      "category": "financial_capacity",
+      "source": "https://corporate.asda.com/newsroom/2026/27/03/asda-fy2025-trading-update-edging-forwards",
+      "reason": "FY2025 adjusted EBITDA £764m, down 33.1%; net debt £3.1bn. Capacity exists but turnaround/debt constrain spending."
+    },
+    {
+      "category": "timing_trigger",
+      "source": "https://corporate.asda.com/newsroom/2025/11/28/asda-q3-2025-trading-update",
+      "reason": "Company acknowledged system disruption after broader separation cutover; do not attribute every issue to Workday."
+    },
+    {
+      "category": "reachability",
+      "source": "https://corporate.asda.com/james-goodman",
+      "reason": "Public professional role identified; direct verified contact channel, team mutual connection and willingness to buy are not established."
+    }
+  ],
+  "why_now": "Post-separation stabilization, new CIO and People leadership, and an existing ServiceNow–Workday integration landscape support a targeted reliability/HR workflow discussion; buying timeline remains unknown.",
+  "persona": "HR transformation / HRIS and technology operations",
+  "level": "Director / C-suite",
+  "gaps": [
+    "Exact HCM go-live day",
+    "Current validation of case-study HR transformation owner",
+    "Direct work emails/phones and mutual connections",
+    "Specific purchasing timeline",
+    "2026 Workday Rising presence"
+  ],
+  "research_notes": "Hayley Tatum is a former contact despite a surviving old biography. General LinkedIn mutual-connection prompts are not proof of a team connection. No scores assigned.",
+  "research_checked_on": "2026-10-12"
+}

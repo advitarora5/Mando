@@ -1,0 +1,93 @@
+{
+  "number": 120,
+  "company_id": "f3f8581b-b489-5a20-a507-0039d20a69d3",
+  "name": "Amadeus",
+  "research_status": "reviewed",
+  "domain": "amadeus.com",
+  "industry": "Travel technology",
+  "headquarters": "Madrid, Spain",
+  "employee_count": 20605,
+  "employee_basis": "2025 Global Report workforce graph: 12,703 male + 7,900 female + 2 other = 20,605. Report's total workforce scope; replaces historical 16,500 customer-story count.",
+  "company_source": "https://www.workday.com/en-us/customer-stories/a-h/amadeus-changing-mindsets-while-remaining-true-to-core.html",
+  "modules": [
+    "Human Capital Management",
+    "Talent Acquisition"
+  ],
+  "go_live": {
+    "date": null,
+    "precision": "unknown",
+    "status": "completed",
+    "description": "Workday's customer story confirms completed HCM deployment, but neither an exact day nor a reliable launch month was found. Public repost mentions a 20-month transformation, which is duration rather than launch date.",
+    "sources": [
+      "https://www.workday.com/en-us/customer-stories/a-h/amadeus-changing-mindsets-while-remaining-true-to-core.html"
+    ]
+  },
+  "contacts": [
+    {
+      "name": "Ana Doval de las Heras",
+      "title": "Chief People & Culture Officer",
+      "linkedin_url": "https://www.linkedin.com/in/ana-doval",
+      "source": "https://amadeus.com/en/about/leadership",
+      "role_status": "current_official"
+    },
+    {
+      "name": "Patricia de la Fuente Fernández",
+      "title": "Global Head of HR Technology (customer-story title)",
+      "linkedin_url": "https://www.linkedin.com/in/patriciadelafuente",
+      "source": "https://www.workday.com/en-us/customer-stories/a-h/amadeus-changing-mindsets-while-remaining-true-to-core.html",
+      "role_status": "current_employer_title_unconfirmed",
+      "notes": "Current public profile still identifies Amadeus, but the exact present title is not exposed; do not claim customer-story title freshly verified."
+    },
+    {
+      "name": "Frederick Ros",
+      "title": "Head of Digital Workplace Services (vendor-story title)",
+      "linkedin_url": "https://www.linkedin.com/in/frederick-ros",
+      "source": "https://community.moveworks.com/inspiration-tips-spotlights-3/frederick-ros-head-of-digital-workplace-services-at-amadeus-has-spent-over-two-decades-building-the-foundation-of-work-for-more-than-16-000-employees-worldwide-2619",
+      "role_status": "current_employer_title_unconfirmed",
+      "notes": "Current public profile supports Amadeus affiliation and AI leadership; recent colleague post describes Head of Business & Corporate Solutions, so exact current title needs confirmation."
+    }
+  ],
+  "evidence": [
+    {
+      "category": "company",
+      "source": "https://amadeus.com/en/annual-reports/global-report-2025",
+      "reason": "Company reports 20,605 total workforce, approximately €6.5bn revenue and €1.42bn adjusted profit for 2025."
+    },
+    {
+      "category": "authority",
+      "source": "https://amadeus.com/en/about/leadership",
+      "reason": "Current official executive roster identifies Ana Doval as Chief People & Culture Officer."
+    },
+    {
+      "category": "reachability",
+      "source": "https://es.linkedin.com/in/ana-doval",
+      "reason": "CPO's current public professional profile confirms title and employer; direct reach, warm introduction and buying intent are unconfirmed."
+    },
+    {
+      "category": "budget",
+      "source": "https://dev.amadeus.com/en/blog/articles/how-to-help-the-travel-industry-innovate-with-confidence",
+      "reason": "Company's own interview states it signed for the full ServiceNow suite including ITSM/ITOM and NowAssist."
+    },
+    {
+      "category": "budget",
+      "source": "https://community.moveworks.com/inspiration-tips-spotlights-3/frederick-ros-head-of-digital-workplace-services-at-amadeus-has-spent-over-two-decades-building-the-foundation-of-work-for-more-than-16-000-employees-worldwide-2619",
+      "reason": "Moveworks confirms deployed employee agent Hubert integrated with ServiceNow and expanding to Workday; adjacent automation adoption, not a new buying timeline."
+    },
+    {
+      "category": "timing",
+      "source": "https://www.workday.com/en-us/customer-stories/a-h/amadeus-changing-mindsets-while-remaining-true-to-core.html",
+      "reason": "Completed HCM transformation and ongoing cross-market change confirmed, but launch calendar date unavailable."
+    }
+  ],
+  "why_now": "Workday-based cross-market HR operations now sit alongside expanded ServiceNow and Moveworks automation. New interfaces and AI-enabled employee workflows create a plausible regression and integration testing discussion, supported by profitable 2025 operations; a specific active procurement trigger remains unconfirmed.",
+  "persona": "People technology owner with CPO and digital workplace sponsors",
+  "level": "Functional head and C-suite",
+  "gaps": [
+    "Workday go-live calendar date unavailable despite customer-story, issuer and professional-post searches.",
+    "Exact current titles of Patricia de la Fuente and Frederick Ros need reconfirmation.",
+    "Direct buyer emails/phones, email verification, team mutuals and demonstrated willingness to act unconfirmed.",
+    "No committed Mando allocation or purchasing deadline."
+  ],
+  "research_notes": "Do not confuse Amadeus IT Group with the NEC Group catering business named Amadeus; its 2016 Reflexis announcement is unrelated. Sylvain Roy is current CTO; Christophe Bousquet left in 2022. Company report replaces 2021 financial figures in the Workday story. No scores changed.",
+  "research_checked_on": "2026-10-12"
+}

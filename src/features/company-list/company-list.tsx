@@ -8,6 +8,7 @@ import { MovementBadge } from "@/features/weekly-history/history";
 import { rankMovement } from "@/domain/history";
 import { companyRanks, queryCompanies, type Sort } from "./query";
 import { contactFunction, emailLabel, emailState, functionLabel, rankContacts, reachSummary } from "@/domain/contacts/contact-view";
+import { displayTier, tierSlug } from "@/domain/scoring/display";
 
 function ScoreCells({ score }: { score: Score | null }) {
   return categories.map(category => {
@@ -79,7 +80,7 @@ export function CompanyList({ companies, mode, previousWeek = null, previousRank
     <div className="panel-heading"><h2>Company priorities</h2><p>Ranks reflect total scores across all companies, regardless of filters or display order.</p></div>
     <div className="list-controls">
       <label className="search-control">Search companies<input type="search" placeholder="Company, industry, or contact" value={search} onChange={e => setSearch(e.target.value)} /></label>
-      <label>Tier<select value={tier} onChange={e => setTier(e.target.value)}>{["All", "Qualified", "Maybe", "Disqualified", "Unscored"].map(value => <option key={value}>{value}</option>)}</select></label>
+      <label>Tier<select value={tier} onChange={e => setTier(e.target.value)}>{["All", "Qualified", "Maybe", "Disqualified", "Not Enough Evidence", "Unscored"].map(value => <option key={value}>{value}</option>)}</select></label>
       <label>Minimum score<input type="number" min="0" max="100" step="1" placeholder="0" value={minimum} onChange={e => setMinimum(e.target.value)} /></label>
       <label>Maximum score<input type="number" min="0" max="100" step="1" placeholder="100" value={maximum} onChange={e => setMaximum(e.target.value)} /></label>
 
@@ -88,7 +89,7 @@ export function CompanyList({ companies, mode, previousWeek = null, previousRank
     {invalid && <p className="filter-error" role="alert">{invalid}</p>}
     <p className="result-count" role="status">Showing {visible.length} of {companies.length} companies</p>
     <div className="scroll"><table><thead><tr><SortHeader label="Rank" field="rank" sort={sort} setSort={setSort} /><SortHeader label="Company A–Z" field="name" sort={sort} setSort={setSort} /><th title={previousWeek ? `Compared with the ranks saved for the week of ${previousWeek}` : "No earlier weekly snapshot saved yet"}>Rank delta</th><th>Employees</th><th>Authority /25</th><th>Reachability /25</th><th>Budget /20</th><th>Release /15</th><th>Timing /15</th><SortHeader label="Total /100" field="score" sort={sort} setSort={setSort} /><SortHeader label="Tier" field="tier" sort={sort} setSort={setSort} /><th>Why now</th><th>Contacts</th></tr></thead>
-      <tbody>{visible.map(c => <tr key={c.id}><td className="rank-cell">{ranks.has(c.id) ? `#${ranks.get(c.id)}` : "—"}</td><td><strong>{mode === "database" ? <Link className="company-link" href={`/companies/${c.id}`}>{c.name} ↗</Link> : c.name}</strong><small>{c.industry ?? "Industry pending"}</small></td><td>{previousWeek ? <MovementBadge movement={rankMovement(ranks.get(c.id), previousRanks[c.id])} current={ranks.get(c.id)} /> : <span className="muted">—</span>}</td><td>{employeeLabel(c.employee_count, c.score?.authority_evidence) ?? "—"}</td><ScoreCells score={c.score} /><td className="total-score"><strong>{c.score?.total ?? "—"}</strong></td><td><span className={`tier-badge ${c.score?.tier.toLowerCase() ?? "unscored"}`}>{c.score?.tier ?? "Unscored"}</span></td><td>
+      <tbody>{visible.map(c => <tr key={c.id}><td className="rank-cell">{ranks.has(c.id) ? `#${ranks.get(c.id)}` : "—"}</td><td><strong>{mode === "database" ? <Link className="company-link" href={`/companies/${c.id}`}>{c.name} ↗</Link> : c.name}</strong><small>{c.industry ?? "Industry pending"}</small></td><td>{previousWeek ? <MovementBadge movement={rankMovement(ranks.get(c.id), previousRanks[c.id])} current={ranks.get(c.id)} /> : <span className="muted">—</span>}</td><td>{employeeLabel(c.employee_count, c.score?.authority_evidence) ?? "—"}</td><ScoreCells score={c.score} /><td className="total-score"><strong>{c.score?.total ?? "—"}</strong></td><td><span className={`tier-badge ${tierSlug(c.score)}`}>{displayTier(c.score)}</span></td><td>
   <details>
     <summary>Read why now</summary>
     <p style={{ minWidth: "260px", maxWidth: "360px" }}>

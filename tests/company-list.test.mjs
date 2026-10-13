@@ -19,7 +19,7 @@ test('combined tier and inclusive score boundaries', () => {
 });
 test('search ignores case/outer whitespace and searches contacts and industries', () => {
  assert.equal(queryCompanies(rows, { ...base, search: ' JOHN SMITH ' }).length, 5);
- assert.equal(queryCompanies(rows, { ...base, search: 'manufacturing', tier: 'Disqualified' })[0].id, 'd');
+ assert.equal(queryCompanies(rows, { ...base, search: 'manufacturing', tier: 'Not Enough Evidence' })[0].id, 'd');
  assert.equal(queryCompanies(rows, { ...base, search: 'no match' }).length, 0);
 });
 test('sorting keeps missing data last and compares company numbers naturally', () => {
@@ -33,4 +33,14 @@ test('rank directions and tier directions preserve missing values and score tie 
  assert.deepEqual(queryCompanies(rows, { ...base, sort: 'rank-desc' }).map(c => c.id), ['d', 'c', 'b', 'a', 'e']);
  assert.deepEqual(queryCompanies(rows, { ...base, sort: 'tier-desc' }).map(c => c.id), ['a', 'c', 'b', 'd', 'e']);
  assert.deepEqual(queryCompanies(rows, { ...base, sort: 'tier-asc' }).map(c => c.id), ['d', 'c', 'b', 'a', 'e']);
+});
+test('the tier filter matches the displayed label, not the stored tier', () => {
+ const evidence = 'https://example.com | A reason.';
+ const withEvidence = make('x', 'Evidence Backed', 49, 'Disqualified');
+ withEvidence.score.authority_evidence = evidence;
+ withEvidence.score.reachability_evidence = evidence;
+ for (const category of ['budget','release','timing']) withEvidence.score[category+'_evidence'] = evidence;
+ const withoutEvidence = make('y', 'No Evidence', 49, 'Disqualified');
+ assert.deepEqual(queryCompanies([withEvidence, withoutEvidence], { ...base, tier: 'Disqualified' }).map(c => c.id), ['x']);
+ assert.deepEqual(queryCompanies([withEvidence, withoutEvidence], { ...base, tier: 'Not Enough Evidence' }).map(c => c.id), ['y']);
 });

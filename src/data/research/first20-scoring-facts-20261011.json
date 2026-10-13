@@ -1,0 +1,1047 @@
+{
+  "assessed_at": "2026-10-12T04:08:13Z",
+  "selection": "First 20 companies in Supabase companies table, ID ascending; frozen IDs",
+  "assessment_policy": "Authority 25 when sourced HRIS/IT leadership and 3,000+ workforce both hold. Reachability 25 only with a verified one-degree connection, buying mandate and willingness. Budget 20 for verified purchase window and financial stability; 10 for documented adjacent-tool adoption alone as a partial proxy; otherwise 0 pending evidence. These first-three assessment decisions are an explicit interpretation, not pre-existing GitHub point bands. Release and timing use unchanged GitHub bands.",
+  "companies": [
+    {
+      "company_name": "Mondelēz International",
+      "facts": {
+        "company_id": "00e6f2f2-171e-5cd9-9776-93e13ac0a3fb",
+        "workforce": {
+          "count": 90000,
+          "source": "https://www.mondelezinternational.com/about-us/leadership/executive-team/stephanie-lilak/",
+          "reason": "More than 90,000 global colleagues; lower bound from current leadership biography."
+        },
+        "leadership": {
+          "verified": true,
+          "source": "https://www.mondelezinternational.com/about-us/leadership/executive-team/",
+          "reason": "Filippo Catalano, Chief Information & Digital Officer. Source supports HRIS/IT functional leadership; it does not independently prove a specific purchasing mandate. Workday modules: Integrations, Human Capital Management."
+        },
+        "one_degree_connection": {
+          "verified": null,
+          "source": "https://www.mondelezinternational.com/about-us/leadership/executive-team/stephanie-lilak/",
+          "reason": "Public professional identity/employer route is documented, but no team/Adi mutual or direct one-degree connection is verified in the records."
+        },
+        "authority_and_willingness": {
+          "verified": null,
+          "source": "https://www.mondelezinternational.com/about-us/leadership/executive-team/",
+          "reason": "Buying mandate and demonstrated willingness to act on this offering are unverified. Public speaking, job postings and a published email alone do not prove conviction."
+        },
+        "adjacent_tool_purchase": {
+          "verified": true,
+          "source": "https://www.sap.com/assetdetail/2025/05/bc422555-077f-0010-bca6-c68f7e60039b.html",
+          "reason": "SAP customer session documents use of Tricentis testing across SAP and non-SAP environments; adjacent testing investment proxy, not a current purchasing timeline."
+        },
+        "purchase_timeline": {
+          "verified": null,
+          "source": "https://www.sap.com/assetdetail/2025/05/bc422555-077f-0010-bca6-c68f7e60039b.html",
+          "reason": "No verified current purchase or renewal window; historical adoption is not a future buying commitment."
+        },
+        "financial_stability": {
+          "verified": null,
+          "source": "https://www.workday.com/en-us/customer-stories/i-p/mondelez-faster-integrations-make-tasty-profits.html",
+          "reason": "Financial stability has not been established by the reviewed financial evidence; no negative financial conclusion is inferred."
+        },
+        "workday_live": {
+          "verified": true,
+          "source": "https://www.workday.com/en-us/customer-stories/i-p/mondelez-faster-integrations-make-tasty-profits.html",
+          "reason": "Operational Workday usage is confirmed by the customer story or employer portal."
+        },
+        "go_live": {
+          "date": null,
+          "historical_window_older_than_year": false,
+          "source": "https://www.adp.com/-/media/adp/resourcehub/pdf/testimonials/case-study-mondelez-2024.pdf?rev=b60741f0649a44709f3843a61223e710",
+          "reason": "ADP’s 2024 case study reports three years of global Workday use, but the interview date is not stated. This confirms historical operation, not an exact 2021 launch. Timing research:  https://www.adp.com/-/media/adp/resourcehub/pdf/testimonials/case-study-mondelez-2024.pdf?rev=b60741f0649a44709f3843a61223e710 | ADP’s 2024 case study reports three years of global Workday use, but the interview date is not stated. This confirms historical operation, not an exact 2021 launch. Date/window: information not available; precision: duration_only; status: live_calendar_date_unknown; scope: Global Workday HR."
+        }
+      }
+    },
+    {
+      "company_name": "St John of God Health Care",
+      "facts": {
+        "company_id": "01e66a13-d283-55ca-9980-5e402299fcea",
+        "workforce": {
+          "count": 17000,
+          "source": "https://www.workday.com/en-us/customer-stories/q-z/st-john-of-god-health-care-honors-its-evp.html",
+          "reason": "Dated Workday customer-story workforce snapshot; current exact headcount not verified."
+        },
+        "leadership": {
+          "verified": true,
+          "source": "https://www.sjog.org.au/about-us/leadership/executives",
+          "reason": "Sidone Thomas, Chief Technology Officer and Corporate Services Officer. Source supports HRIS/IT functional leadership; it does not independently prove a specific purchasing mandate. Workday modules: Human Capital Management, Talent Acquisition, Learning, Performance and Optimization."
+        },
+        "one_degree_connection": {
+          "verified": null,
+          "source": "https://www.sjog.org.au/about-us/leadership/executives",
+          "reason": "Public professional identity/employer route is documented, but no team/Adi mutual or direct one-degree connection is verified in the records."
+        },
+        "authority_and_willingness": {
+          "verified": null,
+          "source": "https://www.sjog.org.au/about-us/leadership/executives",
+          "reason": "Buying mandate and demonstrated willingness to act on this offering are unverified. Public speaking, job postings and a published email alone do not prove conviction."
+        },
+        "adjacent_tool_purchase": {
+          "verified": true,
+          "source": "https://www.rldatix.com/en-apac/resources/single-source-of-truth-integrated-the-mypolicy-library-lippincott-project/",
+          "reason": "Vendor reports MyPolicy Library/Lippincott integration live in October 2025 and aligned with Workday competency assessments; adjacent tool adoption proxy, with no current purchase deadline."
+        },
+        "purchase_timeline": {
+          "verified": null,
+          "source": "https://www.rldatix.com/en-apac/resources/single-source-of-truth-integrated-the-mypolicy-library-lippincott-project/",
+          "reason": "No verified current purchase or renewal window; historical adoption is not a future buying commitment."
+        },
+        "financial_stability": {
+          "verified": null,
+          "source": "https://www.workday.com/en-us/customer-stories/q-z/st-john-of-god-health-care-honors-its-evp.html",
+          "reason": "Financial stability has not been established by the reviewed financial evidence; no negative financial conclusion is inferred."
+        },
+        "workday_live": {
+          "verified": true,
+          "source": "https://www.workday.com/en-us/customer-stories/q-z/st-john-of-god-health-care-honors-its-evp.html",
+          "reason": "Operational Workday usage is confirmed by the customer story or employer portal."
+        },
+        "go_live": {
+          "date": null,
+          "historical_window_older_than_year": false,
+          "source": "https://accorddisability.sjog.org.au/-/media/files/news-and-media/position-statements/j007428-sjog-modern-slavery-statement-2023.pdf",
+          "reason": "Employer modern-slavery statement describes Workday LMS training during its 2024 review period. Learning was in use during 2024; this is not its launch date or an exact HCM go-live. Timing research:  https://accorddisability.sjog.org.au/-/media/files/news-and-media/position-statements/j007428-sjog-modern-slavery-statement-2023.pdf | Employer modern-slavery statement describes Workday LMS training during its 2024 review period. Learning was in use during 2024; this is not its launch date or an exact HCM go-live. Date/window: 2024; precision: year_upper_bound; status: live_by_reporting_period; scope: Workday Learning / LMS. https://www.appsruntheworld.com/customers-database/customers/view/st-john-of-god-health-care-australia | Secondary database reports Absence live in 2022 and a February 2022–September 2023 project. Not independently confirmed; do not use as an exact deployment date."
+        }
+      }
+    },
+    {
+      "company_name": "First National Bank of Omaha",
+      "facts": {
+        "company_id": "0282dc1a-dd1e-5c2b-a286-dac058777c01",
+        "workforce": {
+          "count": 4000,
+          "source": "https://www.workday.com/en-us/customer-stories/a-h/fnbo-increases-efficiency-improves-employee-experience.html",
+          "reason": "Dated Workday customer-story workforce snapshot; current exact headcount not verified."
+        },
+        "leadership": {
+          "verified": true,
+          "source": "https://www.card.fnbo.com/landing/the-experience",
+          "reason": "Matt Spyers, Executive Vice President and Chief Information Officer. Source supports HRIS/IT functional leadership; it does not independently prove a specific purchasing mandate. Workday modules: Human Capital Management, Learning, Time and Attendance, Benefits, Payroll, Adaptive Planning."
+        },
+        "one_degree_connection": {
+          "verified": null,
+          "source": "https://www.card.fnbo.com/landing/the-experience",
+          "reason": "Public professional identity/employer route is documented, but no team/Adi mutual or direct one-degree connection is verified in the records."
+        },
+        "authority_and_willingness": {
+          "verified": null,
+          "source": "https://www.card.fnbo.com/landing/the-experience",
+          "reason": "Buying mandate and demonstrated willingness to act on this offering are unverified. Public speaking, job postings and a published email alone do not prove conviction."
+        },
+        "adjacent_tool_purchase": {
+          "verified": null,
+          "source": "https://www.workday.com/en-us/customer-stories/a-h/fnbo-increases-efficiency-improves-employee-experience.html",
+          "reason": "No verified adjacent testing/automation purchase or current purchase timeline found in reviewed sources; budget remains unconfirmed."
+        },
+        "purchase_timeline": {
+          "verified": null,
+          "source": "https://www.workday.com/en-us/customer-stories/a-h/fnbo-increases-efficiency-improves-employee-experience.html",
+          "reason": "No verified current purchase or renewal window; historical adoption is not a future buying commitment."
+        },
+        "financial_stability": {
+          "verified": null,
+          "source": "https://www.workday.com/en-us/customer-stories/a-h/fnbo-increases-efficiency-improves-employee-experience.html",
+          "reason": "Financial stability has not been established by the reviewed financial evidence; no negative financial conclusion is inferred."
+        },
+        "workday_live": {
+          "verified": true,
+          "source": "https://www.workday.com/en-us/customer-stories/a-h/fnbo-increases-efficiency-improves-employee-experience.html",
+          "reason": "Operational Workday usage is confirmed by the customer story or employer portal."
+        },
+        "go_live": {
+          "date": null,
+          "historical_window_older_than_year": false,
+          "source": "https://www.workday.com/en-us/customer-stories/a-h/fnbo-upskills-hr-teams-and-successfully-adopts-workday.html",
+          "reason": "Official customer story describes an eight-month implementation, without a calendar start or go-live date. No additional dated launch found in the reviewed public sources. Timing research:  https://www.workday.com/en-us/customer-stories/a-h/fnbo-upskills-hr-teams-and-successfully-adopts-workday.html | Official customer story describes an eight-month implementation, without a calendar start or go-live date. No additional dated launch found in the reviewed public sources. Date/window: information not available; precision: unknown; status: live_calendar_date_unknown; scope: HCM deployment."
+        }
+      }
+    },
+    {
+      "company_name": "Banner Health",
+      "facts": {
+        "company_id": "031cda41-d7cb-5797-b599-5e28bcc363a5",
+        "workforce": {
+          "count": 55000,
+          "source": "https://www.bannerhealth.com/about/leadership/executive/julie-ann-alvarado-dubek",
+          "reason": "55,000+ team members; lower bound in current executive biography."
+        },
+        "leadership": {
+          "verified": true,
+          "source": "https://www.bannerhealth.com/about/leadership/executive/michael-reagin",
+          "reason": "Michael Reagin, Executive Vice President and Chief Technology Officer. Source supports HRIS/IT functional leadership; it does not independently prove a specific purchasing mandate. Workday modules: Human Capital Management, VNDLY."
+        },
+        "one_degree_connection": {
+          "verified": null,
+          "source": "https://www.bannerhealth.com/about/leadership/executive/julie-ann-alvarado-dubek",
+          "reason": "Public professional identity/employer route is documented, but no team/Adi mutual or direct one-degree connection is verified in the records."
+        },
+        "authority_and_willingness": {
+          "verified": null,
+          "source": "https://www.bannerhealth.com/about/leadership/executive/michael-reagin",
+          "reason": "Buying mandate and demonstrated willingness to act on this offering are unverified. Public speaking, job postings and a published email alone do not prove conviction."
+        },
+        "adjacent_tool_purchase": {
+          "verified": true,
+          "source": "https://www.workday.com/en-us/customer-stories/a-h/banner-health-efficient-workforce-with-workday-vndly.html",
+          "reason": "Workday documents adoption of VNDLY for external contract labor; adjacent workforce tool adoption proxy, not evidence of a new budget."
+        },
+        "purchase_timeline": {
+          "verified": null,
+          "source": "https://www.workday.com/en-us/customer-stories/a-h/banner-health-efficient-workforce-with-workday-vndly.html",
+          "reason": "No verified current purchase or renewal window; historical adoption is not a future buying commitment."
+        },
+        "financial_stability": {
+          "verified": null,
+          "source": "https://www.workday.com/en-us/customer-stories/a-h/banner-health-efficient-workforce-with-workday-vndly.html",
+          "reason": "Financial stability has not been established by the reviewed financial evidence; no negative financial conclusion is inferred."
+        },
+        "workday_live": {
+          "verified": true,
+          "source": "https://www.workday.com/en-us/customer-stories/a-h/banner-health-efficient-workforce-with-workday-vndly.html",
+          "reason": "Operational Workday usage is confirmed by the customer story or employer portal."
+        },
+        "go_live": {
+          "date": null,
+          "historical_window_older_than_year": true,
+          "source": "https://blog.workday.com/en-us/2023/celebrating-healthcare-innovation-award-winners.html",
+          "reason": "Workday explicitly reports Banner HCM went live in August 2020. The exact day is not disclosed; this historical launch is not a recent trigger. Timing research:  https://blog.workday.com/en-us/2023/celebrating-healthcare-innovation-award-winners.html | Workday explicitly reports Banner HCM went live in August 2020. The exact day is not disclosed; this historical launch is not a recent trigger. Date/window: 2020-08; precision: month; status: confirmed_completed_go_live; scope: HCM. https://documents.bannerhealth.com/-/media/files/project/documentportal/vendor-ecl-and-sow/vndly-sow-faqs.ashx?la=en | September 2022 employer FAQ scheduled VNDLY phase 1 for October 31, 2022, for IT and coding SOW vendors. Planned separate VMS rollout; this document does not retrospectively confirm completion."
+        }
+      }
+    },
+    {
+      "company_name": "Iowa State University",
+      "facts": {
+        "company_id": "03e0cd1e-7b4e-516d-98a2-bffb3485dcd2",
+        "workforce": {
+          "count": 6000,
+          "source": "https://www.workday.com/en-us/customer-stories/i-p/iowa-state-university-graduate-green-screens-cloud.html",
+          "reason": "Dated Workday customer-story workforce snapshot; current exact headcount not verified."
+        },
+        "leadership": {
+          "verified": true,
+          "source": "https://www.provost.iastate.edu/about/administrative-officers",
+          "reason": "Kristen Constant, Vice President of IT Services and Chief Information Officer. Source supports HRIS/IT functional leadership; it does not independently prove a specific purchasing mandate. Workday modules: Financial Management, Human Capital Management, Payroll, Adaptive Planning."
+        },
+        "one_degree_connection": {
+          "verified": null,
+          "source": "https://www.provost.iastate.edu/about/administrative-officers",
+          "reason": "Public professional identity/employer route is documented, but no team/Adi mutual or direct one-degree connection is verified in the records."
+        },
+        "authority_and_willingness": {
+          "verified": null,
+          "source": "https://www.provost.iastate.edu/about/administrative-officers",
+          "reason": "Buying mandate and demonstrated willingness to act on this offering are unverified. Public speaking, job postings and a published email alone do not prove conviction."
+        },
+        "adjacent_tool_purchase": {
+          "verified": true,
+          "source": "https://internalaudit.iastate.edu/files/documents/0923%20AC%20VIII.E.%20Internal%20Audit%20Reports%20Issued.pdf",
+          "reason": "2023 university audit documents Kainos testing and auditing services for Workday changes; direct adjacent testing investment proxy, historically dated."
+        },
+        "purchase_timeline": {
+          "verified": null,
+          "source": "https://internalaudit.iastate.edu/files/documents/0923%20AC%20VIII.E.%20Internal%20Audit%20Reports%20Issued.pdf",
+          "reason": "No verified current purchase or renewal window; historical adoption is not a future buying commitment."
+        },
+        "financial_stability": {
+          "verified": null,
+          "source": "https://www.workday.com/en-us/customer-stories/i-p/iowa-state-university-graduate-green-screens-cloud.html",
+          "reason": "Financial stability has not been established by the reviewed financial evidence; no negative financial conclusion is inferred."
+        },
+        "workday_live": {
+          "verified": true,
+          "source": "https://www.workday.com/en-us/customer-stories/i-p/iowa-state-university-graduate-green-screens-cloud.html",
+          "reason": "Operational Workday usage is confirmed by the customer story or employer portal."
+        },
+        "go_live": {
+          "date": "2019-07-01",
+          "historical_window_older_than_year": false,
+          "source": "https://www.provost.iastate.edu/files/documents/2024-04/HLC%20Year%204%20Assurance%20Review.pdf",
+          "reason": "Existing exact core-system date retained. A separate Workday Student rollout introduced student access on a March 4, 2024 schedule; the university annual report confirms March rollout completion. Student admissions launched June 2023. Timing research:  https://www.provost.iastate.edu/files/documents/2024-04/HLC%20Year%204%20Assurance%20Review.pdf | Existing exact core-system date retained. A separate Workday Student rollout introduced student access on a March 4, 2024 schedule; the university annual report confirms March rollout completion. Student admissions launched June 2023. Date/window: 2019-07-01; precision: day; status: confirmed_completed_go_live; scope: HCM / Finance / Payroll. https://archive.las.iastate.edu/2024/02/21/students-gain-access-to-workday-march-4/ | Dated university notice schedules Workday Student access for March 4, 2024, distinct from the 2019 HR deployment. https://www.it.iastate.edu/annual-report-2024-archive | University report confirms the third Student rollout occurred in March 2024; remaining phases were scheduled through February 2025. https://archive.las.iastate.edu/2023/10/10/workday-student-resources-for-you/ | October 2023 university notice confirms admissions rollout had occurred June–September 2023."
+        }
+      }
+    },
+    {
+      "company_name": "Bronson Healthcare",
+      "facts": {
+        "company_id": "05360993-fa21-567c-8259-66f58ea118bd",
+        "workforce": {
+          "count": 8500,
+          "source": "https://www.workday.com/en-us/customer-stories/a-h/bronson-healthcare-boosts-training-agility-workday-learning.html",
+          "reason": "Dated Workday customer-story workforce snapshot; current exact headcount not verified."
+        },
+        "leadership": {
+          "verified": true,
+          "source": "https://www.healthcareitnews.com/news/what-healthcare-ai-cannot-be-allowed-become-according-one-cio",
+          "reason": "Ash Goel, Senior Vice President, Information Technology, and CIO; interviewed May 7, 2026. Source supports HRIS/IT functional leadership; it does not independently prove a specific purchasing mandate. Workday modules: Learning, Human Capital Management."
+        },
+        "one_degree_connection": {
+          "verified": null,
+          "source": "https://www.linkedin.com/in/cheryl-johnson-sphr-2795535",
+          "reason": "Public professional identity/employer route is documented, but no team/Adi mutual or direct one-degree connection is verified in the records."
+        },
+        "authority_and_willingness": {
+          "verified": null,
+          "source": "https://www.healthcareitnews.com/news/what-healthcare-ai-cannot-be-allowed-become-according-one-cio",
+          "reason": "Buying mandate and demonstrated willingness to act on this offering are unverified. Public speaking, job postings and a published email alone do not prove conviction."
+        },
+        "adjacent_tool_purchase": {
+          "verified": null,
+          "source": "https://kognitivinc.com/workday-services/hcm",
+          "reason": "Kognitiv reports Workday configuration/support services; services alone do not establish the requested adjacent software-tool purchase proxy. Current purchase timeline and financial stability are unverified."
+        },
+        "purchase_timeline": {
+          "verified": null,
+          "source": "https://kognitivinc.com/workday-services/hcm",
+          "reason": "No verified current purchase or renewal window; historical adoption is not a future buying commitment."
+        },
+        "financial_stability": {
+          "verified": null,
+          "source": "https://www.workday.com/en-us/customer-stories/a-h/bronson-healthcare-boosts-training-agility-workday-learning.html",
+          "reason": "Financial stability has not been established by the reviewed financial evidence; no negative financial conclusion is inferred."
+        },
+        "workday_live": {
+          "verified": true,
+          "source": "https://www.workday.com/en-us/customer-stories/a-h/bronson-healthcare-boosts-training-agility-workday-learning.html",
+          "reason": "Operational Workday usage is confirmed by the customer story or employer portal."
+        },
+        "go_live": {
+          "date": null,
+          "historical_window_older_than_year": false,
+          "source": "https://www.workday.com/en-us/customer-stories/a-h/bronson-healthcare-transforms-streamlines-operations-with-workday.html",
+          "reason": "Official stories confirm operational HCM and Learning but provide no calendar go-live. The hospital leadership interview also describes completed ERP implementation without dating the launch. Timing research:  https://www.workday.com/en-us/customer-stories/a-h/bronson-healthcare-transforms-streamlines-operations-with-workday.html | Official stories confirm operational HCM and Learning but provide no calendar go-live. The hospital leadership interview also describes completed ERP implementation without dating the launch. Date/window: information not available; precision: unknown; status: live_calendar_date_unknown; scope: Workday ERP / HCM / Learning. https://www.beckershospitalreview.com/finance/how-john-muir-and-bronson-health-brought-innovation-to-business-operations-with-erp-technology/ | CHRO John Hayden describes installed Workday ERP; publication/webinar dates are not go-live dates."
+        }
+      }
+    },
+    {
+      "company_name": "Thermo Fisher Scientific",
+      "facts": {
+        "company_id": "074b1f36-8d02-5d58-b2c8-864103766afc",
+        "workforce": {
+          "count": 120000,
+          "source": "https://corporate.thermofisher.com/content/dam/tfcorpsite/documents/corporate-social-responsibility/2024-report/Colleagues.pdf",
+          "reason": "More than 120,000 colleagues, 2024 CSR snapshot; lower bound, not an exact October 2026 count."
+        },
+        "leadership": {
+          "verified": true,
+          "source": "https://corporate.thermofisher.com/us/en/index/about.html",
+          "reason": "Ryan Snyder, Senior Vice President and Chief Information Officer. Source supports HRIS/IT functional leadership; it does not independently prove a specific purchasing mandate. Workday modules: Time and Attendance, Human Capital Management, Benefits, Compensation, Data Hub."
+        },
+        "one_degree_connection": {
+          "verified": null,
+          "source": "https://corporate.thermofisher.com/us/en/index/about.html",
+          "reason": "Public professional identity/employer route is documented, but no team/Adi mutual or direct one-degree connection is verified in the records."
+        },
+        "authority_and_willingness": {
+          "verified": null,
+          "source": "https://corporate.thermofisher.com/us/en/index/about.html",
+          "reason": "Buying mandate and demonstrated willingness to act on this offering are unverified. Public speaking, job postings and a published email alone do not prove conviction."
+        },
+        "adjacent_tool_purchase": {
+          "verified": true,
+          "source": "https://www.walkme.com/customer-stories/thermofisherscientific/",
+          "reason": "WalkMe customer story documents digital adoption and automation for Thermo Fisher's Workday rollout and ongoing releases; adjacent tool adoption proxy, without current purchasing window."
+        },
+        "purchase_timeline": {
+          "verified": null,
+          "source": "https://www.walkme.com/customer-stories/thermofisherscientific/",
+          "reason": "No verified current purchase or renewal window; historical adoption is not a future buying commitment."
+        },
+        "financial_stability": {
+          "verified": null,
+          "source": "https://www.workday.com/en-us/customer-stories/q-z/thermo-fisher-empowers-employees-to-do-their-best-work.html",
+          "reason": "Financial stability has not been established by the reviewed financial evidence; no negative financial conclusion is inferred."
+        },
+        "workday_live": {
+          "verified": true,
+          "source": "https://www.workday.com/en-us/customer-stories/q-z/thermo-fisher-empowers-employees-to-do-their-best-work.html",
+          "reason": "Operational Workday usage is confirmed by the customer story or employer portal."
+        },
+        "go_live": {
+          "date": null,
+          "historical_window_older_than_year": false,
+          "source": "https://www.workday.com/en-us/customer-stories/q-z/thermo-fisher-empowers-employees-to-do-their-best-work.html",
+          "reason": "Workday customer story confirms operational time tracking but does not date go-live. Secondary purchase-year claims do not establish the global HCM launch. Timing research:  https://www.workday.com/en-us/customer-stories/q-z/thermo-fisher-empowers-employees-to-do-their-best-work.html | Workday customer story confirms operational time tracking but does not date go-live. Secondary purchase-year claims do not establish the global HCM launch. Date/window: information not available; precision: unknown; status: live_calendar_date_unknown; scope: HCM / Absence / Time Tracking. https://www.appsruntheworld.com/customers-database/customers/view/thermo-fisher-scientific-inc-united-states | Secondary database identifies an Absence purchase in 2018; not used as a confirmed core HCM go-live date."
+        }
+      }
+    },
+    {
+      "company_name": "Tokyo Electron",
+      "facts": {
+        "company_id": "094b7420-2082-53c5-a3df-130ed6e95cfc",
+        "workforce": {
+          "count": 20812,
+          "source": "https://www.tel.com/sustainability/management-foundation/human-resource/",
+          "reason": "Consolidated headcount as of April 1, 2026."
+        },
+        "leadership": {
+          "verified": true,
+          "source": "https://www.tel.com/about/leader/",
+          "reason": "Takashi Mineshima, Vice President, Information Security Unit, and Chief Information Security Officer. Source supports HRIS/IT functional leadership; it does not independently prove a specific purchasing mandate. Workday modules: Human Capital Management, Learning."
+        },
+        "one_degree_connection": {
+          "verified": null,
+          "source": "https://www.tel.com/about/leader/",
+          "reason": "Public professional identity/employer route is documented, but no team/Adi mutual or direct one-degree connection is verified in the records."
+        },
+        "authority_and_willingness": {
+          "verified": null,
+          "source": "https://www.tel.com/about/leader/",
+          "reason": "Buying mandate and demonstrated willingness to act on this offering are unverified. Public speaking, job postings and a published email alone do not prove conviction."
+        },
+        "adjacent_tool_purchase": {
+          "verified": null,
+          "source": "https://www.workday.com/en-us/customer-stories/q-z/tokyo-electron-ensures-global-consistency-global-hr-system.html",
+          "reason": "No verified adjacent testing/automation purchase or current purchase timeline found in reviewed sources; budget remains unconfirmed."
+        },
+        "purchase_timeline": {
+          "verified": null,
+          "source": "https://www.workday.com/en-us/customer-stories/q-z/tokyo-electron-ensures-global-consistency-global-hr-system.html",
+          "reason": "No verified current purchase or renewal window; historical adoption is not a future buying commitment."
+        },
+        "financial_stability": {
+          "verified": null,
+          "source": "https://www.workday.com/en-us/customer-stories/q-z/tokyo-electron-ensures-global-consistency-global-hr-system.html",
+          "reason": "Financial stability has not been established by the reviewed financial evidence; no negative financial conclusion is inferred."
+        },
+        "workday_live": {
+          "verified": true,
+          "source": "https://www.workday.com/en-us/customer-stories/q-z/tokyo-electron-ensures-global-consistency-global-hr-system.html",
+          "reason": "Operational Workday usage is confirmed by the customer story or employer portal."
+        },
+        "go_live": {
+          "date": null,
+          "historical_window_older_than_year": false,
+          "source": "https://www.workday.com/en-us/customer-stories/q-z/tokyo-electron-ensures-global-consistency-global-hr-system.html",
+          "reason": "Workday says HCM access expanded from managers to all employees in 2019. It separately dates the relationship to 2016; neither fact supplies an exact original go-live day. Timing research:  https://www.workday.com/en-us/customer-stories/q-z/tokyo-electron-ensures-global-consistency-global-hr-system.html | Workday says HCM access expanded from managers to all employees in 2019. It separately dates the relationship to 2016; neither fact supplies an exact original go-live day. Date/window: 2019; precision: year; status: confirmed_employee_access_expansion; scope: HCM access for all employees."
+        }
+      }
+    },
+    {
+      "company_name": "RMIT University",
+      "facts": {
+        "company_id": "0c9a3679-c609-5441-bac6-3e2ecf163a62",
+        "workforce": {
+          "count": 13000,
+          "source": "https://www.rmit.edu.au/about/governance-management/annual-reports",
+          "reason": "Employer 2025 annual report states 13,000 global staff; supersedes the older 12,000 snapshot."
+        },
+        "leadership": {
+          "verified": true,
+          "source": "https://ibrs.com.au/practices/it-operational-excellence/rightsizing-the-erp-how-rmit-replaced-19-years-of-sap-with-workday/",
+          "reason": "Manish Pandey, Director of Enterprise Technology Services, owns the consolidated Workday People Tech Team; primary interview May 26, 2026. Source supports HRIS/IT functional leadership; it does not independently prove a specific purchasing mandate. Workday modules: Financial Management, Human Capital Management, Adaptive Planning, Learning, Extend, Talent Acquisition."
+        },
+        "one_degree_connection": {
+          "verified": null,
+          "source": "https://policies.rmit.edu.au/document/status-and-details.php?id=324",
+          "reason": "Public professional identity/employer route is documented, but no team/Adi mutual or direct one-degree connection is verified in the records."
+        },
+        "authority_and_willingness": {
+          "verified": null,
+          "source": "https://ibrs.com.au/practices/it-operational-excellence/rightsizing-the-erp-how-rmit-replaced-19-years-of-sap-with-workday/",
+          "reason": "Buying mandate and demonstrated willingness to act on this offering are unverified. Public speaking, job postings and a published email alone do not prove conviction."
+        },
+        "adjacent_tool_purchase": {
+          "verified": null,
+          "source": "https://ibrs.com.au/practices/it-operational-excellence/rightsizing-the-erp-how-rmit-replaced-19-years-of-sap-with-workday/",
+          "reason": "RMIT describes deployed MuleSoft integrations and Workday Everywhere; the full Budget award rests on the verified renewal timeline and financial-capacity evidence, not adoption alone."
+        },
+        "purchase_timeline": {
+          "verified": true,
+          "source": "https://ibrs.com.au/practices/it-operational-excellence/rightsizing-the-erp-how-rmit-replaced-19-years-of-sap-with-workday/",
+          "reason": "May 26, 2026 leadership interview reports current Workday contract runs January 2024–January 2027 and Procurement/Legal are preparing renewal negotiations; a concrete upcoming purchasing window."
+        },
+        "financial_stability": {
+          "verified": true,
+          "source": "https://www.rmit.edu.au/about/governance-management/annual-reports",
+          "reason": "RMIT reports an AUD89.0 million 2025 operating surplus after tax and forecasts an underlying operating surplus in 2026; positive financial-capacity indicator."
+        },
+        "workday_live": {
+          "verified": true,
+          "source": "https://www.workday.com/en-us/customer-stories/q-z/rmit-leads-with-intelligent-digital-infrastructure.html",
+          "reason": "Operational Workday usage is confirmed by the customer story or employer portal."
+        },
+        "go_live": {
+          "date": "2021-06-07",
+          "historical_window_older_than_year": false,
+          "source": "https://www.rmit.edu.au/news/academic-judgment",
+          "reason": "Existing June 7, 2021 HR date retained. A CIO interview corroborates that Finance and Procurement joined HR in the same big-bang rollout; this is a historical launch. Timing research:  https://www.rmit.edu.au/news/academic-judgment | Existing June 7, 2021 HR date retained. A CIO interview corroborates that Finance and Procurement joined HR in the same big-bang rollout; this is a historical launch. Date/window: 2021-06-07; precision: day; status: confirmed_completed_go_live; scope: HR / Finance / Procurement. https://ibrs.com.au/practices/it-operational-excellence/rightsizing-the-erp-how-rmit-replaced-19-years-of-sap-with-workday/ | Interview with RMIT technology leadership explicitly dates the single HR/Finance/Procurement go-live to June 7, 2021."
+        }
+      }
+    },
+    {
+      "company_name": "Jardine Matheson",
+      "facts": {
+        "company_id": "0d7ea78d-6376-5f97-b5d8-e16e3783aee9",
+        "workforce": {
+          "count": 400000,
+          "source": "https://www.workday.com/en-us/customer-stories/i-p/jardine-matheson-data-driven-excellence.html",
+          "reason": "Approximately 400,000 people in Workday case-study group footprint; includes the diversified portfolio and is not a current parent-only headcount."
+        },
+        "leadership": {
+          "verified": true,
+          "source": "https://events.economistenterprise.com/technology-for-change-week/speakers/",
+          "reason": "Glen Seto, Head of Group Technology Services / Chief Technology Officer, is listed by the 2026 event organiser. Source supports HRIS/IT functional leadership; it does not independently prove a specific purchasing mandate. Workday modules: Human Capital Management."
+        },
+        "one_degree_connection": {
+          "verified": null,
+          "source": "https://www.jardines.com/about-jardines/our-leadership",
+          "reason": "Public professional identity/employer route is documented, but no team/Adi mutual or direct one-degree connection is verified in the records."
+        },
+        "authority_and_willingness": {
+          "verified": null,
+          "source": "https://events.economistenterprise.com/technology-for-change-week/speakers/",
+          "reason": "Buying mandate and demonstrated willingness to act on this offering are unverified. Public speaking, job postings and a published email alone do not prove conviction."
+        },
+        "adjacent_tool_purchase": {
+          "verified": null,
+          "source": "https://sustainability.jardines.com/2024/caring_for_our_colleagues.html",
+          "reason": "Group Skillsoft learning-platform use is documented, but the reviewed evidence does not establish a Workday-adjacent testing/automation purchase or current purchasing timeline."
+        },
+        "purchase_timeline": {
+          "verified": null,
+          "source": "https://sustainability.jardines.com/2024/caring_for_our_colleagues.html",
+          "reason": "No verified current purchase or renewal window; historical adoption is not a future buying commitment."
+        },
+        "financial_stability": {
+          "verified": null,
+          "source": "https://www.workday.com/en-us/customer-stories/i-p/jardine-matheson-data-driven-excellence.html",
+          "reason": "Financial stability has not been established by the reviewed financial evidence; no negative financial conclusion is inferred."
+        },
+        "workday_live": {
+          "verified": true,
+          "source": "https://www.workday.com/en-us/customer-stories/i-p/jardine-matheson-data-driven-excellence.html",
+          "reason": "Operational Workday usage is confirmed by the customer story or employer portal."
+        },
+        "go_live": {
+          "date": null,
+          "historical_window_older_than_year": false,
+          "source": "https://www.jardines.com/newsroom/latest-news/other-business-updates/2020/goodbye-paper-hello-workday-our-new-hr-platform",
+          "reason": "Jardines’ February 15, 2020 announcement describes an already-completed rollout to more than 400 head-office colleagues. This is an upper bound, not the launch day or proof of group-wide deployment. Timing research:  https://www.jardines.com/newsroom/latest-news/other-business-updates/2020/goodbye-paper-hello-workday-our-new-hr-platform | Jardines’ February 15, 2020 announcement describes an already-completed rollout to more than 400 head-office colleagues. This is an upper bound, not the launch day or proof of group-wide deployment. Date/window: 2020-02-15; precision: day_upper_bound; status: live_by_publication; scope: Group Head Office HR only."
+        }
+      }
+    },
+    {
+      "company_name": "English Schools Foundation",
+      "facts": {
+        "company_id": "0df0af2a-ff75-5e4c-9a56-938187e4eeaf",
+        "workforce": {
+          "count": 3000,
+          "source": "https://www.workday.com/en-us/customer-stories/a-h/esf-unifies-hr-to-shape-future-of-education.html",
+          "reason": "Dated Workday customer-story workforce snapshot; current exact headcount not verified."
+        },
+        "leadership": {
+          "verified": true,
+          "source": "https://www.workday.com/en-us/customer-stories/a-h/esf-unifies-hr-to-shape-future-of-education.html",
+          "reason": "Kunal Mulchandani, Director of HR, is explicitly identified as leading the Workday HR systems transformation across 22 schools; functional HRIS ownership, not a generic HR title alone. Source supports HRIS/IT functional leadership; it does not independently prove a specific purchasing mandate. Workday modules: Human Capital Management, Recruiting, Paradox."
+        },
+        "one_degree_connection": {
+          "verified": null,
+          "source": "https://www.esf.edu.hk/senior-management/",
+          "reason": "Public professional identity/employer route is documented, but no team/Adi mutual or direct one-degree connection is verified in the records."
+        },
+        "authority_and_willingness": {
+          "verified": null,
+          "source": "https://www.workday.com/en-us/customer-stories/a-h/esf-unifies-hr-to-shape-future-of-education.html",
+          "reason": "Buying mandate and demonstrated willingness to act on this offering are unverified. Public speaking, job postings and a published email alone do not prove conviction."
+        },
+        "adjacent_tool_purchase": {
+          "verified": true,
+          "source": "https://www.workday.com/en-us/customer-stories/a-h/esf-unifies-hr-to-shape-future-of-education.html",
+          "reason": "Workday customer story explicitly describes adopting Paradox alongside HCM and Recruiting to automate recruitment; adjacent tool adoption proxy, without purchase amount or exact date."
+        },
+        "purchase_timeline": {
+          "verified": null,
+          "source": "https://www.workday.com/en-us/customer-stories/a-h/esf-unifies-hr-to-shape-future-of-education.html",
+          "reason": "No verified current purchase or renewal window; historical adoption is not a future buying commitment."
+        },
+        "financial_stability": {
+          "verified": null,
+          "source": "https://www.workday.com/en-us/customer-stories/a-h/esf-unifies-hr-to-shape-future-of-education.html",
+          "reason": "Financial stability has not been established by the reviewed financial evidence; no negative financial conclusion is inferred."
+        },
+        "workday_live": {
+          "verified": true,
+          "source": "https://www.workday.com/en-us/customer-stories/a-h/esf-unifies-hr-to-shape-future-of-education.html",
+          "reason": "Operational Workday usage is confirmed by the customer story or employer portal."
+        },
+        "go_live": {
+          "date": null,
+          "historical_window_older_than_year": false,
+          "source": "https://esf.wd102.myworkdayjobs.com/en-US/ESF/job/Senior---HR-Executive---Projects--HRIS---Analytics-_JR186",
+          "reason": "Employer requisition JR186 explicitly describes successfully completed HCM go-live and stabilisation work. Its August 26, 2026 application deadline is not a launch date; exact go-live remains unavailable. Timing research:  https://esf.wd102.myworkdayjobs.com/en-US/ESF/job/Senior---HR-Executive---Projects--HRIS---Analytics-_JR186 | Employer requisition JR186 explicitly describes successfully completed HCM go-live and stabilisation work. Its August 26, 2026 application deadline is not a launch date; exact go-live remains unavailable. Date/window: information not available; precision: unknown; status: confirmed_live_post_go_live_recruitment; scope: HCM integrated with PeopleSoft Payroll."
+        }
+      }
+    },
+    {
+      "company_name": "Sun Life",
+      "facts": {
+        "company_id": "0f5a3b7b-a2f9-5a2b-bc81-72fc8a8074d5",
+        "workforce": {
+          "count": 68000,
+          "source": "https://www.sunlife.com/en/about-us/leadership/helena-pagano/",
+          "reason": "More than 68,000 employees in current leadership biography; lower bound."
+        },
+        "leadership": {
+          "verified": true,
+          "source": "https://www.sunlife.com/en/about-us/leadership/laura-money/",
+          "reason": "Laura Money, Executive Vice-President, Chief Information and Technology Innovation Officer. Source supports HRIS/IT functional leadership; it does not independently prove a specific purchasing mandate. Workday modules: Human Capital Management, Extend, Employee Experience, Talent Acquisition, Time and Attendance."
+        },
+        "one_degree_connection": {
+          "verified": null,
+          "source": "https://www.sunlife.com/en/about-us/leadership/helena-pagano/",
+          "reason": "Public professional identity/employer route is documented, but no team/Adi mutual or direct one-degree connection is verified in the records."
+        },
+        "authority_and_willingness": {
+          "verified": null,
+          "source": "https://www.sunlife.com/en/about-us/leadership/laura-money/",
+          "reason": "Buying mandate and demonstrated willingness to act on this offering are unverified. Public speaking, job postings and a published email alone do not prove conviction."
+        },
+        "adjacent_tool_purchase": {
+          "verified": true,
+          "source": "https://www.kainos.com/insights/success-stories/sun-life-takes-control-of-workday-security-updates-expansion-with-test-automation",
+          "reason": "Kainos customer story dated April 26, 2020 documents Workday test automation and security testing; strong historical adjacent tool adoption proxy, not a current purchase timeline."
+        },
+        "purchase_timeline": {
+          "verified": null,
+          "source": "https://www.kainos.com/insights/success-stories/sun-life-takes-control-of-workday-security-updates-expansion-with-test-automation",
+          "reason": "No verified current purchase or renewal window; historical adoption is not a future buying commitment."
+        },
+        "financial_stability": {
+          "verified": null,
+          "source": "https://www.workday.com/en-us/customer-stories/q-z/sun-life-enhances-employee-experience.html",
+          "reason": "Financial stability has not been established by the reviewed financial evidence; no negative financial conclusion is inferred."
+        },
+        "workday_live": {
+          "verified": true,
+          "source": "https://www.workday.com/en-us/customer-stories/q-z/sun-life-enhances-employee-experience.html",
+          "reason": "Operational Workday usage is confirmed by the customer story or employer portal."
+        },
+        "go_live": {
+          "date": null,
+          "historical_window_older_than_year": true,
+          "source": "https://www.kainos.com/insights/success-stories/sun-life-takes-control-of-workday-security-updates-expansion-with-test-automation",
+          "reason": "Kainos’ interview with Sun Life HRMS leadership explicitly dates initial go-live to May 2011; no exact day. Time Tracking, Absence and Recruiting were rolled out globally by 2018. Timing research:  https://www.kainos.com/insights/success-stories/sun-life-takes-control-of-workday-security-updates-expansion-with-test-automation | Kainos’ interview with Sun Life HRMS leadership explicitly dates initial go-live to May 2011; no exact day. Time Tracking, Absence and Recruiting were rolled out globally by 2018. Date/window: 2011-05; precision: month; status: confirmed_completed_go_live; scope: HCM / Performance / Compensation."
+        }
+      }
+    },
+    {
+      "company_name": "Signify",
+      "facts": {
+        "company_id": "15d16044-4b5a-5a79-8fe2-d7a79fe94db0",
+        "workforce": {
+          "count": 25866,
+          "source": "https://www.signify.com/global/our-company/investors/contact/faq/faq-items-general/faq-2",
+          "reason": "25,866 employees at the end of Q2 2026, from current investor FAQ."
+        },
+        "leadership": {
+          "verified": true,
+          "source": "https://blog.workday.com/en-gb/workday-podcast-how-signify-s-approach-to-hr-makes-progress-with-process.html",
+          "reason": "Jacqueline van Gerwen, Global Head of HR Systems, is identified in the first-person Workday interview and corroborated by her current public Signify profile and the 2026 Elevate speaker announcement. Source supports HRIS/IT functional leadership; it does not independently prove a specific purchasing mandate. Workday modules: Human Capital Management, Adaptive Planning, Prism Analytics."
+        },
+        "one_degree_connection": {
+          "verified": null,
+          "source": "https://www.workday.com/en-us/customer-stories/q-z/signify-illuminates-hr-transformation-with-workday.html",
+          "reason": "Public professional identity/employer route is documented, but no team/Adi mutual or direct one-degree connection is verified in the records."
+        },
+        "authority_and_willingness": {
+          "verified": null,
+          "source": "https://blog.workday.com/en-gb/workday-podcast-how-signify-s-approach-to-hr-makes-progress-with-process.html",
+          "reason": "Buying mandate and demonstrated willingness to act on this offering are unverified. Public speaking, job postings and a published email alone do not prove conviction."
+        },
+        "adjacent_tool_purchase": {
+          "verified": true,
+          "source": "https://www.linkedin.com/posts/omar-bali-5726613_techwolf-skillsbasedorganisation-futureofwork-activity-7442227344527937536-aThj",
+          "reason": "First-person Signify announcement documents TechWolf integration with Workday Skills Cloud and Workday Learning/Skillsoft Percipio adoption; adjacent HR automation-tool investment proxy. No future purchase deadline established."
+        },
+        "purchase_timeline": {
+          "verified": null,
+          "source": "https://www.linkedin.com/posts/omar-bali-5726613_techwolf-skillsbasedorganisation-futureofwork-activity-7442227344527937536-aThj",
+          "reason": "No verified current purchase or renewal window; historical adoption is not a future buying commitment."
+        },
+        "financial_stability": {
+          "verified": null,
+          "source": "https://www.workday.com/en-us/customer-stories/q-z/signify-illuminates-hr-transformation-with-workday.html",
+          "reason": "Financial stability has not been established by the reviewed financial evidence; no negative financial conclusion is inferred."
+        },
+        "workday_live": {
+          "verified": true,
+          "source": "https://www.workday.com/en-us/customer-stories/q-z/signify-illuminates-hr-transformation-with-workday.html",
+          "reason": "Operational Workday usage is confirmed by the customer story or employer portal."
+        },
+        "go_live": {
+          "date": null,
+          "historical_window_older_than_year": false,
+          "source": "https://www.signify.com/static/2025/signify-annual-report-2025.pdf",
+          "reason": "Signify’s 2025 annual report states Learning launched that year, with first rollout in the Digital team and global deployment planned for 2026. These phases are distinct from the older HCM rollout. Timing research:  https://www.signify.com/static/2025/signify-annual-report-2025.pdf | Signify’s 2025 annual report states Learning launched that year, with first rollout in the Digital team and global deployment planned for 2026. These phases are distinct from the older HCM rollout. Date/window: 2025; precision: year; status: confirmed_completed_module_pilot; scope: Workday Learning: Digital team pilot. https://www.linkedin.com/posts/omar-bali-5726613_techwolf-skillsbasedorganisation-futureofwork-activity-7442227344527937536-aThj | First-person public announcement confirms global Workday Learning and Skillsoft Percipio launch. Absolute launch date/year not independently established; relative post age was not converted to a go-live date."
+        }
+      }
+    },
+    {
+      "company_name": "Roswell Park Comprehensive Cancer Center",
+      "facts": {
+        "company_id": "1667a535-6b79-50b0-8b3b-9dbbeb81e29d",
+        "workforce": {
+          "count": 3900,
+          "source": "https://www.workday.com/en-us/customer-stories/q-z/roswell-park-discovers-better-processes-insight-outcomes.html",
+          "reason": "Dated Workday customer-story workforce snapshot; current exact headcount not verified."
+        },
+        "leadership": {
+          "verified": true,
+          "source": "https://www.roswellpark.org/george-t-buddy-hickman",
+          "reason": "George T. 'Buddy' Hickman, Senior Vice President, Chief Digital & Information Officer. Source supports HRIS/IT functional leadership; it does not independently prove a specific purchasing mandate. Workday modules: Financial Management, Human Capital Management, Healthcare Supply Chain Management."
+        },
+        "one_degree_connection": {
+          "verified": null,
+          "source": "https://www.roswellpark.org/errol-douglas",
+          "reason": "Public professional identity/employer route is documented, but no team/Adi mutual or direct one-degree connection is verified in the records."
+        },
+        "authority_and_willingness": {
+          "verified": null,
+          "source": "https://www.roswellpark.org/george-t-buddy-hickman",
+          "reason": "Buying mandate and demonstrated willingness to act on this offering are unverified. Public speaking, job postings and a published email alone do not prove conviction."
+        },
+        "adjacent_tool_purchase": {
+          "verified": null,
+          "source": "https://www.workday.com/en-us/customer-stories/q-z/roswell-park-discovers-better-processes-insight-outcomes.html",
+          "reason": "No verified adjacent testing/automation purchase or current purchase timeline found in reviewed sources; budget remains unconfirmed."
+        },
+        "purchase_timeline": {
+          "verified": null,
+          "source": "https://www.workday.com/en-us/customer-stories/q-z/roswell-park-discovers-better-processes-insight-outcomes.html",
+          "reason": "No verified current purchase or renewal window; historical adoption is not a future buying commitment."
+        },
+        "financial_stability": {
+          "verified": null,
+          "source": "https://www.workday.com/en-us/customer-stories/q-z/roswell-park-discovers-better-processes-insight-outcomes.html",
+          "reason": "Financial stability has not been established by the reviewed financial evidence; no negative financial conclusion is inferred."
+        },
+        "workday_live": {
+          "verified": true,
+          "source": "https://www.workday.com/en-us/customer-stories/q-z/roswell-park-discovers-better-processes-insight-outcomes.html",
+          "reason": "Operational Workday usage is confirmed by the customer story or employer portal."
+        },
+        "go_live": {
+          "date": null,
+          "historical_window_older_than_year": true,
+          "source": "https://blog.workday.com/en-us/workday-podcast-healthcare-organizations-technology-capital-projects.html",
+          "reason": "Workday’s interview with implementation leader Danielle Sullivan explicitly dates Finance/capital-projects go-live to January 2021. No day is stated; unrelated Health Research Inc RFP dates were excluded. Timing research:  https://blog.workday.com/en-us/workday-podcast-healthcare-organizations-technology-capital-projects.html | Workday’s interview with implementation leader Danielle Sullivan explicitly dates Finance/capital-projects go-live to January 2021. No day is stated; unrelated Health Research Inc RFP dates were excluded. Date/window: 2021-01; precision: month; status: confirmed_completed_go_live; scope: Finance including capital projects."
+        }
+      }
+    },
+    {
+      "company_name": "Del Monte Fresh Produce Company",
+      "facts": {
+        "company_id": "1a72a9ab-335f-5397-a637-03a6454e1a65",
+        "workforce": {
+          "count": 8562,
+          "source": "https://freshdelmonte.com/wp-content/uploads/2026/06/2025-Annual-Report.pdf",
+          "reason": "8,562 full-time employees plus more than 31,466 daily, seasonal and temporary workers at December 26, 2025; database count uses full-time workforce only."
+        },
+        "leadership": {
+          "verified": true,
+          "source": "https://freshdelmonte.com/people/leadership/",
+          "reason": "Murtaza Habib, Vice President, Corporate Information Technology, at Fresh Del Monte (not Del Monte Foods). Source supports HRIS/IT functional leadership; it does not independently prove a specific purchasing mandate. Workday modules: ."
+        },
+        "one_degree_connection": {
+          "verified": null,
+          "source": "https://freshdelmonte.com/our-people/louie-tenazas/",
+          "reason": "Public professional identity/employer route is documented, but no team/Adi mutual or direct one-degree connection is verified in the records."
+        },
+        "authority_and_willingness": {
+          "verified": null,
+          "source": "https://freshdelmonte.com/people/leadership/",
+          "reason": "Buying mandate and demonstrated willingness to act on this offering are unverified. Public speaking, job postings and a published email alone do not prove conviction."
+        },
+        "adjacent_tool_purchase": {
+          "verified": null,
+          "source": "https://en-gb.newsroom.workday.com/2026-05-21-Workday-Announces-Fiscal-2027-First-Quarter-Financial-Results",
+          "reason": "No verified adjacent testing/automation purchase or current purchase timeline found in reviewed sources; budget remains unconfirmed."
+        },
+        "purchase_timeline": {
+          "verified": null,
+          "source": "https://en-gb.newsroom.workday.com/2026-05-21-Workday-Announces-Fiscal-2027-First-Quarter-Financial-Results",
+          "reason": "No verified current purchase or renewal window; historical adoption is not a future buying commitment."
+        },
+        "financial_stability": {
+          "verified": null,
+          "source": "https://en-gb.newsroom.workday.com/2026-05-21-Workday-Announces-Fiscal-2027-First-Quarter-Financial-Results",
+          "reason": "Financial stability has not been established by the reviewed financial evidence; no negative financial conclusion is inferred."
+        },
+        "workday_live": {
+          "verified": null,
+          "source": "https://en-gb.newsroom.workday.com/2026-05-21-Workday-Announces-Fiscal-2027-First-Quarter-Financial-Results",
+          "reason": "Workday announced Fresh Del Monte as a customer, but product scope and production go-live remain unconfirmed."
+        },
+        "go_live": {
+          "date": null,
+          "historical_window_older_than_year": false,
+          "source": "https://newsroom.workday.com/2026-05-21-Workday-Announces-Fiscal-2027-First-Quarter-Financial-Results",
+          "reason": "Workday’s May 21, 2026 financial-results announcement lists Fresh Del Monte as a new customer. Selection/customer status does not prove go-live. Del Monte Foods case studies belong to a different company. Timing research:  https://newsroom.workday.com/2026-05-21-Workday-Announces-Fiscal-2027-First-Quarter-Financial-Results | Workday’s May 21, 2026 financial-results announcement lists Fresh Del Monte as a new customer. Selection/customer status does not prove go-live. Del Monte Foods case studies belong to a different company. Date/window: 2026-05-21; precision: day; status: customer_announced_not_go_live; scope: Modules undisclosed."
+        }
+      }
+    },
+    {
+      "company_name": "Scandic",
+      "facts": {
+        "company_id": "1d3c6696-d69f-5fdc-b408-2acfe1698038",
+        "workforce": {
+          "count": 18000,
+          "source": "https://www.workday.com/en-us/customer-stories/q-z/scandic-standardizes-hr-processes-scales.html",
+          "reason": "Dated Workday customer-story workforce snapshot; current exact headcount not verified."
+        },
+        "leadership": {
+          "verified": true,
+          "source": "https://se.linkedin.com/in/per-buvall-9965013",
+          "reason": "Per Buvall publicly announces his current CIO role at Scandic; the prior acting CIO also describes handing the role to him. Source supports HRIS/IT functional leadership; it does not independently prove a specific purchasing mandate. Workday modules: Human Capital Management, Talent Management, Compensation."
+        },
+        "one_degree_connection": {
+          "verified": null,
+          "source": "https://www.scandichotelsgroup.com/our-company/organisation-and-management/executive-committee/",
+          "reason": "Public professional identity/employer route is documented, but no team/Adi mutual or direct one-degree connection is verified in the records."
+        },
+        "authority_and_willingness": {
+          "verified": null,
+          "source": "https://se.linkedin.com/in/per-buvall-9965013",
+          "reason": "Buying mandate and demonstrated willingness to act on this offering are unverified. Public speaking, job postings and a published email alone do not prove conviction."
+        },
+        "adjacent_tool_purchase": {
+          "verified": true,
+          "source": "https://www.jobylon.com/no/",
+          "reason": "Recruiting-software vendor carries a named Scandic customer testimonial describing adoption of Jobylon ATS. Adjacent HR/recruiting technology adoption proxy; Workday integration and current purchase window are not established."
+        },
+        "purchase_timeline": {
+          "verified": null,
+          "source": "https://www.jobylon.com/no/",
+          "reason": "No verified current purchase or renewal window; historical adoption is not a future buying commitment."
+        },
+        "financial_stability": {
+          "verified": null,
+          "source": "https://www.workday.com/en-us/customer-stories/q-z/scandic-standardizes-hr-processes-scales.html",
+          "reason": "Financial stability has not been established by the reviewed financial evidence; no negative financial conclusion is inferred."
+        },
+        "workday_live": {
+          "verified": true,
+          "source": "https://www.workday.com/en-us/customer-stories/q-z/scandic-standardizes-hr-processes-scales.html",
+          "reason": "Operational Workday usage is confirmed by the customer story or employer portal."
+        },
+        "go_live": {
+          "date": null,
+          "historical_window_older_than_year": false,
+          "source": "https://www.theseus.fi/bitstream/handle/10024/79312/Jaervinen_Ville.pdf",
+          "reason": "Employer-commissioned research based on manager interviews explicitly dates Finnish adoption to autumn 2013 and says Sweden was already using Workday. No exact day or group-wide launch date. Timing research:  https://www.theseus.fi/bitstream/handle/10024/79312/Jaervinen_Ville.pdf | Employer-commissioned research based on manager interviews explicitly dates Finnish adoption to autumn 2013 and says Sweden was already using Workday. No exact day or group-wide launch date. Date/window: Autumn 2013; precision: season; status: confirmed_completed_regional_go_live; scope: HCM in Finnish Scandic hotels."
+        }
+      }
+    },
+    {
+      "company_name": "St. Luke's University Health Network",
+      "facts": {
+        "company_id": "1e7ad73f-eea9-55af-9d8c-26b846ffb2ed",
+        "workforce": {
+          "count": 18000,
+          "source": "https://www.workday.com/en-us/customer-stories/q-z/st-lukes-university-health-network-improve-retention.html",
+          "reason": "Dated Workday customer-story workforce snapshot; current exact headcount not verified."
+        },
+        "leadership": {
+          "verified": true,
+          "source": "https://www.slhn.org/about/leadership/executive-leadership",
+          "reason": "Chad Brisendine, Vice President and Chief Information Officer, at the Pennsylvania health network. Source supports HRIS/IT functional leadership; it does not independently prove a specific purchasing mandate. Workday modules: Extend, Human Capital Management, Payroll, Augmented Analytics."
+        },
+        "one_degree_connection": {
+          "verified": null,
+          "source": "https://www.slhn.org/about/leadership/executive-leadership",
+          "reason": "Public professional identity/employer route is documented, but no team/Adi mutual or direct one-degree connection is verified in the records."
+        },
+        "authority_and_willingness": {
+          "verified": null,
+          "source": "https://www.slhn.org/about/leadership/executive-leadership",
+          "reason": "Buying mandate and demonstrated willingness to act on this offering are unverified. Public speaking, job postings and a published email alone do not prove conviction."
+        },
+        "adjacent_tool_purchase": {
+          "verified": null,
+          "source": "https://www.workday.com/en-us/customer-stories/q-z/st-lukes-university-health-network-improve-retention.html",
+          "reason": "No verified adjacent testing/automation purchase or current purchase timeline found in reviewed sources; budget remains unconfirmed."
+        },
+        "purchase_timeline": {
+          "verified": null,
+          "source": "https://www.workday.com/en-us/customer-stories/q-z/st-lukes-university-health-network-improve-retention.html",
+          "reason": "No verified current purchase or renewal window; historical adoption is not a future buying commitment."
+        },
+        "financial_stability": {
+          "verified": null,
+          "source": "https://www.workday.com/en-us/customer-stories/q-z/st-lukes-university-health-network-improve-retention.html",
+          "reason": "Financial stability has not been established by the reviewed financial evidence; no negative financial conclusion is inferred."
+        },
+        "workday_live": {
+          "verified": true,
+          "source": "https://www.workday.com/en-us/customer-stories/q-z/st-lukes-university-health-network-improve-retention.html",
+          "reason": "Operational Workday usage is confirmed by the customer story or employer portal."
+        },
+        "go_live": {
+          "date": null,
+          "historical_window_older_than_year": false,
+          "source": "https://www.workday.com/en-us/customer-stories/q-z/st-lukes-university-health-network-improve-retention.html",
+          "reason": "Official customer story confirms completed Extend bonus and emergency time-tracking apps, but does not date original HCM deployment. No exact launch date found; other St. Luke organisations were excluded. Timing research:  https://www.workday.com/en-us/customer-stories/q-z/st-lukes-university-health-network-improve-retention.html | Official customer story confirms completed Extend bonus and emergency time-tracking apps, but does not date original HCM deployment. No exact launch date found; other St. Luke organisations were excluded. Date/window: information not available; precision: unknown; status: live_calendar_date_unknown; scope: HCM / Payroll / Workday Extend."
+        }
+      }
+    },
+    {
+      "company_name": "Memorial Health",
+      "facts": {
+        "company_id": "22e57648-6b1f-55bd-afc2-348afaccfb25",
+        "workforce": {
+          "count": 6700,
+          "source": "https://memorial.health/about-us/leadership/mandy-c-eaton/",
+          "reason": "Dated Workday customer-story workforce snapshot; current exact headcount not verified."
+        },
+        "leadership": {
+          "verified": true,
+          "source": "https://memorial.health/about-us/leadership/",
+          "reason": "Suresh Krishnan, Senior Vice President and Chief Information Officer, at Springfield, Illinois Memorial Health. Source supports HRIS/IT functional leadership; it does not independently prove a specific purchasing mandate. Workday modules: Recruiting (public Workday applicant portal confirmed; full HCM/Payroll scope unconfirmed)."
+        },
+        "one_degree_connection": {
+          "verified": null,
+          "source": "https://memorial.health/about-us/leadership/elisabeth-klar/",
+          "reason": "Public professional identity/employer route is documented, but no team/Adi mutual or direct one-degree connection is verified in the records."
+        },
+        "authority_and_willingness": {
+          "verified": null,
+          "source": "https://memorial.health/about-us/leadership/",
+          "reason": "Buying mandate and demonstrated willingness to act on this offering are unverified. Public speaking, job postings and a published email alone do not prove conviction."
+        },
+        "adjacent_tool_purchase": {
+          "verified": null,
+          "source": "https://memorial.health/about-us/leadership/mandy-c-eaton/",
+          "reason": "No verified adjacent testing/automation purchase or current purchase timeline found in reviewed sources; budget remains unconfirmed."
+        },
+        "purchase_timeline": {
+          "verified": null,
+          "source": "https://memorial.health/about-us/leadership/mandy-c-eaton/",
+          "reason": "No verified current purchase or renewal window; historical adoption is not a future buying commitment."
+        },
+        "financial_stability": {
+          "verified": null,
+          "source": "https://memorial.health/about-us/leadership/mandy-c-eaton/",
+          "reason": "Financial stability has not been established by the reviewed financial evidence; no negative financial conclusion is inferred."
+        },
+        "workday_live": {
+          "verified": true,
+          "source": "https://memorial.health/about-us/leadership/mandy-c-eaton/",
+          "reason": "Operational Workday usage is confirmed by the customer story or employer portal."
+        },
+        "go_live": {
+          "date": null,
+          "historical_window_older_than_year": false,
+          "source": "https://www.beckershospitalreview.com/strategy/memorial-health-ceo-ebitda-tells-us-whether-we-can-afford-tomorrow/",
+          "reason": "August 21, 2026 CEO interview reports a target go-live at the end of September 2026 for Springfield, Illinois. Target is historical as of review; no public completion notice found. Live Recruiting portal alone does not confirm full HCM completion. Timing research:  https://www.beckershospitalreview.com/strategy/memorial-health-ceo-ebitda-tells-us-whether-we-can-afford-tomorrow/ | August 21, 2026 CEO interview reports a target go-live at the end of September 2026 for Springfield, Illinois. Target is historical as of review; no public completion notice found. Live Recruiting portal alone does not confirm full HCM completion. Date/window: 2026-09 (end of month); precision: month; status: planned_go_live_completion_unconfirmed; scope: Workday deployment; exact module scope unstated in interview."
+        }
+      }
+    },
+    {
+      "company_name": "Topcon",
+      "facts": {
+        "company_id": "2423f06e-b3f0-5739-860d-e3fb32f56453",
+        "workforce": {
+          "count": 4909,
+          "source": "https://global.topcon.com/about/overview/",
+          "reason": "4,909 employees as of March 31, 2026; corporate profile."
+        },
+        "leadership": {
+          "verified": true,
+          "source": "https://global.topcon.com/about/officer/",
+          "reason": "Yoshikuni Ito, Senior Executive and Chief Information Officer. Source supports HRIS/IT functional leadership; it does not independently prove a specific purchasing mandate. Workday modules: Human Capital Management, Learning."
+        },
+        "one_degree_connection": {
+          "verified": null,
+          "source": "https://global.topcon.com/about/officer/",
+          "reason": "Public professional identity/employer route is documented, but no team/Adi mutual or direct one-degree connection is verified in the records."
+        },
+        "authority_and_willingness": {
+          "verified": null,
+          "source": "https://global.topcon.com/about/officer/",
+          "reason": "Buying mandate and demonstrated willingness to act on this offering are unverified. Public speaking, job postings and a published email alone do not prove conviction."
+        },
+        "adjacent_tool_purchase": {
+          "verified": null,
+          "source": "https://www.workday.com/en-us/customer-stories/q-z/topcon-transforming-hr-visualizing-democratizing-data.html",
+          "reason": "No verified adjacent testing/automation purchase or current purchase timeline found in reviewed sources; budget remains unconfirmed."
+        },
+        "purchase_timeline": {
+          "verified": null,
+          "source": "https://www.workday.com/en-us/customer-stories/q-z/topcon-transforming-hr-visualizing-democratizing-data.html",
+          "reason": "No verified current purchase or renewal window; historical adoption is not a future buying commitment."
+        },
+        "financial_stability": {
+          "verified": null,
+          "source": "https://www.workday.com/en-us/customer-stories/q-z/topcon-transforming-hr-visualizing-democratizing-data.html",
+          "reason": "Financial stability has not been established by the reviewed financial evidence; no negative financial conclusion is inferred."
+        },
+        "workday_live": {
+          "verified": true,
+          "source": "https://www.workday.com/en-us/customer-stories/q-z/topcon-transforming-hr-visualizing-democratizing-data.html",
+          "reason": "Operational Workday usage is confirmed by the customer story or employer portal."
+        },
+        "go_live": {
+          "date": null,
+          "historical_window_older_than_year": false,
+          "source": "https://global.topcon.com/invest/wp-content/uploads/library/integration/TopconReport_2025_EN.pdf",
+          "reason": "Topcon’s own 2025 report states its Workday education platform was introduced in 2024. Separately, Workday’s March 16, 2022 newsroom release announced HCM implementation had begun, not that it had gone live. Timing research:  https://global.topcon.com/invest/wp-content/uploads/library/integration/TopconReport_2025_EN.pdf | Topcon’s own 2025 report states its Workday education platform was introduced in 2024. Separately, Workday’s March 16, 2022 newsroom release announced HCM implementation had begun, not that it had gone live. Date/window: 2024; precision: year; status: confirmed_completed_module_introduction; scope: Workday educational platform. https://ja-jp.newsroom.workday.com/2022-03-16-topcon-workday-customer | Japanese primary announcement states full-scale HCM implementation had started; March 16, 2022 is announcement date, not confirmed go-live."
+        }
+      }
+    },
+    {
+      "company_name": "Hilti Aktiengesellschaft",
+      "facts": {
+        "company_id": "2552c597-e93e-5997-9898-20cc3ace9718",
+        "workforce": {
+          "count": 34000,
+          "source": "https://www.workday.com/en-us/customer-stories/a-h/hilti-one-global-system-for-all.html",
+          "reason": "Dated Workday customer-story workforce snapshot; current exact headcount not verified."
+        },
+        "leadership": {
+          "verified": true,
+          "source": "https://itc-q.hilti.com/event.html",
+          "reason": "Johannes Reichert, Chief Information Officer, leads Hilti Global IT; employer event biography and public profile corroborate the role. Source supports HRIS/IT functional leadership; it does not independently prove a specific purchasing mandate. Workday modules: Human Capital Management, Extend, Adaptive Planning, Time and Attendance, Absence."
+        },
+        "one_degree_connection": {
+          "verified": null,
+          "source": "https://www.linkedin.com/posts/natasha-singh-mba-shrm-scp-pmp-9a39b642_excited-to-share-that-ive-stepped-into-a-activity-7433960329618841600-03rz",
+          "reason": "Public professional identity/employer route is documented, but no team/Adi mutual or direct one-degree connection is verified in the records."
+        },
+        "authority_and_willingness": {
+          "verified": null,
+          "source": "https://itc-q.hilti.com/event.html",
+          "reason": "Buying mandate and demonstrated willingness to act on this offering are unverified. Public speaking, job postings and a published email alone do not prove conviction."
+        },
+        "adjacent_tool_purchase": {
+          "verified": true,
+          "source": "https://www.kainos.com/insights/webinars/from-paper-to-productivity-digitizing-frontline-onboarding-with-hilti--kainos-edm",
+          "reason": "March 19, 2026 vendor webinar documents Hilti using Kainos EDM inside Workday for document and onboarding automation; adjacent tool adoption proxy, no new purchase deadline."
+        },
+        "purchase_timeline": {
+          "verified": null,
+          "source": "https://www.kainos.com/insights/webinars/from-paper-to-productivity-digitizing-frontline-onboarding-with-hilti--kainos-edm",
+          "reason": "No verified current purchase or renewal window; historical adoption is not a future buying commitment."
+        },
+        "financial_stability": {
+          "verified": null,
+          "source": "https://www.workday.com/en-us/customer-stories/a-h/hilti-one-global-system-for-all.html",
+          "reason": "Financial stability has not been established by the reviewed financial evidence; no negative financial conclusion is inferred."
+        },
+        "workday_live": {
+          "verified": true,
+          "source": "https://www.workday.com/en-us/customer-stories/a-h/hilti-one-global-system-for-all.html",
+          "reason": "Operational Workday usage is confirmed by the customer story or employer portal."
+        },
+        "go_live": {
+          "date": null,
+          "historical_window_older_than_year": true,
+          "source": "https://my.linkedin.com/jobs/view/it-business-analyst-compensation-benefits-at-hilti-asia-it-services-4084885709",
+          "reason": "Hilti’s employer-authored compensation/benefits job advertisement explicitly dates successful global HCM go-live to March 2020. No day is stated; earlier implementation references may describe a different phase. Timing research:  https://my.linkedin.com/jobs/view/it-business-analyst-compensation-benefits-at-hilti-asia-it-services-4084885709 | Hilti’s employer-authored compensation/benefits job advertisement explicitly dates successful global HCM go-live to March 2020. No day is stated; earlier implementation references may describe a different phase. Date/window: 2020-03; precision: month; status: confirmed_completed_go_live; scope: Global HCM."
+        }
+      }
+    }
+  ]
+}

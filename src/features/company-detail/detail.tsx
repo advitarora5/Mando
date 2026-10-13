@@ -8,11 +8,13 @@ import { WeeklyHistory } from "@/features/weekly-history/history";
 import type { Snapshot } from "@/domain/history";
 import { ContactDrafts } from "@/features/outreach/drafts";
 import type { StoredDraft } from "@/server/repositories/outreach-drafts";
-import { saveCompany, saveContact, saveInsights } from "@/features/company-editor/actions";
+import { saveCompany, saveContact, saveInsights, saveLeadStatus } from "@/features/company-editor/actions";
+import { leadStatuses, leadStatusLabels } from "@/domain/lead-status";
 import { parseEvidence } from "@/domain/scoring/evidence";
 import { goLiveScore } from "@/domain/scoring/go-live";
 import { rubric } from "@/domain/scoring/rubric";
 import { contactFunction, contactProvenance, emailLabel, emailState, functionLabel, reachSummary } from "@/domain/contacts/contact-view";
+import { displayTier } from "@/domain/scoring/display";
 
 function Source({ value }: { value: string | null }) {
   const url = safeUrl(value);
@@ -152,7 +154,7 @@ export function Detail({ company: c, snapshots = [], drafts = [] }: { company: C
   return <main className="detail-page">
     <header><Link href="/">mando <span>/ prospect intelligence</span></Link><LogoutButton /></header>
     <nav className="breadcrumb"><Link href="/">← Company priorities</Link></nav>
-    <section className="detail-heading"><div><p className="eyebrow">COMPANY PROFILE</p><h1>{c.name}</h1><p>{c.industry ?? "Industry pending"} · {c.headquarters ?? "Headquarters pending"}</p></div><div className="score-summary"><strong>{c.score?.total ?? "—"}</strong><span>{c.score?.tier ?? "Unscored"}</span></div></section>
+    <section className="detail-heading"><div><p className="eyebrow">COMPANY PROFILE</p><h1>{c.name}</h1><p>{c.industry ?? "Industry pending"} · {c.headquarters ?? "Headquarters pending"}</p></div><div className="score-summary"><strong>{c.score?.total ?? "—"}</strong><span>{displayTier(c.score)}</span></div></section>
     <aside>{c.score?.tier_reason ?? "No qualification assessment is available yet."}</aside>
     <div className="detail-grid">
       <section className="panel detail-section"><Editor title="Company overview" action={saveCompany} hidden={{ company_id: c.id, updated_at: c.updated_at }} fields={companyFields}>
@@ -166,6 +168,9 @@ export function Detail({ company: c, snapshots = [], drafts = [] }: { company: C
         <dl className="facts"><div><dt>Buyer persona</dt><dd>{insights?.persona_override ?? insights?.persona_generated ?? "Not generated"}</dd></div><div><dt>Level</dt><dd>{insights?.level_override ?? insights?.level_generated ?? "Not generated"}</dd></div><div className="full-width"><dt>Why now</dt><dd>{insights?.why_now_override ?? insights?.why_now_generated ?? "Not generated"}</dd></div></dl>
       </Editor></section>
     </div>
+    <section className="panel detail-section"><Editor title="Lead status" action={saveLeadStatus} hidden={{ company_id: c.id, updated_at: c.updated_at, previous_status: c.lead_status }} fields={[{ name: "lead_status", label: "Status", type: "select", value: c.lead_status, options: leadStatuses.map(status => ({ value: status, label: leadStatusLabels[status] })), help: "Sending a draft marks the lead contacted automatically." }]}>
+      <dl className="facts"><div><dt>Status</dt><dd>{leadStatusLabels[c.lead_status] ?? c.lead_status}</dd></div><div><dt>Contacted</dt><dd>{c.contacted_at ? new Date(c.contacted_at).toLocaleDateString("en-US", { timeZone: "America/Chicago" }) : "Not yet"}</dd></div><div><dt>Replied</dt><dd>{c.replied_at ? new Date(c.replied_at).toLocaleDateString("en-US", { timeZone: "America/Chicago" }) : "Not yet"}</dd></div><div><dt>Demo booked</dt><dd>{c.demo_booked_at ? new Date(c.demo_booked_at).toLocaleDateString("en-US", { timeZone: "America/Chicago" }) : "Not yet"}</dd></div></dl>
+    </Editor></section>
     <ImportedResearch evidence={c.score?.authority_evidence ?? ""} />
     <section className="panel detail-section"><div className="section-title"><h2>Qualification evidence</h2><span className="muted">{c.score ? `Assessed ${new Date(c.score.assessed_at).toLocaleDateString("en-US", { timeZone: "America/Chicago" })}` : "No assessment yet"}</span></div>
       <div className="evidence-grid">{categories.map(category => {

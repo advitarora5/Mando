@@ -1,0 +1,79 @@
+{
+  "number": 118,
+  "company_id": "e963b98a-6dde-52a1-a82a-c5a4b8ba9e20",
+  "name": "Li & Fung",
+  "research_status": "reviewed",
+  "domain": "lifung.com",
+  "industry": "Global supply-chain management and sourcing",
+  "headquarters": "Kowloon, Hong Kong",
+  "employee_count": 5000,
+  "employee_basis": "Workday customer story reports more than 5,000 colleagues across 40 markets; undated lower bound. Do not substitute historical pre-divestiture 17,000 employee counts.",
+  "company_source": "https://www.workday.com/en-us/customer-stories/i-p/li-fung-embeds-agility-adapt-changing-environments.html",
+  "modules": [
+    "Human Capital Management",
+    "Talent Acquisition",
+    "Learning",
+    "Performance Management"
+  ],
+  "go_live": {
+    "date": null,
+    "precision": "month",
+    "status": "completed",
+    "description": "September 2018 HRIS go-live explicitly stated in the company's 2018 annual report, printed page 100. No exact day or new 2026 launch confirmed.",
+    "sources": [
+      "https://www.lifung.com/wp-content/uploads/2018/08/LiFung_AR_2018.pdf"
+    ]
+  },
+  "contacts": [
+    {
+      "name": "Eva Wong",
+      "title": "Chief Human Resources Officer",
+      "linkedin_url": "https://www.linkedin.com/in/eva-wong-ba427235",
+      "source": "https://links.sgx.com/FileOpen/LI%20N%20FUNG%20LIMITED%20-%20Final%20Offering%20Circular.ashx?App=Prospectus&FileID=67006",
+      "role_status": "current_official",
+      "notes": "Issuer circular says she rejoined as CHRO in 2025; public 2026 COO post links this LinkedIn profile. Earlier Roger Young and Manoj Viswanathan announcements are historical."
+    },
+    {
+      "name": "Keith Ip",
+      "title": "Chief Technology Officer",
+      "linkedin_url": null,
+      "source": "https://funggroup.com/en/about/our_leadership/",
+      "role_status": "current_official",
+      "notes": "Parent leadership roster and Workday customer story agree. Same-name LinkedIn results for a Calgary educator and freelance worker were rejected."
+    }
+  ],
+  "evidence": [
+    {
+      "category": "authority",
+      "source": "https://links.sgx.com/FileOpen/LI%20N%20FUNG%20LIMITED%20-%20Final%20Offering%20Circular.ashx?App=Prospectus&FileID=67006",
+      "reason": "Company-issued bond circular identifies Eva Wong as current CHRO and Keith Ip as leader of technology and AI initiatives."
+    },
+    {
+      "category": "reachability",
+      "source": "https://www.linkedin.com/posts/deepika-rana-a2ab35143_the-li-and-fung-annual-conference-2026-was-activity-7439918288756891648-rl_u",
+      "reason": "COO's public 2026 leadership post links Eva Wong's professional profile; no warm introduction or willingness to purchase confirmed."
+    },
+    {
+      "category": "timing",
+      "source": "https://www.lifung.com/wp-content/uploads/2018/08/LiFung_AR_2018.pdf",
+      "reason": "Issuer annual report explicitly dates the HRIS go-live to September 2018."
+    },
+    {
+      "category": "budget",
+      "source": "https://www.lifung.com/wp-content/uploads/2025/06/ESG-2024-Report_FINAL-2_June_2025_Lo.pdf",
+      "reason": "Company describes its LF AI Portal and enhanced generative-AI use in FY2024; internal development is technology investment, not verified purchase of a Workday-adjacent vendor."
+    }
+  ],
+  "why_now": "A mature global Workday footprint supports ongoing configuration changes, performance cycles, learning and ESG reporting. CTO-led AI adoption and a CHRO who returned in 2025 suggest a possible modernization discussion; no recent go-live or committed testing purchase was found.",
+  "persona": "CHRO sponsor and enterprise technology owner",
+  "level": "C-suite",
+  "gaps": [
+    "Exact go-live day unavailable; confirmed month is September 2018.",
+    "Current exact employee census not confirmed.",
+    "No verified direct buyer email/phone, team mutual connection, purchasing timeline or demonstrated willingness to act.",
+    "No confirmed adjacent testing/automation tool purchase.",
+    "CTO LinkedIn URL not confidently identified."
+  ],
+  "research_notes": "Official contact page https://www.lifung.com/contact-us/ locates HQ in Lifung Tower, Kowloon and provides only shared media/IR channels. Company's annual reports page says it became private in 2020 and restricts current financial details to bondholders; do not treat 2019 revenue as current. Keith Ip's March 2026 ServiceNow AI Summit participation proves speaking, not ServiceNow purchase. No scores changed.",
+  "research_checked_on": "2026-10-12"
+}

@@ -3,6 +3,9 @@ export type Tier = "Qualified" | "Maybe" | "Disqualified";
 export const categories = ["authority", "reachability", "budget", "release", "timing"] as const;
 export type Category = (typeof categories)[number];
 
+export const leadStatuses = ["queued", "contacted", "replied", "demo_booked"] as const;
+export type LeadStatus = (typeof leadStatuses)[number];
+
 export interface Company {
   id: string;
   name: string;
@@ -12,6 +15,10 @@ export interface Company {
   employee_count: number | null;
   workday_signal_date: string | null;
   source: string | null;
+  lead_status: LeadStatus;
+  contacted_at: string | null;
+  replied_at: string | null;
+  demo_booked_at: string | null;
 }
 
 export interface Score {

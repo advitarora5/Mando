@@ -1,4 +1,5 @@
 import type { CompanyListItem } from "@/domain/contracts/company";
+import { displayTier } from "../../domain/scoring/display.ts";
 
 export type Sort = "score-desc" | "score-asc" | "name-asc" | "name-desc" | "employees-desc" | "employees-asc" | "rank-asc" | "rank-desc" | "tier-asc" | "tier-desc";
 export type Filters = { search: string; tier: string; min: number | null; max: number | null; sort: Sort };
@@ -26,7 +27,7 @@ export function queryCompanies(companies: CompanyListItem[], filters: Filters) {
   return companies.filter(c => {
     const text = [c.name, c.domain, c.industry, c.headquarters, c.why_now, ...c.contacts.flatMap(contact => [contact.name, contact.title, contact.email])].filter(Boolean).join(" ").toLowerCase();
     if (search && !text.includes(search)) return false;
-    if (filters.tier !== "All" && (c.score?.tier ?? "Unscored") !== filters.tier) return false;
+    if (filters.tier !== "All" && displayTier(c.score) !== filters.tier) return false;
     if ((filters.min !== null || filters.max !== null) && !c.score) return false;
     if (filters.min !== null && c.score!.total < filters.min) return false;
     if (filters.max !== null && c.score!.total > filters.max) return false;
@@ -34,9 +35,9 @@ export function queryCompanies(companies: CompanyListItem[], filters: Filters) {
   }).toSorted((a, b) => {
     const tie = names.compare(a.name, b.name) || a.id.localeCompare(b.id);
     if (filters.sort.startsWith("tier")) {
-      const order = { Disqualified: 0, Maybe: 1, Qualified: 2 };
+      const order: Record<string, number> = { Disqualified: 0, "Not Enough Evidence": 1, Maybe: 2, Qualified: 3 };
       if (!a.score || !b.score) return a.score === b.score ? tie : !a.score ? 1 : -1;
-      const difference = order[a.score.tier] - order[b.score.tier];
+      const difference = order[displayTier(a.score)] - order[displayTier(b.score)];
       return (filters.sort === "tier-asc" ? difference : -difference) || scoreOrder(a, b);
     }
     if (filters.sort === "name-asc") return tie;
