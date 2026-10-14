@@ -5,7 +5,7 @@ const folder='src/data/research/team43-rubric-20261012';
 const input=JSON.parse(fs.readFileSync(`${folder}/facts.json`,'utf8'));
 const companies=input.companies.map(c=>{
  const a=assessTeamCompany(c,input.as_of_date);
- const h=createHash('sha256').update(`${c.company_id}:${input.rubric_version}:${input.assessed_at}`).digest('hex');
+ const h=createHash('sha256').update(`${c.company_id}:${a.row.rubric_version}:${input.assessed_at}`).digest('hex');
  a.row.id=`${h.slice(0,8)}-${h.slice(8,12)}-5${h.slice(13,16)}-a${h.slice(17,20)}-${h.slice(20,32)}`;
  a.row.assessed_at=input.assessed_at;
  const opportunity=a.detail.timing.score>5?a.detail.timing.reason:a.detail.timing.score===5?'Confirmed ongoing Workday operation creates an operational testing opportunity; recent urgency is unconfirmed.':'Workday selection is documented, but production deployment and urgency remain unconfirmed.';
@@ -13,7 +13,7 @@ const companies=input.companies.map(c=>{
  a.next_action=a.detail.timing.score===0?'Confirm production deployment and its module-specific completion date.':'Validate the selected contact’s direct route and ask about the next Workday testing or procurement milestone.';
  return {number:c.number,company_name:c.company_name,company_id:c.company_id,previous:c.previous,...a};
 });
-const out={assessed_at:input.assessed_at,as_of_date:input.as_of_date,rubric_version:input.rubric_version,policy:'team-public-evidence-v4-screenshot',companies};
+const out={assessed_at:input.assessed_at,as_of_date:input.as_of_date,rubric_version:companies[0]?.row.rubric_version,policy:'team-public-evidence-v4-screenshot',companies};
 fs.writeFileSync(`${folder}/assessments.json`,JSON.stringify(out,null,2)+'\n');
 let report=`# Reviewed rescore: 43 companies\n\nAs of ${input.as_of_date}, America/Chicago. Screenshot Timing and Release override the attached v4 document. Previous assessments are retained. Unsourced email verification flags earn no bonuses.\n\n`;
 for(const c of companies){

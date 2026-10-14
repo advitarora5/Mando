@@ -1,0 +1,128 @@
+original_row,company_id,company_name
+1,00e6f2f2-171e-5cd9-9776-93e13ac0a3fb,Mondelēz International
+2,01e66a13-d283-55ca-9980-5e402299fcea,St John of God Health Care
+3,0282dc1a-dd1e-5c2b-a286-dac058777c01,First National Bank of Omaha
+4,031cda41-d7cb-5797-b599-5e28bcc363a5,Banner Health
+5,03e0cd1e-7b4e-516d-98a2-bffb3485dcd2,Iowa State University
+6,05360993-fa21-567c-8259-66f58ea118bd,Bronson Healthcare
+7,074b1f36-8d02-5d58-b2c8-864103766afc,Thermo Fisher Scientific
+8,094b7420-2082-53c5-a3df-130ed6e95cfc,Tokyo Electron
+9,0c9a3679-c609-5441-bac6-3e2ecf163a62,RMIT University
+10,0d7ea78d-6376-5f97-b5d8-e16e3783aee9,Jardine Matheson
+11,0df0af2a-ff75-5e4c-9a56-938187e4eeaf,English Schools Foundation
+12,0f5a3b7b-a2f9-5a2b-bc81-72fc8a8074d5,Sun Life
+13,15d16044-4b5a-5a79-8fe2-d7a79fe94db0,Signify
+14,1667a535-6b79-50b0-8b3b-9dbbeb81e29d,Roswell Park Comprehensive Cancer Center
+15,1a72a9ab-335f-5397-a637-03a6454e1a65,Del Monte Fresh Produce Company
+16,1d3c6696-d69f-5fdc-b408-2acfe1698038,Scandic
+17,1e7ad73f-eea9-55af-9d8c-26b846ffb2ed,St. Luke's University Health Network
+18,22e57648-6b1f-55bd-afc2-348afaccfb25,Memorial Health
+19,2423f06e-b3f0-5739-860d-e3fb32f56453,Topcon
+20,2552c597-e93e-5997-9898-20cc3ace9718,Hilti Aktiengesellschaft
+21,273c8483-a7d0-5601-975c-9640b8e555af,Washington State University
+22,27e35692-f806-5cd4-ac74-5559780ad8a4,Guess Inc.
+23,28b86c2d-b75e-564c-a3c1-2b3b56d8d8ee,GEA Group
+24,28f1118b-1f41-53c3-bc32-ae8b8ea7ec80,Adeo
+25,29b4e402-901c-57df-8ea5-10c20a610b88,Yokogawa Electric
+26,2db82b39-effe-59bd-912a-a3df0af2f9d1,British Heart Foundation
+27,2edf52e7-25ec-5084-9671-487fcf595917,Freudenberg Group
+28,31981bd6-f31c-599c-b080-71099efd4004,Azelis
+29,3462609e-b445-55f7-b42c-b9d714516846,Kolmar Holdings
+30,34d06ced-211d-595b-80e7-e86ce410903a,Rakuten
+31,354673ea-47f9-5871-8a88-26d9a239085b,BDR Thermea
+32,36890587-f5bf-59af-ad10-f62c4b822862,3M
+33,37342b6c-13ee-5365-b43f-675c0ea5db85,Meijer
+34,3848c998-8623-5e63-a782-0d210afdabbf,Michels Corporation
+35,3b08e722-9790-55ee-911f-eb0e89bd4ac1,Memorial Healthcare System
+36,3bf17c01-c151-5d52-b6b8-94f2d32f14be,Cochlear
+37,3c87bbb2-782c-50c5-b416-fcf672dfa9d9,SoftServe
+38,3fb3afbb-7a0f-5036-be75-3dde891191a1,Portland General Electric
+39,43aa9418-67ae-5f33-810b-0064d3ffa9cd,"Dialysis Clinic, Inc."
+40,446363c7-2e61-5ad9-a4f7-1453219bd9c1,"BWX Technologies, Inc."
+41,44c3c931-a5ca-5899-ace8-4de96269c36c,MSD (Merck & Co.)
+42,450c0bde-1143-5a0a-ac5e-fb2d9d653d5b,KPMG LLP
+43,4ad1408b-29ea-5b97-8588-7c151ef58e8e,Sagility
+44,4b3ed735-c4f4-5c62-bdd1-ab5c6f580be7,Medtronic
+45,4c047923-3949-55f4-b3e1-7aab24071f5d,Ono Pharmaceutical
+46,51bf7d3e-605b-5307-91db-fbcb93561ff3,MGM Resorts International
+47,54729602-95a9-50bf-b65d-d375df11c642,Otis
+48,552a8920-947a-5a1d-8c0e-03267663ebd1,Aurecon
+49,56731dc9-e070-5ca3-8730-53a7819e440a,John Muir Health
+50,582998d4-a063-5853-bbe6-f488327f8e5c,Parques Reunidos
+51,59173e6a-ad62-53b0-99b4-d92654e5d954,CL Grupo Industrial
+52,59c4c900-2919-50ab-ba25-1dc7fd8af6eb,PwC
+53,5aa11642-a518-55cd-bd58-15f13429e058,Maisons du Monde
+54,5b50ed55-6726-53a5-9dde-839f3e084429,Celltrion
+55,5ebefc64-8e92-5291-9ee9-df3ff6c1a9f8,AIA Group
+56,5ec9bee4-793b-5831-8613-a7fb8ffe4045,SGS
+57,5f220800-f82b-5fff-bc0a-da70f811366f,Sopra Steria (Scandinavia)
+58,60231dd9-6c95-525a-b60b-d18137152a73,Johnson Electric
+59,6051d8ef-822d-5f9a-aaed-0eeb1b642790,Fairview Health Services
+60,61cb52d7-9836-502d-aa20-b696cfac4fa3,Cinemark
+61,68122fc0-9812-5d8c-b638-29d994f59240,Hy-Vee
+62,6a79c08a-6d76-5034-a870-aede563c81e8,State of Delaware
+63,6f8ab56d-76be-5c54-85e2-801fc4930725,Aliaxis
+64,76cef539-31bf-5365-ae73-ada7b22f5ad1,Advantech
+65,7a1ae9f8-8328-5112-a5b2-e44389adf93f,Norconsult
+66,7e44bded-da78-545a-ae07-fb8d8d6e8563,abrdn
+67,7f57a169-8f90-5d91-a742-d0a1af6ae36c,Skandinaviska Enskilda Banken (SEB)
+68,803efcb6-1347-5ad7-ba39-6051ed1fb5c9,Air Liquide
+69,81e53346-4db1-5a34-9dd8-77ee0746e7b1,IU Group
+70,8250761b-2897-57d6-aa0e-146d906e1b9d,Palomar Health
+71,82b3841c-eda7-5305-9304-7a996184259c,Target
+72,861e11d3-b57a-53a2-87ed-24b40b324f28,Hitachi
+73,88a11128-5b23-50df-b93c-6fe87f59de09,Melitta Group
+74,8aff5441-b71f-5e78-a688-8c3da840eead,Coteccons
+75,8bfebe9d-91f5-5398-9f22-22a2bc4d9962,Levi Strauss & Co.
+76,8c9079b4-91ce-57e6-ae92-651af963acee,"Red Coats, Inc."
+77,8eac8553-a522-5ff3-99f2-13b6e51791f7,DB Cargo
+78,95ea0a5b-6971-5fcd-af37-072c0bd23134,moOngy
+79,95ef7076-99ae-555d-915c-3f8c168651c3,KGI Financial
+80,974df55b-62f4-5357-af9c-8ad158bd8daa,"U.S. Physical Therapy, Inc."
+81,983e7d26-fb29-528a-97a1-a33f8608741b,University of Minnesota Physicians
+82,9bdf1dea-b73d-5b0b-85c6-4f32df65e045,Everise
+83,9f597da8-b270-522d-9b8d-60f880df7be7,Wawa
+84,a15d3d64-345e-52e9-98e6-c64abd59746a,Florida Atlantic University
+85,a1b1d95d-2b09-58ce-b0a3-c529119b88b5,Elders
+86,a271f381-d15b-50cc-9ee9-e892d33d414c,NZ Transport Agency
+87,a42a4a1a-63a0-57dd-b7b4-7a3477c93234,MGM China
+88,a5e79ea9-0935-5909-a36d-48600599fb62,Telstra
+89,a61ea36a-87d5-56d8-a9e4-c1c0b54815df,Panduit
+90,ab4abb26-bb1c-5289-b32c-f4d5aca96380,Denny’s
+91,abffd2dc-b473-5728-b47e-849d64d93460,Saab
+92,ac1090be-c3b3-5117-ab7a-d2df62dd262d,Smiths Group plc
+93,acc549f9-c7e3-5db4-8e28-a2e00635bdf1,Genpact
+94,af7b3c8c-513e-5962-a005-42ee2caf48b1,Ferring Pharmaceuticals
+95,b407f588-c9d3-5166-995c-f3de60ee5c27,NVIDIA
+96,bc2ae135-27a4-556c-aadd-a7ee06699451,JLL
+97,c0fcbcd1-c86a-5d47-9144-001b6ec1f518,A1 Group
+98,c148a9b2-d440-566f-adbc-30c253387d53,Shake Shack
+99,c16783e2-b38a-5bd1-9cdd-aee9a826b833,Unum
+100,c4b2055d-c231-5a32-8246-25335ace9da9,Leonardo
+101,c6d1f296-daa5-54b6-a71f-f17105670e4a,Cooper Standard
+102,cab05429-f4b4-575d-ae63-c328966fbd61,Elekta
+103,d0b6dc81-28c6-5d75-9445-52032c75ea3f,Posti Group
+104,d3001d6b-b60f-5470-a47f-fcae204c8895,University of Queensland
+105,d4a07a57-e44e-5c1e-89be-103cf7e621e0,Sanofi
+106,d5689f2d-d89e-54bc-96d9-c3700b0c7e4a,Asda
+107,d61013b8-dfbd-5c63-bf4b-53608c4db63a,Patagonia
+108,d634b3cb-af91-511a-a52a-9a4bfcc3c153,H.Essers
+109,d6956351-5110-5442-aabd-8fc1ce15c556,Discount Tire
+110,d6abfb39-4e7c-5d56-a2e8-3af7afb3c277,Land O’Lakes
+111,db71855e-9dd9-542a-8da9-647042bab6ea,Blue Yonder
+112,dc448146-ee50-53a2-83bb-b9766eb10394,SoftwareOne
+113,df141ae3-8162-549f-ba1e-2a4d2c3280b1,SS&C Technologies
+114,dfda5ba6-f671-50a4-a1a1-44c34a963525,Focus Financial Partners
+115,e35a0325-9045-52db-a232-c1e3979f12ca,Sovereign Network Group (SNG)
+116,e53f08f9-86da-54fe-b068-f730bd77e256,Flex
+117,e57b2dff-84b6-5a94-ada4-c8d0ec2b149d,Hungry Jack’s
+118,e963b98a-6dde-52a1-a82a-c5a4b8ba9e20,Li & Fung
+119,ed44b10f-a81d-52ce-b808-7c5ebc14e793,RaceTrac
+120,f3f8581b-b489-5a20-a507-0039d20a69d3,Amadeus
+121,f4db56e0-db5d-5693-8227-9a1fc90810bd,Capita
+122,f51f6c35-229a-5f15-8ae1-eae30e5f6dbf,Affin Bank
+123,f72c302d-8220-5b51-bb34-8678fd7cdea1,Rochester Regional Health
+124,f8999d86-8581-5148-9b55-466217b6dd0f,MileOne Autogroup
+125,fc4bdc61-c1d7-5d37-ad30-a9e84761c4c0,Flix
+126,fd1944dc-6a8e-5075-bed9-2ae50cad52c5,Concentrix
+127,fdae1414-9777-5775-9ed1-dc67d2aa5498,Veolia UK & Ireland

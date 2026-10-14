@@ -1,3 +1,4 @@
+import { RUBRIC_VERSION } from '../src/domain/scoring/rubric.ts';
 import { buildAssessment } from '../src/domain/scoring/assessment.ts';
 import { displayTier, incompleteCategories } from '../src/domain/scoring/display.ts';
 import { formatEvidence } from '../src/domain/scoring/evidence.ts';
@@ -121,6 +122,6 @@ export function assessTeamCompany(company,today){
   if(!result.ok)throw new Error(result.errors.join(' '));
   // Unsourced zeroes carry the gap text with no fabricated URL; they remain incomplete.
   for(const [key,e] of Object.entries(inputs))if(!e.source)result.row[key+'_evidence']=e.reason;
-  result.row.rubric_version=TEAM_RUBRIC_VERSION;
+  result.row.rubric_version=`${RUBRIC_VERSION}:${TEAM_RUBRIC_VERSION}`;
   return {...result,display_tier:displayTier(result.row),unresolved_categories:incompleteCategories(result.row),detail,authorityCandidates,reachCandidates};
 }

@@ -1,6 +1,7 @@
 import { readFileSync, mkdirSync, writeFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { createClient } from '@supabase/supabase-js';
+import { assertReviewedTiers } from './validate-reviewed-tiers.mjs';
 import { parseEvidence } from '../src/domain/scoring/evidence.ts';
 
 // Background REST import: no browser, password extraction, schema changes or historical rewrites.
@@ -25,7 +26,9 @@ for(const e of entries){
     if(!Number.isFinite(r[c+'_score'])||r[c+'_score']<0||r[c+'_score']>maxima[i]||!parseEvidence(r[c+'_evidence'])) throw new Error('Invalid category score/evidence.');
   }
   if(categories.reduce((s,c)=>s+r[c+'_score'],0)!==e.total) throw new Error('Total does not match category points.');
+
 }
+assertReviewedTiers(entries);
 if(args.includes('--validate-only')){
   console.log(JSON.stringify({validated:entries.length,policy:input.policy,database_written:false}));
   process.exit(0);

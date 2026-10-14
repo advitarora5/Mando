@@ -1,5 +1,6 @@
 "use server";
 
+import { applyTierRules } from "@/domain/scoring/tier-rules";
 import { requireSession } from "@/server/auth/session";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
@@ -78,7 +79,8 @@ export async function generateDrafts(input: { contact_id: string; company_id: st
 
     const { data: row } = await db.from("companies").select("*, scores(*), company_insights(why_now_generated, why_now_override)").eq("id", company_id).maybeSingle();
     if (!row) throw new Error("Company not found. Refresh and try again.");
-    const score = [...(row.scores ?? [])].sort((a: { assessed_at: string }, b: { assessed_at: string }) => b.assessed_at.localeCompare(a.assessed_at))[0];
+    const saved = [...(row.scores ?? [])].sort((a: { assessed_at: string }, b: { assessed_at: string }) => b.assessed_at.localeCompare(a.assessed_at))[0];
+    const score = saved ? { ...applyTierRules(saved) } : null;
     if (!score) throw new Error("This company has no saved score yet, so there is no evidence to draft from.");
     const insight = [row.company_insights].flat()[0];
     const company = { name: row.name, industry: row.industry, workday_signal_date: row.workday_signal_date, score, why_now: insight?.why_now_override ?? insight?.why_now_generated ?? null };

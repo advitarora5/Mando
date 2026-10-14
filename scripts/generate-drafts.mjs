@@ -1,3 +1,4 @@
+import { applyTierRules } from '../src/domain/scoring/tier-rules.ts';
 // Drafts a LinkedIn message and an email per contact from stored evidence. Dry run by default: review the printout, then add --apply. --only=<text> limits to company names containing <text>.
 // Local Ollama by default. For OpenRouter set DRAFTS_LLM_BASE_URL=https://openrouter.ai/api/v1, DRAFTS_LLM_API_KEY and DRAFTS_LLM_MODEL in .env.local. Hand-edited drafts and drafts already sent are never overwritten; contacts that already have drafts are skipped unless --force.
 import { createClient } from "@supabase/supabase-js";
@@ -28,7 +29,8 @@ if (error) throw new Error(error.message);
 
 for (const c of data) {
   if (only && !c.name.toLowerCase().includes(only)) continue;
-  const score = c.scores.sort((a, b) => b.assessed_at.localeCompare(a.assessed_at))[0];
+  const saved = c.scores.sort((a, b) => b.assessed_at.localeCompare(a.assessed_at))[0];
+  const score = saved ? applyTierRules(saved) : null;
   if (!score) continue;
   const insight = [c.company_insights].flat()[0];
   const company = { ...c, score, why_now: insight?.why_now_override ?? insight?.why_now_generated ?? null };
