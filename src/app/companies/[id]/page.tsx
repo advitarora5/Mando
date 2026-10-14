@@ -7,6 +7,7 @@ import { getDrafts } from "@/server/repositories/outreach-drafts";
 import { Detail } from "@/features/company-detail/detail";
 
 export const dynamic = "force-dynamic";
+export const maxDuration = 60; // AI draft generation runs as a server action on this page
 export default async function CompanyPage({ params }: { params: Promise<{ id: string }> }) {
   await requirePageSession();
   const { id } = await params;

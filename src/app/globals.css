@@ -125,3 +125,14 @@ td.rank-cell { min-width: 75px; font-weight: 650; color: var(--accent); }
 .draft label { display: grid; gap: 4px; font-size: 12px; color: #77716b; }
 .draft textarea, .draft input { font: inherit; padding: 8px; border: 1px solid var(--border); border-radius: 6px; }
 .error-text { color: #a82b2b; font-size: 12px; }
+
+.settings-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 16px; }
+.settings-field { display: grid; gap: 6px; font-size: 13px; font-weight: 600; color: #4a443c; align-content: start; }
+.settings-field small { font-weight: 400; color: #77716b; font-size: 12px; line-height: 1.5; }
+.settings-field textarea, .settings-field input { font: inherit; font-weight: 400; padding: 10px; border: 1px solid #d8d2c9; border-radius: 6px; background: white; color: #171717; width: 100%; }
+.settings-field:has(textarea[rows="14"]), .settings-field:has(textarea[rows="28"]), .settings-field:has(textarea[rows="10"]) { grid-column: 1 / -1; }
+.settings-save { position: sticky; bottom: 0; display: flex; gap: 16px; align-items: center; padding: 14px 0; background: var(--background); }
+.settings-save p { margin: 0; }
+@media (max-width: 700px) { .settings-grid { grid-template-columns: 1fr; } }
+
+.button.danger { color: #a82b2b; border-color: #e0b8b8; }

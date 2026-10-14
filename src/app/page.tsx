@@ -17,6 +17,6 @@ export default async function Home() {
   {error && <p role="alert" className="error">{error}</p>}
   <section className="stats"><article><span>Companies</span><strong>{companies.length}</strong></article><article><span>Scored companies</span><strong>{companies.filter(c=>c.score).length}</strong></article><article><span>Qualified</span><strong>{companies.filter(c=>c.score?.tier === "Qualified").length}</strong></article></section>
   {!error && <CompanyList companies={companies} mode={mode} previousWeek={week} previousRanks={previousRanks(snapshots, week)} />}
-  <footer>Click a company to view its evidence, contacts, and editable insights. <Link href="/methodology">Company research and methodology</Link></footer>
+  <footer>Click a company to view its evidence, contacts, and editable insights. <Link href="/methodology">Company research and methodology</Link> · <Link href="/email-customization">Email customization</Link></footer>
  </main>;
 }
