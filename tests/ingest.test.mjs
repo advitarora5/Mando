@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { extractCaptures } from '../scripts/ingestion/extract.mjs';
+import { compareRuns, extractCaptures } from '../scripts/ingestion/extract.mjs';
 import { planIngest } from '../scripts/ingestion/ingest.mjs';
 
 const capture = {
@@ -17,7 +17,7 @@ const reply = content => async () => ({ ok: true, text: async () => JSON.stringi
 const ollama = claims => reply(JSON.stringify({ claims }));
 
 test('extractCaptures keeps verbatim claims and rejects invented quotes', async () => {
-  const { accepted, rejected, error } = await extractCaptures([capture], ollama([claim('went live on Workday HCM'), claim('never appears in the source')]));
+  const { accepted, rejected, error } = await extractCaptures([capture], ollama([claim('Acme Corp went live on Workday HCM'), claim('never appears in the source')]));
   assert.equal(error, null);
   assert.equal(accepted.length, 1);
   assert.match(rejected[0].reason, /not verbatim/);
@@ -28,7 +28,7 @@ test('extractCaptures reports invalid JSON instead of throwing', async () => {
 });
 
 test('planIngest creates new customers without scoring them and only adds signals to existing ones', () => {
-  const extraction = { results: [{ capture_ref: 'run/capture-1', accepted: [claim('went live on Workday HCM'), claim('long project', { company: { name: 'Vendor Inc', role: 'vendor' } })] }] };
+  const extraction = { results: [{ capture_ref: 'run/capture-1', accepted: [claim('Acme Corp went live on Workday HCM'), claim('long project', { company: { name: 'Vendor Inc', role: 'vendor' } })] }] };
   const fresh = planIngest([capture], extraction, []);
   assert.equal(fresh.skipped, 1);
   assert.equal(fresh.plan[0].action, 'create');
@@ -36,4 +36,32 @@ test('planIngest creates new customers without scoring them and only adds signal
   const known = planIngest([capture], extraction, [{ id: 'x', name: ' ACME  corp ' }]);
   assert.equal(known.plan[0].action, 'existing');
   assert.equal(known.plan[0].id, 'x');
+});
+
+test('a reply cut off at num_predict is retried as halves that keep the first segment', async () => {
+  const thread = { ...capture, segments: ['Acme Corp post', 'Acme Corp went live on Workday HCM', 'reply two', 'reply three'].map((text, i) => ({ id: `s${i}`, parent_id: null, kind: 'comment', author: null, published_date: null, text })) };
+  const prompts = [];
+  const fetchImpl = async (_, { body }) => {
+    const content = JSON.parse(body).messages[0].content;
+    prompts.push(content);
+    const cut = prompts.length === 1;
+    const claims = content.includes('went live') ? [claim('Acme Corp went live on Workday HCM', { date: null, evidence: { capture_ref: 'run/capture-1', segment_id: 's1', quote: 'Acme Corp went live on Workday HCM' } })] : [];
+    return { ok: true, text: async () => JSON.stringify({ message: { content: cut ? '{"claims": [' : JSON.stringify({ claims }) }, done: true, done_reason: cut ? 'length' : 'stop' }) + '\n' };
+  };
+  const { accepted, error } = await extractCaptures([thread], fetchImpl);
+  assert.equal(error, null);
+  assert.equal(accepted.length, 1);
+  assert.equal(prompts.length, 3);
+  assert.ok(prompts.slice(1).every(p => p.includes('Acme Corp post')));
+});
+
+test('compareRuns separates stable claims, claims some runs missed, and changed fields', () => {
+  const a = claim('Acme Corp went live on Workday HCM');
+  const b = claim('after a long project', { statement: 'after a long project' });
+  const vendor = { ...a, company: { name: 'Acme Corp', role: 'vendor' } };
+  const { stable, unstable, drift } = compareRuns([{ accepted: [a, b] }, { accepted: [vendor] }]);
+  assert.equal(stable, 0);
+  assert.equal(unstable.length, 1);
+  assert.match(drift[0], /customer.*vs.*vendor/);
+  assert.equal(compareRuns([{ accepted: [a, b] }, { accepted: [b, a] }]).stable, 2);
 });
