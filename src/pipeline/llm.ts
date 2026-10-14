@@ -64,7 +64,8 @@ export class OpenAICompatibleProvider implements LLMProvider {
       const res = await this.fetchImpl(`${this.baseUrl}/chat/completions`, {
         method: "POST", headers: { "content-type": "application/json", authorization: `Bearer ${this.apiKey}` },
         body: JSON.stringify({
-          model: this.model, temperature: 0, seed: request.seed ?? 42,
+          // Gemini's OpenAI-compatible endpoint answers 400 to a seed field.
+          model: this.model, temperature: 0, ...(this.name === "gemini" ? {} : { seed: request.seed ?? 42 }),
           response_format: { type: "json_schema", json_schema: { name: "extraction", strict: false, schema: request.schema } },
           messages: [{ role: "system", content: request.system }, { role: "user", content: request.user }],
         }),
