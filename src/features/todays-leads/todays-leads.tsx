@@ -45,7 +45,7 @@ export function TodaysLeads({ leads, error }: { leads: TodaysLead[]; error?: str
           {why.items.length > 0 ? <ul className="bullets lead-why">{why.items.map(item => <li key={item}>{item}</li>)}</ul> : <p className="muted lead-why">No why-now rationale yet.</p>}
           {contact ? <section className="lead-contact">
             <div className="lead-contact-head"><div className="person"><Avatar name={contact.name} /><div className="person-text"><strong>{contact.name}</strong><small>{contact.title ?? "Title not recorded"}</small></div></div><ChannelIcons contact={contact} tipPosition="left" /></div>
-            <ContactDrafts drafts={lead.drafts.filter(d => d.contact_id === contact.id)} companyId={lead.id} email={contact.email ?? null} linkedinUrl={contact.linkedin_url ?? null} />
+            <ContactDrafts drafts={lead.drafts.filter(d => d.contact_id === contact.id)} contactId={contact.id} companyId={lead.id} email={contact.email ?? null} linkedinUrl={contact.linkedin_url ?? null} />
           </section> : <p className="muted lead-why">No buyer contact yet. Add one on the company page.</p>}
         </article>;
       })}</div>}
