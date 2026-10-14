@@ -1,22 +1,18 @@
-import { LogoutButton } from "@/features/login/logout";
 import { getCompanies } from "@/server/repositories/companies";
-import Link from "next/link";
 import { getSnapshots } from "@/server/repositories/rank-history";
 import { baselineWeek, chicagoWeekStart, previousRanks } from "@/domain/history";
-import { CompanyList } from "@/features/company-list/company-list";
+import { Pipeline } from "@/features/pipeline/pipeline";
+import { AppShell, paletteCompanies } from "@/components/app-shell";
 
 export const dynamic = "force-dynamic";
-export default async function Home() {
- const { companies, mode, error } = await getCompanies();
- const snapshots = await getSnapshots();
- const week = baselineWeek(snapshots, chicagoWeekStart());
- return <main>
-  <header><Link href="/">mando <span>/ prospect intelligence</span></Link><LogoutButton /></header>
-  <section className="intro"><p className="eyebrow">ENTERPRISE QUALIFICATION</p><h1>Your next qualified conversation.</h1><p>Research, evidence, and prospect priorities in one shared workspace.</p></section>
-  {mode === "sample" && <aside>Sample data: fictional, unscored examples.</aside>}
-  {error && <p role="alert" className="error">{error}</p>}
-  <section className="stats"><article><span>Companies</span><strong>{companies.length}</strong></article><article><span>Scored companies</span><strong>{companies.filter(c=>c.score).length}</strong></article><article><span>Qualified</span><strong>{companies.filter(c=>c.score?.tier === "Qualified").length}</strong></article></section>
-  {!error && <CompanyList companies={companies} mode={mode} previousWeek={week} previousRanks={previousRanks(snapshots, week)} />}
-  <footer>Click a company to view its evidence, contacts, and editable insights. <Link href="/methodology">Company research and methodology</Link> · <Link href="/email-customization">Email customization</Link></footer>
- </main>;
+export default async function Home({ searchParams }: { searchParams: Promise<Record<string, string | string[] | undefined>> }) {
+  const [{ companies, mode, error }, snapshots, params] = await Promise.all([getCompanies(), getSnapshots(), searchParams]);
+  const week = baselineWeek(snapshots, chicagoWeekStart());
+  const previousCount = week ? new Set(snapshots.filter(s => s.week_start === week).map(s => s.company_id)).size : null;
+  const query = new URLSearchParams(Object.entries(params).flatMap(([key, value]) => typeof value === "string" ? [[key, value]] : [])).toString();
+  return <AppShell active="pipeline" companies={paletteCompanies(companies)}>
+    {mode === "sample" && <p className="active-filters" role="note">Sample data: fictional, unscored examples. Connect the database to see real companies.</p>}
+    {error ? <div className="empty-state" role="alert"><strong>Could not load companies</strong><span>{error}</span></div>
+      : <Pipeline key={query} companies={companies} mode={mode} previousWeek={week} previousRanks={previousRanks(snapshots, week)} previousCompanyCount={previousCount} initialQuery={query} />}
+  </AppShell>;
 }

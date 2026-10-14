@@ -1,7 +1,8 @@
 import { requirePageSession } from "@/server/auth/session";
 import "server-only";
 import { database } from "@/server/db";
-import type { CompanyDetail } from "@/domain/contracts/detail";
+import type { CompanyDetail, Contact } from "@/domain/contracts/detail";
+import { rankContacts } from "@/domain/contacts/contact-view";
 import type { Score } from "@/domain/contracts/company";
 import { applyTierRules } from "@/domain/scoring/tier-rules";
 import { daysSince } from "@/domain/scoring/go-live";
@@ -16,7 +17,7 @@ export async function getCompanyDetail(id: string): Promise<CompanyDetail | null
   return {
     ...data,
     days_since_signal: daysSince(data.workday_signal_date),
-    contacts: data.contacts.sort((a: { name: string }, b: { name: string }) => a.name.localeCompare(b.name)),
+    contacts: rankContacts(data.contacts as Contact[]),
     score: saved ? applyTierRules(saved) : null,
     insights: (Array.isArray(data.company_insights) ? data.company_insights[0] : data.company_insights) ?? null,
   };

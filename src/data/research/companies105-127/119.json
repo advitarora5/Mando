@@ -1,0 +1,94 @@
+{
+  "number": 119,
+  "company_id": "ed44b10f-a81d-52ce-b808-7c5ebc14e793",
+  "name": "RaceTrac",
+  "research_status": "reviewed",
+  "domain": "racetrac.com",
+  "industry": "Convenience retail and fuel distribution",
+  "headquarters": "Atlanta, Georgia, United States",
+  "employee_count": 15000,
+  "employee_basis": "Current CPO's public recruitment post describes more than 15,000 enterprise team members. Company acquisition release filed with SEC also reports this scope, including Potbelly and affiliates; older Workday story's 8,000 is historical.",
+  "company_source": "https://www.workday.com/en-us/customer-stories/q-z/racetrac-shifts-financial-management-into-high-gear.html",
+  "modules": [
+    "Financial Management",
+    "Human Capital Management",
+    "Payroll",
+    "Procure to Pay",
+    "Expenses",
+    "Projects"
+  ],
+  "go_live": {
+    "date": null,
+    "precision": "year",
+    "status": "completed",
+    "description": "Workday Financials migration in 2020 confirmed by Trintech's customer case study. Kainos later integrated acquired Gulf Oil into the existing tenant in six months, with a services extension signed in 2024. No exact original or acquisition-phase go-live day established.",
+    "sources": [
+      "https://www.trintech.com/case-study/racetrac/",
+      "https://get.kainos.com/FY26-Q1-WDY-WBN-Racetrac-Test_Registration.html"
+    ]
+  },
+  "contacts": [
+    {
+      "name": "Mark Gunn",
+      "title": "Chief People Officer",
+      "linkedin_url": "https://www.linkedin.com/in/mark-gunn-8b832532",
+      "source": "https://www.linkedin.com/in/mark-gunn-8b832532",
+      "role_status": "current_public_profile",
+      "notes": "Employer-confirmed April 2026 appointment reported by C-Store Dive; his current hiring post describes enterprise talent and compensation leadership."
+    },
+    {
+      "name": "Ameet Shetty",
+      "title": "Chief Information Officer",
+      "linkedin_url": "https://www.linkedin.com/in/ameetshetty",
+      "source": "https://www.linkedin.com/in/ameetshetty",
+      "role_status": "current_public_profile",
+      "notes": "RaceTrac's September 30, 2026 CIO award announcement confirms title. Prior IT leader John Lukas retired."
+    },
+    {
+      "name": "Megan Wallace",
+      "title": "Executive Director of Retail Accounting and Financial Systems",
+      "linkedin_url": "https://www.linkedin.com/in/megan-wallace-091931284",
+      "source": "https://www.kainos.com/insights/success-stories/how-racetrac-navigates-workday-change-confidently-with-smart-test",
+      "role_status": "current_official",
+      "notes": "Kainos March 2026 customer story confirms title; Workday's public event post alternatively calls her Executive Director of Financial Systems and Processes."
+    }
+  ],
+  "evidence": [
+    {
+      "category": "authority",
+      "source": "https://www.linkedin.com/in/mark-gunn-8b832532",
+      "reason": "Current CPO describes strategic compensation and talent hiring for a 15,000+ workforce."
+    },
+    {
+      "category": "reachability",
+      "source": "https://www.linkedin.com/in/megan-wallace-091931284",
+      "reason": "Relevant financial systems executive has a public professional profile and vendor customer-event participation; mutual introduction and buying intent unconfirmed."
+    },
+    {
+      "category": "budget",
+      "source": "https://www.kainos.com/insights/success-stories/how-racetrac-navigates-workday-change-confidently-with-smart-test",
+      "reason": "Vendor explicitly confirms RaceTrac uses Smart Test for automated Workday regression testing."
+    },
+    {
+      "category": "budget",
+      "source": "https://www.trintech.com/case-study/racetrac/",
+      "reason": "Customer case describes reconciliation automation integrated with Workday Financials since its 2020 migration."
+    },
+    {
+      "category": "timing",
+      "source": "https://www.trintech.com/news/trintech-to-showcase-governed-ai-for-finance-at-workday-rising-2026/",
+      "reason": "October 8 vendor announcement confirms RaceTrac presenting a financial-close transformation session at Workday Rising October 12–15, 2026."
+    }
+  ],
+  "why_now": "Acquisition-driven tenant consolidation, current talent and compensation leadership hiring, and a Workday Rising 2026 finance automation session create a timely discovery opportunity. Smart Test and Trintech demonstrate adjacent spend but are established incumbents; discovery must establish an unmet need rather than assume a replacement budget.",
+  "persona": "Enterprise financial systems owner, with CIO and CPO sponsors",
+  "level": "Executive director and C-suite",
+  "gaps": [
+    "Exact initial HCM and Financials go-live day unavailable; Financials year 2020 confirmed.",
+    "Direct buyer emails/phones, verified deliverability and team mutuals not confirmed.",
+    "No new purchasing timeline, dissatisfaction with incumbent tools, or Mando allocation confirmed.",
+    "Current group financial stability details are limited because RaceTrac is privately held."
+  ],
+  "research_notes": "Do not list Jill Van Pelt as current HR leader; employer-confirmed reporting says she left in 2025. RaceTrac/Trintech's 2026 Rising participation is distinct from its 2024 Workday mainstage appearance. Source for expanded workforce: https://www.sec.gov/Archives/edgar/data/1195734/000110465925101702/tm2528884d2_ex99-a5a.htm. No scores changed.",
+  "research_checked_on": "2026-10-12"
+}

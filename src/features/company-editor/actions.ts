@@ -4,6 +4,8 @@ import { requireSession } from "@/server/auth/session";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 import { contactSchema } from "@/domain/contracts/contact";
+import { leadStatuses } from "@/domain/contracts/company";
+import { leadStatusWrite } from "@/domain/lead-status";
 import { database } from "@/server/db";
 
 export type SaveState = { error?: string; saved?: boolean };
@@ -17,6 +19,7 @@ const companySchema = z.object({
   workday_signal_date: z.string().refine(v => !v || /^\d{4}-\d{2}-\d{2}$/.test(v) && !Number.isNaN(Date.parse(v)) && new Date(v).toISOString().slice(0, 10) === v, "Enter a valid date.").transform(v => v || null),
 });
 const insightsSchema = z.object({ company_id: z.uuid(), updated_at: z.string(), persona_override: optionalText, level_override: optionalText, why_now_override: optionalText });
+const leadStatusSchema = z.object({ company_id: z.uuid(), updated_at: z.string().min(1), previous_status: z.enum(leadStatuses), lead_status: z.enum(leadStatuses) });
 
 function refresh(id: string) { revalidatePath("/"); revalidatePath(`/companies/${id}`); }
 function failure(error: unknown): SaveState {
@@ -58,12 +61,30 @@ export async function saveContact(_: SaveState, form: FormData): Promise<SaveSta
     const { id, company_id, ...values } = contactSchema.parse(Object.fromEntries(form));
     const db = database();
     if (id) {
-      const { data, error } = await db.from("contacts").update(values).eq("id", id).eq("company_id", company_id).select("id");
+      // An enrichment verdict only describes the address it checked; drop it when a person changes the email.
+      const { data: current } = await db.from("contacts").select("email").eq("id", id).eq("company_id", company_id).maybeSingle();
+      const emailChanged = current && (current.email ?? "").toLowerCase() !== (values.email ?? "");
+      const update = emailChanged ? { ...values, email_status: null } : values;
+      const { data, error } = await db.from("contacts").update(update).eq("id", id).eq("company_id", company_id).select("id");
       if (error || !data?.length) throw new Error("Could not save this contact. Refresh and try again.");
     } else {
       const { error } = await db.from("contacts").insert({ company_id, ...values });
       if (error) throw new Error("Could not add this contact.");
     }
+    refresh(company_id); return { saved: true };
+  } catch (error) { return failure(error); }
+}
+
+// Manual status update. No order enforcement yet; each selection stamps its own date,
+// and optimistic concurrency (updated_at) guards against clobbering a concurrent edit.
+export async function saveLeadStatus(_: SaveState, form: FormData): Promise<SaveState> {
+  try {
+    await requireSession();
+    const { company_id, updated_at, previous_status, lead_status } = leadStatusSchema.parse(Object.fromEntries(form));
+    const values = leadStatusWrite(lead_status, previous_status, new Date().toISOString());
+    const { data, error } = await database().from("companies").update(values).eq("id", company_id).eq("updated_at", updated_at).select("id");
+    if (error) throw new Error("Could not save the lead status.");
+    if (!data?.length) throw new Error("This company changed since you opened it. Refresh the page before editing again.");
     refresh(company_id); return { saved: true };
   } catch (error) { return failure(error); }
 }

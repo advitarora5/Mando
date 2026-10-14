@@ -1,0 +1,79 @@
+{
+  "number": 113,
+  "company_id": "df141ae3-8162-549f-ba1e-2a4d2c3280b1",
+  "name": "SS&C Technologies",
+  "research_status": "reviewed",
+  "domain": "ssctech.com",
+  "industry": "Financial and healthcare software and services",
+  "headquarters": "Windsor, Connecticut, United States",
+  "employee_count": 29000,
+  "employee_basis": "Current corporate 40th-anniversary profile, rounded global count.",
+  "company_source": "https://www.workday.com/en-us/customer-stories/q-z/collaboration-leads-to-better-service-for-ssc-clients.html",
+  "modules": [
+    "Human Capital Management",
+    "Financial Management",
+    "Benefits"
+  ],
+  "go_live": {
+    "date": null,
+    "precision": "unknown",
+    "status": "completed",
+    "description": "Official Workday case confirms production HCM/Financials. No exact parent-company deployment date found. Third-party Intralinks 2013 claim concerns a subsidiary and is not applied to SS&C parent.",
+    "sources": [
+      "https://www.workday.com/en-us/customer-stories/q-z/collaboration-leads-to-better-service-for-ssc-clients.html"
+    ]
+  },
+  "contacts": [
+    {
+      "name": "Darpan Bhargava",
+      "title": "Senior Vice President, Global Head of Human Resources",
+      "linkedin_url": "https://www.linkedin.com/in/darpan-bhargava-66b94614",
+      "source": "https://investor.ssctech.com/corporate-governance/management-team",
+      "role_status": "current_official"
+    }
+  ],
+  "evidence": [
+    {
+      "category": "company_size",
+      "source": "https://www.ssctech.com/about/about-us",
+      "reason": "Corporate profile states 29,000 employees and Windsor identity."
+    },
+    {
+      "category": "authority",
+      "source": "https://investor.ssctech.com/corporate-governance/management-team",
+      "reason": "Official current global HR executive confirmed; actual Workday systems buyer not identified."
+    },
+    {
+      "category": "budget_context",
+      "source": "https://www.blueprism.com/about/why/",
+      "reason": "SS&C operates its own automation ecosystem; internal deployment outcomes exist, but owning/selling Blue Prism is not a separate adjacent-tool purchase."
+    },
+    {
+      "category": "financial_capacity",
+      "source": "https://investor.ssctech.com/news-releases/news-release-details/ssc-technologies-releases-record-q4-and-full-year-2025-financial",
+      "reason": "FY2025 revenue $6.272bn, net income attributable $796.9m; operating cash $1.745bn and gross debt $7.473bn."
+    },
+    {
+      "category": "workday_jobs",
+      "source": "https://www.linkedin.com/jobs/view/associate-director-of-benefits-at-ss-c-technologies-4406670275",
+      "reason": "Employer posting describes Workday benefits configuration/reporting and HRIS collaboration; historical index, open status unconfirmed."
+    },
+    {
+      "category": "reachability",
+      "source": "https://investor.ssctech.com/corporate-governance/management-team",
+      "reason": "Public professional role identified; direct verified contact channel, team mutual connection and willingness to buy are not established."
+    }
+  ],
+  "why_now": "Repeated acquisitions and global HR/finance consolidation create integration/governance needs, supported by established Workday use and financial capacity. No recent go-live or HR-tool purchasing deadline verified.",
+  "persona": "Global HR systems and integration operations",
+  "level": "Senior Vice President",
+  "gaps": [
+    "Exact parent-company go-live date",
+    "Current HRIS/IT operations buyer",
+    "Direct emails/phones and warm connections",
+    "Separate adjacent testing purchase / buying timeline",
+    "Rising participation"
+  ],
+  "research_notes": "Do not confuse SS&C with SC&H accounting firm. Do not use event organizer phone or old bulk contact PDFs as direct buyer details. No scores assigned.",
+  "research_checked_on": "2026-10-12"
+}

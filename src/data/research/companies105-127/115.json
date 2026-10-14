@@ -1,0 +1,97 @@
+{
+  "number": 115,
+  "company_id": "e35a0325-9045-52db-a232-c1e3979f12ca",
+  "name": "Sovereign Network Group (SNG)",
+  "research_status": "reviewed",
+  "domain": "sng.org.uk",
+  "industry": "Social housing association",
+  "headquarters": "Basingstoke, Hampshire, and Wembley, London, United Kingdom",
+  "employee_count": 3000,
+  "employee_basis": "More than 3,000 in April 2026 Workday release; rounded lower bound.",
+  "company_source": "https://en-gb.newsroom.workday.com/2026-04-28-SNG-Deploys-Workday-to-Transform-HR-and-Finance-Operations-and-Accelerate-Community-Impact",
+  "modules": [
+    "Human Capital Management",
+    "Financial Management",
+    "Payroll",
+    "Procurement"
+  ],
+  "go_live": {
+    "date": null,
+    "precision": "spring 2026 / completed by announcement",
+    "status": "completed",
+    "description": "Workday release dated April 29, 2026 confirms completed first-phase deployment; URL says April 28, neither is actual go-live day. Careers cutover followed March 31 and first-person launch posts reference financial new year. Exact day not proven. Remove existing 2026-04-28 placeholder from automatic date field.",
+    "sources": [
+      "https://en-gb.newsroom.workday.com/2026-04-28-SNG-Deploys-Workday-to-Transform-HR-and-Finance-Operations-and-Accelerate-Community-Impact",
+      "https://www.linkedin.com/posts/mohitojain_workday-go-live-it-started-with-a-merger-activity-7455167755927838720-yKnX",
+      "https://www.sng.org.uk/careers"
+    ],
+    "clear_existing_signal_date": true
+  },
+  "contacts": [
+    {
+      "name": "Kevin Ives",
+      "title": "Chief Information Officer",
+      "linkedin_url": "https://www.linkedin.com/in/kevin-ives-0b89333",
+      "source": "https://www.sng.org.uk/about-us/meet-our-executive-board",
+      "role_status": "current_official",
+      "notes": "Official roster confirms role; public profile also displays Sussex Cricket affiliation, so do not infer departure from that alone."
+    },
+    {
+      "name": "Alexia Evans",
+      "title": "Chief People and Transformation Officer",
+      "linkedin_url": "https://www.linkedin.com/in/alexia-evans-1aba4610",
+      "source": "https://www.sng.org.uk/about-us/meet-our-executive-board",
+      "role_status": "current_official"
+    },
+    {
+      "name": "Steven Barber",
+      "title": "IT Service and Security Director",
+      "linkedin_url": "https://www.linkedin.com/in/steven-barber-31562147",
+      "source": "https://www.linkedin.com/posts/steven-barber-31562147_really-enjoyed-hosting-this-event-alongside-activity-7310317618505134082-bYbC",
+      "role_status": "current_public_profile",
+      "email": "steven.barber@sng.org.uk",
+      "email_source": "https://www.linkedin.com/posts/steven-barber-31562147_really-enjoyed-hosting-this-event-alongside-activity-7310317618505134082-bYbC",
+      "email_verified": false,
+      "notes": "Public event invitation publishes professional email; deliverability not verified. Recent own profile confirms service-platform and Workday team hiring."
+    }
+  ],
+  "evidence": [
+    {
+      "category": "authority",
+      "source": "https://www.sng.org.uk/about-us/meet-our-executive-board",
+      "reason": "Current CIO and People/Transformation executive officially identified."
+    },
+    {
+      "category": "reachability",
+      "source": "https://www.linkedin.com/posts/steven-barber-31562147_really-enjoyed-hosting-this-event-alongside-activity-7310317618505134082-bYbC",
+      "reason": "Director publicly invites professional contact at named work email; not proof of team mutual connection or Mando buying intent."
+    },
+    {
+      "category": "financial_capacity",
+      "source": "https://www.sng.org.uk/press-release/sng-increases-investment-new-homes",
+      "reason": "FY2025/26 turnover GBP817.6m, operating surplus GBP193m; cash/undrawn facilities GBP1.064bn."
+    },
+    {
+      "category": "budget_context",
+      "source": "https://www.linkedin.com/in/steven-barber-31562147",
+      "reason": "New enterprise service platform and Workday Platform Manager hiring demonstrate operating investment; vendor/purchase terms unavailable."
+    },
+    {
+      "category": "timing_trigger",
+      "source": "https://www.sng.org.uk/press-release/sng-launches-bold-new-corporate-strategy",
+      "reason": "July 2026 plan emphasizes end-to-end digital service after completed Workday launch."
+    }
+  ],
+  "why_now": "Spring 2026 HR/finance consolidation replaced 19 legacy systems, with platform-team hiring and a new digital-service strategy. Post-launch governance and service automation are specific follow-up topics.",
+  "persona": "HR/IT platform operations and People transformation",
+  "level": "Director / C-suite",
+  "gaps": [
+    "Exact go-live day",
+    "Direct phones and other buyer emails",
+    "Warm mutual connection / purchasing mandate",
+    "Named adjacent testing purchase / buying window",
+    "Rising participation"
+  ],
+  "research_notes": "Workday Elevate London agenda lists SNG case presentation; this is not proof of Workday Rising attendance. Existing April 28 date is an announcement-derived placeholder, not established go-live. Scores left unchanged.",
+  "research_checked_on": "2026-10-12"
+}
