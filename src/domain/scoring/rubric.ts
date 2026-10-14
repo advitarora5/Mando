@@ -1,7 +1,7 @@
 import type { Category, Tier } from "@/domain/contracts/company";
 
 // Week 2 slide 7 rubric. Change weights, thresholds or bands here only, and bump the version.
-export const RUBRIC_VERSION = "week2-100";
+export const RUBRIC_VERSION = "week2-100-v2-qualified70";
 
 export const rubric: Record<Category, { label: string; weight: number; explanation: string }> = {
   authority: { label: "Functional Authority", weight: 25, explanation: "HRIS/IT leadership at a 3,000+ employee company." },
@@ -12,7 +12,7 @@ export const rubric: Record<Category, { label: string; weight: number; explanati
 };
 
 // Inclusive minimum totals. Anything below Maybe is Disqualified.
-export const tierThresholds = { Qualified: 80, Maybe: 55 } as const;
+export const tierThresholds = { Qualified: 70, Maybe: 55 } as const;
 
 export function tierForTotal(total: number): Tier {
   return total >= tierThresholds.Qualified ? "Qualified" : total >= tierThresholds.Maybe ? "Maybe" : "Disqualified";

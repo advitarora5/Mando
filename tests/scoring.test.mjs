@@ -11,11 +11,11 @@ import { assessSheet } from '../src/domain/scoring/assessment-sheet.ts';
 const source = 'https://google.com/';
 const entry = score => ({ score, source, reason: 'Fictional evidence reason.' });
 const full = { authority: entry(25), reachability: entry(25), budget: entry(20), release: entry(15), timing: entry(15) };
-test('rubric has five categories weighted 25/25/20/15/15 and tiers at 80 and 55', () => {
+test('rubric has five categories weighted 25/25/20/15/15 and tiers at 70 and 55', () => {
  assert.deepEqual(categories.map(c => rubric[c].weight), [25, 25, 20, 15, 15]);
  assert.equal(categories.reduce((sum, c) => sum + rubric[c].weight, 0), 100);
- assert.deepEqual(tierThresholds, { Qualified: 80, Maybe: 55 });
- assert.deepEqual([100, 80, 79, 55, 54, 0].map(tierForTotal), ['Qualified', 'Qualified', 'Maybe', 'Maybe', 'Disqualified', 'Disqualified']);
+ assert.deepEqual(tierThresholds, { Qualified: 70, Maybe: 55 });
+ assert.deepEqual([100, 70, 69, 55, 54, 0].map(tierForTotal), ['Qualified', 'Qualified', 'Maybe', 'Maybe', 'Disqualified', 'Disqualified']);
 });
 test('evidence round-trips a source link and a one-line reason', () => {
  assert.equal(formatEvidence(source, ' Two\nlines  here. '), 'https://google.com/ | Two lines here.');
@@ -166,6 +166,6 @@ test('the demo sheet is valid for the nine seeded demo companies', () => {
  assert.equal(results.length, 9);
  assert.deepEqual(results.flatMap(r => r.errors), []);
  assert.deepEqual(results.map(r => r.total), [83, 90, 86, 80, 75, 69, 63, 58, 48]); // Release 5 and Timing 15 are calculated
- assert.deepEqual(results.map(r => r.tier), ['Qualified', 'Qualified', 'Qualified', 'Qualified', 'Maybe', 'Maybe', 'Maybe', 'Maybe', 'Disqualified']);
+ assert.deepEqual(results.map(r => r.tier), ['Qualified', 'Qualified', 'Qualified', 'Qualified', 'Qualified', 'Maybe', 'Maybe', 'Maybe', 'Disqualified']);
 });
 

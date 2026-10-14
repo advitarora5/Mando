@@ -1,3 +1,4 @@
+import { applyTierRules } from '../src/domain/scoring/tier-rules.ts';
 // Generates persona / level / why-now from stored score evidence. Dry run by default: review the printout, then add --apply. --only=<text> limits to company names containing <text>.
 // Works with any OpenAI-compatible endpoint. Default is local Ollama; for OpenAI set LLM_BASE_URL=https://api.openai.com/v1, LLM_API_KEY, LLM_MODEL.
 // Only *_generated columns are written, so human overrides are never touched. Companies already generated since their latest score are skipped (--force to redo).
@@ -14,7 +15,8 @@ const { data, error } = await db.from("companies").select("*, contacts(name, tit
 if (error) throw new Error(error.message);
 
 for (const c of data) {
-  const score = c.scores.sort((a, b) => b.assessed_at.localeCompare(a.assessed_at))[0];
+  const saved = c.scores.sort((a, b) => b.assessed_at.localeCompare(a.assessed_at))[0];
+  const score = saved ? applyTierRules(saved) : null;
   const done = [c.company_insights].flat()[0]?.generated_at;
   if (!score || (only && !c.name.toLowerCase().includes(only)) || (!force && done && done > score.assessed_at)) continue;
   try {

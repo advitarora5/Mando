@@ -9,6 +9,7 @@ import base64
 import hashlib
 import json
 import sys
+import subprocess
 from pathlib import Path
 
 
@@ -26,6 +27,9 @@ def sql(value):
 
 
 def build(before, scored):
+    # Delegate tier/evidence validation to the authoritative TypeScript evaluator.
+    subprocess.run(['node', str(Path(__file__).with_name('validate-reviewed-tiers.mjs'))],
+                   input=json.dumps(scored), text=True, check=True, stdout=subprocess.DEVNULL)
     entries = scored['companies']
     rows = [entry['row'] for entry in entries]
     companies = {c['id']: c for c in before['companies']}

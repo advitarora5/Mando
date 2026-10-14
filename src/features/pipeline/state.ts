@@ -1,4 +1,5 @@
 import type { Category, CompanyListItem } from "../../domain/contracts/company.ts";
+import { tierThresholds } from "../../domain/scoring/rubric.ts";
 import { categories } from "../../domain/contracts/company.ts";
 import { queryCompanies, type Sort } from "../company-list/query.ts";
 import { emailState, rankContacts } from "../../domain/contacts/contact-view.ts";
@@ -15,8 +16,8 @@ export type PipelineState = { q: string; tier: string; min: string; max: string;
 export const defaultState: PipelineState = { q: "", tier: "All", min: "", max: "", sort: "rank-asc", view: "all", verified: false, gaps: false, release: false };
 export const views: { id: View; label: string; hint: string }[] = [
   { id: "all", label: "All companies", hint: "Every company, ranked by total score" },
-  { id: "qualified", label: "Qualified", hint: "Total 80+ with complete evidence" },
-  { id: "maybe", label: "Maybe", hint: "Total 55–79" },
+  { id: "qualified", label: "Qualified", hint: `Total ${tierThresholds.Qualified}+ with complete evidence` },
+  { id: "maybe", label: "Maybe", hint: `Total ${tierThresholds.Maybe}–${tierThresholds.Qualified - 1}` },
   { id: "needs", label: "Needs evidence", hint: "Below Maybe, but at least one category is unresolved — not a rejection" },
   { id: "ready", label: "Ready for outreach", hint: "Qualified or Maybe, still queued, with a verified email contact" },
 ];

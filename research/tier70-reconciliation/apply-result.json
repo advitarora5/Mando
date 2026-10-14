@@ -1,0 +1,8 @@
+{
+  "applied": true,
+  "confirmed": 30,
+  "held": 0,
+  "backup": "/tmp/mando-tier70-private/preapply-2026-10-14T03-33-08-399Z.json",
+  "after_backup": "/tmp/mando-tier70-private/postapply-2026-10-14T03-33-40-370Z.json",
+  "log_file": "/tmp/mando-tier70-private/tier-reconciliation-operations.jsonl"
+}

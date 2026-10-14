@@ -1,0 +1,278 @@
+{
+  "checked_at": "2026-10-14T03:35:00.783Z",
+  "private_backup": "/tmp/mando-tier70-private/independent-readback-2026-10-14T03-35-00-783Z.json",
+  "verified_tier_patches": 30,
+  "held": 0,
+  "failed": 0,
+  "conflicts": 0,
+  "all_other_score_fields_unchanged": true,
+  "historical_assessments_preserved": 411,
+  "unmodified_assessments": 508,
+  "all_snapshot_rows_preserved": 144,
+  "contact_rows_preserved": 187,
+  "company_rows_preserved": 127,
+  "insight_rows_and_manual_overrides_preserved": 127,
+  "assessment_rows_preserved": 538,
+  "latest_assessment_ids_unchanged": true,
+  "stored_latest_tier_counts": {
+    "Qualified": 32,
+    "Disqualified": 72,
+    "Maybe": 23
+  },
+  "shared70_evaluated_counts": {
+    "Qualified": 32,
+    "Disqualified": 72,
+    "Maybe": 23
+  },
+  "display_counts": {
+    "Qualified": 32,
+    "Not Enough Evidence": 41,
+    "Maybe": 23,
+    "Disqualified": 31
+  },
+  "joined_dashboard_selection_verified": true,
+  "deployed_dashboard_not_tested": true,
+  "category_scoring_not_rerun": true,
+  "changes": [
+    {
+      "company_id": "a5e79ea9-0935-5909-a36d-48600599fb62",
+      "name": "Telstra",
+      "assessment_id": "0d4d6424-dd0b-582e-b8cb-ea679fe611b5",
+      "before_tier": "Maybe",
+      "after_tier": "Qualified",
+      "total": 72
+    },
+    {
+      "company_id": "f51f6c35-229a-5f15-8ae1-eae30e5f6dbf",
+      "name": "Affin Bank",
+      "assessment_id": "11f8ce40-b076-5c4a-a960-50d687b1326f",
+      "before_tier": "Maybe",
+      "after_tier": "Qualified",
+      "total": 74
+    },
+    {
+      "company_id": "2552c597-e93e-5997-9898-20cc3ace9718",
+      "name": "Hilti Aktiengesellschaft",
+      "assessment_id": "1b03babd-d47e-59b9-ab01-f57df7b91bbc",
+      "before_tier": "Maybe",
+      "after_tier": "Qualified",
+      "total": 71
+    },
+    {
+      "company_id": "f3f8581b-b489-5a20-a507-0039d20a69d3",
+      "name": "Amadeus",
+      "assessment_id": "26f128c5-897c-56f2-af2d-02c19f66e758",
+      "before_tier": "Maybe",
+      "after_tier": "Qualified",
+      "total": 71
+    },
+    {
+      "company_id": "acc549f9-c7e3-5db4-8e28-a2e00635bdf1",
+      "name": "Genpact",
+      "assessment_id": "2f62f6e3-3170-552e-aca0-4f021d0c2967",
+      "before_tier": "Maybe",
+      "after_tier": "Qualified",
+      "total": 70
+    },
+    {
+      "company_id": "c148a9b2-d440-566f-adbc-30c253387d53",
+      "name": "Shake Shack",
+      "assessment_id": "30043691-9368-59a4-97f4-42a29dcdca11",
+      "before_tier": "Maybe",
+      "after_tier": "Qualified",
+      "total": 74
+    },
+    {
+      "company_id": "df141ae3-8162-549f-ba1e-2a4d2c3280b1",
+      "name": "SS&C Technologies",
+      "assessment_id": "301ab21b-b18e-59bd-a7f1-f2307f78471e",
+      "before_tier": "Maybe",
+      "after_tier": "Qualified",
+      "total": 71
+    },
+    {
+      "company_id": "d6abfb39-4e7c-5d56-a2e8-3af7afb3c277",
+      "name": "Land O’Lakes",
+      "assessment_id": "32241485-6fb2-5b93-a836-74bbbf499951",
+      "before_tier": "Maybe",
+      "after_tier": "Qualified",
+      "total": 73
+    },
+    {
+      "company_id": "c4b2055d-c231-5a32-8246-25335ace9da9",
+      "name": "Leonardo",
+      "assessment_id": "3a196520-7f2c-5df8-b16d-799f6303179c",
+      "before_tier": "Maybe",
+      "after_tier": "Qualified",
+      "total": 72
+    },
+    {
+      "company_id": "7e44bded-da78-545a-ae07-fb8d8d6e8563",
+      "name": "abrdn",
+      "assessment_id": "4bf7e756-a799-5306-a90f-703114dd8d75",
+      "before_tier": "Maybe",
+      "after_tier": "Qualified",
+      "total": 71
+    },
+    {
+      "company_id": "8bfebe9d-91f5-5398-9f22-22a2bc4d9962",
+      "name": "Levi Strauss & Co.",
+      "assessment_id": "5463ed10-3e27-51c8-a79b-91397c200a01",
+      "before_tier": "Maybe",
+      "after_tier": "Qualified",
+      "total": 71
+    },
+    {
+      "company_id": "0d7ea78d-6376-5f97-b5d8-e16e3783aee9",
+      "name": "Jardine Matheson",
+      "assessment_id": "57f6850f-455e-5230-a16f-bef186dc9997",
+      "before_tier": "Maybe",
+      "after_tier": "Qualified",
+      "total": 70
+    },
+    {
+      "company_id": "fd1944dc-6a8e-5075-bed9-2ae50cad52c5",
+      "name": "Concentrix",
+      "assessment_id": "750d6660-3d03-5388-a803-bfdddbc7d760",
+      "before_tier": "Maybe",
+      "after_tier": "Qualified",
+      "total": 70
+    },
+    {
+      "company_id": "1d3c6696-d69f-5fdc-b408-2acfe1698038",
+      "name": "Scandic",
+      "assessment_id": "762b0c59-9da9-5c52-a1ba-5a20fed60e02",
+      "before_tier": "Maybe",
+      "after_tier": "Qualified",
+      "total": 77
+    },
+    {
+      "company_id": "00e6f2f2-171e-5cd9-9776-93e13ac0a3fb",
+      "name": "Mondelēz International",
+      "assessment_id": "7655f0ed-2d6d-5e1b-a8f3-d97777620831",
+      "before_tier": "Maybe",
+      "after_tier": "Qualified",
+      "total": 73
+    },
+    {
+      "company_id": "8aff5441-b71f-5e78-a688-8c3da840eead",
+      "name": "Coteccons",
+      "assessment_id": "76cc2da1-d394-5462-bb9b-0e9722fbb6dc",
+      "before_tier": "Maybe",
+      "after_tier": "Qualified",
+      "total": 76
+    },
+    {
+      "company_id": "6051d8ef-822d-5f9a-aaed-0eeb1b642790",
+      "name": "Fairview Health Services",
+      "assessment_id": "7fb02c62-54ab-5672-b9a8-de5a3c9f9683",
+      "before_tier": "Maybe",
+      "after_tier": "Qualified",
+      "total": 72
+    },
+    {
+      "company_id": "dc448146-ee50-53a2-83bb-b9766eb10394",
+      "name": "SoftwareOne",
+      "assessment_id": "8238fa2d-e711-5209-abdc-70ffbf059cce",
+      "before_tier": "Maybe",
+      "after_tier": "Qualified",
+      "total": 72
+    },
+    {
+      "company_id": "e53f08f9-86da-54fe-b068-f730bd77e256",
+      "name": "Flex",
+      "assessment_id": "9105a77d-4775-5aef-aadc-2dbb00d040e2",
+      "before_tier": "Maybe",
+      "after_tier": "Qualified",
+      "total": 70
+    },
+    {
+      "company_id": "1e7ad73f-eea9-55af-9d8c-26b846ffb2ed",
+      "name": "St. Luke's University Health Network",
+      "assessment_id": "95e007eb-f11d-597f-acab-db0bc8875cef",
+      "before_tier": "Maybe",
+      "after_tier": "Qualified",
+      "total": 75
+    },
+    {
+      "company_id": "bc2ae135-27a4-556c-aadd-a7ee06699451",
+      "name": "JLL",
+      "assessment_id": "a35156cc-06ae-516c-aebc-19d939e695e2",
+      "before_tier": "Maybe",
+      "after_tier": "Qualified",
+      "total": 71
+    },
+    {
+      "company_id": "22e57648-6b1f-55bd-afc2-348afaccfb25",
+      "name": "Memorial Health",
+      "assessment_id": "c1ca666f-05af-57b5-a324-eebd8803ce72",
+      "before_tier": "Maybe",
+      "after_tier": "Qualified",
+      "total": 70
+    },
+    {
+      "company_id": "03e0cd1e-7b4e-516d-98a2-bffb3485dcd2",
+      "name": "Iowa State University",
+      "assessment_id": "c2ad180f-f9be-5ca6-a11e-5c112941d96e",
+      "before_tier": "Maybe",
+      "after_tier": "Qualified",
+      "total": 70
+    },
+    {
+      "company_id": "d4a07a57-e44e-5c1e-89be-103cf7e621e0",
+      "name": "Sanofi",
+      "assessment_id": "c40a151c-5fd5-5760-ae27-9155c8233850",
+      "before_tier": "Maybe",
+      "after_tier": "Qualified",
+      "total": 79
+    },
+    {
+      "company_id": "e35a0325-9045-52db-a232-c1e3979f12ca",
+      "name": "Sovereign Network Group (SNG)",
+      "assessment_id": "df7f4a08-4b20-5c56-a900-347f3a19169e",
+      "before_tier": "Maybe",
+      "after_tier": "Qualified",
+      "total": 76
+    },
+    {
+      "company_id": "0c9a3679-c609-5441-bac6-3e2ecf163a62",
+      "name": "RMIT University",
+      "assessment_id": "e645a5dd-f1d0-54f9-a0b3-411ce4bf33f3",
+      "before_tier": "Maybe",
+      "after_tier": "Qualified",
+      "total": 77
+    },
+    {
+      "company_id": "803efcb6-1347-5ad7-ba39-6051ed1fb5c9",
+      "name": "Air Liquide",
+      "assessment_id": "ea012c1f-62eb-5b45-9970-91161751b450",
+      "before_tier": "Maybe",
+      "after_tier": "Qualified",
+      "total": 74
+    },
+    {
+      "company_id": "074b1f36-8d02-5d58-b2c8-864103766afc",
+      "name": "Thermo Fisher Scientific",
+      "assessment_id": "eea3d51b-beba-57ec-a58c-40e2e135c896",
+      "before_tier": "Maybe",
+      "after_tier": "Qualified",
+      "total": 73
+    },
+    {
+      "company_id": "e57b2dff-84b6-5a94-ada4-c8d0ec2b149d",
+      "name": "Hungry Jack’s",
+      "assessment_id": "fb7247de-210b-5825-a72a-5fe510c921da",
+      "before_tier": "Maybe",
+      "after_tier": "Qualified",
+      "total": 72
+    },
+    {
+      "company_id": "15d16044-4b5a-5a79-8fe2-d7a79fe94db0",
+      "name": "Signify",
+      "assessment_id": "fd5ff3bf-6f6f-5528-af54-6d86a46e7acd",
+      "before_tier": "Maybe",
+      "after_tier": "Qualified",
+      "total": 76
+    }
+  ]
+}
