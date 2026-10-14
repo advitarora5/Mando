@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev --hostname 127.0.0.1",
+    "dev:local": "node --env-file-if-exists=.env.local --env-file=.env.pipeline.local scripts/dev-local.mjs",
     "build": "next build --webpack",
     "start": "next start --hostname 127.0.0.1",
     "lint": "eslint",
@@ -17,9 +18,7 @@
     "pipeline": "node --env-file-if-exists=.env.pipeline.local scripts/pipeline.mjs",
     "pipeline:eval": "node --env-file-if-exists=.env.pipeline.local scripts/eval-extraction.mjs",
     "extract": "node scripts/ingestion/extract.mjs",
-    "eval:extraction": "node scripts/ingestion/eval-extraction.mjs",
-    "ingest": "node --env-file=.env.local scripts/ingestion/ingest.mjs",
-    "pipeline:captures": "node --env-file=.env.local scripts/ingestion/run-pipeline.mjs"
+    "eval:extraction": "node scripts/ingestion/eval-extraction.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.117.2",
@@ -32,7 +31,6 @@
     "zod": "^4.6.5"
   },
   "devDependencies": {
-    "@electric-sql/pglite": "^0.5.9",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/papaparse": "^5.5.2",
