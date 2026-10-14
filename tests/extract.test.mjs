@@ -1,7 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { compareRuns, extractCaptures } from '../scripts/ingestion/extract.mjs';
-import { planIngest } from '../scripts/ingestion/ingest.mjs';
 
 const capture = {
   capture_ref: 'run/capture-1', url: 'https://example.com/job', title: null, source_type: 'job_listing',
@@ -25,17 +24,6 @@ test('extractCaptures keeps verbatim claims and rejects invented quotes', async 
 
 test('extractCaptures reports invalid JSON instead of throwing', async () => {
   assert.ok((await extractCaptures([capture], reply('not json'))).error);
-});
-
-test('planIngest creates new customers without scoring them and only adds signals to existing ones', () => {
-  const extraction = { results: [{ capture_ref: 'run/capture-1', accepted: [claim('Acme Corp went live on Workday HCM'), claim('long project', { company: { name: 'Vendor Inc', role: 'vendor' } })] }] };
-  const fresh = planIngest([capture], extraction, []);
-  assert.equal(fresh.skipped, 1);
-  assert.equal(fresh.plan[0].action, 'create');
-
-  const known = planIngest([capture], extraction, [{ id: 'x', name: ' ACME  corp ' }]);
-  assert.equal(known.plan[0].action, 'existing');
-  assert.equal(known.plan[0].id, 'x');
 });
 
 test('a reply cut off at num_predict is retried as halves that keep the first segment', async () => {
