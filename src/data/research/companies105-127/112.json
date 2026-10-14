@@ -1,0 +1,89 @@
+{
+  "number": 112,
+  "company_id": "dc448146-ee50-53a2-83bb-b9766eb10394",
+  "name": "SoftwareOne",
+  "research_status": "reviewed",
+  "domain": "softwareone.com",
+  "industry": "Software and cloud services",
+  "headquarters": "Stans, Switzerland",
+  "employee_count": 12973,
+  "employee_basis": "Year-end 2025 global employees after Crayon combination; audited annual report.",
+  "company_source": "https://www.workday.com/en-us/customer-stories/q-z/softwareone-streamlines-hr-with-workday.html",
+  "modules": [
+    "Human Capital Management",
+    "Talent Management",
+    "Time and Attendance",
+    "Data Hub"
+  ],
+  "go_live": {
+    "date": null,
+    "precision": "relative bound",
+    "status": "completed",
+    "description": "May 15, 2024 earnings-call transcript says Workday went live a few weeks earlier. Likely spring 2024, but no exact day/month inferred. Minimum core HCM launch completed; Crayon still used separate HRIS in 2025, so do not claim combined group fully migrated.",
+    "sources": [
+      "https://www.softwareone.com/-/media/files/investors/softwareone-2024-q1-2024-trading-update-webcast-transcript.pdf?hash=F71FF07EC92CFDEB01369B730C3A64CD&sc_lang=en",
+      "https://report.softwareone.com/ar25/s1-own-workforce"
+    ]
+  },
+  "contacts": [
+    {
+      "name": "Nina Janorschke",
+      "title": "Chief Human Resources Officer",
+      "linkedin_url": "https://www.linkedin.com/in/ninajanorschke",
+      "source": "https://www.softwareone.com/en/media-releases/2026/03/31/softwareone-full-year-2025-financial-results",
+      "role_status": "current_official"
+    },
+    {
+      "name": "Jane Tandy",
+      "title": "Chief of Staff, HR",
+      "linkedin_url": "https://www.linkedin.com/in/janetandy",
+      "source": "https://www.workday.com/en-us/customer-stories/q-z/softwareone-streamlines-hr-with-workday.html",
+      "role_status": "current_public_profile",
+      "notes": "Public profile corroborates SoftwareOne and strategic HR remit; case links her to Workday deployment."
+    }
+  ],
+  "evidence": [
+    {
+      "category": "company_size",
+      "source": "https://report.softwareone.com/ar25/category/social_en",
+      "reason": "Year-end 2025 workforce total 12,973 after Crayon integration."
+    },
+    {
+      "category": "authority",
+      "source": "https://www.softwareone.com/en/media-releases/2026/03/31/softwareone-full-year-2025-financial-results",
+      "reason": "Nina Janorschke appointed CHRO, superseding older Julia Braun materials."
+    },
+    {
+      "category": "budget_proxy",
+      "source": "https://report.softwareone.com/ar25/s1-own-workforce",
+      "reason": "Docebo learning platform consumes Workday employee IDs; Talentsoft decommissioned November 2025 and unified learning planned 2026."
+    },
+    {
+      "category": "financial_capacity",
+      "source": "https://www.softwareone.com/en/media-releases/2026/08/26/softwareone-half-year-2026-financial-results",
+      "reason": "H1 2026 growth 11.6% and adjusted EBITDA margin 24.9%; no HR tool purchasing deadline."
+    },
+    {
+      "category": "timing_trigger",
+      "source": "https://report.softwareone.com/ar25/s1-own-workforce",
+      "reason": "Post-merger systems harmonization has concrete 2026 scope; separate HRIS persisted in reporting year."
+    },
+    {
+      "category": "reachability",
+      "source": "https://www.softwareone.com/en/media-releases/2026/03/31/softwareone-full-year-2025-financial-results",
+      "reason": "Public professional role identified; direct verified contact channel, team mutual connection and willingness to buy are not established."
+    }
+  ],
+  "why_now": "Crayon integration, a new CHRO and consolidation of HR/learning systems create current identity, data and process harmonization needs. Initial Workday launch was around spring 2024; exact date unavailable.",
+  "persona": "HR transformation / global HR systems",
+  "level": "CHRO / Chief of Staff",
+  "gaps": [
+    "Exact core go-live day",
+    "Crayon migration completion date",
+    "Direct emails/phones and warm connections",
+    "Current procurement window",
+    "Rising participation"
+  ],
+  "research_notes": "Julia Braun is no longer CHRO according to March 2026 official release. Old case-study HQ spelling Stand corrected to Stans. No scores assigned.",
+  "research_checked_on": "2026-10-12"
+}

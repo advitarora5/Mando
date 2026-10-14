@@ -13,6 +13,11 @@ export interface Contact {
   email_source: string | null;
   phone: string | null;
   phone_source: string | null;
+  email_status: string | null;
+  phone_status: string | null;
+  linkedin_status: string | null;
+  contact_sources: unknown;
+  enriched_at: string | null;
 }
 
 export interface Insights {

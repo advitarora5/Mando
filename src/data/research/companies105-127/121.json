@@ -1,0 +1,90 @@
+{
+  "number": 121,
+  "company_id": "f4db56e0-db5d-5693-8227-9a1fc90810bd",
+  "name": "Capita",
+  "research_status": "reviewed",
+  "domain": "capita.com",
+  "industry": "Business process outsourcing and professional services",
+  "headquarters": "London, United Kingdom",
+  "employee_count": 34000,
+  "employee_basis": "Current company website reports approximately 34,000 colleagues. Undated rounded current-site estimate; Workday story's 32,000 is a different snapshot.",
+  "company_source": "https://www.workday.com/en-us/customer-stories/a-h/capita-accelerates-hiring-hr-transformation-with-ai.html",
+  "modules": [
+    "Human Capital Management",
+    "Talent Acquisition / Recruiting",
+    "Talent Management",
+    "HiredScore",
+    "Workday Assistant in Microsoft Teams",
+    "Group mentoring"
+  ],
+  "go_live": {
+    "date": null,
+    "precision": "month",
+    "status": "completed",
+    "description": "December 2019 global Workday people-management launch confirmed in Capita's 2019 annual report, printed page 35. More recent HiredScore, Teams Assistant and mentoring additions are separate phases; exact rollout dates not established.",
+    "sources": [
+      "https://www.capita.com/sites/g/files/nginej291/files/2020-03/capita-annual-report-2019_0.pdf"
+    ]
+  },
+  "contacts": [
+    {
+      "name": "Claire Wickens",
+      "title": "Chief People Officer",
+      "linkedin_url": null,
+      "source": "https://www.capita.com/about-us/our-leadership",
+      "role_status": "current_official",
+      "notes": "Current official roster supersedes the customer-story executive Scott Hill. Several same-name profiles were found but did not confidently establish this executive's identity."
+    },
+    {
+      "name": "Sameer Vuyyuru",
+      "title": "Chief AI and Technology Officer",
+      "linkedin_url": "https://www.linkedin.com/in/sameervuyyuru",
+      "source": "https://www.capita.com/about-us/our-leadership",
+      "role_status": "current_official",
+      "notes": "Current remit explicitly includes secure operation of internal IT; profile identity linked in CEO's appointment post."
+    }
+  ],
+  "evidence": [
+    {
+      "category": "company",
+      "source": "https://www.capita.com/sitemap",
+      "reason": "Company currently describes approximately 34,000 colleagues."
+    },
+    {
+      "category": "authority",
+      "source": "https://www.capita.com/about-us/our-leadership",
+      "reason": "Current CPO leads people services and current AI/technology chief owns secure, reliable operation of the IT estate."
+    },
+    {
+      "category": "reachability",
+      "source": "https://www.linkedin.com/posts/adolfohernandezf_delighted-to-welcome-sameer-vuyyuru-to-the-activity-7254869379329183745-ngGb",
+      "reason": "CEO's public appointment post links the technology chief's professional identity; no direct verified buyer channel or warm connection established."
+    },
+    {
+      "category": "budget",
+      "source": "https://www.workday.com/en-us/customer-stories/a-h/capita-accelerates-hiring-hr-transformation-with-ai.html",
+      "reason": "Customer confirms implemented HiredScore alongside Recruiting and Workday Assistant through Teams, demonstrating adjacent HR automation adoption."
+    },
+    {
+      "category": "budget",
+      "source": "https://www.capita.com/investors/2025-annual-report",
+      "reason": "2025 free cash flow excluding exits was a £54m outflow, including restructuring and cyber-incident costs; financial constraints prevent assuming unrestricted capacity."
+    },
+    {
+      "category": "timing",
+      "source": "https://www.capita.com/sites/g/files/nginej291/files/2020-03/capita-annual-report-2019_0.pdf",
+      "reason": "Issuer annual report explicitly records December 2019 global launch."
+    }
+  ],
+  "why_now": "A mature Workday estate is adding recruiting AI, Teams-based HR workflows and workplace-accommodation automation while leadership and cost transformation continue. This supports a targeted efficiency and regression-testing discussion, with careful attention to documented cash constraints.",
+  "persona": "People technology / HR operations owner with CPO and enterprise technology sponsors",
+  "level": "Functional head and C-suite",
+  "gaps": [
+    "Exact December 2019 launch day unavailable.",
+    "CPO LinkedIn identity not confidently verified.",
+    "No direct verified work emails or phones, mutual introduction, committed purchasing timeline or willingness to act.",
+    "No independently confirmed external Workday test-automation purchase."
+  ],
+  "research_notes": "IT Bites' first-party project case confirms testing of a 73,000-worker historic deployment but not a launch calendar day: https://it-bites.com/capita/. Do not import masked directory emails or match unrelated Claire Wickens profiles. HiredScore adoption is not proof of Mando procurement. No scores changed.",
+  "research_checked_on": "2026-10-12"
+}

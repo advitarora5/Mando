@@ -12,14 +12,18 @@
     "insights": "node --env-file=.env.local scripts/generate-insights.mjs",
     "drafts": "node --env-file=.env.local scripts/generate-drafts.mjs",
     "score:save": "node --env-file=.env.local scripts/save-assessments.mjs",
-    "test": "node --test tests/*.test.mjs",
+    "test": "node --test tests/*.test.mjs tests/ingestion/*.test.mjs",
+    "test:integration": "node --env-file-if-exists=.env.pipeline.local --test tests/integration/*.test.mjs",
+    "pipeline": "node --env-file-if-exists=.env.pipeline.local scripts/pipeline.mjs",
+    "pipeline:eval": "node --env-file-if-exists=.env.pipeline.local scripts/eval-extraction.mjs",
     "extract": "node scripts/ingestion/extract.mjs",
     "eval:extraction": "node scripts/ingestion/eval-extraction.mjs",
     "ingest": "node --env-file=.env.local scripts/ingestion/ingest.mjs",
-    "pipeline": "node --env-file=.env.local scripts/ingestion/run-pipeline.mjs"
+    "pipeline:captures": "node --env-file=.env.local scripts/ingestion/run-pipeline.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.117.2",
+    "lucide-react": "^1.55.0",
     "next": "16.3.8",
     "papaparse": "^5.7.0",
     "react": "19.2.8",

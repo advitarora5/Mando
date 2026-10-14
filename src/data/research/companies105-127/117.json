@@ -1,0 +1,111 @@
+{
+  "number": 117,
+  "company_id": "e57b2dff-84b6-5a94-ada4-c8d0ec2b149d",
+  "name": "Hungry Jack’s",
+  "research_status": "reviewed",
+  "domain": "hungryjacks.com.au",
+  "industry": "Quick-service restaurants",
+  "headquarters": "Woolloomooloo, Sydney, New South Wales, Australia",
+  "employee_count": 26000,
+  "employee_basis": "Company LinkedIn page reports 26,000+ team members; lower bound, not a precise payroll census. Workday's undated customer story reports 30,000, while the payroll launch post describes 20,000 people in that pay run; these are different scopes.",
+  "company_source": "https://www.workday.com/en-us/customer-stories/a-h/hungry-jacks-flips-script-on-hiring-workforce-planning.html",
+  "modules": [
+    "Human Capital Management",
+    "Recruiting",
+    "Core Compensation",
+    "Advanced Compensation",
+    "Absence",
+    "Talent",
+    "Performance",
+    "Peakon Employee Voice",
+    "Payroll (Australia)"
+  ],
+  "go_live": {
+    "date": null,
+    "precision": "month",
+    "status": "completed",
+    "description": "Initial HCM go-live April 2025, confirmed by the company's FY2025 modern slavery statement and its HR systems lead. Australian payroll subsequently completed an eight-month implementation and its first pay run; the public post does not provide a reliable exact calendar date. Adaptive Planning was selected in 2024 but production deployment was not confirmed.",
+    "sources": [
+      "https://modernslaveryregister.gov.au/statements/D06DE0tej1gnWWf/pdf/",
+      "https://www.linkedin.com/posts/charlottestone92_peoplepower-hungryjacks-thepeoplearebetter-activity-7442508614009008128-vf1I"
+    ]
+  },
+  "contacts": [
+    {
+      "name": "Jenny McKie",
+      "title": "Chief People Officer",
+      "linkedin_url": "https://www.linkedin.com/in/jenny-mckie-a4615a89",
+      "source": "https://www.hungryjacks.com.au/work-with-us",
+      "role_status": "current_official"
+    },
+    {
+      "name": "Charlotte Stone",
+      "title": "HR Systems Lead / Workday Functional Owner",
+      "linkedin_url": "https://www.linkedin.com/in/charlottestone92",
+      "source": "https://au.linkedin.com/in/charlottestone92",
+      "role_status": "current_public_profile",
+      "notes": "Self-described HR Systems Lead; owns implementation and stabilization work according to her first-person posts."
+    },
+    {
+      "name": "Claudio Salinas",
+      "title": "Chief Information Officer",
+      "linkedin_url": "https://www.linkedin.com/in/claudio-salinas-4394952",
+      "source": "https://www.brighttalk.com/webcast/20992/671669",
+      "role_status": "current_official",
+      "notes": "Workday APAC customer discussion identifies him as current CIO; his public 2023 post confirms joining Hungry Jack's."
+    }
+  ],
+  "evidence": [
+    {
+      "category": "company",
+      "source": "https://www.linkedin.com/company/hungryjacks",
+      "reason": "Employer page reports 26,000+ staff across Australia."
+    },
+    {
+      "category": "authority",
+      "source": "https://www.workday.com/en-us/customer-stories/a-h/hungry-jacks-flips-script-on-hiring-workforce-planning.html",
+      "reason": "CPO Jenny McKie is identified as the sponsor of the Workday selection and workforce transformation."
+    },
+    {
+      "category": "reachability",
+      "source": "https://au.linkedin.com/in/charlottestone92",
+      "reason": "Current professional profile and first-person implementation posts identify a relevant HR systems owner; no team mutual or willingness to buy Mando was confirmed."
+    },
+    {
+      "category": "budget",
+      "source": "https://modernslaveryregister.gov.au/statements/D06DE0tej1gnWWf/pdf/",
+      "reason": "FY2025 company statement describes upgraded rostering/time systems and planned FY2026 WageSafe real-time payroll compliance monitoring; planned completion and Mando budget remain unconfirmed."
+    },
+    {
+      "category": "budget",
+      "source": "https://www.linkedin.com/company/lifelenz",
+      "reason": "Workforce automation vendor explicitly identifies Hungry Jack's as a partner; employer supplier event also lists LIFELENZ. This supports adjacent-tool adoption, not a purchasing timeline."
+    },
+    {
+      "category": "budget",
+      "source": "https://www.rackspace.com/newsroom/hungry-jacks-lays-foundation-transforming-customer-engagement-azure",
+      "reason": "Rackspace confirms Azure customer-engagement modernization. This is broader IT spend and less directly related to Workday testing."
+    },
+    {
+      "category": "timing",
+      "source": "https://modernslaveryregister.gov.au/statements/D06DE0tej1gnWWf/pdf/",
+      "reason": "Company confirms April 2025 launch and plans broader related-entity rollout by Q4 2026; future rollout must not be treated as already live."
+    },
+    {
+      "category": "budget",
+      "source": "https://www.trintech.com/news/trintech-to-showcase-governed-ai-for-finance-at-workday-rising-2026/",
+      "reason": "October 8, 2026 vendor release confirms Hungry Jack’s uses Trintech with Workday for roughly 300 million annual transaction matches; direct adjacent finance automation adoption."
+    }
+  ],
+  "why_now": "April 2025 HCM launch, subsequent Australian payroll launch and ongoing stabilization create a plausible need for regression testing across payroll, absence, compensation and recruiting. The planned FY2026 WageSafe compliance program and related-entity expansion add integration complexity. This is an evidence-based outreach hypothesis, not confirmed buying intent.",
+  "persona": "HR systems / Workday functional owner, with CPO sponsor and CIO partner",
+  "level": "Functional lead and C-suite",
+  "gaps": [
+    "Exact initial go-live day and payroll launch calendar date unavailable.",
+    "Direct buyer work emails, direct phones, verified deliverability and team/Adi mutual connections not publicly confirmed.",
+    "Mando purchasing timeline, committed testing budget and willingness to act unconfirmed.",
+    "Adaptive Planning production use and completion of WageSafe rollout not confirmed."
+  ],
+  "research_notes": "Official April 2025 privacy policy publishes support.workday@hungryjacks.com.au as an employee Workday support mailbox; this is not a direct buyer address or verified outreach channel. HQ is sourced from https://www.hungryjacks.com.au/contact-us. Workday Elevate participation is confirmed, but it is not proof of Workday Rising attendance. No score has been calculated or changed.",
+  "research_checked_on": "2026-10-12"
+}

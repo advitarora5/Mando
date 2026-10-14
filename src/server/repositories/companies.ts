@@ -10,13 +10,13 @@ export async function getCompanies(): Promise<{ companies: CompanyListItem[]; mo
   const key = process.env.SUPABASE_SECRET_KEY;
   if (!url || !key) {
     return { mode: "sample", companies: [
-      { id: "sample-a", name: "Example Enterprise A", domain: null, industry: "Manufacturing", headquarters: "Chicago, IL", employee_count: 5200, workday_signal_date: "2026-08-01", source: null, score: null, contacts: [], why_now: "Sample record. Add verified company data and scoring evidence to begin qualification." },
-      { id: "sample-b", name: "Example Enterprise B", domain: null, industry: "Professional services", headquarters: "New York, NY", employee_count: 3800, workday_signal_date: null, source: null, score: null, contacts: [], why_now: "Sample record. Workday signal date and buyer contacts still need research." },
+      { id: "sample-a", name: "Example Enterprise A", domain: null, industry: "Manufacturing", headquarters: "Chicago, IL", employee_count: 5200, workday_signal_date: "2026-08-01", source: null, lead_status: "queued", contacted_at: null, replied_at: null, demo_booked_at: null, score: null, contacts: [], why_now: "Sample record. Add verified company data and scoring evidence to begin qualification." },
+      { id: "sample-b", name: "Example Enterprise B", domain: null, industry: "Professional services", headquarters: "New York, NY", employee_count: 3800, workday_signal_date: null, source: null, lead_status: "queued", contacted_at: null, replied_at: null, demo_booked_at: null, score: null, contacts: [], why_now: "Sample record. Workday signal date and buyer contacts still need research." },
     ] };
   }
   try {
     const db = createClient(url, key, { auth: { persistSession: false, autoRefreshToken: false } });
-    const { data, error } = await db.from("companies").select("*, scores(*), company_insights(*), contacts(id, name, title, linkedin_url, email, email_verified, phone)");
+    const { data, error } = await db.from("companies").select("*, scores(*), company_insights(*), contacts(id, name, title, linkedin_url, email, email_verified, email_status, linkedin_status, phone)");
     if (error) throw error;
     const companies = (data ?? []).map((row) => {
       const scores = row.scores as Score[];

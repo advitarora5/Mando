@@ -1,0 +1,15 @@
+{
+  "checked_on": "2026-10-12",
+  "company_fields_match": 23,
+  "contacts_match": 48,
+  "new_contacts": 42,
+  "generated_insights_match": 23,
+  "global_contacts_after": 130,
+  "scores_unchanged": 167,
+  "snapshots_unchanged": 17,
+  "scores_digest": "ab401ddd215039567941fb88b33beeb6",
+  "snapshots_digest": "56f8a512077a852c33d5cc268185ace0",
+  "manual_overrides_preserved": true,
+  "exact_go_live_days_added": 0,
+  "published_buyer_emails_unverified": 1
+}

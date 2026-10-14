@@ -1,0 +1,88 @@
+{
+  "number": 116,
+  "company_id": "e53f08f9-86da-54fe-b068-f730bd77e256",
+  "name": "Flex",
+  "research_status": "reviewed",
+  "domain": "flex.com",
+  "industry": "Electronics manufacturing services",
+  "headquarters": "Austin, Texas, United States; incorporated in Singapore",
+  "employee_count": 149686,
+  "employee_basis": "March 31, 2026 global workforce including contractors, Form 10-K table. Not employees-only headcount.",
+  "company_source": "https://www.workday.com/en-us/customer-stories/a-h/flex-maintains-simplicity-single-system-global-workforce.html",
+  "modules": [
+    "Human Capital Management",
+    "Payroll"
+  ],
+  "go_live": {
+    "date": null,
+    "precision": "month claim / primary bound",
+    "status": "completed",
+    "description": "Workday SEC 2012 filing confirms global HCM deployed; first provided May 2008 is contract/service start, not completed rollout. NelsonHall research reports completion by December 2011; primary exact completion day not located.",
+    "sources": [
+      "https://www.sec.gov/Archives/edgar/data/1327811/000119312512409980/d385110ds1a.htm",
+      "https://research.nelson-hall.com/about-nelsonhall/our-team/elizabeth-rennie.html?avpage-views=article&fv=1&id=80814"
+    ]
+  },
+  "contacts": [
+    {
+      "name": "Xavier Boza",
+      "title": "Chief Human Resources Officer",
+      "linkedin_url": "https://www.linkedin.com/in/xavier-boza",
+      "source": "https://flex.com/downloads/xavier-boza-2024-executive-bio",
+      "role_status": "current_official"
+    },
+    {
+      "name": "Eswar Reddy",
+      "title": "Senior Director, IT Operations",
+      "linkedin_url": "https://www.linkedin.com/in/eswar-reddy-aaa11134",
+      "source": "https://www.techtarget.com/it-infrastructure/news/252522170/ServiceNow-ITSM-users-recharge-workflows-with-familiar-tools",
+      "role_status": "current_employer_title_unconfirmed",
+      "notes": "Public profile confirms Flex/Flextronics; exact title is 2022 interview, requires current reconfirmation."
+    }
+  ],
+  "evidence": [
+    {
+      "category": "company_size",
+      "source": "https://www.sec.gov/Archives/edgar/data/866374/000086637426000012/flex-20260331.htm",
+      "reason": "149,686 workforce including contractors; principal executive offices in Austin."
+    },
+    {
+      "category": "authority",
+      "source": "https://flex.com/downloads/xavier-boza-2024-executive-bio",
+      "reason": "Corporate CHRO biography states global human capital management responsibility."
+    },
+    {
+      "category": "budget_proxy",
+      "source": "https://www.techtarget.com/it-infrastructure/news/252522170/ServiceNow-ITSM-users-recharge-workflows-with-familiar-tools",
+      "reason": "Named Flex IT executive describes ServiceNow ITSM and Loom/AIOps deployment; attributable interview, historical adjacent IT spend."
+    },
+    {
+      "category": "financial_capacity",
+      "source": "https://investors.flex.com/financials/quarterly-results/default.aspx",
+      "reason": "FY2026 sales $27.9bn and GAAP operating margin 4.9%; no Mando purchasing window."
+    },
+    {
+      "category": "timing_trigger",
+      "source": "https://flex.com/resources/2025-sustainability-report",
+      "reason": "Global skills/career mapping and manufacturing expansion create ongoing HR needs, not recent Workday go-live proof."
+    },
+    {
+      "category": "reachability",
+      "source": "https://flex.com/downloads/xavier-boza-2024-executive-bio",
+      "reason": "Public professional role identified; direct verified contact channel, team mutual connection and willingness to buy are not established."
+    }
+  ],
+  "why_now": "Large global manufacturing workforce and documented service-management automation support multi-country HR/IT process reliability discussions. Workday is long-established; no fresh deployment or procurement deadline confirmed.",
+  "persona": "Global HR technology and IT service operations",
+  "level": "CHRO / Senior Director",
+  "gaps": [
+    "Primary exact go-live day",
+    "Current HRIS platform owner",
+    "Current validation of IT operations title",
+    "Direct emails/phones and mutual connections",
+    "Current tool budget timeline",
+    "Rising participation"
+  ],
+  "research_notes": "Do not confuse Flex Ltd with Workday Launch Flex methodology, Flexsteel or Twilio Flex. Ignore unsourced accusatory bulk correspondence exposing executive details; no email taken from it. Historical Dave Smoley/Mike McNamara not current contacts. No scores assigned.",
+  "research_checked_on": "2026-10-12"
+}

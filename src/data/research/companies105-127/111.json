@@ -1,0 +1,85 @@
+{
+  "number": 111,
+  "company_id": "db71855e-9dd9-542a-8da9-647042bab6ea",
+  "name": "Blue Yonder",
+  "research_status": "reviewed",
+  "domain": "blueyonder.com",
+  "industry": "Supply chain software",
+  "headquarters": "Scottsdale, Arizona, United States",
+  "employee_count": 7900,
+  "employee_basis": "Close to 7,900 in company-owned 2024 Doddle integration article; estimate, newer audited count unavailable.",
+  "company_source": "https://www.workday.com/en-us/customer-stories/a-h/blue-yonder-maintain-growth-financial-management-tools.html",
+  "modules": [
+    "Human Capital Management",
+    "Financial Management",
+    "Workforce Planning"
+  ],
+  "go_live": {
+    "date": null,
+    "precision": "latest bound",
+    "status": "completed",
+    "description": "JDA selected Financial Management March 13, 2014; this is selection, not go-live. Company October 2019 employee story explicitly describes Financials go-live in the past. HCM/Financials production also confirmed by Workday case; exact day/year not established.",
+    "sources": [
+      "https://investor.workday.com/files/doc_news/JDA-Software-Selects-Workday-Financial-Management-to-Drive-Business-Into-the-Future-03-13-2014-2014.pdf",
+      "https://blog.blueyonder.com/endless-career-possibilities/"
+    ]
+  },
+  "contacts": [
+    {
+      "name": "Simona Darjan",
+      "title": "Chief Transformation Officer",
+      "linkedin_url": "https://www.linkedin.com/in/simona-darjan-1470ba2",
+      "source": "https://blueyonder.com/about/leadership/simona-darjan",
+      "role_status": "current_official",
+      "notes": "Explicitly oversees associate success, internal IT, cybersecurity, BI and integration management; closest verified HR/IT buyer target."
+    },
+    {
+      "name": "Salil Joshi",
+      "title": "Chief Technology Officer",
+      "linkedin_url": "https://www.linkedin.com/in/salil-joshi-1622564",
+      "source": "https://blueyonder.com/about/leadership/salil-joshi",
+      "role_status": "current_official",
+      "notes": "Product technology remit; internal Workday procurement ownership not established."
+    }
+  ],
+  "evidence": [
+    {
+      "category": "company_size",
+      "source": "https://blog.blueyonder.com/adding-a-decade-of-first-and-last-mile-lessons-to-blue-yonders-future/",
+      "reason": "Company blog describes close to 7,900 people after Doddle acquisition."
+    },
+    {
+      "category": "authority",
+      "source": "https://blueyonder.com/about/leadership/simona-darjan",
+      "reason": "Current leader explicitly responsible for people operations and internal IT/integrations."
+    },
+    {
+      "category": "budget_context",
+      "source": "https://www.workday.com/en-us/customer-stories/a-h/blue-yonder-maintain-growth-financial-management-tools.html",
+      "reason": "Finance team prioritizes Workday functionality before other tools; documented automation investment, separate adjacent testing purchase unavailable."
+    },
+    {
+      "category": "timing_trigger",
+      "source": "https://blueyonder.com/about/leadership/simona-darjan",
+      "reason": "Integrated people/process/technology transformation mandate; no dated current Workday purchase/go-live."
+    },
+    {
+      "category": "reachability",
+      "source": "https://blueyonder.com/about/leadership/simona-darjan",
+      "reason": "Public professional role identified; direct verified contact channel, team mutual connection and willingness to buy are not established."
+    }
+  ],
+  "why_now": "Acquisition integration, parent-company reporting and combined people/IT ownership provide concrete Workday governance needs. Separate paid testing tooling and current purchasing deadline remain unknown.",
+  "persona": "HR/IT transformation and integration leadership",
+  "level": "C-suite",
+  "gaps": [
+    "Exact HCM/Financials completion dates",
+    "Current HRIS platform owner",
+    "Direct work emails/phones and warm connections",
+    "Adjacent tool purchase / current budget window",
+    "Current standalone financial capacity",
+    "Rising participation"
+  ],
+  "research_notes": "JDA Software is former name, not another company. Nathalie Carruthers and Jon Flinn are historical case-study speakers; current roster/profile clues do not support treating them as current. Blue Yonder selling automation to its customers is not evidence of its own purchases. No scores assigned.",
+  "research_checked_on": "2026-10-12"
+}

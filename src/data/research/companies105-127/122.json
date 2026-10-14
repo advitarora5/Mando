@@ -1,0 +1,84 @@
+{
+  "number": 122,
+  "company_id": "f51f6c35-229a-5f15-8ae1-eae30e5f6dbf",
+  "name": "Affin Bank",
+  "research_status": "reviewed",
+  "domain": "affingroup.com",
+  "industry": "Banking and financial services",
+  "headquarters": "Tun Razak Exchange, Kuala Lumpur, Malaysia",
+  "employee_count": 5600,
+  "employee_basis": "Workday customer story reports 5,600 employees; undated rounded figure retained pending a current exact group census.",
+  "company_source": "https://www.workday.com/en-us/customer-stories/a-h/affin-bank-fostering-workplace-where-ideas-flourish.html",
+  "modules": [
+    "Human Capital Management",
+    "Learning",
+    "Talent Acquisition",
+    "Peakon Employee Voice"
+  ],
+  "go_live": {
+    "date": null,
+    "precision": "unknown",
+    "status": "completed",
+    "description": "Project Rockstar HCM launch is confirmed by the implementation lead's first-person celebration post and Deloitte's project case, but the accessible post supplies only 'last Friday', not a reliable calendar date. Separate Peakon Employee Voice transition completed during FY2025 according to the 2025 annual report; exact month/day unknown.",
+    "sources": [
+      "https://www.linkedin.com/posts/rabiatul-adawiyah-8b3496b2_projectrockstar-teamaffin-affinawesome-activity-7149599981694242816-MHkR",
+      "https://www.deloitte.com/southeast-asia/en/services/consulting/perspectives/affin-workday-hcm.html",
+      "https://affin.listedcompany.com/newsroom/25_Mar_2026_-_Affin_Bank_Berhad_-_Annual_Report_Part__2.pdf"
+    ]
+  },
+  "contacts": [
+    {
+      "name": "Dr. Mohd Syukri Ahmad Sudari",
+      "title": "Group Chief People Officer",
+      "linkedin_url": "https://www.linkedin.com/in/syukri-sudari",
+      "source": "https://affin.listedcompany.com/newsroom/25_Mar_2026_-_Affin_Bank_Berhad_-_Annual_Report_Part__2.pdf",
+      "role_status": "current_official"
+    },
+    {
+      "name": "Rabiatul Adawiyah",
+      "title": "Head of Employee Experience and Strategic Transformation",
+      "linkedin_url": "https://www.linkedin.com/in/rabiatul-adawiyah-8b3496b2",
+      "source": "https://www.workday.com/en-us/customer-stories/a-h/affin-bank-fostering-workplace-where-ideas-flourish.html",
+      "role_status": "customer_story_current_unconfirmed",
+      "notes": "Named implementation owner and ongoing 2026 ASEAN user-group presenter; exact current formal title not freshly exposed on public profile."
+    }
+  ],
+  "evidence": [
+    {
+      "category": "authority",
+      "source": "https://affin.listedcompany.com/newsroom/25_Mar_2026_-_Affin_Bank_Berhad_-_Annual_Report_Part__2.pdf",
+      "reason": "Official group organization chart identifies Dr. Syukri Sudari as Group Chief People Officer."
+    },
+    {
+      "category": "reachability",
+      "source": "https://my.linkedin.com/in/syukri-sudari",
+      "reason": "Current public profile identifies Affin Bank Group affiliation and professional HR leadership; no direct verified outreach channel or mutual established."
+    },
+    {
+      "category": "budget",
+      "source": "https://affin.listedcompany.com/newsroom/25_Mar_2026_-_Affin_Bank_Berhad_-_Annual_Report_Part__2.pdf",
+      "reason": "FY2025 transition from Lenses 3.0 to Workday Peakon confirms additional employee-listening technology adoption."
+    },
+    {
+      "category": "budget",
+      "source": "https://affin.listedcompany.com/newsroom/Media_Release_-_AFFINBANK_Q4_2025.pdf",
+      "reason": "Issuer reports FY2025 profit before tax RM755.7m, up 7.8%; capacity context, not an approved testing allocation."
+    },
+    {
+      "category": "timing",
+      "source": "https://www.linkedin.com/posts/rabiatul-adawiyah-8b3496b2_projectrockstar-teamaffin-affinawesome-activity-7149599981694242816-MHkR",
+      "reason": "First-person implementation leader confirms actual HCM go-live but only with relative wording; exact date remains unknown."
+    }
+  ],
+  "why_now": "An implemented HCM, learning and recruiting estate has added Peakon employee listening in FY2025. Continued HR digitalization and employee-sentiment workflows create a plausible integration and change-assurance discussion; an immediate testing procurement deadline is not established.",
+  "persona": "Group people transformation and HR technology owner",
+  "level": "Functional head and C-suite",
+  "gaps": [
+    "Initial HCM go-live calendar date and Peakon month/day unavailable.",
+    "Exact current employee census and Rabiatul's present formal title need confirmation.",
+    "No direct work emails/phones, deliverability verification, warm connections or willingness to purchase confirmed.",
+    "No confirmed external test-automation purchase or committed purchasing timeline."
+  ],
+  "research_notes": "Do not assign Risham Akashah the CTO title from the annual-report snapshot without rechecking: current group posts identify him as Chief Community Banking Officer and Zainal Azlan Zainudin as acting technology/operations chief. Masked directory email addresses are not usable verified contacts. No scores changed.",
+  "research_checked_on": "2026-10-12"
+}
