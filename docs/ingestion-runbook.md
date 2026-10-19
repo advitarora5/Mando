@@ -117,7 +117,7 @@ The workflows in `.github/workflows/ingestion-{daily,weekly,rescore,import}.yml`
 To turn on a schedule: uncomment its `schedule:` block, set repository secrets `PIPELINE_SUPABASE_URL`,
 `PIPELINE_SUPABASE_KEY`, `TREG_TOKEN` and variables `PIPELINE_ALLOW_REMOTE`, `PIPELINE_CONTACT`, `TREG_BUDGET_USD`
 (default 0 = no paid calls), `PIPELINE_LLM` (hosted runners have no Ollama; default `none` = structured signals only).
-Apply `supabase/migrations/202610130001_ingestion_pipeline.sql` to the target first (after a backup).
+Apply `supabase/migrations/202610190001_ingestion_pipeline.sql` to the target first (after a backup).
 **Budget in CI is per run:** the spend ledger is a local file and GitHub runners start empty, so `TREG_BUDGET_USD` caps
 each workflow run, not each day. With a daily schedule, the daily treg ceiling is `TREG_BUDGET_USD` × runs per day.
 Paid email lookups are still never repeated (`paid_calls` in the database).

@@ -205,7 +205,7 @@ export function Detail({ company: c, snapshots = [], drafts = [], rank, movement
   const outreachTab = <div className="grid-2">
     <div className="stack">{c.contacts.length ? c.contacts.map(contact => <section className="card" key={contact.id}>
       <div className="card-head"><div className="person"><Avatar name={contact.name} /><div className="person-text"><strong>{contact.name}</strong><small>{contact.title ?? "Title not recorded"}</small></div></div><ChannelIcons contact={contact} tipPosition="left" /></div>
-      <div className="card-body"><ContactDrafts drafts={drafts.filter(d => d.contact_id === contact.id)} companyId={c.id} email={contact.email} linkedinUrl={contact.linkedin_url} /></div>
+      <div className="card-body"><ContactDrafts drafts={drafts.filter(d => d.contact_id === contact.id)} contactId={contact.id} companyId={c.id} email={contact.email} linkedinUrl={contact.linkedin_url} /></div>
     </section>) : <div className="card empty-state"><strong>No contacts to message yet</strong><span>Add a contact first; drafts appear here once generated.</span></div>}</div>
     <section className="card"><div className="card-body"><Editor title="Lead status" action={saveLeadStatus} hidden={{ company_id: c.id, updated_at: c.updated_at, previous_status: c.lead_status }} fields={[{ name: "lead_status", label: "Status", type: "select", value: c.lead_status, options: leadStatuses.map(status => ({ value: status, label: leadStatusLabels[status] })), help: "Sending a draft marks the lead contacted automatically." }]}>
       <dl className="kv"><dt>Status</dt><dd>{leadStatusOf(c) ? <span className="chip info">{leadStatusText(c)}</span> : <span className="faint">Not tracked — lead status is not stored in this database yet</span>}</dd>

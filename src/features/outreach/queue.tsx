@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
-import { CircleHelp, Inbox, Search, SquareArrowOutUpRight } from "lucide-react";
+import { CircleHelp, Inbox, Search, Settings, SquareArrowOutUpRight } from "lucide-react";
 import type { CompanyListItem, LeadStatus } from "@/domain/contracts/company";
 import { contactFunction, emailLabel, emailState, functionLabel, rankContacts } from "@/domain/contacts/contact-view";
 import { leadStatusOf, leadStatusText } from "@/domain/lead-status";
@@ -46,7 +46,10 @@ export function OutreachQueue({ companies }: { companies: CompanyListItem[] }) {
         <h1>Outreach queue</h1>
         <p className="muted">Contacts at scored companies, best first. Open a record to send a draft or update its status.</p>
       </div>
-      <label className="field queue-search"><Search aria-hidden /><span className="sr-only">Search contacts</span><input className="input search" type="search" placeholder="Search contact or company" value={query} onChange={e => setQuery(e.target.value)} /></label>
+      <div className="queue-actions">
+        <label className="field queue-search"><Search aria-hidden /><span className="sr-only">Search contacts</span><input className="input search" type="search" placeholder="Search contact or company" value={query} onChange={e => setQuery(e.target.value)} /></label>
+        <Link className="btn" href="/email-customization" title="Edit angles, voice and templates for drafted messages"><Settings aria-hidden />Email customization</Link>
+      </div>
       <div className="record-tabs queue-tabs"><TabBar idPrefix="queue" value={filter} onChange={setFilter} items={filters.map(f => ({ ...f, count: counts[f.id] }))} /></div>
     </div>
     {!tracked && <p className="active-filters note-banner" role="note"><CircleHelp aria-hidden />Lead status isn&apos;t stored in this database yet, so every company counts as not contacted. The status tabs fill once the lead-status migration is applied.</p>}

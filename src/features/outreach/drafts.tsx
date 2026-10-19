@@ -1,10 +1,11 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { gmailUrl, mailtoUrl, LINKEDIN_LIMIT } from "@/domain/outreach/draft";
 import { safeUrl } from "@/domain/contracts/detail";
-import { markDraftSent, saveDraft } from "./actions";
+import { createDraft, deleteDraft, generateDrafts, markDraftSent, saveDraft } from "./actions";
 import type { StoredDraft } from "@/server/repositories/outreach-drafts";
 
 type Props = { draft: StoredDraft; companyId: string; email: string | null; linkedinUrl: string | null };
@@ -25,6 +26,15 @@ function DraftCard({ draft, companyId, email, linkedinUrl }: Props) {
     setMessage(result.error ?? done);
     if (!result.error) router.refresh();
     return !result.error;
+  }
+  async function remove() {
+    const warning = draft.sent_at ? "This draft was already sent. Deleting it also removes its contacted date. Delete it?" : "Delete this draft? You can generate or write a new one afterwards.";
+    if (!window.confirm(warning)) return;
+    setBusy(true);
+    const result = await deleteDraft({ id: draft.id, company_id: companyId });
+    setBusy(false);
+    if (result.error) setMessage(result.error);
+    else router.refresh();
   }
   async function copy() {
     try { await navigator.clipboard.writeText(isEmail ? `Subject: ${subject}\n\n${body}` : body); setMessage("Copied."); }
@@ -50,6 +60,7 @@ function DraftCard({ draft, companyId, email, linkedinUrl }: Props) {
     <div className="form-buttons">
       <button className="button secondary" disabled={busy} onClick={() => run(saveDraft, "Saved.")}>Save</button>
       <button className="button secondary" onClick={copy}>Copy</button>
+      <button className="button secondary danger" disabled={busy} onClick={remove}>Delete</button>
       {isEmail ? (email
         ? <><button className="button" disabled={busy} onClick={() => send(gmailUrl(email, subject, body))}>Send in Gmail</button><button className="button secondary" disabled={busy} onClick={() => send(mailtoUrl(email, subject, body))}>Open in email app</button></>
         : <span className="muted">Add an email to send.</span>)
@@ -59,8 +70,40 @@ function DraftCard({ draft, companyId, email, linkedinUrl }: Props) {
   </div>;
 }
 
-export function ContactDrafts({ drafts, companyId, email, linkedinUrl }: { drafts: StoredDraft[]; companyId: string; email: string | null; linkedinUrl: string | null }) {
-  if (!drafts.length) return <p className="muted">No drafted messages yet.</p>;
+export function ContactDrafts({ drafts, contactId, companyId, email, linkedinUrl }: { drafts: StoredDraft[]; contactId: string; companyId: string; email: string | null; linkedinUrl: string | null }) {
+  const router = useRouter();
+  const [open, setOpen] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [creating, setCreating] = useState(false);
+  const [generating, setGenerating] = useState(false);
   const ordered = drafts.toSorted((a, b) => a.channel.localeCompare(b.channel));
-  return <details className="drafts"><summary>Outreach drafts ({drafts.length})</summary>{ordered.map(d => <DraftCard key={d.id} draft={d} companyId={companyId} email={email} linkedinUrl={linkedinUrl} />)}</details>;
+  const missing = (["email", "linkedin"] as const).filter(channel => !drafts.some(d => d.channel === channel));
+
+  async function create(channel: "email" | "linkedin") {
+    setCreating(true); setError(null);
+    const result = await createDraft({ contact_id: contactId, company_id: companyId, channel });
+    setCreating(false);
+    if (result.error) { setError(result.error); return; }
+    setOpen(true);
+    router.refresh();
+  }
+
+  async function generate() {
+    setGenerating(true); setError(null);
+    const result = await generateDrafts({ contact_id: contactId, company_id: companyId });
+    setGenerating(false);
+    if (result.error) { setError(result.error); return; }
+    setOpen(true);
+    router.refresh();
+  }
+
+  return <details className="drafts" open={open} onToggle={e => setOpen(e.currentTarget.open)}>
+    <summary>Outreach drafts ({drafts.length})</summary>
+    <p className="muted"><Link href="/email-customization">Edit angles, voice and templates</Link></p>
+    {!drafts.length && <p className="muted">No drafted messages yet.</p>}
+    {ordered.map(d => <DraftCard key={d.id} draft={d} companyId={companyId} email={email} linkedinUrl={linkedinUrl} />)}
+    {missing.length > 0 && <div className="form-buttons"><button className="button" disabled={generating || creating} onClick={generate}>{generating ? "Generating…" : "Generate with AI"}</button>{missing.map(channel => <button key={channel} className="button secondary" disabled={generating || creating} onClick={() => create(channel)}>{channel === "email" ? "Blank email" : "Blank LinkedIn message"}</button>)}</div>}
+    {generating && <p role="status" className="muted">Writing drafts. This can take up to a minute.</p>}
+    {error && <p role="alert" className="error-text">{error}</p>}
+  </details>;
 }

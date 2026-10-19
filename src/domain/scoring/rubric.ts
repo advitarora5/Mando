@@ -1,7 +1,7 @@
 import type { Category, Tier } from "@/domain/contracts/company";
 
 // Week 2 slide 7 rubric. Change weights, thresholds or bands here only, and bump the version.
-export const RUBRIC_VERSION = "week2-100";
+export const RUBRIC_VERSION = "week2-100-v2-qualified70";
 
 export const rubric: Record<Category, { label: string; weight: number; explanation: string }> = {
   authority: { label: "Functional Authority", weight: 25, explanation: "HRIS/IT leadership at a 3,000+ employee company." },
@@ -12,10 +12,10 @@ export const rubric: Record<Category, { label: string; weight: number; explanati
 };
 
 // Inclusive minimum totals. Anything below Maybe is Disqualified.
-export const tierThresholds = { Qualified: 80, Maybe: 55 } as const;
+export const tierThresholds = { Qualified: 70, Maybe: 55 } as const;
 
 // Team rubric revision (Mando team scoring rubric, 2026-10-13): same weights, Qualified from 70, Maybe from 55.
-// Thresholds follow each score row's rubric_version, so rows saved under older versions keep 80/55 until rescored.
+// Thresholds follow each score row's rubric_version; the default for any other version is the shared 70/55.
 export const TEAM_RUBRIC_70 = "mando-team-70";
 const versionThresholds: { prefix: string; thresholds: { Qualified: number; Maybe: number } }[] = [
   { prefix: TEAM_RUBRIC_70, thresholds: { Qualified: 70, Maybe: 55 } },

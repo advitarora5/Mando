@@ -11,6 +11,7 @@ import { companyRanks } from "@/features/company-list/query";
 import { baselineWeek, chicagoWeekStart, rankMovement } from "@/domain/history";
 
 export const dynamic = "force-dynamic";
+export const maxDuration = 60; // AI draft generation runs as a server action on this page
 export default async function CompanyPage({ params }: { params: Promise<{ id: string }> }) {
   await requirePageSession();
   const { id } = await params;

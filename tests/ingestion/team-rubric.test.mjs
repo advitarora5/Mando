@@ -14,15 +14,15 @@ const contact = extra => ({ name: 'Pat Lee', title: 'Director, HRIS', source: 'h
 const found = { name_title_linkedin: { provider: 'quickenrich via treg' } };
 const evidence = 'https://x.example | Assessment status: met. Reason.';
 
-test('tiers follow the rubric version: team rubric 70/55, older rows keep 80/55', () => {
+test('tiers: 70/55 for the team rubric and, since main unified the shared tiers, for older versions too', () => {
   assert.deepEqual(tierThresholdsFor('mando-team-70:pipeline-v2'), { Qualified: 70, Maybe: 55 });
-  assert.deepEqual(tierThresholdsFor('week2-100'), { Qualified: 80, Maybe: 55 });
+  assert.deepEqual(tierThresholdsFor('week2-100'), { Qualified: 70, Maybe: 55 });
   assert.deepEqual([70, 69, 55, 54].map(t => tierForTotal(t, 'mando-team-70')), ['Qualified', 'Maybe', 'Maybe', 'Disqualified']);
-  assert.deepEqual([80, 79].map(t => tierForTotal(t)), ['Qualified', 'Maybe']);
+  assert.deepEqual([70, 69].map(t => tierForTotal(t)), ['Qualified', 'Maybe']);
   const row = s => ({ authority_score: 20, reachability_score: 20, budget_score: s, release_score: 10, timing_score: 10, authority_evidence: evidence, reachability_evidence: evidence });
   assert.equal(evaluateTier({ ...row(10), rubric_version: 'mando-team-70:pipeline-v2' }).tier, 'Qualified', '70 total');
   assert.equal(evaluateTier({ ...row(9), rubric_version: 'mando-team-70:pipeline-v2' }).tier, 'Maybe', '69 total');
-  assert.equal(evaluateTier({ ...row(10), rubric_version: 'week2-100' }).tier, 'Maybe', 'same 70 under the old version');
+  assert.equal(evaluateTier({ ...row(10), rubric_version: 'week2-100' }).tier, 'Qualified', 'same 70 under the old version');
   assert.match(evaluateTier({ ...row(10), rubric_version: 'mando-team-70' }).tier_reason, /at least 70/);
 });
 
@@ -109,7 +109,7 @@ test('timing: strongest single trigger 15/12/10/8/5, never stacked', () => {
   assert.equal(hiringStrength('Sr Engineer - Workday', 'You will prototype, design, build, and support features in Workday.'), 'role');
 });
 
-test('company assessment: links and reasons of at most 240 characters, 14-day expiry, version, and a 78 that is Qualified only under the team rubric', () => {
+test('company assessment: links and reasons of at most 240 characters, 14-day expiry, version, and the same tier under older versions', () => {
   const vp = contact({ title: 'VP, HRIS and Workday', email: 'p@x.com', email_source: 'https://x.com/team', phone: '+1 555', phone_source: 'https://x.com/team', linkedin_status: 'confirmed' });
   const longQuote = 'We go live on Workday HCM on December 1, 2026 across all regions and entities worldwide. '.repeat(5);
   const a = scoreCompany('c', [sig('known_customer'), sig('go_live', { signal_date: '2026-12-01', quote: longQuote }), sig('budget_clue', { signal_date: '2026-06-01' })], [vp], defaultSettings, NOW);
@@ -121,7 +121,7 @@ test('company assessment: links and reasons of at most 240 characters, 14-day ex
   }
   assert.equal(a.result.total, 24 + 23 + 8 + 8 + 15);
   assert.equal(a.result.tier, 'Qualified');
-  assert.equal(evaluateTier({ ...a.result.row, rubric_version: 'week2-100' }).tier, 'Maybe');
+  assert.equal(evaluateTier({ ...a.result.row, rubric_version: 'week2-100' }).tier, 'Qualified');
   const stale = sig('hiring', { last_seen_at: '2026-09-28T11:00:00Z', signal_date: '2026-09-25' });
   assert.equal(scoreCompany('c', [stale], [], defaultSettings, NOW).result.row.timing_score, 0, 'expired after 14 days');
   assert.equal(scoreCompany('c', [sig('go_live', { signal_date: '2026-08-01', last_seen_at: '2025-01-01T00:00:00Z' })], [], defaultSettings, NOW).result.row.timing_score, 12, 'go-live keeps its date');

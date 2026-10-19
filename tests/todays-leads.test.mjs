@@ -1,3 +1,4 @@
+import { tierForTotal } from "../src/domain/scoring/rubric.ts";
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { selectTodaysLeads } from '../src/features/todays-leads/select.ts';
@@ -7,7 +8,7 @@ const lead = (id, name, total, status) => ({
   id, name, industry: null, why_now: null, contacts: [], drafts: [],
   lead_status: status, contacted_at: null, replied_at: null, demo_booked_at: null,
   score: total === null ? null : {
-    total, tier: total >= 80 ? 'Qualified' : total >= 55 ? 'Maybe' : 'Disqualified',
+    total, tier: tierForTotal(total),
     authority_evidence: evidence, reachability_evidence: evidence,
   },
 });
