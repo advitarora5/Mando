@@ -148,9 +148,10 @@ export function releaseFromSignals(signals: ScoringSignal[], now: Date): Categor
   const days = Math.round((Date.parse(next.date) - Date.parse(today)) / 86400000);
   const preparing = signals.find(s => s.type === "release_planning");
   let score = 8, band = "deployment affected by recurring releases";
-  if (next.confirmed && days >= 42 && days <= 84) { score = preparing ? 15 : 12; band = preparing ? "42-84 days before confirmed release, with documented preparation" : "42-84 days before confirmed release"; }
-  else if (next.confirmed && days >= 85 && days <= 126) { score = 10; band = "85-126 days before confirmed release"; }
-  const note = next.confirmed ? "" : " Next release date is estimated, so higher bands cannot apply.";
+  // Only public, documented preparation (a release_planning signal) lifts the score above the baseline.
+  if (next.confirmed && preparing && days >= 42 && days <= 84) { score = 15; band = "42-84 days before confirmed release, with documented preparation"; }
+  else if (next.confirmed && preparing && days >= 85 && days <= 126) { score = 10; band = "85-126 days before confirmed release, with documented preparation"; }
+  const note = !next.confirmed ? " Next release date is estimated, so higher bands cannot apply." : !preparing ? " No public release preparation found, so higher bands cannot apply." : "";
   return { score, source: (score >= 15 && preparing ? preparing : deployed).source_url, status: "met", detail: { days },
     reason: clip(`${band} ${score}: ${next.name} ${next.confirmed ? "on" : "estimated for"} ${next.date}, ${days} days.${note}`) };
 }

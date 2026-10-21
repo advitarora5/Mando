@@ -77,16 +77,19 @@ test('budget: capacity not collected (0) + the single highest investment band; l
   assert.equal(budgetFromSignals([sig('known_customer'), sig('hiring')], NOW).status, 'unknown');
 });
 
-test('release: deployment first; higher bands need a confirmed next release; estimated dates give the 8 baseline', () => {
+test('release: deployment first; higher bands need a confirmed next release AND public preparation; otherwise the 8 baseline', () => {
   const est = releaseFromSignals([sig('known_customer')], NOW);
   assert.equal(est.score, 8);
   assert.match(est.reason, /estimated/);
   assert.equal(releaseFromSignals([sig('release_planning')], NOW).score, 8, 'release preparation shows deployment');
   assert.equal(releaseFromSignals([sig('hiring')], NOW).status, 'unknown', 'hiring alone does not confirm deployment');
   const july = new Date('2026-07-20T17:00:00Z'); // 61 days before confirmed 2026R2 (2026-09-19)
-  assert.equal(releaseFromSignals([sig('known_customer')], july).score, 12);
+  assert.equal(releaseFromSignals([sig('known_customer')], july).score, 8, 'inside the window but no public preparation');
+  assert.match(releaseFromSignals([sig('known_customer')], july).reason, /No public release preparation/);
   assert.equal(releaseFromSignals([sig('known_customer'), sig('release_planning')], july).score, 15, 'documented preparation');
-  assert.equal(releaseFromSignals([sig('known_customer')], new Date('2026-05-20T17:00:00Z')).score, 10, '122 days before');
+  const may = new Date('2026-05-20T17:00:00Z'); // 122 days before
+  assert.equal(releaseFromSignals([sig('known_customer')], may).score, 8, '122 days before, unprepared');
+  assert.equal(releaseFromSignals([sig('known_customer'), sig('release_planning')], may).score, 10, '122 days before, preparing');
   assert.equal(releaseFromSignals([], NOW).status, 'unknown');
 });
 

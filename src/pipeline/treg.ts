@@ -37,7 +37,7 @@ export class HttpTreg implements TregTransport {
   }
 }
 
-type ExecFn = (file: string, args: string[], opts: { timeout: number; maxBuffer: number }, cb: (error: Error | null, stdout: string, stderr: string) => void) => void;
+type ExecFn = (file: string, args: string[], opts: { timeout: number; maxBuffer: number; env?: NodeJS.ProcessEnv }, cb: (error: Error | null, stdout: string, stderr: string) => void) => void;
 
 export class CliTreg implements TregTransport {
   private exec: ExecFn;
@@ -48,7 +48,8 @@ export class CliTreg implements TregTransport {
     for (const [key, value] of Object.entries({ ...opts.headers, ...(opts.idempotencyKey ? { "Idempotency-Key": opts.idempotencyKey } : {}) })) args.push("--header", `${key}: ${value}`);
     if (opts.body !== undefined) args.push("--method", "POST", "--data", JSON.stringify(opts.body));
     return new Promise(resolve => {
-      this.exec("treg", args, { timeout: opts.timeoutMs ?? 90000, maxBuffer: 32 * 1024 * 1024 }, (error, stdout) => {
+      // The CLI is Python: on Windows it crashes printing non-ASCII names (cp1252) unless UTF-8 is forced.
+      this.exec("treg", args, { timeout: opts.timeoutMs ?? 90000, maxBuffer: 32 * 1024 * 1024, env: { ...process.env, PYTHONUTF8: "1", PYTHONIOENCODING: "utf-8" } }, (error, stdout) => {
         let parsed: { result?: unknown; _treg?: { http_status?: number; call_id?: string; charged_micro?: number } } | null = null;
         try { parsed = JSON.parse(String(stdout).trim().split("\n").pop() ?? ""); } catch { parsed = null; }
         if (!parsed) return resolve({ ok: false, status: 0, error: error ? `treg CLI failed: ${error.message.split("\n")[0]}` : "treg CLI returned no JSON", cost_usd: 0 });
