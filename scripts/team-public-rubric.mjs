@@ -102,10 +102,12 @@ export function releaseScore(company,today){
   if(next){
     if(!validDate(next))throw new Error('Confirmed release date is invalid.');
     const days=(Date.parse(next)-Date.parse(today))/86400000;
-    if(days>=42&&days<=84)score=company.release.documented_preparation===true?15:12;
-    else if(days>=84&&days<=126)score=10;
+    // Only public, documented preparation lifts the score above the applicability baseline.
+    const prepared=company.release.documented_preparation===true;
+    if(prepared&&days>=42&&days<=84)score=15;
+    else if(prepared&&days>=84&&days<=126)score=10;
   }
-  return {score,status:'met',source:company.workday.source,reason:`Confirmed current Workday customer subject to recurring feature releases: ${score}/15. Eight-point applicability baseline is separate from release readiness. Calendar estimates do not count as confirmed dates.`,missing:score===8?['Higher readiness windows require a confirmed upcoming release date and, for 15, documented preparation.']:[],sources:[company.workday.source,company.release.policy_source]};
+  return {score,status:'met',source:company.workday.source,reason:`Confirmed current Workday customer subject to recurring feature releases: ${score}/15. Eight-point applicability baseline is separate from release readiness. Calendar estimates do not count as confirmed dates.`,missing:score===8?['Scores above 8 require a confirmed upcoming release date and documented public preparation for it.']:[],sources:[company.workday.source,company.release.policy_source]};
 }
 
 export function assessTeamCompany(company,today){
