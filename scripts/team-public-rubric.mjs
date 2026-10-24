@@ -97,15 +97,21 @@ export function timingScore(company,today){
 
 export function releaseScore(company,today){
   if(company.workday.current!==true)return {score:0,status:'unknown',source:company.workday.source,reason:'Current deployment/release applicability is unconfirmed.',missing:['Not enough evidence to confirm current Workday operation.']};
-  let score=8;
+  // A confirmed current Workday customer is NOT release-preparation evidence on its own.
+  // Points are only awarded when a CONFIRMED upcoming release date lands in the
+  // readiness window (42-126 days). 8 is never a default; calendar estimates don't count.
   const next=company.release.next_confirmed_date;
+  let score=0,status='unknown';
   if(next){
     if(!validDate(next))throw new Error('Confirmed release date is invalid.');
     const days=(Date.parse(next)-Date.parse(today))/86400000;
     if(days>=42&&days<=84)score=company.release.documented_preparation===true?15:12;
     else if(days>=84&&days<=126)score=10;
   }
-  return {score,status:'met',source:company.workday.source,reason:`Confirmed current Workday customer subject to recurring feature releases: ${score}/15. Eight-point applicability baseline is separate from release readiness. Calendar estimates do not count as confirmed dates.`,missing:score===8?['Higher readiness windows require a confirmed upcoming release date and, for 15, documented preparation.']:[],sources:[company.workday.source,company.release.policy_source]};
+  if(score>0)status='met';
+  const missing=score===0?['Confirmed as a current Workday customer, but no confirmed upcoming release date within the readiness window (42-126 days); recurring-feature applicability alone does not earn release score.']:['No additional release-preparation signals beyond the confirmed date.'];
+  const reason=score===0?'Confirmed current Workday customer with no confirmed upcoming release date in the readiness window (42-126 days). A current-customer status is not release-preparation evidence; calendar estimates do not count as confirmed dates.':`Confirmed upcoming release at ${next} (${Math.round((Date.parse(next)-Date.parse(today))/86400000)} days out, readiness window 42-126 days): ${score}/15. Documented preparation: ${company.release.documented_preparation===true?'yes':'no'}.`;
+  return {score,status,source:company.workday.source,reason,missing,sources:[company.workday.source,company.release.policy_source].filter(Boolean)};
 }
 
 export function assessTeamCompany(company,today){
