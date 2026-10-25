@@ -61,6 +61,15 @@ test('matching: exact website merges, similar name and missing website go to rev
   assert.equal(decideMatch({ ...base, name: 'Newco', domain: 'newco.com' }, known, { canCreate: true }).action, 'create');
 });
 
+test('matching: an unconfirmed website suggestion cannot attach evidence to an existing company', () => {
+  const decision = decideMatch({
+    name: 'New Robotics Inc', domain: 'unrelated.example', domain_confirmed: false, best_confidence: 0.95,
+  }, [{ id: 'unrelated', name: 'Independent Computing Services', domain: 'unrelated.example' }], { canCreate: true });
+  assert.equal(decision.action, 'review');
+  assert.equal(decision.reason, 'no_website');
+  assert.equal(decision.suggested_company_id, null);
+});
+
 test('regression: Workday itself (the vendor) is never a lead, under any spelling', () => {
   const base = { domain: 'workday.com', domain_confirmed: true, best_confidence: 0.95 };
   for (const name of ['Workday, Inc.', 'WORKDAY INC', 'Workday']) {

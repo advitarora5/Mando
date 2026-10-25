@@ -320,6 +320,20 @@ test('round 2: an unconfirmed website guess is not stored on the review item, so
   assert.equal(item.candidate_domain, null);
 });
 
+test('an unconfirmed domain-finder result cannot assign signals to an unrelated existing company', async () => {
+  const { ctx, store } = world({ tregOpts: { unconfirmed: ['Birchway Logistics Corp'] } });
+  const unrelated = store.addExistingCompany({ name: 'Independent Computing Services', domain: 'other-birchwaylogistics.example' });
+  await run(ctx, 'weekly');
+  const signals = store.signals.filter(s => s.company_name === 'Birchway Logistics Corp');
+  assert.ok(signals.length > 0);
+  assert.ok(signals.every(s => s.company_id !== unrelated));
+  const review = store.reviews.find(r => r.normalized_name === 'birchway logistics');
+  assert.ok(review);
+  assert.equal(review.reason, 'no_website');
+  assert.equal(review.candidate_domain, null);
+  assert.ok(signals.every(s => s.review_item_id === review.id));
+});
+
 test('round 2: the daily plan does not run weekly sources (paid treg feeds keep their frequency)', async () => {
   const treg = worldTreg({ extra: { 'tikhub.x.reddit-app-fetch-subreddit-feed': () => ({ ok: true, status: 200, body: { data: [] }, cost_usd: 0.001, call_id: 'r' }) } });
   const { ctx, store } = world({ treg });

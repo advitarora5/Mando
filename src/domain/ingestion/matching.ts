@@ -25,12 +25,12 @@ export function isExcludedCompany(name: string | null | undefined): boolean {
   return EXCLUDED.has(normalizeName(name));
 }
 
-// Rules: an exact website match merges. A similar (or equal) name without a website match goes to review.
+// Rules: a confirmed exact website match merges. A similar (or equal) name without one goes to review.
 // A new company with a confirmed website and a trusted signal is created. Everything else goes to review.
 export function decideMatch(candidate: Candidate, known: KnownCompany[], room: { canCreate: boolean }): MatchDecision {
   if (isExcludedCompany(candidate.name)) return { action: "skip", why: "excluded organisation (the vendor)" };
   const domain = normalizeDomain(candidate.domain);
-  if (domain) {
+  if (domain && candidate.domain_confirmed) {
     const exact = known.find(company => normalizeDomain(company.domain) === domain);
     if (exact) return { action: "attach", company_id: exact.id, why: `website ${domain} matches ${exact.name}` };
   }
