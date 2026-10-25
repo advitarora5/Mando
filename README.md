@@ -1,5 +1,7 @@
 # Mando CUBE
 
+Company accuracy reviews: use the [shared company-data error log](docs/company-data-error-log.md) to record source-verification problems, corrections and recurring pipeline errors.
+
 Local Next.js dashboard scaffold for enterprise prospect qualification.
 
 ## Run locally
