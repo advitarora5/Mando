@@ -14,6 +14,7 @@ treg r/workday (insight feed) ───┘   (append-only)  (structured + model)
 ```bash
 npm ci
 npx supabase start                    # local, isolated database (Docker). First start pulls images.
+npx supabase db push --local          # apply new pipeline migrations to an existing local database
 cp .env.example .env.pipeline.local   # then fill the PIPELINE_* values below (file is gitignored)
 ollama pull qwen2.5:7b                # default local model
 npm test && npm run test:integration
@@ -28,7 +29,8 @@ npm test && npm run test:integration
 | `PIPELINE_LLM` | `ollama` (default) \| `openai` \| `gemini` \| `none`. |
 | `OLLAMA_HOST`, `OLLAMA_MODEL`, `OLLAMA_NUM_CTX` | Local model (default `qwen2.5:7b`, context 6144). |
 | `PIPELINE_ALLOW_PAID_LLM`, `PIPELINE_LLM_BUDGET_USD`, `OPENAI_API_KEY`, `GEMINI_API_KEY` | Paid models. Off unless `PIPELINE_ALLOW_PAID_LLM=1` **and** a budget > 0. Ask before enabling. |
-| `TREG_TOKEN` | treg per-org agent token (CI). Locally, when empty, the signed-in `treg` CLI is used. |
+| `TREG_TOKEN` | Existing treg credential. When empty, the signed-in `treg` CLI is used unless disabled. |
+| `TREG_ORG` / `TREG_DISABLE_CLI` | Organization slug (our local setup uses `cube`); set `TREG_DISABLE_CLI=1` to prevent implicit CLI fallback. |
 | `TREG_BUDGET_USD` | Session cap for paid treg calls (default 0.50). `--max-spend` lowers it per run, never raises it. |
 | `PIPELINE_CONTACT` | Contact address in every collector User-Agent. SEC answers 403 without one. |
 | `PIPELINE_SEC_FILE` | Optional local copy of `company_tickers.json`, used only when `PIPELINE_CONTACT` is empty. |
@@ -69,6 +71,61 @@ evidence. Network/server failures and searches cut short by the request cap do n
 completed misses or reset an existing retry clock; they remain eligible on the next run. The
 existing HTTP retry/backoff and source-stop rules still apply. Dry runs do not save attempt times.
 This uses the existing `found` / `tried_at` columns; no database migration is required.
+
+## Website confirmation and review recovery
+
+Apply `202610250001_website_confirmation.sql` to the local database before running this version.
+The migration adds `website_resolutions` with service-role-only access and an atomic review-admission
+RPC. Production rollout is a separate step: the Supabase integration may deploy migrations merged to main.
+
+Treg's free `hunter.x.domain-finder` supplies up to three candidates. Both maximum route cost and waterfall
+are set to zero, and successful HTTP/CLI responses must explicitly report a zero charge. There is no paid
+website-lookup fallback. This path does not use the contact-enrichment budget or an LLM.
+
+A website is confirmed only when:
+
+1. Its provider name exactly matches the normalized candidate name (legal suffixes are ignored).
+2. Its homepage identifies that same company in its title, site-name metadata or structured Organization data.
+3. Its homepage, or one directly linked same-host careers page, links to an observed enabled Workday **tenant and site**.
+4. All corroborating candidates resolve to one canonical hostname. Conflicts or unreadable competing candidates stay unresolved.
+
+HTTPS redirects are limited and checked individually; robots rules apply at each destination. Fetches have
+time/size/request limits and reject IP/private-network targets. No browser rendering or access-control bypass
+is attempted. A homepage's HTTP 200, matching name alone or arbitrary body mention is insufficient.
+Aliases that redirect to the same verified hostname collapse together. A parent/subdomain relationship to an
+existing company goes to human review rather than creating another company or guessing a root domain.
+
+`website_resolutions` retains candidate domains/names, identity text, proof-page and Workday URLs,
+reasons, timestamps and the input signature. Confirmations are reusable for 30 days; unresolved results
+retry after 7 days; transport/check errors retry after 1 day. A changed set of observed Workday sites
+invalidates the cache immediately. These intervals differ from the Workday discovery retry intervals above.
+At most 50 due candidates are evaluated per matching stage; website HTTP has a 300-request cap and the
+stage stops starting candidates after five minutes. Deferred work stays queued. Each request has a ten-second
+timeout; Treg lookup has a fifteen-second timeout. In-flight work may finish after the stage time threshold.
+
+Matching revisits pending `no_website`, `untrusted_signal` and `over_run_cap` reviews even without new
+unassigned signals. A fresh trusted signal, confirmed website, HTTPS evidence URL and room under the cap
+allow creation. Existing confirmed domain matches attach to the existing company. Recovered admission locks
+the pending review and creates/resolves/attaches in a single transaction; failure leaves it pending for retry.
+New signals/sites join that review before admission. Rejected decisions remain rejected; `similar_name`
+reviews remain human decisions. Cap-limited reviews can recover on the next run using cached confirmation.
+Expired signals cannot unlock company creation until fresh evidence arrives.
+
+Website/provider errors appear in matching stage errors and therefore the CLI failure signal. Provider
+401/402/403/429 and nonzero/unknown charge responses stop further lookups for that stage. Other candidates
+can continue after an individual website failure. Ordinary unresolved/ambiguous results remain review work.
+
+This deliberately favors precision. Short brand aliases, JavaScript-only pages, redirects on robots.txt,
+third-party careers portals, inaccessible pages and companies without an observable reciprocal link may
+require manual review. A small live local batch must measure coverage before production or scheduling.
+Other input sources can reuse the lookup; automatic confirmation currently requires an observed Workday site.
+
+Inspect the evidence with:
+
+```sql
+select company_name, status, domain, reason, next_check_at, evidence
+from website_resolutions order by checked_at desc;
+```
 
 ## 3. Stages and rules
 

@@ -80,7 +80,7 @@ export function spendGuard(caps = { treg: 0.5, llm: 0 }, now = clock()) {
 }
 
 export function makeCtx({ store, fetch, llm = null, treg = null, now = clock(), caps } = {}) {
-  return { store: store ?? new MemoryStore({ now }), now, log: silent, fetch: fetch ?? fakeFetch([]), treg, llm, spend: spendGuard(caps, now), contact: 'test@example.com', sleep: async () => {}, runId: null };
+  return { lookupHost: async () => [{ address: "93.184.216.34", family: 4 }], store: store ?? new MemoryStore({ now }), now, log: silent, fetch: fetch ?? fakeFetch([]), treg, llm, spend: spendGuard(caps, now), contact: 'test@example.com', sleep: async () => {}, runId: null };
 }
 
 // ---------- Fixture world ----------
@@ -121,6 +121,12 @@ export function worldFetch(opts = {}) {
   const details = fixtureJson('workday-job-details-nvidia.json');
   const detailFor = path => details.find(d => d.url.endsWith(path)) ?? details[0];
   return fakeFetch([
+    { match: /^https:\/\/[a-z0-9]+\.example\/robots\.txt$/, respond: () => response(200, 'User-agent: *\nAllow: /') },
+    { match: /^https:\/\/[a-z0-9]+\.example\/$/, respond: url => {
+      const tenant = new URL(url).hostname.split('.')[0];
+      const name = names.find(n => worldTenant(n) === tenant);
+      return response(200, `<html><title>${name ?? 'Unknown'}</title><a href="https://${tenant}.wd5.myworkdayjobs.com/${tenant}Careers">Careers</a></html>`, { 'content-type': 'text/html' });
+    } },
     { match: /sec\.gov\/robots\.txt/, respond: () => response(200, 'User-agent: *\nDisallow: /search/\n') },
     { match: /sec\.gov\/files\/company_tickers\.json/, respond: () => opts.secDown ? response(503, 'down') : response(200, secFixture(names), { 'content-type': 'application/json' }) },
     { match: /^https:\/\/([a-z0-9]+)\.wd5\.myworkdayjobs\.com\/robots\.txt$/, respond: url => {

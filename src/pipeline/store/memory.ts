@@ -6,7 +6,7 @@ import { normalizeName } from "../../domain/ingestion/normalize.ts";
 import type { ScoreRow } from "../../domain/scoring/assessment.ts";
 import type {
   CaptureRow, CompanyRow, ContactRow, ExtractionRecord, PipelineStore, RawItem, ReviewItem, RunCounts, RunStatus,
-  SignalInput, SignalRow, SourceRow, StoredScore, WorkdaySite, ResolverAttempt, ResolverCutoffs,
+  SignalInput, SignalRow, SourceRow, StoredScore, WorkdaySite, ResolverAttempt, ResolverCutoffs, WebsiteResolution,
 } from "../types.ts";
 
 export const DEFAULT_SOURCES: SourceRow[] = [
@@ -32,6 +32,7 @@ export class MemoryStore implements PipelineStore {
   companyRows: (CompanyRow & { source: string | null; created_at: string })[] = [];
   reviews: ReviewItem[] = [];
   sites: WorkdaySite[] = [];
+  websites = new Map<string, WebsiteResolution>();
   attempts = new Map<string, ResolverAttempt>();
   contacts: (ContactRow & { contact_sources?: unknown; enriched_at?: string })[] = [];
   scores: StoredScore[] = [];
@@ -143,6 +144,24 @@ export class MemoryStore implements PipelineStore {
     const id = randomUUID();
     this.reviews.push({ id, ...item, status: "pending", resolved_company_id: null, created_at: this.now().toISOString() });
     return { id, inserted: true };
+  }
+  async signalsForReview(itemId: string) { return this.signals.filter(s => s.review_item_id === itemId && !s.company_id); }
+  async websiteResolution(name: string) { return this.websites.get(name) ?? null; }
+  async saveWebsiteResolution(value: WebsiteResolution) { this.trip("saveWebsiteResolution"); this.websites.set(value.normalized_name, value); }
+  async updatePendingReview(id: string, patch: { candidate_domain: string | null; reason: ReviewItem["reason"]; suggested_company_id: string | null }) {
+    const item = this.reviews.find(r => r.id === id && r.status === "pending" && r.reason !== "similar_name");
+    if (!item) throw Error("review is no longer eligible");
+    Object.assign(item, patch);
+  }
+  async admitReview(id: string, domain: string, source: string, existingCompanyId: string | null, runId: string | null) {
+    this.trip("admitReview");
+    const item = this.reviews.find(r => r.id === id && r.status === "pending" && r.reason !== "similar_name");
+    if (!item) throw Error("review is no longer eligible");
+    const company = existingCompanyId ?? await this.createPipelineCompany({ name: item.candidate_name, domain, employee_count: item.employee_count, source }, runId, { signal_ids: [], normalized_name: null });
+    await this.resolveReview(id, { action: "merge", company_id: company }, "Automatic website confirmation", runId);
+    item.status = existingCompanyId ? "merged" : "approved";
+    item.candidate_domain = domain;
+    return company;
   }
   async reviewItems(status?: ReviewItem["status"]) { return this.reviews.filter(r => !status || r.status === status); }
   async resolveReview(itemId: string, decision: { action: "approve"; domain?: string | null } | { action: "merge"; company_id: string } | { action: "reject" }, _note: string, runId: string | null) {

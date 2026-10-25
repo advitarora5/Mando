@@ -106,6 +106,18 @@ export type ReviewItem = {
   created_at: string;
 };
 
+export type WebsiteResolution = {
+  normalized_name: string;
+  company_name: string;
+  domain: string | null;
+  status: "confirmed" | "unresolved" | "error";
+  reason: string;
+  input_signature: string;
+  checked_at: string;
+  next_check_at: string;
+  evidence: { candidates: { domain: string; company_name: string }[]; checks: { domain: string; url?: string; identity?: string; workday_url?: string | null; reason: string }[] };
+};
+
 export type WorkdaySite = {
   id: string;
   tenant: string;
@@ -169,6 +181,12 @@ export interface PipelineStore {
   // An unchanged capture was seen again: its signals stay fresh.
   touchSignals(captureId: string, seenAt: string): Promise<number>;
   addReviewItem(item: Omit<ReviewItem, "id" | "status" | "resolved_company_id" | "created_at">): Promise<{ id: string; inserted: boolean }>;
+  signalsForReview(itemId: string): Promise<SignalRow[]>;
+  websiteResolution(normalizedName: string): Promise<WebsiteResolution | null>;
+  saveWebsiteResolution(resolution: WebsiteResolution): Promise<void>;
+  updatePendingReview(itemId: string, patch: { candidate_domain: string | null; reason: ReviewItem["reason"]; suggested_company_id: string | null }): Promise<void>;
+  // Locks and rechecks eligibility; creation and review resolution are a single transaction.
+  admitReview(itemId: string, domain: string, source: string, existingCompanyId: string | null, runId: string | null): Promise<string>;
   reviewItems(status?: ReviewItem["status"]): Promise<ReviewItem[]>;
   resolveReview(itemId: string, decision: { action: "approve"; domain?: string | null } | { action: "merge"; company_id: string } | { action: "reject" }, note: string, runId: string | null): Promise<string | null>;
 
@@ -211,6 +229,7 @@ export type PipelineContext = {
   now: () => Date;
   log: Logger;
   fetch: typeof fetch;
+  lookupHost?: (host: string) => Promise<{ address: string; family: number }[]>;
   treg: TregTransport | null;
   llm: LLMProvider | null;
   spend: SpendGuard;

@@ -24,7 +24,12 @@ export class HttpTreg implements TregTransport {
     const timer = setTimeout(() => controller.abort(), opts.timeoutMs ?? 60000);
     try {
       const res = await this.fetchImpl(url, { ...init, signal: controller.signal });
-      const cost = Number(res.headers.get("x-treg-cost-micro") ?? 0) / 1e6;
+      const rawCost = res.headers.get("x-treg-cost-micro");
+      const cost = Number(rawCost ?? 0) / 1e6;
+      if (endpoint === "hunter.x.domain-finder" && res.ok && (rawCost === null || !rawCost.trim() || !Number.isFinite(cost) || cost !== 0)) {
+        await res.body?.cancel();
+        return { ok: false, status: res.status, error: "domain lookup must explicitly report zero charge", cost_usd: Number.isFinite(cost) ? cost : 0 };
+      }
       const text = await res.text();
       let body: unknown = text;
       try { body = JSON.parse(text); } catch { /* keep text */ }
@@ -55,6 +60,7 @@ export class CliTreg implements TregTransport {
         if (!parsed) return resolve({ ok: false, status: 0, error: error ? `treg CLI failed: ${error.message.split("\n")[0]}` : "treg CLI returned no JSON", cost_usd: 0 });
         const status = parsed._treg?.http_status ?? 0;
         const cost = (parsed._treg?.charged_micro ?? 0) / 1e6;
+        if (endpoint === "hunter.x.domain-finder" && status >= 200 && status < 300 && (parsed._treg?.charged_micro !== 0)) return resolve({ ok: false, status, error: "domain lookup must explicitly report zero charge", cost_usd: Number.isFinite(cost) ? cost : 0 });
         if (status >= 400 || status === 0) return resolve({ ok: false, status, error: `treg HTTP ${status}`, cost_usd: cost, body: parsed.result });
         resolve({ ok: true, status, body: parsed.result, cost_usd: cost, call_id: parsed._treg?.call_id ?? null });
       });

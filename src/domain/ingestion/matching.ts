@@ -5,7 +5,7 @@ export type KnownCompany = { id: string; name: string; domain: string | null };
 export type Candidate = {
   name: string;
   domain: string | null;
-  // The domain came from a resolver whose returned name equals the candidate's normalized name.
+  // The website has independent identity and source corroboration, not only a provider name match.
   domain_confirmed: boolean;
   // Highest-confidence signal behind this candidate; 0.9+ counts as trusted (structural evidence such as a career site).
   best_confidence: number;
@@ -34,6 +34,9 @@ export function decideMatch(candidate: Candidate, known: KnownCompany[], room: {
     const exact = known.find(company => normalizeDomain(company.domain) === domain);
     if (exact) return { action: "attach", company_id: exact.id, why: `website ${domain} matches ${exact.name}` };
   }
+  // Explicit parent/subdomain relationships are ambiguous; do not guess a registrable domain.
+  const related = domain && known.find(company => { const other = normalizeDomain(company.domain); return other && (domain.endsWith(`.${other}`) || other.endsWith(`.${domain}`)); });
+  if (related) return { action: "review", reason: "similar_name", suggested_company_id: related.id, why: "website is a parent or subdomain of an existing company" };
   const similar = known.find(company => isSimilarName(company.name, candidate.name));
   if (similar) return { action: "review", reason: "similar_name", suggested_company_id: similar.id, why: `name is similar to existing ${similar.name}` };
   if (!domain || !candidate.domain_confirmed) return { action: "review", reason: "no_website", suggested_company_id: null, why: "no confirmed website" };

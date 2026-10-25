@@ -5,7 +5,7 @@ import { parseSettings } from "../../domain/ingestion/settings.ts";
 import type { ScoreRow } from "../../domain/scoring/assessment.ts";
 import type {
   CaptureRow, CompanyRow, ContactRow, ExtractionRecord, PipelineStore, RawItem, ReviewItem, RunCounts, RunStatus,
-  SignalInput, SignalRow, SourceRow, StoredScore, WorkdaySite, ResolverAttempt, ResolverCutoffs,
+  SignalInput, SignalRow, SourceRow, StoredScore, WorkdaySite, ResolverAttempt, ResolverCutoffs, WebsiteResolution,
 } from "../types.ts";
 
 export function assertAllowedTarget(url: string, allowRemote: string | undefined): string {
@@ -125,6 +125,20 @@ export class SupabaseStore implements PipelineStore {
     const res = await this.db.from("review_queue").insert(item).select("id").single();
     if (res.error?.code === "23505") return this.addReviewItem(item);
     return { id: (this.check(res, "add review item") as { id: string }).id, inserted: true };
+  }
+  async signalsForReview(itemId: string) {
+    return this.all<SignalRow>(() => this.db.from("signals").select("*").eq("review_item_id", itemId).is("company_id", null).order("id"), "review signals");
+  }
+  async websiteResolution(name: string) {
+    return this.check(await this.db.from("website_resolutions").select("*").eq("normalized_name", name).maybeSingle(), "website resolution") as WebsiteResolution | null;
+  }
+  async saveWebsiteResolution(value: WebsiteResolution) { this.check(await this.db.from("website_resolutions").upsert(value), "save website resolution"); }
+  async updatePendingReview(id: string, patch: { candidate_domain: string | null; reason: ReviewItem["reason"]; suggested_company_id: string | null }) {
+    const rows = this.check(await this.db.from("review_queue").update(patch).eq("id", id).eq("status", "pending").neq("reason", "similar_name").select("id"), "update pending review") as { id: string }[];
+    if (!rows.length) throw Error("review is no longer eligible");
+  }
+  async admitReview(id: string, domain: string, source: string, existingCompanyId: string | null, runId: string | null) {
+    return this.check(await this.db.rpc("pipeline_admit_review", { p_item: id, p_domain: domain, p_source: source, p_existing_company: existingCompanyId, p_run_id: runId }), "admit review") as string;
   }
   async reviewItems(status?: ReviewItem["status"]) {
     return this.all<ReviewItem>(() => {

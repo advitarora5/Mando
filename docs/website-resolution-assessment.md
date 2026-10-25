@@ -2,6 +2,10 @@
 
 Investigated October 24, 2026. Goal: resolve a company's corporate website from traceable sources without consuming the group's treg contact-research credit.
 
+## Follow-up: Treg tested and selected for the next step
+
+The subsequent live evaluation supersedes the SEC-first recommendation below. See [Treg lookup evaluation](treg-domain-lookup-evaluation.md). The existing CUBE credential now works in the ignored local pipeline environment, and three calls through the repository's HTTP transport explicitly reported zero charges. Treg is a source-independent candidate provider; independent website confirmation, retry caching and eligible pending-review recovery are now implemented and tested locally. See the website-confirmation section of `docs/ingestion-runbook.md`; a live local batch is the next validation step.
+
 ## Verified findings
 
 - SEC `company_tickers.json` provides company names, ticker symbols, and CIK identifiers, not corporate websites. The current resolver reduces these entries to company names and normalized names.
@@ -18,7 +22,7 @@ Previously, `decideMatch` could attach signals to an existing company solely bec
 
 Require confirmation for domain-based attachment as well as creation. Regression tests reproduce an unrelated-company attachment through the actual fixture-backed matching stage and verify that it now goes to review with no stored guessed domain. This does not change the lookup provider or enable automated approval of pending reviews.
 
-## Recommended next implementation
+## Historical SEC-first proposal (superseded by the tested Treg implementation)
 
 1. Retain or recover an unambiguous SEC CIK for each discovered company. Handle normalized-name collisions and multiple registrants explicitly.
 2. Fetch the company's SEC submissions profile with an identified User-Agent, pacing, request limits, and normal access-denied handling. Evaluate any corporate website field actually supplied; do not assume it is populated.
@@ -28,7 +32,7 @@ Require confirmation for domain-based attachment as well as creation. Regression
 6. Keep missing or ambiguous results in review. Decide separately how recoverable pending reviews should be reconsidered once better website evidence arrives.
 7. Validate coverage on a representative live sample before selecting this as the default unattended resolver. Treg can remain an explicit alternative, rather than a silently enabled fallback using personal credit.
 
-The next source integration is not implemented yet. The code change in this chunk only closes the unconfirmed-domain admission bypass.
+The SEC-specific proposal above was not implemented. The chosen Treg-based implementation is documented in the follow-up and runbook.
 
 ## Primary references
 

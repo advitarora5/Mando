@@ -3,6 +3,9 @@
 // raw_captures is append-only, so each run uses fresh random fictional names instead of deleting rows.
 // Run: npm run test:integration   (skips when PIPELINE_SUPABASE_URL is not a reachable local database)
 import { test, after } from 'node:test';
+import { randomUUID } from 'node:crypto';
+import { normalizeName } from '../../src/domain/ingestion/normalize.ts';
+import { matchStage } from '../../src/pipeline/stages.ts';
 import assert from 'node:assert/strict';
 import { createClient } from '@supabase/supabase-js';
 import { SupabaseStore, assertAllowedTarget } from '../../src/pipeline/store/supabase.ts';
@@ -175,4 +178,57 @@ test('round 2: reads past the API row limit (1,000): every company is visible to
 test('regression: integration runs never write test data onto real (non-.example) companies or their contacts', { skip }, async () => {
   const { data: fakeOnReal } = await db.from('contacts').select('id, email, companies!inner(domain)').like('email', '%.example').not('companies.domain', 'like', '%.example');
   assert.deepEqual(fakeOnReal, []);
+});
+
+test('website DB: persisted cache, recovered admission, atomic failure, duplicate protection and human-decision guard', { skip }, async () => {
+  const store = new SupabaseStore(url, key);
+  const db = store.db;
+  const name = randomNames(1, Date.now())[0], normalized = normalizeName(name), tenant = worldTenant(name);
+  const domain = `${tenant}.example`, source = `https://${tenant}.wd5.myworkdayjobs.com/robots.txt`;
+  const now = clock();
+  const capture = await store.saveCapture({ source: 'workday-site-resolver', url: source, fetched_at: now().toISOString(), http_status: 200, content_type: 'text/plain', raw: `Synthetic ${name} Workday site`, fingerprint: randomUUID().replaceAll('-', '').repeat(2), meta: { kind: 'website_test' } }, null);
+  const item = await store.addReviewItem({ candidate_name: name, normalized_name: normalized, candidate_domain: null, employee_count: null, suggested_company_id: null, reason: 'no_website' });
+  const signal = await store.upsertSignal({ company_id: null, review_item_id: item.id, capture_id: capture.id, extraction_id: null, type: 'known_customer', signal_date: null, source_url: source, quote: `Synthetic Workday evidence for ${name}`, confidence: 0.95, company_name: name, products: null, project_type: null, role_seniority: null, timing_words: null, method: 'structured', seen_at: now().toISOString() });
+  const site = await store.upsertWorkdaySite({ tenant, pod: 'wd5', site: `${tenant}Careers`, company_name: name, normalized_name: normalized, match_kind: 'full_name', capture_id: capture.id, discovered_from: 'workday-site-resolver' });
+  let companyId;
+  try {
+    // A nonexistent run FK fails after the company insert: the entire RPC must roll back.
+    await assert.rejects(store.admitReview(item.id, domain, source, null, randomUUID()));
+    assert.equal((await db.from('companies').select('id').eq('domain', domain)).data.length, 0);
+    assert.equal((await db.from('review_queue').select('status').eq('id', item.id).single()).data.status, 'pending');
+    assert.equal((await db.from('signals').select('company_id').eq('id', signal.id).single()).data.company_id, null);
+
+    // Restrict the stage to this test's candidate without changing any other operational rows.
+    const realReviews = store.reviewItems.bind(store), realUnassigned = store.unassignedSignals.bind(store);
+    store.reviewItems = async () => (await realReviews()).filter(r => r.id === item.id);
+    store.unassignedSignals = async () => (await realUnassigned()).filter(s => s.id === signal.id);
+    const ctx = makeCtx({ store, now, fetch: worldFetch({ names: [name] }), treg: worldTreg() });
+    const result = await matchStage(ctx);
+    assert.deepEqual(result.errors, []); assert.equal(result.counts.recovered_reviews, 1);
+    const cached = await store.websiteResolution(normalized);
+    assert.equal(cached.status, 'confirmed'); assert.equal(cached.domain, domain);
+    assert.ok(cached.evidence.checks[0].workday_url);
+    const review = (await db.from('review_queue').select('*').eq('id', item.id).single()).data;
+    assert.equal(review.status, 'approved'); companyId = review.resolved_company_id;
+    const company = (await db.from('companies').select('source,domain,company_origins(origin)').eq('id', companyId).single()).data;
+    assert.equal(company.source, source); assert.equal(company.domain, domain); assert.equal(company.company_origins.origin, 'pipeline');
+    assert.equal((await db.from('signals').select('company_id').eq('id', signal.id).single()).data.company_id, companyId);
+    assert.equal((await db.from('workday_sites').select('company_id').eq('id', site.id).single()).data.company_id, companyId);
+    await matchStage(ctx); assert.equal(ctx.treg.calls.length, 1);
+    await assert.rejects(store.admitReview(item.id, domain, source, null, null), /not eligible/);
+    for (const reason of ['similar_name', 'no_website']) {
+      const protectedItem = await store.addReviewItem({ candidate_name: `${name} ${reason}`, normalized_name: `${normalized}-${reason}`, candidate_domain: null, employee_count: null, suggested_company_id: null, reason });
+      try {
+        if (reason === 'no_website') await store.resolveReview(protectedItem.id, { action: 'reject' }, 'human rejection', null);
+        await assert.rejects(store.admitReview(protectedItem.id, domain, source, companyId, null), /not eligible/);
+      } finally { await db.from('review_queue').delete().eq('id', protectedItem.id); }
+    }
+  } finally {
+    // Remove only rows created by this test. Raw captures remain append-only.
+    await db.from('signals').delete().eq('id', signal.id);
+    await db.from('workday_sites').delete().eq('id', site.id);
+    await db.from('review_queue').delete().eq('id', item.id);
+    if (companyId) await db.from('companies').delete().eq('id', companyId);
+    await db.from('website_resolutions').delete().eq('normalized_name', normalized);
+  }
 });

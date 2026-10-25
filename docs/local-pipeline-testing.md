@@ -31,12 +31,12 @@ Stop the dashboard with Ctrl+C. `npx supabase stop` stops local services while r
 
 1. Run `npm test`, `npm run typecheck`, and `npm run test:integration`. Integration tests generate fictional records in the local database; clean or rebuild the development copy before evaluating live collection counts.
    On this setup the integration assertions finish but open handles keep the process alive. Verification completed with `node --env-file=.env.pipeline.local --test --test-force-exit tests/integration/*.test.mjs`: six passed, none skipped. The unit suite passed 245 tests, and typecheck passed after restoring locked dependencies. Test company fixtures were removed from the local dashboard; diagnostic ingestion records remain.
-2. Fix unattended-run reliability: required-stage exit status, resolver progress, evidence refresh, and company admission with verified website and source.
-3. Run a small local discovery batch, followed by local posting collection:
+2. Step 1 implementation is complete locally: required-stage exit status, resolver progress, evidence refresh, website confirmation and pending-review recovery. The website migration was applied only locally. Current validation: 287 offline tests, typecheck and lint passed; full-flow and website-admission database checks passed. Test fixtures were cleaned from the dashboard, and all seven copied dashboard tables were verified unchanged. See the website-confirmation section of `docs/ingestion-runbook.md` for the conservative admission rule and retry intervals.
+3. Next: run a small live local discovery batch, followed by local posting collection. Treg is enabled for the free domain endpoint; paid budget remains zero:
 
 ```bash
-npm run pipeline -- run --plan weekly --limit 5 --no-llm --no-treg
-npm run pipeline -- run --plan daily --limit 5 --no-llm --no-treg
+npm run pipeline -- run --plan weekly --limit 5 --no-llm --max-spend 0
+npm run pipeline -- run --plan daily --limit 5 --no-llm --max-spend 0
 npm run pipeline -- health
 ```
 
