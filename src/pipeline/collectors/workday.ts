@@ -73,8 +73,16 @@ export async function resolverNames(ctx: PipelineContext, max: number): Promise<
     seen.add(normalized);
     candidates.push({ name: entry.title, normalized });
   }
-  const tried = await ctx.store.resolverAttempts(candidates.slice(0, max * 5).map(c => c.normalized));
-  return candidates.filter(c => !tried.has(c.normalized)).slice(0, max);
+  // Look up attempts for every candidate considered, not just an initial window:
+  // later names would otherwise be selected again even after being probed.
+  const pending: typeof candidates = [];
+  const pageSize = 200;
+  for (let offset = 0; offset < candidates.length && pending.length < max; offset += pageSize) {
+    const page = candidates.slice(offset, offset + pageSize);
+    const tried = await ctx.store.resolverAttempts(page.map(c => c.normalized));
+    pending.push(...page.filter(c => !tried.has(c.normalized)).slice(0, max - pending.length));
+  }
+  return pending;
 }
 
 // Name -> Workday career site. Probes {tenant}.{pod}.myworkdayjobs.com/robots.txt; a hit lists the site names.

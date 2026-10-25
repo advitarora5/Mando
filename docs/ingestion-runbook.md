@@ -52,6 +52,11 @@ npm run pipeline -- review list | approve <id> --domain x.com | merge <id> <comp
 `--limit` is items per source (for the resolver: Workday sites to find; it tries up to six names per site).
 `--no-llm` and `--no-treg` switch those off for one run.
 
+Discovery selects unattempted company names in SEC list order. Attempt history is checked in
+pages of up to 200 names until the requested batch is filled or the list is exhausted, so later
+runs advance beyond previously probed names even deep into the list. Successful and unsuccessful
+attempts are both skipped; retry timing and periodic revalidation are separate follow-up work.
+
 ## 3. Stages and rules
 
 | Stage | What it does | Rules |
