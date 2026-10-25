@@ -2,7 +2,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { WebsiteHttp, resolveWebsite, pageIdentity, publicAddress, MAX_WEBSITE_BODY, careersLinks } from '../../src/pipeline/website.ts';
 import { HttpTreg } from '../../src/pipeline/treg.ts';
-import { matchStage } from '../../src/pipeline/stages.ts';
+import { matchStage, scoreStage } from '../../src/pipeline/stages.ts';
 import { runPipeline } from '../../src/pipeline/runner.ts';
 import { decideMatch } from '../../src/domain/ingestion/matching.ts';
 import { makeCtx, fakeFetch, fakeTreg, response, clock, worldFetch, worldTreg, WORLD_NAMES } from './helpers.mjs';
@@ -316,4 +316,112 @@ test('lookup fallback: short normalized names do not violate the provider three-
   const ctx = context({ candidates: [] });
   assert.equal((await resolveWebsite(ctx, 'GE CORP', [site], new WebsiteHttp(ctx))).status, 'unresolved');
   assert.equal(ctx.treg.calls.length, 1);
+});
+
+async function employerCapture(ctx, { domain = 'acme.example', source = 'https://acme.wd5.myworkdayjobs.com/wday/cxs/acme/External/job/role', name = 'acme', fetched = ctx.now().toISOString(), field = 'description', description } = {}) {
+  return ctx.store.saveCapture({ source: 'workday-career-sites', url: source, fetched_at: fetched, http_status: 200, content_type: 'application/json', fingerprint: `corp-${source}-${domain}-${fetched}`, raw: JSON.stringify({ jobPostingInfo: { jobDescription: description ?? (field === 'description' ? `<a href="https://${domain}/benefits?tracking=ignored">Benefits</a>` : '<p>Workday role</p>') }, hiringOrganization: { url: field === 'organization' ? `https://${domain}/` : '' } }), meta: { kind: 'workday_job', normalized_name: name, tenant: 'acme', pod: 'wd5', site: 'External' } }, null);
+}
+
+test('employer website: a corporate link in an exact observed Workday job plus independent website identity confirms without a reciprocal link', async () => {
+  for (const field of ['description', 'organization']) {
+    const ctx = context({ pages: { 'https://acme.example/': '<html><title>Acme</title></html>' } });
+    const capture = await employerCapture(ctx, { field });
+    const result = await resolve(ctx);
+    assert.equal(result.status, 'confirmed'); assert.equal(result.domain, 'acme.example');
+    assert.equal(result.evidence.checks[0].employer_link.capture_id, capture.id);
+    assert.equal(result.evidence.checks[0].employer_link.url.includes('tracking'), false);
+    assert.equal(result.evidence.checks[0].employer_link.source_url.includes('/wday/cxs/acme/External/job/'), true);
+  }
+});
+
+test('employer website: unrelated provider alternatives cannot block a uniquely source-backed, independently verified website', async () => {
+  const ctx = context({ candidates: [{ domain: 'dead.example', company_name: 'Acme' }, { domain: 'acme.example', company_name: 'Acme' }], pages: { 'https://acme.example/': '<title>Acme</title>' } });
+  await employerCapture(ctx);
+  assert.equal((await resolve(ctx)).status, 'confirmed');
+  assert.ok(ctx.fetch.calls.every(c => !c.url.includes('dead.example')));
+});
+
+test('employer website: third-party benefits links, wrong tenant/site, expired evidence and name mismatches are not confirmation', async () => {
+  for (const options of [
+    { source: 'https://other.wd5.myworkdayjobs.com/wday/cxs/other/External/job/role' },
+    { source: 'https://acme.wd5.myworkdayjobs.com/wday/cxs/acme/Other/job/role' },
+    { fetched: '2020-01-01T00:00:00Z' },
+    { name: 'somebody else' },
+  ]) {
+    const ctx = context({ pages: { 'https://acme.example/': '<title>Acme</title>' } });
+    await employerCapture(ctx, options);
+    assert.equal((await resolve(ctx)).status, 'unresolved');
+  }
+  const benefits = context({ candidates: [{ domain: 'benefits.example', company_name: 'Acme' }], pages: { 'https://benefits.example/': '<title>Unrelated Benefits Provider</title>' } });
+  await employerCapture(benefits, { domain: 'benefits.example' });
+  assert.equal((await resolve(benefits)).status, 'unresolved');
+});
+
+test('employer website: newly collected job evidence invalidates an unresolved cache immediately', async () => {
+  const ctx = context({ pages: { 'https://acme.example/': '<title>Acme</title>' } });
+  assert.equal((await resolve(ctx)).status, 'unresolved');
+  await employerCapture(ctx);
+  assert.equal((await resolve(ctx)).status, 'confirmed');
+  assert.equal(ctx.treg.calls.length, 2);
+});
+
+test('employer website: two independently verified and source-backed domains remain ambiguous', async () => {
+  const ctx = context({ candidates: [{ domain: 'acme.example', company_name: 'Acme' }, { domain: 'second.example', company_name: 'Acme' }], pages: { 'https://acme.example/': '<title>Acme</title>', 'https://second.example/': '<title>Acme</title>' } });
+  await employerCapture(ctx); await employerCapture(ctx, { domain: 'second.example' });
+  const result = await resolve(ctx);
+  assert.equal(result.status, 'unresolved'); assert.match(result.reason, /multiple/);
+});
+
+test('human review: confirmed websites fill empty fields without resolving reviews or overwriting human choices', async () => {
+  const { ctx, item } = await pendingWorld(); item.reason = 'similar_name';
+  ctx.treg = worldTreg(); ctx.now.advanceDays(7);
+  const result = await matchStage(ctx);
+  assert.equal(result.counts.review_websites_confirmed, 1);
+  assert.equal(item.candidate_domain, 'alderrobotics.example'); assert.equal(item.status, 'pending');
+  assert.equal(ctx.store.companyRows.length, 11);
+  item.candidate_domain = 'human-choice.example'; await matchStage(ctx);
+  assert.equal(item.candidate_domain, 'human-choice.example'); assert.equal(item.status, 'pending');
+});
+
+test('admission and scoring: fresh employer evidence recovers a no-website review into a sourced new company', async () => {
+  const ctx = context({ pages: { 'https://acme.example/': '<title>Acme</title>' } });
+  ctx.store.sites.push({ ...site, company_name: 'ACME CORP', match_kind: 'full_name', company_id: null, review_item_id: null, capture_id: 'robots' });
+  await ctx.store.upsertSignal({ company_id: null, review_item_id: null, capture_id: 'robots', extraction_id: null, type: 'known_customer', signal_date: null, source_url: workday, quote: 'Workday career site', confidence: 0.95, company_name: 'ACME CORP', products: null, project_type: null, role_seniority: null, timing_words: null, method: 'structured', seen_at: ctx.now().toISOString() });
+  const first = await matchStage(ctx);
+  assert.equal(first.counts.review_no_website, 1); assert.equal(ctx.store.companyRows.length, 0);
+  await employerCapture(ctx);
+  const second = await matchStage(ctx);
+  assert.deepEqual(second.errors, []); assert.equal(second.counts.recovered_reviews, 1);
+  assert.equal(ctx.store.reviews[0].status, 'approved');
+  const company = ctx.store.companyRows[0];
+  assert.equal(company.domain, 'acme.example'); assert.equal(company.source, workday);
+  await scoreStage(ctx);
+  assert.equal(ctx.store.scores.filter(s => s.company_id === company.id).length, 1);
+  await matchStage(ctx); await scoreStage(ctx);
+  assert.equal(ctx.store.companyRows.length, 1); assert.equal(ctx.store.scores.length, 1);
+});
+
+test('employer evidence freshness: unchanged job captures remain eligible when their signals were recently seen', async () => {
+  const ctx = context({ pages: { 'https://acme.example/': '<title>Acme</title>' } });
+  const capture = await employerCapture(ctx, { fetched: '2020-01-01T00:00:00Z' });
+  ctx.store.signals.push({ id: 'fresh', capture_id: capture.id, last_seen_at: ctx.now().toISOString() });
+  assert.equal((await resolve(ctx)).status, 'confirmed');
+});
+
+
+test('employer evidence: commented and script-only links do not establish corporate ownership', async () => {
+  for (const description of ['<!-- <a href="https://acme.example/">Acme</a> -->', `<script>const x = '<a href="https://acme.example/">Acme</a>';</script>`]) {
+    const ctx = context({ pages: { 'https://acme.example/': '<title>Acme</title>' } });
+    await employerCapture(ctx, { description });
+    assert.equal((await resolve(ctx)).status, 'unresolved');
+  }
+});
+
+test('employer evidence: branded shared document/social/ATS pages are not corporate websites', async () => {
+  for (const domain of ['acme.sharepoint.com', 'linkedin.com', 'acme.wd5.myworkdayjobs.com']) {
+    const ctx = context({ candidates: [{ domain, company_name: 'Acme' }], pages: { [`https://${domain}/`]: home() } });
+    await employerCapture(ctx, { domain });
+    assert.equal((await resolve(ctx)).status, 'unresolved');
+    assert.equal(ctx.fetch.calls.length, 0);
+  }
 });

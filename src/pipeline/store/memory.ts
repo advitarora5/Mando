@@ -6,7 +6,7 @@ import { normalizeName } from "../../domain/ingestion/normalize.ts";
 import type { ScoreRow } from "../../domain/scoring/assessment.ts";
 import type {
   CaptureRow, CompanyRow, ContactRow, ExtractionRecord, PipelineStore, RawItem, ReviewItem, RunCounts, RunStatus,
-  SignalInput, SignalRow, SourceRow, StoredScore, WorkdaySite, ResolverAttempt, ResolverCutoffs, WebsiteResolution,
+  SignalInput, SignalRow, SourceRow, StoredScore, WorkdaySite, ResolverAttempt, ResolverCutoffs, WebsiteResolution, WebsiteCapture,
 } from "../types.ts";
 
 export const DEFAULT_SOURCES: SourceRow[] = [
@@ -146,6 +146,16 @@ export class MemoryStore implements PipelineStore {
     return { id, inserted: true };
   }
   async signalsForReview(itemId: string) { return this.signals.filter(s => s.review_item_id === itemId && !s.company_id); }
+  async websiteEvidenceCaptures(name: string, limit: number): Promise<WebsiteCapture[]> {
+    return this.captures.filter(c => c.source_id === "workday-career-sites" && c.meta.kind === "workday_job" && c.meta.normalized_name === name && c.http_status === 200)
+      .sort((a, b) => b.fetched_at.localeCompare(a.fetched_at) || a.id.localeCompare(b.id)).slice(0, limit)
+      .map(c => ({ ...c, last_seen_at: this.signals.filter(s => s.capture_id === c.id).reduce((latest, s) => s.last_seen_at > latest ? s.last_seen_at : latest, c.fetched_at) }));
+  }
+  async fillReviewWebsite(id: string, domain: string) {
+    const item = this.reviews.find(r => r.id === id && r.status === "pending" && r.candidate_domain === null);
+    if (!item) return false;
+    item.candidate_domain = domain; return true;
+  }
   async websiteResolution(name: string) { return this.websites.get(name) ?? null; }
   async saveWebsiteResolution(value: WebsiteResolution) { this.trip("saveWebsiteResolution"); this.websites.set(value.normalized_name, value); }
   async updatePendingReview(id: string, patch: { candidate_domain: string | null; reason: ReviewItem["reason"]; suggested_company_id: string | null }) {

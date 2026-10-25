@@ -269,12 +269,13 @@ test('regression: the resolver reads the SEC list collected in this run, even wh
   assert.equal(store.companyRows.filter(c => c.pipeline).length, 12, 'names came from list A, collected this run');
 });
 
-test('regression (round 1): job signals from a site waiting in review join that review item; no company is created behind its back', async () => {
+test('human-only review: new job signals join the item without automatically creating a company', async () => {
   const { ctx, store } = world({ tregOpts: { unconfirmed: ['Birchway Logistics Corp'] } });
   await run(ctx, 'weekly');
   const item = store.reviews.find(r => r.candidate_name.startsWith('Birchway'));
   assert.ok(item && item.status === 'pending');
-  ctx.treg = worldTreg(); // the domain now resolves: still must not bypass the pending review
+  item.reason = 'similar_name'; // an ambiguous identity remains a human decision even with new evidence
+  ctx.treg = worldTreg(); // confirmation may fill the website, but must not resolve this human-only review
   await run(ctx, 'daily');
   assert.equal(store.companyRows.filter(c => c.name.startsWith('Birchway')).length, 0);
   const birchSignals = store.signals.filter(s => /birchway/i.test(s.company_name ?? ''));

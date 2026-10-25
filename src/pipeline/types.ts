@@ -106,6 +106,9 @@ export type ReviewItem = {
   created_at: string;
 };
 
+export type WebsiteCapture = CaptureRow & { meta: Record<string, unknown>; last_seen_at: string };
+export type EmployerWebsiteLink = { domain: string; url: string; source_url: string; capture_id: string; field: "hiringOrganization.url" | "jobPostingInfo.jobDescription" };
+
 export type WebsiteResolution = {
   normalized_name: string;
   company_name: string;
@@ -115,7 +118,7 @@ export type WebsiteResolution = {
   input_signature: string;
   checked_at: string;
   next_check_at: string;
-  evidence: { queries?: { company: string; candidates: { domain: string; company_name: string }[] }[]; candidates: { domain: string; company_name: string }[]; checks: { domain: string; url?: string; identity?: string; workday_url?: string | null; reason: string }[] };
+  evidence: { employer_links?: EmployerWebsiteLink[]; queries?: { company: string; candidates: { domain: string; company_name: string }[] }[]; candidates: { domain: string; company_name: string }[]; checks: { domain: string; url?: string; identity?: string; workday_url?: string | null; employer_link?: EmployerWebsiteLink; reason: string }[] };
 };
 
 export type WorkdaySite = {
@@ -182,6 +185,8 @@ export interface PipelineStore {
   touchSignals(captureId: string, seenAt: string): Promise<number>;
   addReviewItem(item: Omit<ReviewItem, "id" | "status" | "resolved_company_id" | "created_at">): Promise<{ id: string; inserted: boolean }>;
   signalsForReview(itemId: string): Promise<SignalRow[]>;
+  websiteEvidenceCaptures(normalizedName: string, limit: number): Promise<WebsiteCapture[]>;
+  fillReviewWebsite(itemId: string, domain: string): Promise<boolean>;
   websiteResolution(normalizedName: string): Promise<WebsiteResolution | null>;
   saveWebsiteResolution(resolution: WebsiteResolution): Promise<void>;
   updatePendingReview(itemId: string, patch: { candidate_domain: string | null; reason: ReviewItem["reason"]; suggested_company_id: string | null }): Promise<void>;

@@ -187,6 +187,9 @@ test('website DB: persisted cache, recovered admission, atomic failure, duplicat
   const domain = `${tenant}.example`, source = `https://${tenant}.wd5.myworkdayjobs.com/robots.txt`;
   const now = clock();
   const capture = await store.saveCapture({ source: 'workday-site-resolver', url: source, fetched_at: now().toISOString(), http_status: 200, content_type: 'text/plain', raw: `Synthetic ${name} Workday site`, fingerprint: randomUUID().replaceAll('-', '').repeat(2), meta: { kind: 'website_test' } }, null);
+  const jobCapture = await store.saveCapture({ source: 'workday-career-sites', url: `https://${tenant}.wd5.myworkdayjobs.com/wday/cxs/${tenant}/${tenant}Careers/job/test`, fetched_at: now().toISOString(), http_status: 200, content_type: 'application/json', raw: JSON.stringify({ jobPostingInfo: { jobDescription: `<a href="https://${domain}/benefits">Benefits</a>` } }), fingerprint: randomUUID().replaceAll('-', '').repeat(2), meta: { kind: 'workday_job', normalized_name: normalized, tenant, pod: 'wd5', site: `${tenant}Careers` } }, null);
+  for (const row of [capture, jobCapture]) await store.saveExtraction({ capture_id: row.id, run_id: null, method: 'structured', model: '', prompt_version: '', status: 'done', output: { diagnostic: true }, error: null, attempts: 1, cost_usd: 0 });
+  assert.equal((await store.websiteEvidenceCaptures(normalized, 20))[0].id, jobCapture.id);
   const item = await store.addReviewItem({ candidate_name: name, normalized_name: normalized, candidate_domain: null, employee_count: null, suggested_company_id: null, reason: 'no_website' });
   const signal = await store.upsertSignal({ company_id: null, review_item_id: item.id, capture_id: capture.id, extraction_id: null, type: 'known_customer', signal_date: null, source_url: source, quote: `Synthetic Workday evidence for ${name}`, confidence: 0.95, company_name: name, products: null, project_type: null, role_seniority: null, timing_words: null, method: 'structured', seen_at: now().toISOString() });
   const site = await store.upsertWorkdaySite({ tenant, pod: 'wd5', site: `${tenant}Careers`, company_name: name, normalized_name: normalized, match_kind: 'full_name', capture_id: capture.id, discovered_from: 'workday-site-resolver' });
@@ -202,14 +205,16 @@ test('website DB: persisted cache, recovered admission, atomic failure, duplicat
     const realReviews = store.reviewItems.bind(store), realUnassigned = store.unassignedSignals.bind(store);
     store.reviewItems = async () => (await realReviews()).filter(r => r.id === item.id);
     store.unassignedSignals = async () => (await realUnassigned()).filter(s => s.id === signal.id);
-    const ctx = makeCtx({ store, now, fetch: worldFetch({ names: [name] }), treg: worldTreg() });
+    const world = worldFetch({ names: [name] });
+    const fetch = async (url, init) => new URL(url).hostname === domain && new URL(url).pathname === '/' ? new Response(`<title>${name}</title>`, { headers: { 'content-type': 'text/html' } }) : world(url, init);
+    const ctx = makeCtx({ store, now, fetch, treg: worldTreg() });
     const result = await matchStage(ctx);
     assert.deepEqual(result.errors, []); assert.equal(result.counts.recovered_reviews, 1);
     const cached = await store.websiteResolution(normalized);
     assert.equal(cached.status, 'confirmed'); assert.equal(cached.domain, domain);
-    assert.ok(cached.evidence.checks[0].workday_url);
+    assert.equal(cached.evidence.checks[0].employer_link.capture_id, jobCapture.id);
     const review = (await db.from('review_queue').select('*').eq('id', item.id).single()).data;
-    assert.equal(review.status, 'approved'); companyId = review.resolved_company_id;
+    assert.equal(review.status, 'approved'); assert.match(review.decision_note, /Workday-source website corroboration/); companyId = review.resolved_company_id;
     const company = (await db.from('companies').select('source,domain,company_origins(origin)').eq('id', companyId).single()).data;
     assert.equal(company.source, source); assert.equal(company.domain, domain); assert.equal(company.company_origins.origin, 'pipeline');
     assert.equal((await db.from('signals').select('company_id').eq('id', signal.id).single()).data.company_id, companyId);
@@ -220,6 +225,9 @@ test('website DB: persisted cache, recovered admission, atomic failure, duplicat
       const protectedItem = await store.addReviewItem({ candidate_name: `${name} ${reason}`, normalized_name: `${normalized}-${reason}`, candidate_domain: null, employee_count: null, suggested_company_id: null, reason });
       try {
         if (reason === 'no_website') await store.resolveReview(protectedItem.id, { action: 'reject' }, 'human rejection', null);
+        const filled = await store.fillReviewWebsite(protectedItem.id, domain);
+        assert.equal(filled, reason === 'similar_name');
+        assert.equal(await store.fillReviewWebsite(protectedItem.id, 'different.example'), false, 'never overwrite a human website or rejected decision');
         await assert.rejects(store.admitReview(protectedItem.id, domain, source, companyId, null), /not eligible/);
       } finally { await db.from('review_queue').delete().eq('id', protectedItem.id); }
     }

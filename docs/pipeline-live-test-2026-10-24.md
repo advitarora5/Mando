@@ -83,3 +83,34 @@ lead to careers portals without the exact observed Workday tenant/site link in a
 returns challenge markup; several alternative provider domains are inaccessible. This recheck does not
 prove automatic admission or justify enabling schedules. Missing corroboration and blocked sites stay in review.
 Private recheck evidence is in ignored `var/website-fixes-live-results.json` and `var/website-fixes-live.log`.
+
+## Employer-backed confirmation follow-up
+
+The saved NVIDIA postings contain an explicit link to `https://www.nvidia.com/en-us/benefits/`;
+Micron postings link to `https://www.micron.com/careers/benefits` and `https://www.micron.com/careers`.
+The verifier now accepts these links from the exact observed Workday job source as corroboration,
+combined with exact company identity on the candidate homepage. It no longer requires the corporate
+website to link back to Workday when this independent source evidence is available.
+
+A targeted live check now confirms **nvidia.com and micron.com**, using 11 website requests and $0 paid
+spend. The selected evidence retains the original Workday posting URL, capture ID, employer link,
+field and corporate-page identity. The empty website fields on these two local `similar_name` reviews
+were filled. Both reviews remain pending; no companies were merged, created or rescored in this live check.
+
+The implementation keeps multiple verified domains ambiguous; does not overwrite human website choices
+or rejected decisions; excludes shared document/social/ATS sites; and rejects wrong tenant/site, expired,
+commented or script-only evidence. Newly collected employer links invalidate old unresolved caches, so an
+eligible `no_website` review can recover without waiting seven days. Unchanged job captures remain usable
+when their associated signals were seen recently. Source-backed candidates are checked before unrelated
+provider suggestions, avoiding speculative requests to bad alternatives when corporate ownership is established.
+
+Validation: 307 offline tests passed (about 1.5 seconds), typecheck and lint passed, and a local database test
+confirmed source-backed admission, persistence, rollback and human-review protection. A fixture-backed flow
+also demonstrated new-company admission, scoring and an idempotent repeat. This is not a claim that a new
+real company has yet been admitted live: the two confirmed samples already exist on the dashboard.
+
+Migration `202610250002_employer_website_confirmation.sql` was applied **locally only**. It adds lookup
+indexes and updates automatic-admission audit wording to cover both evidence directions; existing company
+rows and review decisions are not rewritten. Broadcom, Visa and ASML remain in review where corroboration
+is missing or access is blocked. Scheduling remains disabled. Private targeted results are under ignored
+`var/employer-website-live-results.json` and `var/website-fixes-live.log`.

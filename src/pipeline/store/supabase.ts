@@ -5,7 +5,7 @@ import { parseSettings } from "../../domain/ingestion/settings.ts";
 import type { ScoreRow } from "../../domain/scoring/assessment.ts";
 import type {
   CaptureRow, CompanyRow, ContactRow, ExtractionRecord, PipelineStore, RawItem, ReviewItem, RunCounts, RunStatus,
-  SignalInput, SignalRow, SourceRow, StoredScore, WorkdaySite, ResolverAttempt, ResolverCutoffs, WebsiteResolution,
+  SignalInput, SignalRow, SourceRow, StoredScore, WorkdaySite, ResolverAttempt, ResolverCutoffs, WebsiteResolution, WebsiteCapture,
 } from "../types.ts";
 
 export function assertAllowedTarget(url: string, allowRemote: string | undefined): string {
@@ -128,6 +128,16 @@ export class SupabaseStore implements PipelineStore {
   }
   async signalsForReview(itemId: string) {
     return this.all<SignalRow>(() => this.db.from("signals").select("*").eq("review_item_id", itemId).is("company_id", null).order("id"), "review signals");
+  }
+  async websiteEvidenceCaptures(name: string, limit: number): Promise<WebsiteCapture[]> {
+    const rows = this.check(await this.db.from("raw_captures").select("*, signals(last_seen_at)")
+      .eq("source_id", "workday-career-sites").eq("meta->>kind", "workday_job").eq("meta->>normalized_name", name).eq("http_status", 200)
+      .order("fetched_at", { ascending: false }).order("id").limit(limit), "website evidence captures") as (WebsiteCapture & { signals: { last_seen_at: string }[] })[];
+    return rows.map(({ signals, ...capture }) => ({ ...capture, last_seen_at: signals.reduce((latest, s) => s.last_seen_at > latest ? s.last_seen_at : latest, capture.fetched_at) }));
+  }
+  async fillReviewWebsite(id: string, domain: string) {
+    const rows = this.check(await this.db.from("review_queue").update({ candidate_domain: domain }).eq("id", id).eq("status", "pending").is("candidate_domain", null).select("id"), "fill review website") as { id: string }[];
+    return rows.length > 0;
   }
   async websiteResolution(name: string) {
     return this.check(await this.db.from("website_resolutions").select("*").eq("normalized_name", name).maybeSingle(), "website resolution") as WebsiteResolution | null;

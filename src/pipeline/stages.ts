@@ -5,7 +5,7 @@ import { isSimilarName, normalizeName } from "../domain/ingestion/normalize.ts";
 import { scoreCompany, type ScoringSignal } from "../domain/ingestion/pipeline-score.ts";
 import { isSignalFresh, mayScore } from "../domain/ingestion/settings.ts";
 import { categories } from "../domain/contracts/company.ts";
-import { resolveWebsite, WebsiteHttp, WEBSITE_LIMIT, websiteSignature } from "./website.ts";
+import { resolveWebsite, WebsiteHttp, WEBSITE_LIMIT, websiteSignature, loadEmployerLinks } from "./website.ts";
 import { collectors } from "./collectors/sources.ts";
 import { extractCapture, loadPrompt, PROMPT_VERSION } from "./extract.ts";
 import type { CollectLimits, PipelineContext, RunCounts, SignalRow, SourceRow, StoredScore } from "./types.ts";
@@ -158,24 +158,27 @@ export async function matchStage(ctx: PipelineContext, opts: { dryRun?: boolean 
         bump(r, done.status === "rejected" ? "kept_rejected" : "joined_resolved_review");
         continue;
       }
-      // Similar-name ambiguity remains a human decision. Automation never overrides that review.
-      if (waiting?.reason === "similar_name") {
-        if (!opts.dryRun) {
-          await ctx.store.assignSignals(ids, { review_item_id: waiting.id });
-          await ctx.store.linkWorkdaySites(normalized, { review_item_id: waiting.id });
-        }
-        bump(r, "joined_pending_review"); continue;
-      }
       const candidateSites = sites.filter(site => site.normalized_name === normalized);
+      const employerLinks = await loadEmployerLinks(ctx, name, candidateSites);
       const cached = await ctx.store.websiteResolution(normalized);
-      const due = !cached || cached.input_signature !== websiteSignature(candidateSites) || Date.parse(cached.next_check_at) <= ctx.now().getTime();
+      const due = !cached || cached.input_signature !== websiteSignature(candidateSites, employerLinks) || Date.parse(cached.next_check_at) <= ctx.now().getTime();
       if (due && lookups >= WEBSITE_LIMIT) { bump(r, "website_deferred_run_cap"); continue; }
       if (due) lookups++;
-      const lookup = await resolveWebsite(ctx, name, candidateSites, http, !!opts.dryRun);
+      const lookup = await resolveWebsite(ctx, name, candidateSites, http, !!opts.dryRun, employerLinks);
       bump(r, due ? "website_checked" : "website_cached");
       if (lookup.status === "error") {
         bump(r, "error_website"); r.errors.push(`website ${normalized}: ${lookup.reason}`);
         if (/treg HTTP (401|402|403|429)|zero charge/i.test(lookup.reason)) { r.blocked = lookup.reason; break; }
+      }
+      // Verification can fill an empty website on human-only reviews, but never resolve them or
+      // overwrite a person's website choice. Rejected/resolved reviews were handled above.
+      if (waiting?.reason === "similar_name") {
+        if (!opts.dryRun) {
+          await ctx.store.assignSignals(ids, { review_item_id: waiting.id });
+          await ctx.store.linkWorkdaySites(normalized, { review_item_id: waiting.id });
+          if (lookup.status === "confirmed" && await ctx.store.fillReviewWebsite(waiting.id, lookup.domain!)) bump(r, "review_websites_confirmed");
+        }
+        bump(r, "joined_pending_review"); continue;
       }
       const best = Math.max(0, ...signals.filter(s => isSignalFresh(s, settings, ctx.now())).map(s => s.confidence));
       const decision = decideMatch({ name, domain: lookup.domain, domain_confirmed: lookup.status === "confirmed", best_confidence: best }, known, { canCreate: created < settings.max_new_companies_per_run });

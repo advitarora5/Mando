@@ -74,7 +74,7 @@ This uses the existing `found` / `tried_at` columns; no database migration is re
 
 ## Website confirmation and review recovery
 
-Apply `202610250001_website_confirmation.sql` to the local database before running this version.
+Apply the website migrations through `202610250002_employer_website_confirmation.sql` to the local database before running this version.
 The migration adds `website_resolutions` with service-role-only access and an atomic review-admission
 RPC. Production rollout is a separate step: the Supabase integration may deploy migrations merged to main.
 
@@ -86,8 +86,8 @@ A website is confirmed only when:
 
 1. Its provider name exactly matches the normalized candidate name (legal suffixes are ignored).
 2. Its homepage identifies that same company in its title, site-name metadata or structured Organization data.
-3. Its homepage, or a bounded path through explicitly linked careers pages on that company hostname/subdomains, links to an observed enabled Workday **tenant and site**.
-4. All corroborating candidates resolve to one canonical hostname. Conflicts or unreadable competing candidates stay unresolved.
+3. Either its homepage/careers pages link to the observed enabled Workday **tenant and site**, or a stored job from that exact tenant/site explicitly links to the candidate website through `hiringOrganization.url` or an anchor in `jobPostingInfo.jobDescription`. The candidate homepage must still identify the company independently.
+4. Corroboration resolves to one canonical hostname. Candidates backed by explicit employer links are checked first; uniquely verified employer-backed identity avoids speculative checks of unrelated provider alternatives. Multiple verified websites or unreadable competing employer-backed candidates stay unresolved.
 
 HTTPS page and robots.txt redirects are limited to three hops and checked individually. Rules obtained through a robots redirect apply to the original origin; page redirects check the destination rules too. Loops, unsafe targets and genuine challenges remain failures. Fetches have
 time/size/request limits and reject IP/private-network targets. HTML is capped at 2 MiB, robots at 512 KiB. Up to three careers pages are followed, prioritizing the landing page and its job-search links over saved jobs or unrelated news. A normal reCAPTCHA form script is not treated as an access challenge. No browser rendering or access-control bypass
@@ -95,9 +95,11 @@ is attempted. A homepage's HTTP 200, matching name alone or arbitrary body menti
 Aliases that redirect to the same verified hostname collapse together. A parent/subdomain relationship to an
 existing company goes to human review rather than creating another company or guessing a root domain.
 
-`website_resolutions` retains queries, candidate domains/names, identity text, proof-page and Workday URLs,
+Employer-link evidence comes only from HTTP-200 job captures on an enabled, exact Workday host and CXS tenant/site path, with matching collector metadata. At most 20 recent captures per company are inspected. Evidence must have been fetched or seen through its signals within 14 days. Shared document/social/ATS domains, comments, script-only links and unsafe URLs cannot confirm ownership. A benefits link on a third-party domain does not pass unless that website independently identifies the candidate company; known shared hosting platforms are excluded entirely. A link on the company's own domain (such as NVIDIA benefits on `nvidia.com`) can corroborate that domain. Workday discovery confidence is not upgraded by website confirmation.
+
+`website_resolutions` retains queries, candidate domains/names, employer URLs with capture IDs/field names, identity text, proof-page and Workday URLs,
 reasons, timestamps and the input signature. Confirmations are reusable for 30 days; unresolved results
-retry after 7 days; transport/check errors retry after 1 day. A changed set of observed Workday sites
+retry after 7 days; transport/check errors retry after 1 day. New eligible employer-link evidence or a changed set of observed Workday sites
 invalidates the cache immediately; verifier version changes also invalidate older results. These intervals differ from the Workday discovery retry intervals above.
 At most 50 due candidates are evaluated per matching stage; website HTTP has a 300-request cap and the
 stage stops starting candidates after five minutes. Deferred work stays queued. Each request has a ten-second
@@ -108,7 +110,7 @@ unassigned signals. A fresh trusted signal, confirmed website, HTTPS evidence UR
 allow creation. Existing confirmed domain matches attach to the existing company. Recovered admission locks
 the pending review and creates/resolves/attaches in a single transaction; failure leaves it pending for retry.
 New signals/sites join that review before admission. Rejected decisions remain rejected; `similar_name`
-reviews remain human decisions. Cap-limited reviews can recover on the next run using cached confirmation.
+reviews remain human decisions. Confirmation may fill their empty website field, but cannot resolve them or overwrite an existing website choice. Cap-limited reviews can recover on the next run using cached confirmation.
 Expired signals cannot unlock company creation until fresh evidence arrives.
 
 Website/provider errors appear in matching stage errors and therefore the CLI failure signal. Provider
@@ -116,7 +118,7 @@ Website/provider errors appear in matching stage errors and therefore the CLI fa
 can continue after an individual website failure. Ordinary unresolved/ambiguous results remain review work.
 
 This deliberately favors precision. Short brand aliases, JavaScript-only pages,
-third-party careers portals outside the company domain, inaccessible pages and companies without an observable reciprocal link may
+third-party careers portals outside the company domain, inaccessible pages and companies without either form of observable Workday corroboration may
 require manual review. A small live local batch must measure coverage before production or scheduling.
 Other input sources can reuse the lookup; automatic confirmation currently requires an observed Workday site.
 

@@ -1,13 +1,13 @@
-// Free candidate lookup + independent, reciprocal Workday-site confirmation. No LLM or paid fallback.
+// Free candidate lookup + independent company identity and Workday-source corroboration. No LLM or paid fallback.
 import { lookup } from "node:dns/promises";
 import { isIP } from "node:net";
 import { createHash } from "node:crypto";
 import { normalizeDomain, normalizeName } from "../domain/ingestion/normalize.ts";
 import { htmlToText } from "../domain/ingestion/quote.ts";
 import { parseRobots, robotsAllows } from "./http.ts";
-import type { PipelineContext, WebsiteResolution, WorkdaySite } from "./types.ts";
+import type { PipelineContext, WebsiteResolution, WorkdaySite, EmployerWebsiteLink } from "./types.ts";
 
-export const WEBSITE_VERSION = 5;
+export const WEBSITE_VERSION = 6;
 export const WEBSITE_LIMIT = 50;
 const DAY = 86400000;
 export const MAX_WEBSITE_BODY = 2 * 1024 * 1024;
@@ -142,12 +142,47 @@ export function pageIdentity(html: string, name: string): string | null {
 function workdayLink(html: string, base: string, sites: WorkdaySite[]): string | null {
   return links(html, base).find(({ url }) => sites.some(site => url.hostname === `${site.tenant}.${site.pod}.myworkdayjobs.com` && decodeURIComponent(url.pathname).split("/").includes(site.site)))?.url.href ?? null;
 }
-export function websiteSignature(sites: WorkdaySite[]): string {
-  return createHash("sha256").update(JSON.stringify([WEBSITE_VERSION, sites.map(s => `${s.tenant}.${s.pod}/${s.site}`).sort()])).digest("hex");
+// A branded page on a shared social/document/ATS platform is not a corporate website.
+function sharedPlatform(domain: string): boolean {
+  return ["sharepoint.com", "myworkdayjobs.com", "myworkdaysite.com", "linkedin.com", "facebook.com", "instagram.com", "youtube.com"].some(host => domain === host || domain.endsWith(`.${host}`));
 }
 
-export async function resolveWebsite(ctx: PipelineContext, name: string, sites: WorkdaySite[], http: WebsiteHttp, dryRun = false): Promise<WebsiteResolution> {
-  const normalized = normalizeName(name), signature = websiteSignature(sites);
+// Only stored JSON from the exact enabled Workday tenant/site can vouch for an employer link.
+// Links to unrelated benefits providers are merely candidates: company identity must still match.
+export async function loadEmployerLinks(ctx: PipelineContext, name: string, sites: WorkdaySite[]): Promise<EmployerWebsiteLink[]> {
+  if (!sites.length) return [];
+  const refs: EmployerWebsiteLink[] = [];
+  for (const capture of await ctx.store.websiteEvidenceCaptures(normalizeName(name), 20)) {
+    if (ctx.now().getTime() - Date.parse(capture.last_seen_at) > 14 * DAY || !Number.isFinite(Date.parse(capture.last_seen_at))) continue;
+    let source: URL;
+    try { source = new URL(capture.url); } catch { continue; }
+    if (source.protocol !== "https:" || source.username || source.password || source.port) continue;
+    const site = sites.find(s => s.enabled && s.normalized_name === normalizeName(name) && source.hostname === `${s.tenant}.${s.pod}.myworkdayjobs.com` && source.pathname.startsWith(`/wday/cxs/${s.tenant}/${s.site}/job/`));
+    if (!site || capture.meta.kind !== "workday_job" || capture.meta.normalized_name !== normalizeName(name)) continue;
+    let body: { jobPostingInfo?: { jobDescription?: string }; hiringOrganization?: { url?: string } };
+    try { body = JSON.parse(capture.body); } catch { continue; }
+    if (typeof body?.jobPostingInfo?.jobDescription !== "string") continue;
+    const add = (value: string, field: EmployerWebsiteLink["field"]) => {
+      try {
+        const url = safeUrl(value), domain = normalizeDomain(url.hostname)!;
+        if (sharedPlatform(domain)) return;
+        url.search = ""; url.hash = ""; // do not copy tracking/account query data into verification evidence
+        refs.push({ domain, url: url.href, source_url: capture.url, capture_id: capture.id, field });
+      } catch { /* unsafe/non-website links are not evidence */ }
+    };
+    if (typeof body.hiringOrganization?.url === "string") add(body.hiringOrganization.url, "hiringOrganization.url");
+    const description = body.jobPostingInfo.jobDescription.replace(/<!--[\s\S]*?-->|<(script|style)\b[^>]*>[\s\S]*?<\/\1>/gi, " ");
+    for (const link of links(description, capture.url)) add(link.url.href, "jobPostingInfo.jobDescription");
+  }
+  return [...new Map(refs.map(ref => [`${ref.domain}|${ref.capture_id}|${ref.url}`, ref])).values()];
+}
+export function websiteSignature(sites: WorkdaySite[], employerLinks: EmployerWebsiteLink[] = []): string {
+  return createHash("sha256").update(JSON.stringify([WEBSITE_VERSION, sites.map(s => `${s.tenant}.${s.pod}/${s.site}`).sort(), employerLinks.map(ref => `${ref.capture_id}|${ref.url}`).sort()])).digest("hex");
+}
+
+export async function resolveWebsite(ctx: PipelineContext, name: string, sites: WorkdaySite[], http: WebsiteHttp, dryRun = false, employerLinks?: EmployerWebsiteLink[]): Promise<WebsiteResolution> {
+  const refs = employerLinks ?? await loadEmployerLinks(ctx, name, sites);
+  const normalized = normalizeName(name), signature = websiteSignature(sites, refs);
   const cached = await ctx.store.websiteResolution(normalized);
   if (cached?.input_signature === signature && Date.parse(cached.next_check_at) > ctx.now().getTime()) return cached;
   const checked = ctx.now();
@@ -171,19 +206,32 @@ export async function resolveWebsite(ctx: PipelineContext, name: string, sites: 
     const candidates = await fetchCandidates(query);
     // Legal names can yield unrelated results (e.g. ASML HOLDING NV). Retry the full normalized
     // identity once; never shorten to an arbitrary first word or loosen the confirmation rules.
-    if (!candidates.some(row => normalizeName(row.company_name) === normalized && normalizeDomain(row.domain)) && normalized.length >= 3 && normalized !== query.toLowerCase()) {
+    if (!candidates.some(row => normalizeName(row.company_name) === normalized && normalizeDomain(row.domain) && !sharedPlatform(normalizeDomain(row.domain)!)) && normalized.length >= 3 && normalized !== query.toLowerCase()) {
       candidates.push(...await fetchCandidates(normalized));
     }
     base.evidence.candidates = candidates;
+    const backing = (domain: string) => refs.find(ref => ref.domain === domain || ref.domain.endsWith(`.${domain}`));
+    // Check source-backed candidates first. Once a unique source-backed website is verified,
+    // unbacked provider suggestions do not need speculative fetches.
+    const backed = candidates.filter(row => { const domain = normalizeDomain(row.domain); return normalizeName(row.company_name) === normalized && domain && backing(domain); });
+    base.evidence.employer_links = refs.filter(ref => backed.some(row => { const domain = normalizeDomain(row.domain)!; return ref.domain === domain || ref.domain.endsWith(`.${domain}`); }));
+    const ordered = [...backed, ...candidates.filter(row => !backed.includes(row))];
     const confirmed = new Set<string>(); let failures = 0;
-    for (const candidate of candidates) {
+    for (const candidate of ordered) {
+      if (confirmed.size && backed.length && !backed.includes(candidate)) break;
       if (normalizeName(candidate.company_name) !== normalized) continue;
-      const domain = normalizeDomain(candidate.domain); if (!domain) continue;
+      const domain = normalizeDomain(candidate.domain); if (!domain || sharedPlatform(domain)) continue;
       try {
         safeUrl(candidate.domain.includes("://") ? candidate.domain : `https://${candidate.domain}/`);
         const home = await http.page(`https://${domain}/`);
         const identity = pageIdentity(home.html, name);
         if (!identity) { base.evidence.checks.push({ domain, url: home.url, reason: "no exact company identity in page metadata" }); continue; }
+        const employerLink = backing(domain);
+        if (employerLink) {
+          base.evidence.checks.push({ domain, url: home.url, identity, employer_link: employerLink, reason: "company identity and corporate link from its observed Workday posting" });
+          confirmed.add(normalizeDomain(new URL(home.url).hostname)!);
+          continue;
+        }
         let proof = workdayLink(home.html, home.url, sites); let proofUrl = home.url;
         const homeHost = normalizeDomain(new URL(home.url).hostname)!;
         const queue = careersLinks(home.html, home.url, homeHost);
@@ -206,7 +254,7 @@ export async function resolveWebsite(ctx: PipelineContext, name: string, sites: 
       } catch (error) { failures++; base.evidence.checks.push({ domain, reason: (error as Error).message }); }
     }
     // An unreadable competing candidate can conceal a second valid identity; don't pick a winner.
-    if (confirmed.size === 1 && failures === 0) { base.domain = [...confirmed][0]; base.status = "confirmed"; base.reason = "independent company identity and reciprocal Workday career link"; base.next_check_at = new Date(+checked + 30 * DAY).toISOString(); }
+    if (confirmed.size === 1 && failures === 0) { base.domain = [...confirmed][0]; base.status = "confirmed"; base.reason = base.evidence.checks.some(check => check.employer_link) ? "independent company identity and corporate link from observed Workday posting" : "independent company identity and reciprocal Workday career link"; base.next_check_at = new Date(+checked + 30 * DAY).toISOString(); }
     else if (failures) { base.status = "error"; base.reason = "one or more website checks failed; retry required"; }
     else base.reason = confirmed.size > 1 ? "multiple websites corroborate this company; human review required" : "no uniquely corroborated website";
   } catch (error) { base.status = "error"; base.reason = (error as Error).message; }
