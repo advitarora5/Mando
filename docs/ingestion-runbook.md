@@ -93,6 +93,14 @@ select * from review_queue where status = 'pending' order by created_at desc;
 (source stopped: 403, CAPTCHA, rate limit or treg 402), `failed` (nothing worked). The runner also logs
 `ALERT: source ... last 3 runs` lines. Spend: `var/spend-ledger.jsonl` (gitignored) and `paid_calls`.
 
+For `pipeline run`, the CLI exits **0** when every executed stage succeeds and **1** if any stage is
+`partial`, `failed`, or `blocked`. Later stages still run, and the JSON report includes an overall
+`status` (`succeeded` or `failed`) plus each stage's `blocked` reason and `errors`. Standard error
+also lists unsuccessful stages, so GitHub Actions marks the command as failed. Every executed
+stage participates in this result; disabled sources do not run. Clean empty results, candidates
+awaiting review, and ordinary contact-budget skips remain successful. Logged source alerts alone
+do not change the exit code. This does not enable any schedules.
+
 ## 5. Add a source
 
 1. Add a row to `sources` (migration) with `type`, `frequency`, `max_requests_per_run`, `min_delay_ms`, `enabled`.
