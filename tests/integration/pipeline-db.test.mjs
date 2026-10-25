@@ -51,6 +51,32 @@ test('the store refuses remote projects unless explicitly allowed', () => {
   assert.equal(assertAllowedTarget('http://127.0.0.1:54321', undefined), 'http://127.0.0.1:54321');
 });
 
+test('due resolver attempts: persisted timestamps honor separate refresh and miss cutoffs', { skip }, async () => {
+  const store = new SupabaseStore(url, key);
+  const prefix = `retry-check-${seed}`;
+  const attempts = [
+    { normalized_name: `${prefix}-found-due`, found: true, tried_at: '2020-01-01T00:00:00Z' },
+    { normalized_name: `${prefix}-found-fresh`, found: true, tried_at: '2020-01-09T00:00:00Z' },
+    { normalized_name: `${prefix}-miss-due`, found: false, tried_at: '2019-12-01T00:00:00Z' },
+    { normalized_name: `${prefix}-miss-fresh`, found: false, tried_at: '2019-12-30T00:00:00Z' },
+  ];
+  const keys = attempts.map(a => a.normalized_name);
+  try {
+    for (const a of attempts) await store.saveResolverAttempt({ ...a, company_name: a.normalized_name, probes: 1 });
+    const cutoffs = { foundBefore: attempts[0].tried_at, missBefore: attempts[2].tried_at };
+    const due = (await store.dueResolverAttempts(cutoffs, 100)).filter(a => keys.includes(a.normalized_name));
+    assert.deepEqual(due.map(a => a.normalized_name), [keys[0], keys[2]], 'inclusive cutoffs, with known-site refresh before misses');
+    assert.equal(Date.parse(due[0].tried_at), Date.parse(attempts[0].tried_at));
+    const limited = await store.dueResolverAttempts(cutoffs, 1);
+    assert.equal(limited.length, 1);
+    assert.equal(limited[0].found, true);
+    assert.deepEqual(await store.dueResolverAttempts(cutoffs, 0), []);
+  } finally {
+    const { error } = await db.from('workday_resolver_attempts').delete().in('normalized_name', keys);
+    assert.equal(error, null);
+  }
+});
+
 test('full flow on the database: raw rows, sourced signals, pipeline companies, scored with reasons, run log; repeat adds nothing', { skip }, async () => {
   const names = randomNames(15, seed);
   const { ctx } = await freshWorld(names);

@@ -6,7 +6,7 @@ import { normalizeName } from "../../domain/ingestion/normalize.ts";
 import type { ScoreRow } from "../../domain/scoring/assessment.ts";
 import type {
   CaptureRow, CompanyRow, ContactRow, ExtractionRecord, PipelineStore, RawItem, ReviewItem, RunCounts, RunStatus,
-  SignalInput, SignalRow, SourceRow, StoredScore, WorkdaySite,
+  SignalInput, SignalRow, SourceRow, StoredScore, WorkdaySite, ResolverAttempt, ResolverCutoffs,
 } from "../types.ts";
 
 export const DEFAULT_SOURCES: SourceRow[] = [
@@ -32,7 +32,7 @@ export class MemoryStore implements PipelineStore {
   companyRows: (CompanyRow & { source: string | null; created_at: string })[] = [];
   reviews: ReviewItem[] = [];
   sites: WorkdaySite[] = [];
-  attempts = new Map<string, { company_name: string; found: boolean; probes: number }>();
+  attempts = new Map<string, ResolverAttempt>();
   contacts: (ContactRow & { contact_sources?: unknown; enriched_at?: string })[] = [];
   scores: StoredScore[] = [];
   enrichment = new Map<string, { status: string; reason: string }>();
@@ -178,7 +178,15 @@ export class MemoryStore implements PipelineStore {
     for (const s of this.sites) if (s.normalized_name === normalizedName && !s.company_id) Object.assign(s, target);
   }
   async resolverAttempts(names: string[]) { return new Set(names.filter(n => this.attempts.has(n))); }
-  async saveResolverAttempt(a: { normalized_name: string; company_name: string; found: boolean; probes: number }) { this.attempts.set(a.normalized_name, a); }
+  async dueResolverAttempts(cutoffs: ResolverCutoffs, limit: number) {
+    return [...this.attempts.values()]
+      .filter(a => a.tried_at <= (a.found ? cutoffs.foundBefore : cutoffs.missBefore))
+      .sort((a, b) => Number(b.found) - Number(a.found) || a.tried_at.localeCompare(b.tried_at) || a.normalized_name.localeCompare(b.normalized_name))
+      .slice(0, limit);
+  }
+  async saveResolverAttempt(a: Omit<ResolverAttempt, "tried_at"> & { tried_at?: string }) {
+    this.attempts.set(a.normalized_name, { ...a, tried_at: a.tried_at ?? this.now().toISOString() });
+  }
 
   async contactsForCompany(companyId: string) { return this.contacts.filter(c => c.company_id === companyId); }
   async latestScore(companyId: string) {

@@ -54,8 +54,21 @@ npm run pipeline -- review list | approve <id> --domain x.com | merge <id> <comp
 
 Discovery selects unattempted company names in SEC list order. Attempt history is checked in
 pages of up to 200 names until the requested batch is filled or the list is exhausted, so later
-runs advance beyond previously probed names even deep into the list. Successful and unsuccessful
-attempts are both skipped; retry timing and periodic revalidation are separate follow-up work.
+runs advance beyond previously probed names even deep into the list.
+
+The resolver interleaves new names with due rechecks. Successful discoveries become eligible
+after **7 days**, completed misses after **30 days**. Known-site refresh takes priority over
+miss retries; within each group the oldest attempt goes first. These are eligibility intervals:
+actual execution depends on the schedule and request/item limits. At scale, allocate enough
+capacity to revisit known sites before their 14-day evidence lifetime ends. Rechecks count toward
+the resolver's existing limit, so not every returned site will be newly discovered.
+
+Known hosts are checked directly before tenant guesses. Unchanged robots captures refresh the
+existing signals' `last_seen_at` without duplicating them. Failed or vanished sites do not renew
+evidence. Network/server failures and searches cut short by the request cap do not become
+completed misses or reset an existing retry clock; they remain eligible on the next run. The
+existing HTTP retry/backoff and source-stop rules still apply. Dry runs do not save attempt times.
+This uses the existing `found` / `tried_at` columns; no database migration is required.
 
 ## 3. Stages and rules
 

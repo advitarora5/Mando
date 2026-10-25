@@ -122,6 +122,8 @@ export type WorkdaySite = {
 };
 
 export type CompanyRow = { id: string; name: string; domain: string | null; employee_count: number | null; pipeline: boolean };
+export type ResolverAttempt = { normalized_name: string; company_name: string; found: boolean; probes: number; tried_at: string };
+export type ResolverCutoffs = { foundBefore: string; missBefore: string };
 export type ContactRow = ScoringContact & { id: string; company_id: string };
 export type StoredScore = ScoreRow & { id: string; assessed_at: string };
 
@@ -175,7 +177,8 @@ export interface PipelineStore {
   markSiteChecked(id: string, status: string, at: string): Promise<void>;
   linkWorkdaySites(normalizedName: string, target: { company_id: string } | { review_item_id: string }): Promise<void>;
   resolverAttempts(names: string[]): Promise<Set<string>>;
-  saveResolverAttempt(attempt: { normalized_name: string; company_name: string; found: boolean; probes: number }): Promise<void>;
+  dueResolverAttempts(cutoffs: ResolverCutoffs, limit: number): Promise<ResolverAttempt[]>;
+  saveResolverAttempt(attempt: Omit<ResolverAttempt, "tried_at"> & { tried_at?: string }): Promise<void>;
 
   contactsForCompany(companyId: string): Promise<ContactRow[]>;
   latestScore(companyId: string): Promise<StoredScore | null>;

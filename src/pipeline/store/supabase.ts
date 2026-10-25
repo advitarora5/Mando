@@ -5,7 +5,7 @@ import { parseSettings } from "../../domain/ingestion/settings.ts";
 import type { ScoreRow } from "../../domain/scoring/assessment.ts";
 import type {
   CaptureRow, CompanyRow, ContactRow, ExtractionRecord, PipelineStore, RawItem, ReviewItem, RunCounts, RunStatus,
-  SignalInput, SignalRow, SourceRow, StoredScore, WorkdaySite,
+  SignalInput, SignalRow, SourceRow, StoredScore, WorkdaySite, ResolverAttempt, ResolverCutoffs,
 } from "../types.ts";
 
 export function assertAllowedTarget(url: string, allowRemote: string | undefined): string {
@@ -162,8 +162,18 @@ export class SupabaseStore implements PipelineStore {
     for (let i = 0; i < names.length; i += 200) rows.push(...(this.check(await this.db.from("workday_resolver_attempts").select("normalized_name").in("normalized_name", names.slice(i, i + 200)), "resolver attempts") as { normalized_name: string }[]));
     return new Set(rows.map(r => r.normalized_name));
   }
-  async saveResolverAttempt(a: { normalized_name: string; company_name: string; found: boolean; probes: number }) {
-    this.check(await this.db.from("workday_resolver_attempts").upsert({ ...a, tried_at: new Date().toISOString() }), "save attempt");
+  async dueResolverAttempts(cutoffs: ResolverCutoffs, limit: number) {
+    if (limit <= 0) return [];
+    const results = await Promise.all([true, false].map(found => this.db.from("workday_resolver_attempts")
+      .select("normalized_name, company_name, found, probes, tried_at").eq("found", found)
+      .lte("tried_at", found ? cutoffs.foundBefore : cutoffs.missBefore)
+      .order("tried_at").order("normalized_name").limit(limit)));
+    return results.flatMap(r => this.check(r, "due resolver attempts") as ResolverAttempt[])
+      .sort((a, b) => Number(b.found) - Number(a.found) || a.tried_at.localeCompare(b.tried_at) || a.normalized_name.localeCompare(b.normalized_name))
+      .slice(0, limit);
+  }
+  async saveResolverAttempt(a: Omit<ResolverAttempt, "tried_at"> & { tried_at?: string }) {
+    this.check(await this.db.from("workday_resolver_attempts").upsert({ ...a, tried_at: a.tried_at ?? new Date().toISOString() }), "save attempt");
   }
 
   async contactsForCompany(companyId: string) {

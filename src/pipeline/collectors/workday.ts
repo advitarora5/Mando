@@ -12,6 +12,8 @@ import type { Collector, CollectLimits, CollectResult, PipelineContext, RawItem,
 
 export const WORKDAY_PAGE_SIZE = 20;
 export const WORKDAY_OFFSET_CAP = 2000;
+export const RESOLVER_REFRESH_DAYS = 7;
+export const RESOLVER_MISS_RETRY_DAYS = 30;
 // Pods seen most often first. Each probe is one robots.txt request.
 export const WORKDAY_PODS = ["wd5", "wd1", "wd3", "wd12", "wd103", "wd501", "wd10", "wd108"];
 // Volatile fields that change daily without the posting changing ("Posted 5 Days Ago").
@@ -85,6 +87,25 @@ export async function resolverNames(ctx: PipelineContext, max: number): Promise<
   return pending;
 }
 
+// Interleave new names with the oldest due attempts. Rechecks must not consume
+// the whole candidate batch and prevent discovery from moving through the SEC list.
+export async function resolverCandidates(ctx: PipelineContext, max: number) {
+  if (max <= 0) return [];
+  const day = 86400000, now = ctx.now().getTime();
+  const fresh = await resolverNames(ctx, max);
+  const due = (await ctx.store.dueResolverAttempts({
+    foundBefore: new Date(now - RESOLVER_REFRESH_DAYS * day).toISOString(),
+    missBefore: new Date(now - RESOLVER_MISS_RETRY_DAYS * day).toISOString(),
+  }, max)).filter(a => !isExcludedCompany(a.company_name))
+    .map(a => ({ name: a.company_name, normalized: a.normalized_name }));
+  const selected: typeof fresh = [];
+  for (let i = 0; selected.length < max && (i < fresh.length || i < due.length); i++) {
+    if (fresh[i]) selected.push(fresh[i]);
+    if (due[i] && selected.length < max) selected.push(due[i]);
+  }
+  return selected;
+}
+
 // Name -> Workday career site. Probes {tenant}.{pod}.myworkdayjobs.com/robots.txt; a hit lists the site names.
 export class WorkdayResolver implements Collector {
   readonly type = "workday_site_resolver";
@@ -94,34 +115,51 @@ export class WorkdayResolver implements Collector {
     // The full-name guess tries the six most common pods; the weaker first-word guess only the top three.
     const podsFor = (kind: string) => WORKDAY_PODS.slice(0, kind === "full_name" ? Number(source.config.full_name_pods ?? 6) : Number(source.config.first_word_pods ?? 3));
     // limit = sites to find; about one name in four has a guessable tenant, so up to six names per wanted site are tried.
-    const names = await resolverNames(ctx, limits.maxItems * Number(source.config.names_per_site ?? 6));
+    const names = await resolverCandidates(ctx, limits.maxItems * Number(source.config.names_per_site ?? 6));
+    const knownSites = await ctx.store.workdaySites(true);
     ctx.log.info(`resolver: up to ${names.length} names for ${limits.maxItems} sites`);
     let consecutiveBlocked = 0;
     for (const { name, normalized } of names) {
       if (result.blocked || http.remaining < 1 || result.items.length >= limits.maxItems) break;
-      let probes = 0, found = false;
-      outer: for (const candidate of tenantCandidates(name)) {
-        for (const pod of podsFor(candidate.kind)) {
-          if (http.remaining < 1) break outer;
-          probes++;
-          const got = await http.robotsTxt(origin(candidate.tenant, pod));
-          if (!got.ok) {
-            // A 401/403 on a guessed tenant is a miss (that host is private or unused), not a block of the whole site.
-            // Ten in a row, or any rate limit or CAPTCHA, does stop the source.
-            if (got.kind === "blocked" && ++consecutiveBlocked < 10) continue;
-            if (got.kind !== "http" && fail(result, got)) break outer;
-            continue;
+      let probes = 0, found = false, incomplete = false, transient = false;
+      // Revalidate known hosts directly, including pods outside the guessing list.
+      const targets = [
+        ...knownSites.filter(s => s.normalized_name === normalized).map(s => ({ tenant: s.tenant, pod: s.pod, kind: s.match_kind, known: true })),
+        ...tenantCandidates(name).flatMap(c => podsFor(c.kind).map(pod => ({ ...c, pod, known: false }))),
+      ];
+      const visited = new Set<string>();
+      for (const candidate of targets) {
+        const { pod } = candidate;
+        const host = origin(candidate.tenant, pod);
+        if (visited.has(host)) continue;
+        visited.add(host);
+        if (http.remaining < 1) { incomplete = true; break; }
+        probes++;
+        const got = await http.robotsTxt(host);
+        if (!got.ok) {
+          // A private guessed tenant is a miss. A known host blocking us, ten
+          // blocked guesses, any rate limit, or a CAPTCHA stops the source.
+          if (got.kind === "blocked" && !candidate.known && ++consecutiveBlocked < 10) continue;
+          const miss = got.kind === "http" && [404, 410, 422].includes(got.status);
+          if (!miss) {
+            transient = true;
+            if (fail(result, got)) break;
           }
-          consecutiveBlocked = 0;
-          const sites = sitesFromRobots(got.body, candidate.tenant, pod);
-          if (!sites.length) continue;
-          result.items.push(item(source.id, got.url, got.status, got.contentType, got.body, ctx.now(),
-            { kind: "workday_robots", tenant: candidate.tenant, pod, sites, primary_sites: primarySites(sites), company_name: name, normalized_name: normalized, match_kind: candidate.kind }));
-          found = true;
-          break outer;
+          continue;
         }
+        consecutiveBlocked = 0;
+        const sites = sitesFromRobots(got.body, candidate.tenant, pod);
+        if (!sites.length) continue;
+        result.items.push(item(source.id, got.url, got.status, got.contentType, got.body, ctx.now(),
+          { kind: "workday_robots", tenant: candidate.tenant, pod, sites, primary_sites: primarySites(sites), company_name: name, normalized_name: normalized, match_kind: candidate.kind }));
+        found = true;
+        break;
       }
-      if (!limits.dryRun && !result.blocked) await ctx.store.saveResolverAttempt({ normalized_name: normalized, company_name: name, found, probes });
+      // A temporary error or an interrupted search is not evidence of absence.
+      // Leave it eligible for the next run; HTTP already bounds retries within this run.
+      if (!limits.dryRun && !result.blocked && (found || (!transient && !incomplete))) {
+        await ctx.store.saveResolverAttempt({ normalized_name: normalized, company_name: name, found, probes, tried_at: ctx.now().toISOString() });
+      }
     }
     result.requests = http.requests;
     return result;
