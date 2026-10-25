@@ -5,6 +5,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { ArrowDown, ArrowUp, BadgeCheck, Bookmark, CircleHelp, Columns3, Copy, Download, Search, SquareArrowOutUpRight, CalendarClock, X, SearchX } from "lucide-react";
 import { categories, type Category, type CompanyListItem } from "@/domain/contracts/company";
 import { rankMovement } from "@/domain/history";
+import type { DeltaExplanation } from "@/domain/delta-explanation";
 import { rankContacts, emailState } from "@/domain/contacts/contact-view";
 import { categoryCells, shortLabel } from "@/domain/scoring/view";
 import { rubric } from "@/domain/scoring/rubric";
@@ -39,9 +40,9 @@ function SortButton({ label, field, sort, setSort, numeric, tip }: { label: stri
   </button>;
 }
 
-export function Pipeline({ companies, mode, previousWeek, previousRanks, previousCompanyCount, initialQuery }: {
+export function Pipeline({ companies, mode, previousWeek, previousRanks, previousCompanyCount, initialQuery, explanations = {} }: {
   companies: CompanyListItem[]; mode: "sample" | "database"; previousWeek: string | null; previousRanks: Record<string, number>;
-  previousCompanyCount: number | null; initialQuery: string;
+  previousCompanyCount: number | null; initialQuery: string; explanations?: Record<string, DeltaExplanation>;
 }) {
   const copy = useCopy();
   const toast = useToast();
@@ -182,7 +183,7 @@ export function Pipeline({ companies, mode, previousWeek, previousRanks, previou
       <span className="toolbar-sep" aria-hidden />
       <button type="button" className="toggle" aria-pressed={state.verified} onClick={() => update({ verified: !state.verified })} title="At least one contact with a verified email"><BadgeCheck aria-hidden /><span className="lbl-long">Verified email</span><span className="lbl-short">Verified</span></button>
       <button type="button" className="toggle" aria-pressed={state.gaps} onClick={() => update({ gaps: !state.gaps })} title="At least one category has no verified evidence yet"><CircleHelp aria-hidden /><span className="lbl-long">Evidence gaps</span><span className="lbl-short">Gaps</span></button>
-      <button type="button" className="toggle" aria-pressed={state.release} onClick={() => update({ release: !state.release })} title="Release score above the 8-point baseline, i.e. in a Workday release-readiness window"><CalendarClock aria-hidden /><span className="lbl-long">Release planners</span><span className="lbl-short">Release</span></button>
+      <button type="button" className="toggle" aria-pressed={state.release} onClick={() => update({ release: !state.release })} title="Publicly preparing for a confirmed Workday release (Release score above 8). Older assessments may still carry the retired 8-point baseline."><CalendarClock aria-hidden /><span className="lbl-long">Release planners</span><span className="lbl-short">Release</span></button>
       </div>
       <div className="toolbar-end">
         <span className="result-meta" role="status" aria-label={`${rows.length} of ${companies.length} companies shown`}>{rows.length}<span className="faint"> / {companies.length}</span></span>
@@ -234,7 +235,7 @@ export function Pipeline({ companies, mode, previousWeek, previousRanks, previou
             const open = (tab: PanelTab, focus: Category | null = null) => { setActive(index); setPanel({ id: c.id, tab, focus }); };
             return <tr key={c.id} className={index === active ? "is-active" : undefined} aria-selected={selected.has(c.id)} onClick={() => open("overview")}>
               <td className="col-check sticky-1" style={{ left: STICKY.check }} onClick={event => event.stopPropagation()}><input type="checkbox" aria-label={`Select ${c.name}`} checked={selected.has(c.id)} onChange={() => toggleRow(c.id)} /></td>
-              <td className="sticky-1" style={{ left: STICKY.rank }}><span className="cell-rank"><strong>{rank ?? "—"}</strong><Delta movement={movement} current={rank} /></span></td>
+              <td className="sticky-1" style={{ left: STICKY.rank }}><span className="cell-rank"><strong>{rank ?? "—"}</strong><Delta movement={movement} current={rank} note={explanations[c.id]?.summary} /></span></td>
               <td className="sticky-2" style={{ left: STICKY.company }}><div className="cell-company">
                 {linkable ? <Link href={`/companies/${c.id}`} onClick={event => event.stopPropagation()} title={c.name}>{c.name}</Link> : <strong title={c.name}>{c.name}</strong>}
                 <small title={c.industry ?? undefined}>{[c.industry ?? "Industry not recorded", employees && `${employees} emp.`].filter(Boolean).join(" · ")}</small>
@@ -277,7 +278,7 @@ export function Pipeline({ companies, mode, previousWeek, previousRanks, previou
     </div>}
 
     <SlideOver open={!!panelCompany} onClose={() => setPanel(null)} labelledBy="sheet-title">
-      {panelCompany && panel && <CompanyPreview company={panelCompany} rank={ranks.get(panelCompany.id)} movement={previousWeek ? rankMovement(ranks.get(panelCompany.id), previousRanks[panelCompany.id]) : null}
+      {panelCompany && panel && <CompanyPreview company={panelCompany} explanation={explanations[panelCompany.id]} rank={ranks.get(panelCompany.id)} movement={previousWeek ? rankMovement(ranks.get(panelCompany.id), previousRanks[panelCompany.id]) : null}
         tab={panel.tab} focus={panel.focus} linkable={linkable} onClose={() => setPanel(null)} onTab={(tab, focus = null) => setPanel(p => p && { ...p, tab, focus })} />}
     </SlideOver>
   </>;

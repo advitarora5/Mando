@@ -16,12 +16,13 @@ import { Avatar, ChannelIcons } from "@/components/channels";
 import { TabBar } from "@/components/tabs";
 import { useCopy } from "@/components/toast";
 import { Delta } from "./delta";
+import type { DeltaExplanation } from "@/domain/delta-explanation";
 import type { Movement } from "@/domain/history";
 
 export type PanelTab = "overview" | "contacts" | "evidence";
 
-export function CompanyPreview({ company: c, rank, movement, tab, focus, onTab, onClose, linkable }: {
-  company: CompanyListItem; rank: number | undefined; movement: Movement | null; tab: PanelTab; focus: Category | null;
+export function CompanyPreview({ company: c, rank, movement, explanation, tab, focus, onTab, onClose, linkable }: {
+  company: CompanyListItem; rank: number | undefined; movement: Movement | null; explanation?: DeltaExplanation; tab: PanelTab; focus: Category | null;
   onTab: (tab: PanelTab, focus?: Category | null) => void; onClose: () => void; linkable: boolean;
 }) {
   const copy = useCopy();
@@ -80,6 +81,7 @@ export function CompanyPreview({ company: c, rank, movement, tab, focus, onTab, 
         <span className="chip neutral">{rank ? `Rank ${rank}` : "Unranked"}</span>
         <Delta movement={movement} />
       </div>
+      {explanation && <p className="delta-note" role="note">{explanation.summary}</p>}
       <TabBar<PanelTab> idPrefix="sheet" value={tab} onChange={id => onTab(id)} items={[
         { id: "overview", label: "Overview" },
         { id: "contacts", label: "Contacts", count: contacts.length },

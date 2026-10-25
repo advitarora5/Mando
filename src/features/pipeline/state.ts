@@ -60,7 +60,8 @@ export function toParams(state: PipelineState): string {
 
 export const hasVerifiedEmail = (c: CompanyListItem) => c.contacts.some(contact => emailState(contact) === "verified");
 export const hasEvidenceGaps = (c: CompanyListItem) => categoryCells(c.score).some(cell => cell.needsEvidence);
-// Release scores of 5–8 are the "more than 18 weeks out" or confirmed-customer baseline; above 8 means a readiness window.
+// Release scores now come only from documented public preparation for a confirmed release (10 or 15). Older assessments may still carry
+// the retired 8-point confirmed-customer baseline, so "above 8" keeps those out until they are rescored.
 export const isReleasePlanner = (c: CompanyListItem) => !!c.score && Number(c.score.release_score) > 8;
 export const isReady = (c: CompanyListItem) => {
   const tier = tierKey(c.score);

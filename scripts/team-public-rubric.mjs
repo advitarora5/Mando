@@ -97,17 +97,19 @@ export function timingScore(company,today){
 
 export function releaseScore(company,today){
   if(company.workday.current!==true)return {score:0,status:'unknown',source:company.workday.source,reason:'Current deployment/release applicability is unconfirmed.',missing:['Not enough evidence to confirm current Workday operation.']};
-  let score=8;
+  // No baseline: points need BOTH documented public preparation AND a confirmed release date in the 42-126 day window.
   const next=company.release.next_confirmed_date;
+  const prepared=company.release.documented_preparation===true;
+  let score=0,days=null;
   if(next){
     if(!validDate(next))throw new Error('Confirmed release date is invalid.');
-    const days=(Date.parse(next)-Date.parse(today))/86400000;
-    // Only public, documented preparation lifts the score above the applicability baseline.
-    const prepared=company.release.documented_preparation===true;
+    days=(Date.parse(next)-Date.parse(today))/86400000;
     if(prepared&&days>=42&&days<=84)score=15;
-    else if(prepared&&days>=84&&days<=126)score=10;
+    else if(prepared&&days>=85&&days<=126)score=10;
   }
-  return {score,status:'met',source:company.workday.source,reason:`Confirmed current Workday customer subject to recurring feature releases: ${score}/15. Eight-point applicability baseline is separate from release readiness. Calendar estimates do not count as confirmed dates.`,missing:score===8?['Scores above 8 require a confirmed upcoming release date and documented public preparation for it.']:[],sources:[company.workday.source,company.release.policy_source]};
+  if(score>0)return {score,status:'met',source:company.release.source||company.workday.source,reason:`Publicly preparing for a confirmed release ${days} days away: ${score}/15.`,missing:[],sources:[company.release.source||company.workday.source]};
+  const why=!prepared?'No documented public release preparation; being a current Workday customer alone earns no Release points.':!next?'Documented preparation found, but no confirmed upcoming release date. Calendar estimates do not count.':`Documented preparation found, but the confirmed release is ${days} days away, outside the 42-126 day window.`;
+  return {score:0,status:'unknown',source:null,reason:`Needs evidence: ${why}`,missing:['Release points require documented public preparation and a confirmed release date 42-126 days away.']};
 }
 
 export function assessTeamCompany(company,today){
