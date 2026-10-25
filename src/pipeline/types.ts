@@ -115,7 +115,7 @@ export type WebsiteResolution = {
   input_signature: string;
   checked_at: string;
   next_check_at: string;
-  evidence: { candidates: { domain: string; company_name: string }[]; checks: { domain: string; url?: string; identity?: string; workday_url?: string | null; reason: string }[] };
+  evidence: { queries?: { company: string; candidates: { domain: string; company_name: string }[] }[]; candidates: { domain: string; company_name: string }[]; checks: { domain: string; url?: string; identity?: string; workday_url?: string | null; reason: string }[] };
 };
 
 export type WorkdaySite = {

@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { WebsiteHttp, resolveWebsite, pageIdentity, publicAddress } from '../../src/pipeline/website.ts';
+import { WebsiteHttp, resolveWebsite, pageIdentity, publicAddress, MAX_WEBSITE_BODY, careersLinks } from '../../src/pipeline/website.ts';
 import { HttpTreg } from '../../src/pipeline/treg.ts';
 import { matchStage } from '../../src/pipeline/stages.ts';
 import { runPipeline } from '../../src/pipeline/runner.ts';
@@ -67,7 +67,7 @@ test('website: redirect aliases collapse to one verified canonical host, checkin
 test('website: blocked, oversized, non-HTML, network and robots-denied pages stay unresolved with retry and no bypass', async () => {
   for (const config of [
     { pages: { 'https://acme.example/': response(403, 'blocked') } },
-    { pages: { 'https://acme.example/': html('x'.repeat(512 * 1024 + 1)) } },
+    { pages: { 'https://acme.example/': html('x'.repeat(MAX_WEBSITE_BODY + 1)) } },
     { pages: { 'https://acme.example/': response(200, home()) } },
     { robots: 'User-agent: *\nDisallow: /' },
   ]) {
@@ -82,10 +82,10 @@ test('website: blocked, oversized, non-HTML, network and robots-denied pages sta
 test('website: empty success retries in seven days; new observed site evidence invalidates the cache immediately', async () => {
   const ctx = context({ candidates: [] });
   assert.equal((await resolve(ctx)).status, 'unresolved');
-  await resolve(ctx); assert.equal(ctx.treg.calls.length, 1);
-  ctx.now.advanceDays(7); await resolve(ctx); assert.equal(ctx.treg.calls.length, 2);
+  await resolve(ctx); assert.equal(ctx.treg.calls.length, 2);
+  ctx.now.advanceDays(7); await resolve(ctx); assert.equal(ctx.treg.calls.length, 4);
   await resolveWebsite(ctx, 'ACME CORP', [{ ...site, site: 'NewSite' }], new WebsiteHttp(ctx));
-  assert.equal(ctx.treg.calls.length, 3);
+  assert.equal(ctx.treg.calls.length, 6);
 });
 
 test('website: disabled transport is not cached; provider outages/malformed replies/positive charges do not become empty successes', async () => {
@@ -208,4 +208,112 @@ test('review recovery: expired trusted signals cannot create a company until fre
   signal.last_seen_at = ctx.now().toISOString();
   await matchStage(ctx);
   assert.equal(item.status, 'approved'); assert.equal(ctx.store.companyRows.length, 12);
+});
+
+test('robots redirects: follow relative and cross-host redirects, cache rules for original origin, and obey them', async () => {
+  for (const disallow of [false, true]) {
+    const ctx = context();
+    ctx.fetch = fakeFetch([
+      { match: /^https:\/\/acme.example\/robots.txt$/, respond: () => response(301, '', { location: '/robots-next' }) },
+      { match: /^https:\/\/acme.example\/robots-next$/, respond: () => response(302, '', { location: 'https://www.acme.example/robots.txt' }) },
+      { match: /^https:\/\/www.acme.example\/robots.txt$/, respond: () => response(200, `User-agent: *\n${disallow ? 'Disallow' : 'Allow'}: /`) },
+      { match: /^https:\/\/acme.example\/$/, respond: () => html(home()) },
+    ]);
+    const result = await resolve(ctx);
+    assert.equal(result.status, disallow ? 'error' : 'confirmed');
+    assert.equal(ctx.fetch.calls.filter(c => c.url === 'https://acme.example/').length, disallow ? 0 : 1);
+  }
+});
+
+test('robots redirects: unsafe targets, private DNS, loops, excessive hops and HTML challenges never permit page access', async () => {
+  for (const mode of ['private-url', 'private-dns', 'loop', 'too-many', 'challenge']) {
+    const ctx = context();
+    ctx.lookupHost = async host => [{ address: host === 'private.example' ? '10.0.0.1' : '93.184.216.34', family: 4 }];
+    ctx.fetch = fakeFetch([{ match: /^https:\/\//, respond: url => {
+      if (mode === 'private-url') return response(301, '', { location: 'https://127.0.0.1/robots.txt' });
+      if (mode === 'private-dns') return response(301, '', { location: 'https://private.example/robots.txt' });
+      if (mode === 'loop') return response(301, '', { location: '/robots.txt' });
+      if (mode === 'challenge') return html('<html>captcha</html>');
+      return response(302, '', { location: url + '/next' });
+    } }]);
+    const result = await resolve(ctx);
+    assert.equal(result.status, 'error');
+    assert.ok(ctx.fetch.calls.length <= 4);
+    assert.ok(ctx.fetch.calls.every(c => c.url !== 'https://acme.example/'));
+    assert.ok(ctx.fetch.calls.every(c => !c.url.includes('private.example') && !c.url.includes('127.0.0.1')));
+  }
+});
+
+test('lookup fallback: normalized full identity can recover legal-name misses without trusting unrelated suggestions', async () => {
+  const ctx = context({ provider: ({ query }) => ({ ok: true, status: 200, cost_usd: 0, body: { data: query.company === 'acme' ? [{ domain: 'acme.example', company_name: 'Acme' }] : [{ domain: 'games.example', company_name: 'Acme Games' }] } }) });
+  const result = await resolve(ctx);
+  assert.equal(result.status, 'confirmed');
+  assert.deepEqual(ctx.treg.calls.map(c => c.opts.query.company), ['ACME CORP', 'acme']);
+  assert.equal(result.evidence.queries.length, 2);
+  assert.ok(ctx.fetch.calls.every(c => !c.url.includes('games.example')));
+});
+
+test('lookup fallback: empty results retry at most once, errors do not trigger fallback, and first-word aliases are not guessed', async () => {
+  const empty = context({ candidates: [] });
+  await resolve(empty); assert.equal(empty.treg.calls.length, 2);
+  const outage = context({ provider: () => ({ ok: false, status: 429, error: 'treg HTTP 429', cost_usd: 0 }) });
+  assert.equal((await resolve(outage)).status, 'error'); assert.equal(outage.treg.calls.length, 1);
+  const epic = context({ candidates: [{ domain: 'epicgames.example', company_name: 'Epic Games' }] });
+  await resolveWebsite(epic, 'Epic Systems Corporation', [site], new WebsiteHttp(epic));
+  assert.deepEqual(epic.treg.calls.map(c => c.opts.query.company), ['Epic Systems Corporation', 'epic systems']);
+  assert.equal(epic.fetch.calls.length, 0);
+});
+
+test('careers navigation: ranks the main landing page above saved jobs, accepts explicitly linked company subdomains, and caps depth', async () => {
+  const landing = '<html><title>Acme</title><a href="/careers/saved-jobs">Saved jobs</a><a href="https://corporate.acme.example/careers.html">Careers</a></html>';
+  assert.deepEqual(careersLinks(landing, 'https://acme.example/', 'acme.example'), ['https://corporate.acme.example/careers.html']);
+  const ctx = context({ pages: {
+    'https://acme.example/': landing,
+    'https://corporate.acme.example/careers.html': '<html><a href="https://jobs.acme.example/search">Search jobs</a></html>',
+    'https://jobs.acme.example/search': home(),
+  } });
+  assert.equal((await resolve(ctx)).status, 'confirmed');
+  const deep = context(); deep.fetch = fakeFetch([
+    { match: /\/robots.txt$/, respond: () => response(200, '') },
+    { match: /^https:\/\//, respond: url => html(`<html><title>Acme</title><a href="${url}careers/">Careers</a></html>`) },
+  ]);
+  assert.equal((await resolve(deep)).status, 'unresolved');
+  assert.equal(deep.fetch.calls.filter(c => !c.url.endsWith('/robots.txt')).length, 4, 'home plus at most three careers pages');
+});
+
+test('website access: ordinary reCAPTCHA form scripts are readable; actual access challenges remain blocked', async () => {
+  const ordinary = context({ pages: { 'https://acme.example/': home() + '<script src="https://www.recaptcha.net/recaptcha/api.js"></script>' } });
+  assert.equal((await resolve(ordinary)).status, 'confirmed');
+  for (const body of ['<html><title>Just a moment</title><div id="cf-chl-test"></div></html>', '<html>Verify you are human</html>']) {
+    assert.equal((await resolve(context({ pages: { 'https://acme.example/': body } }))).status, 'error');
+  }
+});
+
+test('website size: ordinary corporate pages above the old 512 KiB limit can be verified within the 2 MiB cap', async () => {
+  const ctx = context({ pages: { 'https://acme.example/': home() + '<!--' + 'x'.repeat(750000) + '-->' } });
+  assert.equal((await resolve(ctx)).status, 'confirmed');
+});
+
+test('website cache: a previous verifier version is rechecked even before its retry date', async () => {
+  const ctx = context(); const old = await resolve(ctx);
+  ctx.store.websites.set('acme', { ...old, status: 'error', domain: null, input_signature: 'old-verifier-signature' });
+  assert.equal((await resolve(ctx)).status, 'confirmed');
+  assert.equal(ctx.treg.calls.length, 2);
+});
+
+test('careers navigation: follows job search from the landing page before other homepage links; ignores unrelated job-news links', async () => {
+  const ctx = context({ pages: {
+    'https://acme.example/': '<title>Acme</title><a href="/news/expansion">Creating new jobs</a><a href="/careers">Careers</a><a href="/careers/life">Life here</a><a href="/careers/stories">Stories</a>',
+    'https://acme.example/careers': '<a href="https://jobs.acme.example/search?icmp=nav">Search jobs</a>',
+    'https://jobs.acme.example/search': home(),
+  } });
+  assert.equal((await resolve(ctx)).status, 'confirmed');
+  assert.ok(ctx.fetch.calls.some(c => c.url === 'https://jobs.acme.example/search'));
+  assert.ok(ctx.fetch.calls.every(c => !c.url.includes('/news/expansion') && !c.url.includes('/careers/life')));
+});
+
+test('lookup fallback: short normalized names do not violate the provider three-character minimum', async () => {
+  const ctx = context({ candidates: [] });
+  assert.equal((await resolveWebsite(ctx, 'GE CORP', [site], new WebsiteHttp(ctx))).status, 'unresolved');
+  assert.equal(ctx.treg.calls.length, 1);
 });

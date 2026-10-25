@@ -2,6 +2,7 @@
 // Recorded responses live in tests/fixtures/ingestion (real Workday/SEC bodies, no secrets). Tenants other than
 // nvidia/target are synthetic copies of the recorded bodies with the tenant name replaced; their names are fictional.
 import { readFileSync } from 'node:fs';
+import { normalizeName } from '../../src/domain/ingestion/normalize.ts';
 import { MemoryStore } from '../../src/pipeline/store/memory.ts';
 import { LedgerSpendGuard } from '../../src/pipeline/ledger.ts';
 
@@ -149,7 +150,7 @@ export function worldTreg(opts = {}) {
   return fakeTreg({
     'hunter.x.domain-finder': ({ query }) => {
       const tenant = worldTenant(query.company);
-      if (opts.unconfirmed?.includes(query.company)) return { ok: true, status: 200, body: { data: [{ domain: `other-${tenant}.example`, company_name: 'Somebody Else' }] }, cost_usd: 0, call_id: 'c' };
+      if (opts.unconfirmed?.some(name => normalizeName(name) === normalizeName(query.company))) return { ok: true, status: 200, body: { data: [{ domain: `other-${tenant}.example`, company_name: 'Somebody Else' }] }, cost_usd: 0, call_id: 'c' };
       return { ok: true, status: 200, body: { data: [{ domain: `${tenant}.example`, company_name: query.company.replace(/ (Inc|Corp|Co|Ltd|Group|Holdings)$/, '') }] }, cost_usd: 0, call_id: 'c' };
     },
     'quickenrich.people.search': () => ({ ok: true, status: 200, body: { data: [

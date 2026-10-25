@@ -3,13 +3,15 @@ import { lookup } from "node:dns/promises";
 import { isIP } from "node:net";
 import { createHash } from "node:crypto";
 import { normalizeDomain, normalizeName } from "../domain/ingestion/normalize.ts";
+import { htmlToText } from "../domain/ingestion/quote.ts";
 import { parseRobots, robotsAllows } from "./http.ts";
 import type { PipelineContext, WebsiteResolution, WorkdaySite } from "./types.ts";
 
-export const WEBSITE_VERSION = 1;
+export const WEBSITE_VERSION = 5;
 export const WEBSITE_LIMIT = 50;
 const DAY = 86400000;
-const MAX_BODY = 512 * 1024;
+export const MAX_WEBSITE_BODY = 2 * 1024 * 1024;
+const MAX_ROBOTS_BODY = 512 * 1024;
 
 // Candidate URLs and every redirect are checked before fetching. IPs and private DNS answers are refused.
 export function publicAddress(address: string): boolean {
@@ -33,7 +35,7 @@ export class WebsiteHttp {
   private ctx: PipelineContext;
   private maxRequests: number;
   constructor(ctx: PipelineContext, maxRequests = 300) { this.ctx = ctx; this.maxRequests = maxRequests; }
-  private async read(url: URL): Promise<{ status: number; body: string; location: string | null; type: string }> {
+  private async read(url: URL, maxBody = MAX_WEBSITE_BODY): Promise<{ status: number; body: string; location: string | null; type: string }> {
     const addresses = await (this.ctx.lookupHost ?? (host => lookup(host, { all: true })))(url.hostname);
     if (!addresses.length || addresses.some(a => !publicAddress(a.address))) throw Error("website resolves to a non-public address");
     if (this.requests >= this.maxRequests) throw Error("website request cap reached");
@@ -47,27 +49,47 @@ export class WebsiteHttp {
       const reader = res.body?.getReader();
       const chunks: Uint8Array[] = []; let bytes = 0;
       if (reader) try {
-        while (true) { const { done, value } = await reader.read(); if (done) break; bytes += value.length; if (bytes > MAX_BODY) throw Error("website response exceeds size limit"); chunks.push(value); }
+        while (true) { const { done, value } = await reader.read(); if (done) break; bytes += value.length; if (bytes > maxBody) throw Error("website response exceeds size limit"); chunks.push(value); }
       } finally { void reader.cancel().catch(() => {}); }
       return { status: res.status, body: Buffer.concat(chunks).toString("utf8"), location: res.headers.get("location"), type: res.headers.get("content-type") ?? "" };
     } finally { clearTimeout(timer); }
+  }
+  // Redirected robots rules govern the original origin. Fetching robots itself does not recurse
+  // through robots checks; every redirect still goes through URL, DNS, size and request limits.
+  private async readRobots(origin: string): Promise<string> {
+    let url = safeUrl(new URL("/robots.txt", origin).href);
+    const visited = new Set<string>();
+    for (let hop = 0; hop <= 3; hop++) {
+      if (visited.has(url.href)) throw Error("website robots redirect loop");
+      visited.add(url.href);
+      const res = await this.read(url, MAX_ROBOTS_BODY);
+      if ([301, 302, 303, 307, 308].includes(res.status) && res.location) {
+        url = safeUrl(new URL(res.location, url).href);
+        continue;
+      }
+      if (res.status === 404 || res.status === 410) return "";
+      if (res.status === 200 && !/<html|captcha|cf-chl-/i.test(res.body)) return res.body;
+      throw Error(`website robots unavailable: HTTP ${res.status}`);
+    }
+    throw Error("website robots redirect limit reached");
   }
   async page(value: string): Promise<{ url: string; html: string }> {
     let url = safeUrl(value);
     for (let hop = 0; hop <= 3; hop++) {
       let robots = this.robots.get(url.origin);
       if (robots === undefined) {
-        const res = await this.read(new URL("/robots.txt", url));
-        if (res.status === 404 || res.status === 410) robots = "";
-        else if (res.status === 200 && !/<html|captcha|cf-chl-/i.test(res.body)) robots = res.body;
-        else throw Error(`website robots unavailable: HTTP ${res.status}`);
+        robots = await this.readRobots(url.origin);
         this.robots.set(url.origin, robots);
       }
       if (!robotsAllows(parseRobots(robots, "mando-cube-ingestion"), url.pathname + url.search)) throw Error("website disallowed by robots.txt");
       const res = await this.read(url);
       if (res.status >= 300 && res.status < 400 && res.location) { url = safeUrl(new URL(res.location, url).href); continue; }
       if (res.status !== 200) throw Error(`website HTTP ${res.status}`);
-      if (!/text\/html|application\/xhtml\+xml/i.test(res.type) || /captcha|cf-chl-|challenge-platform|verify you are human/i.test(res.body.slice(0, 20000))) throw Error("website is not readable HTML");
+      const head = res.body.slice(0, 20000);
+      // A normal careers page can load reCAPTCHA for an application form. That is not itself
+      // an access challenge; actual challenge markup/messages still stop verification.
+      const challenge = /cf-chl-|challenge-platform|verify you are human|<title[^>]*>\s*(captcha|just a moment|access denied)/i.test(head) || /^captcha\b/i.test(htmlToText(head));
+      if (!/text\/html|application\/xhtml\+xml/i.test(res.type) || challenge) throw Error("website is not readable HTML");
       return { url: url.href, html: res.body };
     }
     throw Error("website redirect limit reached");
@@ -83,6 +105,26 @@ export function links(html: string, base: string): { url: URL; label: string }[]
     try { const url = new URL(href, base); if (url.protocol === "https:") out.push({ url, label: decode(match[2].replace(/<[^>]+>/g, " ")).trim() }); } catch { /* not a URL */ }
   }
   return out;
+}
+// Prefer the main careers landing page over account tools and saved jobs. Only explicitly linked
+// pages on the verified company's hostname/subdomains can corroborate its Workday site.
+export function careersLinks(html: string, base: string, companyHost: string): string[] {
+  const host = normalizeDomain(companyHost)!;
+  const scored = links(html, base).flatMap(({ url, label }) => {
+    const other = normalizeDomain(url.hostname);
+    if (!other || !(other === host || other.endsWith(`.${host}`)) || url.href === base || /saved.jobs|job.alerts|sign.?in|log.?in|register|privacy|cookies|accessibility/i.test(`${url.pathname} ${label}`)) return [];
+    const careerPath = /careers?|jobs/i.test(`${url.hostname} ${url.pathname}`);
+    const careerAction = /^(careers?|jobs|join (our|the) team|(?:find|search|view|see|explore|browse)(?: all| our| available| open)? (?:jobs|positions|opportunities)|open positions)$/i.test(label.trim());
+    if (!careerPath && !careerAction) return [];
+    const score = (/^(careers?|jobs|join (our|the) team)$/i.test(label.trim()) ? 100 : 0)
+      + (/\/(careers?|jobs)(?:\.html)?\/?$/i.test(url.pathname) ? 50 : 0)
+      + (/search|find.*job|open.*position|view.*job/i.test(`${label} ${url.pathname}`) ? 20 : 0)
+      - url.pathname.split("/").filter(Boolean).length;
+    url.hash = "";
+    for (const key of [...url.searchParams.keys()]) if (/^utm_|^(icmp|cmp|ref)$/i.test(key)) url.searchParams.delete(key);
+    return [{ href: url.href, score }];
+  }).sort((a, b) => b.score - a.score);
+  return [...new Set(scored.map(row => row.href))];
 }
 export function pageIdentity(html: string, name: string): string | null {
   const target = normalizeName(name); if (!target) return null;
@@ -113,13 +155,25 @@ export async function resolveWebsite(ctx: PipelineContext, name: string, sites: 
   if (!ctx.treg) return { ...base, reason: "Treg is not configured" }; // do not cache disabled configuration
   if (!sites.length) { if (!dryRun) await ctx.store.saveWebsiteResolution(base); return base; }
   try {
-    const res = await ctx.treg.call("hunter.x.domain-finder", { query: { company: name.replace(/\s*\/[A-Z]{2}\/?\s*$/, "").trim(), limit: 3 }, headers: { "X-Treg-Route-Max-Cost": "0", "X-Treg-Route-Waterfall": "0" }, timeoutMs: 15000 });
-    if (res.cost_usd > 0) await ctx.spend.record({ provider: "treg", endpoint: "hunter.x.domain-finder", step: "domain", subject: name, idempotency_key: "", worst_case_usd: 0, cost_usd: res.cost_usd, outcome: "unexpected charge on a free endpoint" });
-    if (!Number.isFinite(res.cost_usd) || res.cost_usd !== 0) throw Error("domain lookup did not report a zero charge");
-    if (!res.ok) throw Error(res.error);
-    const data = (res.body as { data?: unknown })?.data;
-    if (!Array.isArray(data) || data.some(row => !row || typeof row !== "object" || typeof row.domain !== "string" || typeof row.company_name !== "string")) throw Error("domain lookup returned malformed data");
-    const candidates = data.slice(0, 3) as { domain: string; company_name: string }[];
+    const query = name.replace(/\s*\/[A-Z]{2}\/?\s*$/, "").trim();
+    const fetchCandidates = async (company: string): Promise<{ domain: string; company_name: string }[]> => {
+      const res = await ctx.treg!.call("hunter.x.domain-finder", { query: { company, limit: 3 }, headers: { "X-Treg-Route-Max-Cost": "0", "X-Treg-Route-Waterfall": "0" }, timeoutMs: 15000 });
+      if (res.cost_usd > 0) await ctx.spend.record({ provider: "treg", endpoint: "hunter.x.domain-finder", step: "domain", subject: name, idempotency_key: "", worst_case_usd: 0, cost_usd: res.cost_usd, outcome: "unexpected charge on a free endpoint" });
+      if (!Number.isFinite(res.cost_usd) || res.cost_usd !== 0) throw Error("domain lookup did not report a zero charge");
+      if (!res.ok) throw Error(res.error);
+      const data = (res.body as { data?: unknown })?.data;
+      if (!Array.isArray(data) || data.some(row => !row || typeof row !== "object" || typeof row.domain !== "string" || typeof row.company_name !== "string")) throw Error("domain lookup returned malformed data");
+      // Preserve only the public identity fields used for matching.
+      const rows = data.slice(0, 3).map(row => ({ domain: row.domain as string, company_name: row.company_name as string }));
+      (base.evidence.queries ??= []).push({ company, candidates: rows });
+      return rows;
+    };
+    const candidates = await fetchCandidates(query);
+    // Legal names can yield unrelated results (e.g. ASML HOLDING NV). Retry the full normalized
+    // identity once; never shorten to an arbitrary first word or loosen the confirmation rules.
+    if (!candidates.some(row => normalizeName(row.company_name) === normalized && normalizeDomain(row.domain)) && normalized.length >= 3 && normalized !== query.toLowerCase()) {
+      candidates.push(...await fetchCandidates(normalized));
+    }
     base.evidence.candidates = candidates;
     const confirmed = new Set<string>(); let failures = 0;
     for (const candidate of candidates) {
@@ -131,9 +185,21 @@ export async function resolveWebsite(ctx: PipelineContext, name: string, sites: 
         const identity = pageIdentity(home.html, name);
         if (!identity) { base.evidence.checks.push({ domain, url: home.url, reason: "no exact company identity in page metadata" }); continue; }
         let proof = workdayLink(home.html, home.url, sites); let proofUrl = home.url;
-        if (!proof) {
-          const career = links(home.html, home.url).find(link => normalizeDomain(link.url.hostname) === normalizeDomain(new URL(home.url).hostname) && /careers?|jobs|join (our|the) team/i.test(`${link.label} ${link.url.pathname}`));
-          if (career && career.url.href !== home.url) { const page = await http.page(career.url.href); if (normalizeDomain(new URL(page.url).hostname) === normalizeDomain(new URL(home.url).hostname)) { proof = workdayLink(page.html, page.url, sites); proofUrl = page.url; } }
+        const homeHost = normalizeDomain(new URL(home.url).hostname)!;
+        const queue = careersLinks(home.html, home.url, homeHost);
+        const visited = new Set([home.url]);
+        // Up to three explicitly linked careers pages, including a job-search page linked from
+        // the landing page. No general crawler, search engine, rendering or arbitrary URL guessing.
+        for (let followed = 0; !proof && queue.length && followed < 3; followed++) {
+          const next = queue.shift()!;
+          if (visited.has(next)) { followed--; continue; }
+          visited.add(next);
+          const page = await http.page(next);
+          visited.add(page.url);
+          const pageHost = normalizeDomain(new URL(page.url).hostname)!;
+          if (pageHost !== homeHost && !pageHost.endsWith(`.${homeHost}`)) continue;
+          proof = workdayLink(page.html, page.url, sites); proofUrl = page.url;
+          queue.unshift(...careersLinks(page.html, page.url, homeHost).filter(url => !visited.has(url)));
         }
         base.evidence.checks.push({ domain, url: proofUrl, identity, workday_url: proof, reason: proof ? "company identity and reciprocal Workday career link" : "no reciprocal link to observed Workday career site" });
         if (proof) confirmed.add(normalizeDomain(new URL(home.url).hostname)!);

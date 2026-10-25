@@ -78,7 +78,7 @@ Apply `202610250001_website_confirmation.sql` to the local database before runni
 The migration adds `website_resolutions` with service-role-only access and an atomic review-admission
 RPC. Production rollout is a separate step: the Supabase integration may deploy migrations merged to main.
 
-Treg's free `hunter.x.domain-finder` supplies up to three candidates. Both maximum route cost and waterfall
+Treg's free `hunter.x.domain-finder` supplies up to three candidates per query. If a legal-name query returns no usable exact-name candidates, one retry uses the complete normalized name (for example, `ASML HOLDING NV` → `asml`). Both query results are saved; unrelated names remain unconfirmed. Both maximum route cost and waterfall
 are set to zero, and successful HTTP/CLI responses must explicitly report a zero charge. There is no paid
 website-lookup fallback. This path does not use the contact-enrichment budget or an LLM.
 
@@ -86,19 +86,19 @@ A website is confirmed only when:
 
 1. Its provider name exactly matches the normalized candidate name (legal suffixes are ignored).
 2. Its homepage identifies that same company in its title, site-name metadata or structured Organization data.
-3. Its homepage, or one directly linked same-host careers page, links to an observed enabled Workday **tenant and site**.
+3. Its homepage, or a bounded path through explicitly linked careers pages on that company hostname/subdomains, links to an observed enabled Workday **tenant and site**.
 4. All corroborating candidates resolve to one canonical hostname. Conflicts or unreadable competing candidates stay unresolved.
 
-HTTPS redirects are limited and checked individually; robots rules apply at each destination. Fetches have
-time/size/request limits and reject IP/private-network targets. No browser rendering or access-control bypass
+HTTPS page and robots.txt redirects are limited to three hops and checked individually. Rules obtained through a robots redirect apply to the original origin; page redirects check the destination rules too. Loops, unsafe targets and genuine challenges remain failures. Fetches have
+time/size/request limits and reject IP/private-network targets. HTML is capped at 2 MiB, robots at 512 KiB. Up to three careers pages are followed, prioritizing the landing page and its job-search links over saved jobs or unrelated news. A normal reCAPTCHA form script is not treated as an access challenge. No browser rendering or access-control bypass
 is attempted. A homepage's HTTP 200, matching name alone or arbitrary body mention is insufficient.
 Aliases that redirect to the same verified hostname collapse together. A parent/subdomain relationship to an
 existing company goes to human review rather than creating another company or guessing a root domain.
 
-`website_resolutions` retains candidate domains/names, identity text, proof-page and Workday URLs,
+`website_resolutions` retains queries, candidate domains/names, identity text, proof-page and Workday URLs,
 reasons, timestamps and the input signature. Confirmations are reusable for 30 days; unresolved results
 retry after 7 days; transport/check errors retry after 1 day. A changed set of observed Workday sites
-invalidates the cache immediately. These intervals differ from the Workday discovery retry intervals above.
+invalidates the cache immediately; verifier version changes also invalidate older results. These intervals differ from the Workday discovery retry intervals above.
 At most 50 due candidates are evaluated per matching stage; website HTTP has a 300-request cap and the
 stage stops starting candidates after five minutes. Deferred work stays queued. Each request has a ten-second
 timeout; Treg lookup has a fifteen-second timeout. In-flight work may finish after the stage time threshold.
@@ -115,8 +115,8 @@ Website/provider errors appear in matching stage errors and therefore the CLI fa
 401/402/403/429 and nonzero/unknown charge responses stop further lookups for that stage. Other candidates
 can continue after an individual website failure. Ordinary unresolved/ambiguous results remain review work.
 
-This deliberately favors precision. Short brand aliases, JavaScript-only pages, redirects on robots.txt,
-third-party careers portals, inaccessible pages and companies without an observable reciprocal link may
+This deliberately favors precision. Short brand aliases, JavaScript-only pages,
+third-party careers portals outside the company domain, inaccessible pages and companies without an observable reciprocal link may
 require manual review. A small live local batch must measure coverage before production or scheduling.
 Other input sources can reuse the lookup; automatic confirmation currently requires an observed Workday site.
 
