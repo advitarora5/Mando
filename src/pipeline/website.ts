@@ -7,7 +7,7 @@ import { htmlToText } from "../domain/ingestion/quote.ts";
 import { parseRobots, robotsAllows } from "./http.ts";
 import type { PipelineContext, WebsiteResolution, WorkdaySite, EmployerWebsiteLink } from "./types.ts";
 
-export const WEBSITE_VERSION = 6;
+export const WEBSITE_VERSION = 7;
 export const WEBSITE_LIMIT = 50;
 const DAY = 86400000;
 export const MAX_WEBSITE_BODY = 2 * 1024 * 1024;
@@ -131,6 +131,15 @@ export function pageIdentity(html: string, name: string): string | null {
   const names: string[] = [];
   for (const match of html.matchAll(/<meta\b[^>]*>/gi)) if (/^(og:site_name|application-name)$/i.test(attr(match[0], "property") || attr(match[0], "name"))) names.push(attr(match[0], "content"));
   for (const match of html.matchAll(/<title\b[^>]*>([\s\S]*?)<\/title>/gi)) names.push(...decode(match[1]).split(/\s*[|–—]\s*|\s+-\s+/));
+  // Corporate pages often use a short brand in metadata and the full legal owner in
+  // their explicit copyright element. Require the whole owner, not a body mention.
+  const visible = html.replace(/<!--[\s\S]*?-->|<(script|style)\b[^>]*>[\s\S]*?<\/\1>/gi, " ");
+  for (const match of visible.matchAll(/<([a-z][\w-]*)\b(?=[^>]*copyright)([^>]*)>([\s\S]*?)<\/\1>/gi)) {
+    if (!/copyright/i.test(attr(match[2], "class") + " " + attr(match[2], "id"))) continue;
+    const text = htmlToText(match[3]).replace(/&copy;/gi, "©").trim();
+    const owner = text.match(/^(?:©|copyright\s*©?)\s*(?:\d{4}(?:\s*[-–]\s*\d{4})?\s*)?(.+?)(?:\s*[.|]?\s*all rights reserved\.?)?$/i)?.[1];
+    if (owner) names.push(owner.trim());
+  }
   // Only structured Organization identity, not arbitrary body mentions or a single distinctive word.
   for (const match of html.matchAll(/<script\b[^>]*type=["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/gi)) {
     try {
@@ -217,41 +226,74 @@ export async function resolveWebsite(ctx: PipelineContext, name: string, sites: 
     base.evidence.employer_links = refs.filter(ref => backed.some(row => { const domain = normalizeDomain(row.domain)!; return ref.domain === domain || ref.domain.endsWith(`.${domain}`); }));
     const ordered = [...backed, ...candidates.filter(row => !backed.includes(row))];
     const confirmed = new Set<string>(); let failures = 0;
-    for (const candidate of ordered) {
-      if (confirmed.size && backed.length && !backed.includes(candidate)) break;
-      if (normalizeName(candidate.company_name) !== normalized) continue;
-      const domain = normalizeDomain(candidate.domain); if (!domain || sharedPlatform(domain)) continue;
-      try {
-        safeUrl(candidate.domain.includes("://") ? candidate.domain : `https://${candidate.domain}/`);
-        const home = await http.page(`https://${domain}/`);
-        const identity = pageIdentity(home.html, name);
-        if (!identity) { base.evidence.checks.push({ domain, url: home.url, reason: "no exact company identity in page metadata" }); continue; }
-        const employerLink = backing(domain);
-        if (employerLink) {
-          base.evidence.checks.push({ domain, url: home.url, identity, employer_link: employerLink, reason: "company identity and corporate link from its observed Workday posting" });
-          confirmed.add(normalizeDomain(new URL(home.url).hostname)!);
-          continue;
-        }
-        let proof = workdayLink(home.html, home.url, sites); let proofUrl = home.url;
-        const homeHost = normalizeDomain(new URL(home.url).hostname)!;
-        const queue = careersLinks(home.html, home.url, homeHost);
-        const visited = new Set([home.url]);
-        // Up to three explicitly linked careers pages, including a job-search page linked from
-        // the landing page. No general crawler, search engine, rendering or arbitrary URL guessing.
-        for (let followed = 0; !proof && queue.length && followed < 3; followed++) {
-          const next = queue.shift()!;
-          if (visited.has(next)) { followed--; continue; }
-          visited.add(next);
-          const page = await http.page(next);
-          visited.add(page.url);
-          const pageHost = normalizeDomain(new URL(page.url).hostname)!;
-          if (pageHost !== homeHost && !pageHost.endsWith(`.${homeHost}`)) continue;
-          proof = workdayLink(page.html, page.url, sites); proofUrl = page.url;
-          queue.unshift(...careersLinks(page.html, page.url, homeHost).filter(url => !visited.has(url)));
-        }
-        base.evidence.checks.push({ domain, url: proofUrl, identity, workday_url: proof, reason: proof ? "company identity and reciprocal Workday career link" : "no reciprocal link to observed Workday career site" });
-        if (proof) confirmed.add(normalizeDomain(new URL(home.url).hostname)!);
-      } catch (error) { failures++; base.evidence.checks.push({ domain, reason: (error as Error).message }); }
+    const visitedDomains = new Set<string>();
+    const checkCandidates = async (rows: typeof candidates) => {
+      for (const candidate of rows) {
+        if (confirmed.size && backed.length && !backed.includes(candidate)) break;
+        if (normalizeName(candidate.company_name) !== normalized) continue;
+        const domain = normalizeDomain(candidate.domain); if (!domain || sharedPlatform(domain)) continue;
+        if (visitedDomains.has(domain)) continue;
+        visitedDomains.add(domain);
+        try {
+          safeUrl(candidate.domain.includes("://") ? candidate.domain : `https://${candidate.domain}/`);
+          const home = await http.page(`https://${domain}/`);
+          const identity = pageIdentity(home.html, name);
+          if (!identity) { base.evidence.checks.push({ domain, url: home.url, reason: "no exact company identity in page metadata" }); continue; }
+          const employerLink = backing(domain);
+          if (employerLink) {
+            base.evidence.checks.push({ domain, url: home.url, identity, employer_link: employerLink, reason: "company identity and corporate link from its observed Workday posting" });
+            confirmed.add(normalizeDomain(new URL(home.url).hostname)!);
+            continue;
+          }
+          let proof = workdayLink(home.html, home.url, sites); let proofUrl = home.url;
+          const homeHost = normalizeDomain(new URL(home.url).hostname)!;
+          const queue = careersLinks(home.html, home.url, homeHost);
+          const visited = new Set([home.url]);
+          // Up to three explicitly linked careers pages, including a job-search page linked from
+          // the landing page. No general crawler, search engine, rendering or arbitrary URL guessing.
+          for (let followed = 0; !proof && queue.length && followed < 3; followed++) {
+            const next = queue.shift()!;
+            if (visited.has(next)) { followed--; continue; }
+            visited.add(next);
+            const page = await http.page(next);
+            visited.add(page.url);
+            const pageHost = normalizeDomain(new URL(page.url).hostname)!;
+            if (pageHost !== homeHost && !pageHost.endsWith(`.${homeHost}`)) continue;
+            proof = workdayLink(page.html, page.url, sites); proofUrl = page.url;
+            queue.unshift(...careersLinks(page.html, page.url, homeHost).filter(url => !visited.has(url)));
+          }
+          base.evidence.checks.push({ domain, url: proofUrl, identity, workday_url: proof, reason: proof ? "company identity and reciprocal Workday career link" : "no reciprocal link to observed Workday career site" });
+          if (proof) confirmed.add(normalizeDomain(new URL(home.url).hostname)!);
+        } catch (error) { failures++; base.evidence.checks.push({ domain, reason: (error as Error).message }); }
+      }
+    };
+    await checkCandidates(ordered);
+    // A plausible provider label is not a successful lookup. Search is discovery only:
+    // titles/snippets never replace page identity or exact Workday corroboration.
+    if (!confirmed.size) {
+      const searchQuery = `${query} official corporate website careers`;
+      const res = await ctx.treg.call("tinyfish.web.search", { query: { query: searchQuery, domain_type: "web" }, headers: { "X-Treg-Route-Max-Cost": "0", "X-Treg-Route-Waterfall": "0" }, timeoutMs: 15000 });
+      if (res.cost_usd > 0) await ctx.spend.record({ provider: "treg", endpoint: "tinyfish.web.search", step: "domain", subject: name, idempotency_key: "", worst_case_usd: 0, cost_usd: res.cost_usd, outcome: "unexpected charge on a free endpoint" });
+      if (!Number.isFinite(res.cost_usd) || res.cost_usd !== 0) throw Error("website search did not report a zero charge");
+      if (!res.ok) throw Error(res.error);
+      const results = (res.body as { results?: unknown })?.results;
+      if (!Array.isArray(results) || results.some(row => !row || typeof row !== "object" || typeof row.url !== "string" || typeof row.title !== "string")) throw Error("website search returned malformed data");
+      const searchRows: { url: string; title: string; domain: string }[] = [];
+      for (const row of results.slice(0, 10)) {
+        try {
+          const url = safeUrl(row.url), domain = normalizeDomain(url.hostname)!;
+          if (sharedPlatform(domain) || searchRows.some(r => r.domain === domain)) continue;
+          url.search = ""; url.hash = "";
+          searchRows.push({ url: url.href, title: row.title.slice(0, 300), domain });
+        } catch { /* unsafe search results are not fetched */ }
+      }
+      // Prefer a parent hostname only when it also appears explicitly in the results.
+      // Never guess registrable domains by stripping subdomains or country suffixes.
+      const selected = searchRows.filter(row => !searchRows.some(other => row.domain.endsWith(`.${other.domain}`))).slice(0, 3);
+      base.evidence.search = { provider: "tinyfish.web.search", query: searchQuery, results: selected };
+      const extra = selected.map(row => ({ domain: row.domain, company_name: name }));
+      base.evidence.candidates.push(...extra);
+      await checkCandidates(extra);
     }
     // An unreadable competing candidate can conceal a second valid identity; don't pick a winner.
     if (confirmed.size === 1 && failures === 0) { base.domain = [...confirmed][0]; base.status = "confirmed"; base.reason = base.evidence.checks.some(check => check.employer_link) ? "independent company identity and corporate link from observed Workday posting" : "independent company identity and reciprocal Workday career link"; base.next_check_at = new Date(+checked + 30 * DAY).toISOString(); }

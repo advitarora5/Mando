@@ -118,7 +118,7 @@ export type WebsiteResolution = {
   input_signature: string;
   checked_at: string;
   next_check_at: string;
-  evidence: { employer_links?: EmployerWebsiteLink[]; queries?: { company: string; candidates: { domain: string; company_name: string }[] }[]; candidates: { domain: string; company_name: string }[]; checks: { domain: string; url?: string; identity?: string; workday_url?: string | null; employer_link?: EmployerWebsiteLink; reason: string }[] };
+  evidence: { search?: { provider: string; query: string; results: { url: string; title: string; domain: string }[] }; employer_links?: EmployerWebsiteLink[]; queries?: { company: string; candidates: { domain: string; company_name: string }[] }[]; candidates: { domain: string; company_name: string }[]; checks: { domain: string; url?: string; identity?: string; workday_url?: string | null; employer_link?: EmployerWebsiteLink; reason: string }[] };
 };
 
 export type WorkdaySite = {

@@ -1,7 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { WebsiteHttp, resolveWebsite, pageIdentity, publicAddress, MAX_WEBSITE_BODY, careersLinks } from '../../src/pipeline/website.ts';
-import { HttpTreg } from '../../src/pipeline/treg.ts';
+import { HttpTreg, CliTreg } from '../../src/pipeline/treg.ts';
 import { matchStage, scoreStage } from '../../src/pipeline/stages.ts';
 import { runPipeline } from '../../src/pipeline/runner.ts';
 import { decideMatch } from '../../src/domain/ingestion/matching.ts';
@@ -11,12 +11,12 @@ const site = { id: 'site', tenant: 'acme', pod: 'wd5', site: 'External', normali
 const workday = 'https://acme.wd5.myworkdayjobs.com/en-US/External';
 const home = (title = 'Acme', link = workday) => `<html><title>${title}</title><a href="${link}">Careers</a></html>`;
 const html = body => response(200, body, { 'content-type': 'text/html' });
-function context({ candidates = [{ domain: 'acme.example', company_name: 'Acme' }], pages = {}, robots = 'User-agent: *\nAllow: /', provider, now = clock() } = {}) {
+function context({ candidates = [{ domain: 'acme.example', company_name: 'Acme' }], pages = {}, robots = 'User-agent: *\nAllow: /', provider, search = () => ({ ok: true, status: 200, cost_usd: 0, body: { results: [] } }), now = clock() } = {}) {
   const fetch = fakeFetch([
     { match: /\/robots\.txt$/, respond: () => response(200, robots) },
     { match: /^https:\/\//, respond: url => pages[url] instanceof Response ? pages[url].clone() : html(pages[url] ?? home()) },
   ]);
-  const treg = fakeTreg({ 'hunter.x.domain-finder': provider ?? (() => ({ ok: true, status: 200, cost_usd: 0, call_id: 'free', body: { data: candidates } })) });
+  const treg = fakeTreg({ 'hunter.x.domain-finder': provider ?? (() => ({ ok: true, status: 200, cost_usd: 0, call_id: 'free', body: { data: candidates } })), 'tinyfish.web.search': search });
   return makeCtx({ fetch, treg, now });
 }
 const resolve = ctx => resolveWebsite(ctx, 'ACME CORP', [site], new WebsiteHttp(ctx));
@@ -82,10 +82,10 @@ test('website: blocked, oversized, non-HTML, network and robots-denied pages sta
 test('website: empty success retries in seven days; new observed site evidence invalidates the cache immediately', async () => {
   const ctx = context({ candidates: [] });
   assert.equal((await resolve(ctx)).status, 'unresolved');
-  await resolve(ctx); assert.equal(ctx.treg.calls.length, 2);
-  ctx.now.advanceDays(7); await resolve(ctx); assert.equal(ctx.treg.calls.length, 4);
+  await resolve(ctx); assert.equal(ctx.treg.calls.length, 3);
+  ctx.now.advanceDays(7); await resolve(ctx); assert.equal(ctx.treg.calls.length, 6);
   await resolveWebsite(ctx, 'ACME CORP', [{ ...site, site: 'NewSite' }], new WebsiteHttp(ctx));
-  assert.equal(ctx.treg.calls.length, 6);
+  assert.equal(ctx.treg.calls.length, 9);
 });
 
 test('website: disabled transport is not cached; provider outages/malformed replies/positive charges do not become empty successes', async () => {
@@ -119,12 +119,67 @@ test('website: dry run can evaluate evidence without saving a resolution', async
 test('website: identity uses structured organization or exact metadata, not fuzzy name fragments', () => {
   assert.equal(pageIdentity('<title>Epic Games</title>', 'Epic Systems Corporation'), null);
   assert.equal(pageIdentity('<script type="application/ld+json">{"@type":"Organization","legalName":"Acme Corporation"}</script>', 'ACME CORP'), 'Acme Corporation');
+  assert.equal(pageIdentity('<html><title>Brand</title><footer><div class="footer__copyright">&copy;&nbsp;<span>2026</span> Acme Corporation</div></footer></html>', 'ACME CORP'), 'Acme Corporation');
+  assert.equal(pageIdentity('<div class="copyright">© 2026 Acme Games</div>', 'Acme Systems'), null);
+  assert.equal(pageIdentity('<p>Our customer Acme Corporation</p><!-- <div class="copyright">© Acme Corporation</div> -->', 'Acme Corporation'), null);
 });
 
-test('domain HTTP transport: missing/malformed/positive charge metadata fails closed; explicit zero succeeds', async () => {
-  for (const [header, expected] of [[undefined, false], ['nonsense', false], ['', false], ['10', false], ['0', true]]) {
+test('free website HTTP transports: missing/malformed/positive charge metadata fails closed; explicit zero succeeds', async () => {
+  for (const endpoint of ['hunter.x.domain-finder', 'tinyfish.web.search']) for (const [header, expected] of [[undefined, false], ['nonsense', false], ['', false], ['10', false], ['0', true]]) {
     const client = new HttpTreg('fixture-key', 'cube', async () => response(200, { data: [] }, header === undefined ? {} : { 'x-treg-cost-micro': header }));
-    assert.equal((await client.call('hunter.x.domain-finder', {})).ok, expected);
+    assert.equal((await client.call(endpoint, {})).ok, expected);
+  }
+});
+
+test('free website CLI transport: search must explicitly report zero charge', async () => {
+  for (const charge of [undefined, null, '0', 1, 0]) {
+    const client = new CliTreg((_file, _args, _opts, done) => done(null, JSON.stringify({ result: { results: [] }, _treg: { http_status: 200, charged_micro: charge } }), ''));
+    assert.equal((await client.call('tinyfish.web.search', {})).ok, charge === 0);
+  }
+});
+
+const searchResult = results => () => ({ ok: true, status: 200, cost_usd: 0, body: { results } });
+test('web search fallback: correctly labeled but unverified provider suggestions trigger a different free provider', async () => {
+  const ctx = context({ candidates: [{ domain: 'wrong.example', company_name: 'Acme' }], pages: { 'https://wrong.example/': '<title>Unrelated Company</title>' }, search: searchResult([{ url: 'https://acme.example/about?utm_source=search', title: 'Acme official website' }]) });
+  const result = await resolve(ctx);
+  assert.equal(result.status, 'confirmed'); assert.equal(result.domain, 'acme.example');
+  assert.equal(ctx.treg.calls.length, 2);
+  assert.equal(ctx.treg.calls[1].endpoint, 'tinyfish.web.search');
+  assert.deepEqual(ctx.treg.calls[1].opts.headers, { 'X-Treg-Route-Max-Cost': '0', 'X-Treg-Route-Waterfall': '0' });
+  assert.equal(result.evidence.search.results[0].url, 'https://acme.example/about');
+  await resolve(ctx); assert.equal(ctx.treg.calls.length, 2);
+});
+
+test('web search fallback: a result title cannot confirm identity or replace Workday corroboration', async () => {
+  for (const page of ['<title>Different Company</title>', '<title>Acme</title>']) {
+    const ctx = context({ candidates: [], pages: { 'https://acme.example/': page }, search: searchResult([{ url: 'https://acme.example/', title: 'Acme official Workday careers' }]) });
+    assert.equal((await resolve(ctx)).status, 'unresolved');
+  }
+});
+
+test('web search fallback: safe distinct candidates are capped, explicit parents preferred, and snippets are never crawled', async () => {
+  const rows = [
+    { url: 'http://unsafe.example/', title: 'Acme' }, { url: 'https://127.0.0.1/', title: 'Acme' },
+    { url: 'https://linkedin.com/company/acme', title: 'Acme' },
+    { url: 'https://jobs.acme.example/', title: 'Acme jobs' }, { url: 'https://acme.example/', title: 'Acme' },
+    ...['one', 'two', 'three', 'four'].map(s => ({ url: `https://${s}.example/`, title: 'Acme' })),
+  ];
+  const ctx = context({ candidates: [], pages: Object.fromEntries(['acme', 'one', 'two', 'three', 'four'].map(s => [`https://${s}.example/`, '<title>Different Company</title>'])), search: searchResult(rows) });
+  const result = await resolve(ctx);
+  assert.equal(result.status, 'unresolved');
+  assert.deepEqual(result.evidence.search.results.map(r => r.domain), ['acme.example', 'one.example', 'two.example']);
+  assert.ok(ctx.fetch.calls.every(c => !/127\.0\.0\.1|unsafe|linkedin|jobs\.acme|three\.|four\./.test(c.url)));
+});
+
+test('web search fallback: malformed responses, outages, and nonzero charges remain visible errors', async () => {
+  for (const result of [
+    { ok: true, status: 200, cost_usd: 0, body: { results: {} } },
+    { ok: false, status: 429, cost_usd: 0, error: 'treg HTTP 429' },
+    { ok: true, status: 200, cost_usd: 0.01, body: { results: [] } },
+  ]) {
+    const ctx = context({ candidates: [], search: () => result });
+    assert.equal((await resolve(ctx)).status, 'error');
+    assert.equal(ctx.treg.calls.filter(c => c.endpoint === 'tinyfish.web.search').length, 1);
   }
 });
 
@@ -253,14 +308,14 @@ test('lookup fallback: normalized full identity can recover legal-name misses wi
   assert.ok(ctx.fetch.calls.every(c => !c.url.includes('games.example')));
 });
 
-test('lookup fallback: empty results retry at most once, errors do not trigger fallback, and first-word aliases are not guessed', async () => {
+test('lookup fallback: empty domain results retry once before search, provider errors stop, and first-word aliases are not guessed', async () => {
   const empty = context({ candidates: [] });
-  await resolve(empty); assert.equal(empty.treg.calls.length, 2);
+  await resolve(empty); assert.equal(empty.treg.calls.length, 3);
   const outage = context({ provider: () => ({ ok: false, status: 429, error: 'treg HTTP 429', cost_usd: 0 }) });
   assert.equal((await resolve(outage)).status, 'error'); assert.equal(outage.treg.calls.length, 1);
   const epic = context({ candidates: [{ domain: 'epicgames.example', company_name: 'Epic Games' }] });
   await resolveWebsite(epic, 'Epic Systems Corporation', [site], new WebsiteHttp(epic));
-  assert.deepEqual(epic.treg.calls.map(c => c.opts.query.company), ['Epic Systems Corporation', 'epic systems']);
+  assert.deepEqual(epic.treg.calls.filter(c => c.endpoint === 'hunter.x.domain-finder').map(c => c.opts.query.company), ['Epic Systems Corporation', 'epic systems']);
   assert.equal(epic.fetch.calls.length, 0);
 });
 
@@ -315,7 +370,7 @@ test('careers navigation: follows job search from the landing page before other 
 test('lookup fallback: short normalized names do not violate the provider three-character minimum', async () => {
   const ctx = context({ candidates: [] });
   assert.equal((await resolveWebsite(ctx, 'GE CORP', [site], new WebsiteHttp(ctx))).status, 'unresolved');
-  assert.equal(ctx.treg.calls.length, 1);
+  assert.equal(ctx.treg.calls.filter(c => c.endpoint === 'hunter.x.domain-finder').length, 1);
 });
 
 async function employerCapture(ctx, { domain = 'acme.example', source = 'https://acme.wd5.myworkdayjobs.com/wday/cxs/acme/External/job/role', name = 'acme', fetched = ctx.now().toISOString(), field = 'description', description } = {}) {
@@ -362,7 +417,7 @@ test('employer website: newly collected job evidence invalidates an unresolved c
   assert.equal((await resolve(ctx)).status, 'unresolved');
   await employerCapture(ctx);
   assert.equal((await resolve(ctx)).status, 'confirmed');
-  assert.equal(ctx.treg.calls.length, 2);
+  assert.equal(ctx.treg.calls.length, 3);
 });
 
 test('employer website: two independently verified and source-backed domains remain ambiguous', async () => {

@@ -80,12 +80,18 @@ RPC. Production rollout is a separate step: the Supabase integration may deploy 
 
 Treg's free `hunter.x.domain-finder` supplies up to three candidates per query. If a legal-name query returns no usable exact-name candidates, one retry uses the complete normalized name (for example, `ASML HOLDING NV` → `asml`). Both query results are saved; unrelated names remain unconfirmed. Both maximum route cost and waterfall
 are set to zero, and successful HTTP/CLI responses must explicitly report a zero charge. There is no paid
-website-lookup fallback. This path does not use the contact-enrichment budget or an LLM.
+website-lookup fallback. If none of those candidates passes confirmation, one `tinyfish.web.search`
+request searches the full company name plus “official corporate website careers.” This is a different
+provider accessed through the existing Treg transport. It also requires an explicit zero charge and
+disables paid fallback. At most ten search rows are inspected and three safe distinct hostnames
+checked; explicit parent hostnames are preferred over their subdomains only when both occur in the
+results. Search queries, selected URLs and titles are retained as candidate provenance. Titles and
+snippets are not confirmation evidence. This path does not use the contact-enrichment budget or an LLM.
 
 A website is confirmed only when:
 
-1. Its provider name exactly matches the normalized candidate name (legal suffixes are ignored).
-2. Its homepage identifies that same company in its title, site-name metadata or structured Organization data.
+1. For Hunter candidates, the provider name exactly matches the normalized candidate name (legal suffixes are ignored). Search results only supply candidates and must pass the following independent checks.
+2. Its homepage identifies that same company in its title, site-name metadata, structured Organization data, or an explicit copyright element naming the complete legal owner. Arbitrary body mentions and first-word brand guesses are insufficient.
 3. Either its homepage/careers pages link to the observed enabled Workday **tenant and site**, or a stored job from that exact tenant/site explicitly links to the candidate website through `hiringOrganization.url` or an anchor in `jobPostingInfo.jobDescription`. The candidate homepage must still identify the company independently.
 4. Corroboration resolves to one canonical hostname. Candidates backed by explicit employer links are checked first; uniquely verified employer-backed identity avoids speculative checks of unrelated provider alternatives. Multiple verified websites or unreadable competing employer-backed candidates stay unresolved.
 
