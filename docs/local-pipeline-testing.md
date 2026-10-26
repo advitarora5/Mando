@@ -46,6 +46,21 @@ npm run pipeline -- health
 
 ## Production transition
 
+For a bounded local discovery/admission/scoring measurement, use the reusable runner:
+
+```bash
+npm run pipeline:benchmark -- --minutes 20 --limit 3 --max-new 25
+```
+
+It requires local Supabase and zero paid budget, disables contact enrichment/LLM, excludes existing
+companies and old diagnostic queues, and uses the saved SEC snapshot plus live Workday/website calls.
+Each discovery batch is capped at 60 probes. New postings are extracted before matching, then only
+companies added during the benchmark are scored. The duration is a soft discovery window: the
+current bounded batch finishes before final verification, so actual runtime can exceed the target.
+Database run logs and private `var/benchmarks/<timestamp>/summary.json` retain results; no per-run
+document is required. The summary includes actual elapsed time, admissions/hour, reviews, stage
+errors, spending, quote checks, and preservation checks against the existing dashboard rows.
+
 GitHub-hosted runners cannot reach the database on this laptop's `127.0.0.1`. The eventual production scheduler targets hosted production Supabase directly. CI's existing throwaway local database is for tests and does not retain discovered companies across runs.
 
 The Supabase GitHub integration currently displays deployment to production enabled for `main`. Review migration deployment behavior before merging database changes; production migration deployment and ingestion credentials are separate controls.
