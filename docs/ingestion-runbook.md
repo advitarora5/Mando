@@ -91,7 +91,7 @@ snippets are not confirmation evidence. This path does not use the contact-enric
 A website is confirmed only when:
 
 1. For Hunter candidates, the provider name exactly matches the normalized candidate name (legal suffixes are ignored). Search results only supply candidates and must pass the following independent checks.
-2. Its homepage identifies that same company in its title, site-name metadata, structured Organization data, or an explicit copyright element naming the complete legal owner. Arbitrary body mentions and first-word brand guesses are insufficient.
+2. Its homepage identifies that same company in its title, site-name metadata, structured `Organization` or `Corporation` data, or an explicit copyright element naming the complete legal owner. Arbitrary body mentions and first-word brand guesses are insufficient.
 3. Either its homepage/careers pages link to the observed enabled Workday **tenant and site**, or a stored job from that exact tenant/site explicitly links to the candidate website through `hiringOrganization.url` or an anchor in `jobPostingInfo.jobDescription`. The candidate homepage must still identify the company independently.
 4. Corroboration resolves to one canonical hostname. Candidates backed by explicit employer links are checked first; uniquely verified employer-backed identity avoids speculative checks of unrelated provider alternatives. Multiple verified websites or unreadable competing employer-backed candidates stay unresolved.
 

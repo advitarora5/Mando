@@ -124,6 +124,18 @@ test('website: identity uses structured organization or exact metadata, not fuzz
   assert.equal(pageIdentity('<p>Our customer Acme Corporation</p><!-- <div class="copyright">© Acme Corporation</div> -->', 'Acme Corporation'), null);
 });
 
+test('corporate identity: Abbott-style Corporation metadata counts with an exact company name', () => {
+  for (const data of [
+    { '@type': 'Corporation', name: 'Abbott Laboratories' },
+    { '@graph': [{ '@type': ['Thing', 'Corporation'], legalName: 'Abbott Laboratories' }] },
+  ]) assert.equal(pageIdentity(`<script type="application/ld+json">${JSON.stringify(data)}</script>`, 'ABBOTT LABORATORIES'), 'Abbott Laboratories');
+  for (const data of [
+    { '@type': 'Corporation', name: 'Abbott' },
+    { '@type': 'Corporation', name: 'Unrelated Laboratories' },
+    { '@type': 'Product', name: 'Abbott Laboratories' },
+  ]) assert.equal(pageIdentity(`<script type="application/ld+json">${JSON.stringify(data)}</script>`, 'ABBOTT LABORATORIES'), null);
+});
+
 test('free website HTTP transports: missing/malformed/positive charge metadata fails closed; explicit zero succeeds', async () => {
   for (const endpoint of ['hunter.x.domain-finder', 'tinyfish.web.search']) for (const [header, expected] of [[undefined, false], ['nonsense', false], ['', false], ['10', false], ['0', true]]) {
     const client = new HttpTreg('fixture-key', 'cube', async () => response(200, { data: [] }, header === undefined ? {} : { 'x-treg-cost-micro': header }));

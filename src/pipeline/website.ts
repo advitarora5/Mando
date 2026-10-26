@@ -7,7 +7,7 @@ import { htmlToText } from "../domain/ingestion/quote.ts";
 import { parseRobots, robotsAllows } from "./http.ts";
 import type { PipelineContext, WebsiteResolution, WorkdaySite, EmployerWebsiteLink } from "./types.ts";
 
-export const WEBSITE_VERSION = 7;
+export const WEBSITE_VERSION = 8;
 export const WEBSITE_LIMIT = 50;
 const DAY = 86400000;
 export const MAX_WEBSITE_BODY = 2 * 1024 * 1024;
@@ -140,10 +140,19 @@ export function pageIdentity(html: string, name: string): string | null {
     const owner = text.match(/^(?:©|copyright\s*©?)\s*(?:\d{4}(?:\s*[-–]\s*\d{4})?\s*)?(.+?)(?:\s*[.|]?\s*all rights reserved\.?)?$/i)?.[1];
     if (owner) names.push(owner.trim());
   }
-  // Only structured Organization identity, not arbitrary body mentions or a single distinctive word.
+  // Only structured Organization/Corporation identity, not arbitrary body mentions or name fragments.
   for (const match of html.matchAll(/<script\b[^>]*type=["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/gi)) {
     try {
-      const walk = (v: unknown, depth = 0) => { if (depth > 8 || !v || typeof v !== "object") return; if (Array.isArray(v)) { v.forEach(x => walk(x, depth + 1)); return; } const row = v as Record<string, unknown>; if ([row["@type"]].flat().includes("Organization")) for (const key of ["name", "legalName"]) if (typeof row[key] === "string") names.push(row[key]); if (row["@graph"]) walk(row["@graph"], depth + 1); }; walk(JSON.parse(match[1]));
+      const walk = (v: unknown, depth = 0) => {
+        if (depth > 8 || !v || typeof v !== "object") return;
+        if (Array.isArray(v)) { v.forEach(x => walk(x, depth + 1)); return; }
+        const row = v as Record<string, unknown>;
+        if ([row["@type"]].flat().some(type => type === "Organization" || type === "Corporation")) {
+          for (const key of ["name", "legalName"]) if (typeof row[key] === "string") names.push(row[key]);
+        }
+        if (row["@graph"]) walk(row["@graph"], depth + 1);
+      };
+      walk(JSON.parse(match[1]));
     } catch { /* broken structured data is not evidence */ }
   }
   return names.find(value => normalizeName(value.replace(/<[^>]+>/g, " ")) === target) ?? null;
