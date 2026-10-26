@@ -78,7 +78,13 @@ Apply the website migrations through `202610250002_employer_website_confirmation
 The migration adds `website_resolutions` with service-role-only access and an atomic review-admission
 RPC. Production rollout is a separate step: the Supabase integration may deploy migrations merged to main.
 
-Treg's free `hunter.x.domain-finder` supplies up to three candidates per query. If a legal-name query returns no usable exact-name candidates, one retry uses the complete normalized name (for example, `ASML HOLDING NV` → `asml`). Both query results are saved; unrelated names remain unconfirmed. Both maximum route cost and waterfall
+Website resolution first checks distinct domains explicitly linked from saved Workday postings,
+even if no lookup provider suggests them. A domain must independently identify the company;
+posting links alone are insufficient. At most five source domains are checked per candidate;
+additional source domains leave the result unresolved for review. A unique complete confirmation
+does not require Hunter or TinyFish to be configured or called.
+
+If no source domain confirms, Treg's free `hunter.x.domain-finder` supplies up to three candidates per query. If a legal-name query returns no usable exact-name candidates, one retry uses the complete normalized name (for example, `ASML HOLDING NV` → `asml`). Both query results are saved; unrelated names remain unconfirmed. Both maximum route cost and waterfall
 are set to zero, and successful HTTP/CLI responses must explicitly report a zero charge. There is no paid
 website-lookup fallback. If none of those candidates passes confirmation, one `tinyfish.web.search`
 request searches the full company name plus “official corporate website careers.” This is a different
@@ -90,10 +96,10 @@ snippets are not confirmation evidence. This path does not use the contact-enric
 
 A website is confirmed only when:
 
-1. For Hunter candidates, the provider name exactly matches the normalized candidate name (legal suffixes are ignored). Search results only supply candidates and must pass the following independent checks.
+1. For Hunter candidates, the provider name exactly matches the normalized candidate name (legal suffixes are ignored). Posting links and search results supply candidates independently of Hunter and must pass the following checks.
 2. Its homepage identifies that same company in its title, site-name metadata, structured `Organization` or `Corporation` data, or an explicit copyright element naming the complete legal owner. Arbitrary body mentions and first-word brand guesses are insufficient.
 3. Either its homepage/careers pages link to the observed enabled Workday **tenant and site**, or a stored job from that exact tenant/site explicitly links to the candidate website through `hiringOrganization.url` or an anchor in `jobPostingInfo.jobDescription`. The candidate homepage must still identify the company independently.
-4. Corroboration resolves to one canonical hostname. Candidates backed by explicit employer links are checked first; uniquely verified employer-backed identity avoids speculative checks of unrelated provider alternatives. Multiple verified websites or unreadable competing employer-backed candidates stay unresolved.
+4. Corroboration resolves to one canonical hostname. Source domains are checked before provider lookups. Multiple corroborated websites stay unresolved. A competing candidate that independently identifies the company but cannot finish its ownership checks also prevents confirmation. Failures before company identity is established remain in the saved evidence but do not veto another candidate's complete proof. With no complete proof, access failures remain errors with retries. Weak signals remain pending even when the website is confirmed; this does not upgrade discovery confidence or change the admission threshold.
 
 HTTPS page and robots.txt redirects are limited to three hops and checked individually. Rules obtained through a robots redirect apply to the original origin; page redirects check the destination rules too. Loops, unsafe targets and genuine challenges remain failures. Fetches have
 time/size/request limits and reject IP/private-network targets. HTML is capped at 2 MiB, robots at 512 KiB. Up to three careers pages are followed, prioritizing the landing page and its job-search links over saved jobs or unrelated news. A normal reCAPTCHA form script is not treated as an access challenge. No browser rendering or access-control bypass

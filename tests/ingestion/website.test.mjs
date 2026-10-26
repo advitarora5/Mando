@@ -429,7 +429,76 @@ test('employer website: newly collected job evidence invalidates an unresolved c
   assert.equal((await resolve(ctx)).status, 'unresolved');
   await employerCapture(ctx);
   assert.equal((await resolve(ctx)).status, 'confirmed');
-  assert.equal(ctx.treg.calls.length, 3);
+  assert.equal(ctx.treg.calls.length, 2); // source evidence confirms without another provider lookup
+});
+
+test('website priority: posting links are checked before providers, including domains Hunter never returns', async () => {
+  const ctx = context({ pages: { 'https://acme.example/': '<title>Acme</title>' }, provider: () => { throw Error('provider must not run'); } });
+  await employerCapture(ctx);
+  const result = await resolve(ctx);
+  assert.equal(result.status, 'confirmed'); assert.equal(result.domain, 'acme.example');
+  assert.equal(ctx.treg.calls.length, 0);
+  assert.equal(result.evidence.employer_links[0].domain, 'acme.example');
+  assert.equal(result.evidence.checks[0].employer_link.domain, 'acme.example');
+});
+
+test('website priority: a dead unrelated posting link cannot veto an independently confirmed corporate website', async () => {
+  const ctx = context({ pages: { 'https://acme.example/': '<title>Acme</title>', 'https://benefits.example/': response(503, 'unavailable') } });
+  await employerCapture(ctx); await employerCapture(ctx, { domain: 'benefits.example' });
+  const result = await resolve(ctx);
+  assert.equal(result.status, 'confirmed'); assert.equal(result.domain, 'acme.example');
+  assert.equal(ctx.treg.calls.length, 0);
+  assert.ok(result.evidence.checks.some(c => c.domain === 'benefits.example' && c.reason.includes('503')));
+});
+
+test('website priority: source-backed confirmation works without a configured lookup provider', async () => {
+  const ctx = context({ pages: { 'https://acme.example/': '<title>Acme</title>' } });
+  ctx.treg = null; await employerCapture(ctx);
+  assert.equal((await resolve(ctx)).status, 'confirmed');
+});
+
+test('website priority: an identity-matched competing candidate with inaccessible proof stays unresolved', async () => {
+  const ctx = context({ candidates: ['acme.example', 'second.example'].map(domain => ({ domain, company_name: 'Acme' })), pages: {
+    'https://second.example/': '<title>Acme</title><a href="/careers">Careers</a>',
+    'https://second.example/careers': response(503, 'unavailable'),
+  } });
+  const result = await resolve(ctx);
+  assert.equal(result.status, 'error'); assert.equal(result.domain, null);
+});
+
+test('website priority: too many source candidates cannot silently hide a competing identity', async () => {
+  const ctx = context();
+  for (let i = 0; i < 6; i++) await employerCapture(ctx, { domain: `employer${i}.example` });
+  const result = await resolve(ctx);
+  assert.equal(result.status, 'unresolved'); assert.equal(result.domain, null);
+  assert.match(result.reason, /candidate cap/);
+  assert.equal(ctx.fetch.calls.length, 10); // five homepages and their robots
+});
+
+test('ownership remains required: real corporate identity cannot validate a wrong first-word Workday tenant', async () => {
+  for (const row of [
+    { name: 'WESTERN DIGITAL CORP', brand: 'Western Digital', domain: 'westerndigital.example', tenant: 'western', pod: 'wd1', site: 'WESTERN' },
+    { name: 'INTUITIVE SURGICAL INC', brand: 'Intuitive Surgical', domain: 'intuitive.example', tenant: 'intuitive', pod: 'wd1', site: 'irtc_careers' },
+  ]) {
+    const ctx = context({ candidates: [{ domain: row.domain, company_name: row.brand }], pages: { [`https://${row.domain}/`]: `<title>${row.brand}</title>` } });
+    const result = await resolveWebsite(ctx, row.name, [{ ...site, tenant: row.tenant, pod: row.pod, site: row.site }], new WebsiteHttp(ctx));
+    assert.equal(result.status, 'unresolved'); assert.equal(result.domain, null);
+    assert.ok(result.evidence.checks.some(c => c.identity === row.brand && !c.workday_url && !c.employer_link));
+  }
+});
+
+test('review routing: weak signals and ambiguous websites remain pending without company creation', async () => {
+  for (const kind of ['weak', 'ambiguous']) {
+    const ctx = context({ pages: { 'https://acme.example/': '<title>Acme</title>', 'https://second.example/': '<title>Acme</title>' } });
+    ctx.store.sites.push({ ...site, company_name: 'ACME CORP', match_kind: 'first_word', company_id: null, review_item_id: null, capture_id: 'robots' });
+    await ctx.store.upsertSignal({ company_id: null, review_item_id: null, capture_id: 'robots', extraction_id: null, type: 'known_customer', signal_date: null, source_url: workday, quote: 'Workday career site', confidence: kind === 'weak' ? 0.6 : 0.95, company_name: 'ACME CORP', products: null, project_type: null, role_seniority: null, timing_words: null, method: 'structured', seen_at: ctx.now().toISOString() });
+    await employerCapture(ctx);
+    if (kind === 'ambiguous') await employerCapture(ctx, { domain: 'second.example' });
+    const result = await matchStage(ctx);
+    assert.equal(ctx.store.companyRows.length, 0);
+    assert.equal(ctx.store.reviews.length, 1); assert.equal(ctx.store.reviews[0].status, 'pending');
+    assert.equal(result.counts[kind === 'weak' ? 'review_untrusted_signal' : 'review_no_website'], 1);
+  }
 });
 
 test('employer website: two independently verified and source-backed domains remain ambiguous', async () => {

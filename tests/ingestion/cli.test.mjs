@@ -20,6 +20,9 @@ const contextSource = `
       caps: scenario === 'budget' ? { treg: 0, llm: 0 } : undefined,
     });
     if (scenario === 'budget') ctx.store.settingsRows = [{ key: 'ready_for_contacts_threshold', value: 0 }];
+    // No usable website evidence in this scenario. Disabling Treg alone no longer
+    // prevents confirmation directly from a saved employer link.
+    if (scenario === 'review') ctx.store.websiteEvidenceCaptures = async () => [];
     if (scenario === 'failed') ctx.store.pendingCaptures = async () => { throw new Error('injected extraction failure'); };
     if (scenario === 'partial') {
       const save = ctx.store.saveCapture.bind(ctx.store);

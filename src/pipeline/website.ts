@@ -7,7 +7,7 @@ import { htmlToText } from "../domain/ingestion/quote.ts";
 import { parseRobots, robotsAllows } from "./http.ts";
 import type { PipelineContext, WebsiteResolution, WorkdaySite, EmployerWebsiteLink } from "./types.ts";
 
-export const WEBSITE_VERSION = 8;
+export const WEBSITE_VERSION = 9;
 export const WEBSITE_LIMIT = 50;
 const DAY = 86400000;
 export const MAX_WEBSITE_BODY = 2 * 1024 * 1024;
@@ -205,7 +205,6 @@ export async function resolveWebsite(ctx: PipelineContext, name: string, sites: 
   if (cached?.input_signature === signature && Date.parse(cached.next_check_at) > ctx.now().getTime()) return cached;
   const checked = ctx.now();
   const base: WebsiteResolution = { normalized_name: normalized, company_name: name, domain: null, status: "unresolved", reason: "no matching Workday site available for reciprocal confirmation", input_signature: signature, checked_at: checked.toISOString(), next_check_at: new Date(+checked + 7 * DAY).toISOString(), evidence: { candidates: [], checks: [] } };
-  if (!ctx.treg) return { ...base, reason: "Treg is not configured" }; // do not cache disabled configuration
   if (!sites.length) { if (!dryRun) await ctx.store.saveWebsiteResolution(base); return base; }
   try {
     const query = name.replace(/\s*\/[A-Z]{2}\/?\s*$/, "").trim();
@@ -221,33 +220,28 @@ export async function resolveWebsite(ctx: PipelineContext, name: string, sites: 
       (base.evidence.queries ??= []).push({ company, candidates: rows });
       return rows;
     };
-    const candidates = await fetchCandidates(query);
-    // Legal names can yield unrelated results (e.g. ASML HOLDING NV). Retry the full normalized
-    // identity once; never shorten to an arbitrary first word or loosen the confirmation rules.
-    if (!candidates.some(row => normalizeName(row.company_name) === normalized && normalizeDomain(row.domain) && !sharedPlatform(normalizeDomain(row.domain)!)) && normalized.length >= 3 && normalized !== query.toLowerCase()) {
-      candidates.push(...await fetchCandidates(normalized));
-    }
+    const candidates: { domain: string; company_name: string }[] = [];
     base.evidence.candidates = candidates;
     const backing = (domain: string) => refs.find(ref => ref.domain === domain || ref.domain.endsWith(`.${domain}`));
-    // Check source-backed candidates first. Once a unique source-backed website is verified,
-    // unbacked provider suggestions do not need speculative fetches.
-    const backed = candidates.filter(row => { const domain = normalizeDomain(row.domain); return normalizeName(row.company_name) === normalized && domain && backing(domain); });
-    base.evidence.employer_links = refs.filter(ref => backed.some(row => { const domain = normalizeDomain(row.domain)!; return ref.domain === domain || ref.domain.endsWith(`.${domain}`); }));
-    const ordered = [...backed, ...candidates.filter(row => !backed.includes(row))];
-    const confirmed = new Set<string>(); let failures = 0;
+    base.evidence.employer_links = refs;
+    const sourceDomains = [...new Set(refs.map(ref => ref.domain))];
+    const sourceCandidates = sourceDomains.slice(0, 5).map(domain => ({ domain, company_name: name }));
+    candidates.push(...sourceCandidates);
+    const confirmed = new Set<string>(); let failures = 0, identityFailures = 0;
     const visitedDomains = new Set<string>();
     const checkCandidates = async (rows: typeof candidates) => {
       for (const candidate of rows) {
-        if (confirmed.size && backed.length && !backed.includes(candidate)) break;
         if (normalizeName(candidate.company_name) !== normalized) continue;
         const domain = normalizeDomain(candidate.domain); if (!domain || sharedPlatform(domain)) continue;
         if (visitedDomains.has(domain)) continue;
         visitedDomains.add(domain);
+        let identityMatched = false;
         try {
           safeUrl(candidate.domain.includes("://") ? candidate.domain : `https://${candidate.domain}/`);
           const home = await http.page(`https://${domain}/`);
           const identity = pageIdentity(home.html, name);
           if (!identity) { base.evidence.checks.push({ domain, url: home.url, reason: "no exact company identity in page metadata" }); continue; }
+          identityMatched = true;
           const employerLink = backing(domain);
           if (employerLink) {
             base.evidence.checks.push({ domain, url: home.url, identity, employer_link: employerLink, reason: "company identity and corporate link from its observed Workday posting" });
@@ -273,13 +267,28 @@ export async function resolveWebsite(ctx: PipelineContext, name: string, sites: 
           }
           base.evidence.checks.push({ domain, url: proofUrl, identity, workday_url: proof, reason: proof ? "company identity and reciprocal Workday career link" : "no reciprocal link to observed Workday career site" });
           if (proof) confirmed.add(normalizeDomain(new URL(home.url).hostname)!);
-        } catch (error) { failures++; base.evidence.checks.push({ domain, reason: (error as Error).message }); }
+        } catch (error) {
+          failures++;
+          if (identityMatched) identityFailures++;
+          base.evidence.checks.push({ domain, reason: (error as Error).message });
+        }
       }
     };
-    await checkCandidates(ordered);
+    // Posting links are candidates in their own right, even when Hunter omits them.
+    // Inspect every bounded source candidate before deciding whether one is unique.
+    await checkCandidates(sourceCandidates);
+    if (!confirmed.size && ctx.treg) {
+      const hunter = await fetchCandidates(query);
+      // Retry the complete normalized identity, never an arbitrary first-word alias.
+      if (!hunter.some(row => normalizeName(row.company_name) === normalized && normalizeDomain(row.domain) && !sharedPlatform(normalizeDomain(row.domain)!)) && normalized.length >= 3 && normalized !== query.toLowerCase()) {
+        hunter.push(...await fetchCandidates(normalized));
+      }
+      candidates.push(...hunter);
+      await checkCandidates(hunter);
+    }
     // A plausible provider label is not a successful lookup. Search is discovery only:
     // titles/snippets never replace page identity or exact Workday corroboration.
-    if (!confirmed.size) {
+    if (!confirmed.size && ctx.treg) {
       const searchQuery = `${query} official corporate website careers`;
       const res = await ctx.treg.call("tinyfish.web.search", { query: { query: searchQuery, domain_type: "web" }, headers: { "X-Treg-Route-Max-Cost": "0", "X-Treg-Route-Waterfall": "0" }, timeoutMs: 15000 });
       if (res.cost_usd > 0) await ctx.spend.record({ provider: "treg", endpoint: "tinyfish.web.search", step: "domain", subject: name, idempotency_key: "", worst_case_usd: 0, cost_usd: res.cost_usd, outcome: "unexpected charge on a free endpoint" });
@@ -304,12 +313,16 @@ export async function resolveWebsite(ctx: PipelineContext, name: string, sites: 
       base.evidence.candidates.push(...extra);
       await checkCandidates(extra);
     }
-    // An unreadable competing candidate can conceal a second valid identity; don't pick a winner.
-    if (confirmed.size === 1 && failures === 0) { base.domain = [...confirmed][0]; base.status = "confirmed"; base.reason = base.evidence.checks.some(check => check.employer_link) ? "independent company identity and corporate link from observed Workday posting" : "independent company identity and reciprocal Workday career link"; base.next_check_at = new Date(+checked + 30 * DAY).toISOString(); }
+    // Unrelated failures do not veto a complete proof. A second verified domain or an
+    // identity-matched candidate whose proof could not finish still prevents admission.
+    if (sourceDomains.length > sourceCandidates.length) base.reason = "employer website candidate cap reached; human review required";
+    else if (confirmed.size > 1) base.reason = "multiple websites corroborate this company; human review required";
+    else if (confirmed.size === 1 && identityFailures === 0) { base.domain = [...confirmed][0]; base.status = "confirmed"; base.reason = base.evidence.checks.some(check => check.employer_link) ? "independent company identity and corporate link from observed Workday posting" : "independent company identity and reciprocal Workday career link"; base.next_check_at = new Date(+checked + 30 * DAY).toISOString(); }
     else if (failures) { base.status = "error"; base.reason = "one or more website checks failed; retry required"; }
-    else base.reason = confirmed.size > 1 ? "multiple websites corroborate this company; human review required" : "no uniquely corroborated website";
+    else base.reason = "no uniquely corroborated website";
   } catch (error) { base.status = "error"; base.reason = (error as Error).message; }
   if (base.status === "error") base.next_check_at = new Date(+checked + DAY).toISOString();
+  if (!ctx.treg && base.status !== "confirmed") return { ...base, reason: base.status === "error" ? base.reason : "Treg is not configured" }; // do not cache disabled fallback configuration
   if (!dryRun) await ctx.store.saveWebsiteResolution(base);
   return base;
 }
