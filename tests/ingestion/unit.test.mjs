@@ -10,6 +10,7 @@ import { canSpend, sessionSpend } from '../../src/domain/ingestion/budget.ts';
 import { scoreCompany } from '../../src/domain/ingestion/pipeline-score.ts';
 import { defaultSettings } from '../../src/domain/ingestion/settings.ts';
 import { displayTier, NEEDS_EVIDENCE } from '../../src/domain/scoring/display.ts';
+import { isoDay } from '../../src/pipeline/extract.ts';
 // Scoring-rule tests for the team rubric live in team-rubric.test.mjs.
 
 const NOW = new Date('2026-10-13T12:00:00Z');
@@ -234,4 +235,15 @@ test('round 2 (live data): a job duty mentioning "budget" is not a budget clue; 
   assert.equal(ground('Monitor and manage budget for the HR systems team'), 0);
   assert.equal(ground('The board approved budget for the Workday Financials expansion'), 1);
   assert.equal(ground('We selected Opkey to automate Workday regression testing'), 1);
+});
+
+test('isoDay: a year-less date takes its year from the publication date only when that is within 6 months', () => {
+  assert.equal(isoDay('July 1', '2019-02-14'), '2019-07-01', 'planned launch announced in February');
+  assert.equal(isoDay('July 1', '2019-07-11'), '2019-07-01', 'recent past');
+  assert.equal(isoDay('December 15', '2019-01-10'), '2018-12-15', 'across a year boundary');
+  assert.equal(isoDay('July 1', '2019-12-01'), '2019-07-01', 'exactly one candidate in range');
+  assert.equal(isoDay('July 1'), null, 'no publication date: stay null');
+  assert.equal(isoDay('Feb 30', '2019-02-01'), null, 'abbreviations and impossible days are not guessed');
+  assert.equal(isoDay('July 1, 2020', '2019-02-14'), '2020-07-01', 'a stated year always wins');
+  assert.equal(isoDay('June 2023', '2021-03-11'), null, 'month only stays a note, never a day');
 });
