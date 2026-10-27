@@ -12,6 +12,7 @@ import type {
 export const DEFAULT_SOURCES: SourceRow[] = [
   { id: "workday-career-sites", type: "workday_career_site", name: "Workday career sites", config: {}, frequency: "daily", max_requests_per_run: 1500, min_delay_ms: 1000, enabled: true },
   { id: "workday-site-resolver", type: "workday_site_resolver", name: "Workday site resolver", config: {}, frequency: "weekly", max_requests_per_run: 500, min_delay_ms: 1000, enabled: true },
+  { id: "workday-tenant-crawl", type: "workday_tenant_crawl", name: "Workday tenants from Common Crawl", config: {}, frequency: "weekly", max_requests_per_run: 500, min_delay_ms: 1000, enabled: true },
   { id: "sec-company-list", type: "sec_company_list", name: "SEC company list", config: { url: "https://www.sec.gov/files/company_tickers.json" }, frequency: "weekly", max_requests_per_run: 2, min_delay_ms: 1000, enabled: true },
   { id: "treg-reddit-workday", type: "treg_reddit", name: "r/workday via treg", config: { subreddit: "workday" }, frequency: "weekly", max_requests_per_run: 2, min_delay_ms: 1000, enabled: false },
   { id: "treg-workday-users", type: "treg_tech_lookup", name: "Workday users via treg", config: {}, frequency: "weekly", max_requests_per_run: 1, min_delay_ms: 1000, enabled: false },
