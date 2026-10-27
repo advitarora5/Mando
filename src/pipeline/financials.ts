@@ -12,10 +12,11 @@ const days = (a: string, b: string) => (Date.parse(b) - Date.parse(a)) / 8640000
 
 type Fact = { start?: string; end: string; val: number; form: string; filed: string; accn: string };
 type Year = { end: string; val: number; accn: string };
+type Facts = { "us-gaap"?: Record<string, { units?: { USD?: Fact[] } }> } | null | undefined;
 
 // One value per fiscal year end (latest filing wins), annual durations only, newest first.
-function annualSeries(facts: any, tag: string): Year[] {
-  const rows: Fact[] = facts?.["us-gaap"]?.[tag]?.units?.USD ?? [];
+function annualSeries(facts: Facts, tag: string): Year[] {
+  const rows = facts?.["us-gaap"]?.[tag]?.units?.USD ?? [];
   const byEnd = new Map<string, Fact>();
   for (const r of rows) {
     if (!r.start || !/^(10-K|20-F)/.test(r.form) || days(r.start, r.end) < 340 || days(r.start, r.end) > 390) continue;
@@ -26,12 +27,13 @@ function annualSeries(facts: any, tag: string): Year[] {
 }
 
 // Several tags can describe revenue and old ones go stale (a tag may stop years ago): take the one with the newest year.
-function newest(facts: any, tags: string[]): Year[] {
+function newest(facts: Facts, tags: string[]): Year[] {
   return tags.map(tag => annualSeries(facts, tag)).filter(s => s.length).sort((a, b) => b[0].end.localeCompare(a[0].end))[0] ?? [];
 }
 const priorOf = (series: Year[]) => series.find(y => days(y.end, series[0].end) > 350 && days(y.end, series[0].end) < 380)?.val ?? null;
 
-export function parseFinancials(facts: unknown, cik: number, now: Date): Financials | null {
+export function parseFinancials(rawFacts: unknown, cik: number, now: Date): Financials | null {
+  const facts = rawFacts as Facts;
   const op = newest(facts, OPERATING);
   if (!op.length || days(op[0].end, now.toISOString().slice(0, 10)) > MAX_AGE_DAYS) return null;
   const rev = newest(facts, REVENUE);
