@@ -3,6 +3,7 @@
 import { decideMatch, TRUSTED_CONFIDENCE } from "../domain/ingestion/matching.ts";
 import { isSimilarName, normalizeName } from "../domain/ingestion/normalize.ts";
 import { scoreCompany, type ScoringSignal } from "../domain/ingestion/pipeline-score.ts";
+import { financialsFor } from "./financials.ts";
 import { isSignalFresh, mayScore } from "../domain/ingestion/settings.ts";
 import { categories } from "../domain/contracts/company.ts";
 import { resolveWebsite, WebsiteHttp, WEBSITE_LIMIT, websiteSignature, loadEmployerLinks } from "./website.ts";
@@ -249,7 +250,9 @@ export async function scoreStage(ctx: PipelineContext, opts: { companyIds?: stri
       // A company with no evidence yet still gets a row, so the dashboard shows "Needs evidence" instead of nothing.
       if (!signals.length && !contacts.length) bump(r, "no_evidence");
       // The employee count has no source link on the company row, so the +3 size bonus is not awarded automatically.
-      const assessment = scoreCompany(company.id, signals as ScoringSignal[], contacts, settings, now, { employee_count: company.employee_count, employee_source: null });
+      // ponytail: SEC facts are refetched on every score pass (once per company per run); cache them in a table if that gets slow.
+      const financials = await financialsFor(ctx, company.name);
+      const assessment = scoreCompany(company.id, signals as ScoringSignal[], contacts, settings, now, { employee_count: company.employee_count, employee_source: null, financials });
       if (!assessment.result.ok) { bump(r, "error_score"); r.errors.push(`${company.name}: ${assessment.result.errors.join(" ")}`); continue; }
       const latest = await ctx.store.latestScore(company.id);
       const due = !latest || now.getTime() - Date.parse(latest.assessed_at) >= RESCORE_DAYS * 86400000;
