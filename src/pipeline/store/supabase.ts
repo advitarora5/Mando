@@ -143,7 +143,7 @@ export class SupabaseStore implements PipelineStore {
     return this.check(await this.db.from("website_resolutions").select("*").eq("normalized_name", name).maybeSingle(), "website resolution") as WebsiteResolution | null;
   }
   async saveWebsiteResolution(value: WebsiteResolution) { this.check(await this.db.from("website_resolutions").upsert(value), "save website resolution"); }
-  async updatePendingReview(id: string, patch: { candidate_domain: string | null; reason: ReviewItem["reason"]; suggested_company_id: string | null }) {
+  async updatePendingReview(id: string, patch: { candidate_domain: string | null; reason: ReviewItem["reason"]; suggested_company_id: string | null; candidate_name?: string }) {
     const rows = this.check(await this.db.from("review_queue").update(patch).eq("id", id).eq("status", "pending").neq("reason", "similar_name").select("id"), "update pending review") as { id: string }[];
     if (!rows.length) throw Error("review is no longer eligible");
   }

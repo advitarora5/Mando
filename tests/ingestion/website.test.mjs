@@ -607,3 +607,38 @@ test('website guess: unreachable guesses are misses, the result is cached withou
   assert.equal(trusted.fetch.calls.length, 0);
   assert.equal(result.status, 'unresolved');
 });
+
+// ---- the created company carries the name its confirmed website uses, not the tenant slug ----
+const nexstarPages = {
+  'https://nexstar.com/': '<html><title>Nexstar Media Group | Home</title><a href="/careers">Careers</a></html>',
+  'https://nexstar.com/careers': `<html><title>Careers</title><a href="${slugWorkday}">Search jobs</a></html>`,
+};
+const slugSignal = (ctx, extra = {}) => ctx.store.upsertSignal({ company_id: null, review_item_id: null, capture_id: 'robots', extraction_id: null, type: 'known_customer', signal_date: null, source_url: slugWorkday, quote: 'Workday career site', confidence: 0.95, company_name: 'Nexstar', products: null, project_type: null, role_seniority: null, timing_words: null, method: 'structured', seen_at: ctx.now().toISOString(), ...extra });
+
+test('slug name: a company created straight from a confirmed guessed website is named after the website', async () => {
+  const ctx = slugContext(nexstarPages);
+  ctx.store.sites.push({ ...slugSite, company_name: 'Nexstar', company_id: null, review_item_id: null, capture_id: 'robots' });
+  await slugSignal(ctx);
+  const out = await matchStage(ctx);
+  assert.deepEqual(out.errors, []);
+  assert.equal(ctx.store.companyRows.length, 1);
+  assert.equal(ctx.store.companyRows[0].name, 'Nexstar Media Group');
+  assert.equal(ctx.store.companyRows[0].domain, 'nexstar.com');
+});
+
+test('slug name: a review waiting for a website is renamed when it is admitted, and a trusted full name is left alone', async () => {
+  const ctx = slugContext(nexstarPages);
+  ctx.store.sites.push({ ...slugSite, company_name: 'Nexstar', company_id: null, review_item_id: null, capture_id: 'robots' });
+  const item = await ctx.store.addReviewItem({ candidate_name: 'Nexstar', normalized_name: 'nexstar', candidate_domain: null, employee_count: null, suggested_company_id: null, reason: 'no_website' });
+  await slugSignal(ctx, { review_item_id: item.id });
+  const out = await matchStage(ctx);
+  assert.deepEqual(out.errors, []);
+  assert.equal(ctx.store.reviews[0].status, 'approved');
+  assert.equal(ctx.store.companyRows[0].name, 'Nexstar Media Group');
+
+  const full = slugContext(nexstarPages);
+  full.store.sites.push({ ...slugSite, company_name: 'Nexstar', match_kind: 'full_name', company_id: null, review_item_id: null, capture_id: 'robots' });
+  await slugSignal(full);
+  await matchStage(full);
+  assert.equal(full.store.companyRows.length, 0, 'full-name sites are not guessed, so nothing is created without another proof');
+});

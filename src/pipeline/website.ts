@@ -198,6 +198,12 @@ export async function loadEmployerLinks(ctx: PipelineContext, name: string, site
   }
   return [...new Map(refs.map(ref => [`${ref.domain}|${ref.capture_id}|${ref.url}`, ref])).values()];
 }
+// The company's own name as its confirmed website writes it ("Nexstar Media Group"): used instead of a tenant slug.
+export function confirmedName(resolution: WebsiteResolution): string | null {
+  if (resolution.status !== "confirmed" || !resolution.domain) return null;
+  const name = resolution.evidence.checks.find(check => check.identity && (check.workday_url || check.employer_link))?.identity?.replace(/\s+/g, " ").trim();
+  return name && name.length <= 120 ? name : null;
+}
 export function websiteSignature(sites: WorkdaySite[], employerLinks: EmployerWebsiteLink[] = []): string {
   return createHash("sha256").update(JSON.stringify([WEBSITE_VERSION, sites.map(s => `${s.tenant}.${s.pod}/${s.site}`).sort(), employerLinks.map(ref => `${ref.capture_id}|${ref.url}`).sort()])).digest("hex");
 }

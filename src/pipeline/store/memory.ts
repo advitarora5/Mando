@@ -159,7 +159,7 @@ export class MemoryStore implements PipelineStore {
   }
   async websiteResolution(name: string) { return this.websites.get(name) ?? null; }
   async saveWebsiteResolution(value: WebsiteResolution) { this.trip("saveWebsiteResolution"); this.websites.set(value.normalized_name, value); }
-  async updatePendingReview(id: string, patch: { candidate_domain: string | null; reason: ReviewItem["reason"]; suggested_company_id: string | null }) {
+  async updatePendingReview(id: string, patch: { candidate_domain: string | null; reason: ReviewItem["reason"]; suggested_company_id: string | null; candidate_name?: string }) {
     const item = this.reviews.find(r => r.id === id && r.status === "pending" && r.reason !== "similar_name");
     if (!item) throw Error("review is no longer eligible");
     Object.assign(item, patch);
