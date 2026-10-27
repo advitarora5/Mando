@@ -106,7 +106,7 @@ test('full flow on the database: raw rows, sourced signals, pipeline companies, 
   assert.equal(captures.length, captureIds.length, 'every signal points at a stored raw item');
 
   const { data: scores } = await db.from('scores').select('*').in('company_id', ids);
-  assert.equal(scores.length, 11);
+  assert.equal(scores.length, 22, 'initial and contact-enriched scores for each new company');
   for (const s of scores) for (const c of ['authority', 'reachability', 'budget', 'release', 'timing']) {
     const e = s[`${c}_evidence`];
     assert.ok(s[`${c}_score`] > 0 ? /^https?:\/\/\S+ \| .+/.test(e) : e.includes('Needs evidence') || /^https?:/.test(e), `${c}: ${e}`);

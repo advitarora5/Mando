@@ -34,7 +34,7 @@ test('full flow: 12 new Workday companies created with origin pipeline, sourced 
     const capture = store.captures.find(c => c.id === s.capture_id);
     assert.ok(JSON.parse(capture.body).jobPostingInfo.jobDescription.length > 0);
   }
-  assert.equal(store.scores.length, 12);
+  assert.equal(store.scores.length, 24, "initial scores plus scores after free contact research");
   for (const score of store.scores) for (const c of categories) {
     const evidence = score[`${c}_evidence`];
     assert.ok(score[`${c}_score`] === 0 || /^https?:\/\/\S+ \| .+/.test(evidence), `${c} points need a link and reason`);
@@ -134,7 +134,8 @@ test('failure: database error mid-run -> run finishes, no half-written company, 
 test('failure: treg 402 and treg timeout -> contact lookup is skipped, the run still scores; contacts stay pending', async () => {
   const t402 = worldTreg({ emailFind: () => ({ ok: false, status: 402, error: 'treg HTTP 402', cost_usd: 0 }) });
   const { ctx, store } = world({ treg: t402 });
-  await run(ctx);
+  await run(ctx, "weekly");
+  store.settingsRows = [{ key: "ready_for_contacts_threshold", value: 0 }];
   for (const id of store.companyRows.map(c => c.id)) await store.setEnrichment(id, 'pending', 'test');
   const r = await enrichStage(ctx, { maxCompanies: 3 });
   assert.equal(r.counts.budget_skipped, 3, 'after the first 402 every company waits for budget');
@@ -158,7 +159,7 @@ test('time travel: a signal older than 14 days drops out of the score, and every
   assert.ok(first.timing_score > 0);
   now.advanceDays(1);
   await scoreStage(ctx);
-  assert.equal(store.scores.filter(s => s.company_id === id).length, 1, 'unchanged after a day: no new row');
+  assert.equal(store.scores.filter(s => s.company_id === id).length, 2, 'initial and contact-enriched assessments remain unchanged after a day');
   now.advanceDays(14);
   const r = await scoreStage(ctx);
   const latest = await store.latestScore(id);
@@ -201,7 +202,8 @@ test('similar name to an existing company goes to review with a suggestion; appr
 test('spend: the budget cap is enforced and an existing LinkedIn URL never triggers a paid lookup', async () => {
   const treg = worldTreg();
   const { ctx, store } = world({ treg, caps: { treg: 0.03 } });
-  await run(ctx);
+  await run(ctx, "weekly");
+  store.settingsRows = [{ key: "ready_for_contacts_threshold", value: 0 }];
   const ids = store.companyRows.map(c => c.id);
   for (const id of ids) await store.setEnrichment(id, 'pending', 'test');
   // One company already has a contact with a LinkedIn URL.

@@ -219,7 +219,8 @@ export class MemoryStore implements PipelineStore {
 
   async contactsForCompany(companyId: string) { return this.contacts.filter(c => c.company_id === companyId); }
   async latestScore(companyId: string) {
-    return this.scores.filter(s => s.company_id === companyId).sort((a, b) => b.assessed_at.localeCompare(a.assessed_at))[0] ?? null;
+    // The later insert wins if the test clock gives two assessments the same timestamp.
+    return this.scores.filter(s => s.company_id === companyId).reverse().sort((a, b) => b.assessed_at.localeCompare(a.assessed_at))[0] ?? null;
   }
   async insertScore(row: ScoreRow, assessedAt: string) {
     this.trip("insertScore");
