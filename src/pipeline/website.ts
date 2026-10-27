@@ -5,6 +5,7 @@ import { createHash } from "node:crypto";
 import { normalizeDomain, normalizeName } from "../domain/ingestion/normalize.ts";
 import { htmlToText } from "../domain/ingestion/quote.ts";
 import { parseRobots, robotsAllows } from "./http.ts";
+import { wikidataDomains } from "./wikidata.ts";
 import type { PipelineContext, WebsiteResolution, WorkdaySite, EmployerWebsiteLink } from "./types.ts";
 
 export const WEBSITE_VERSION = 9;
@@ -322,6 +323,12 @@ export async function resolveWebsite(ctx: PipelineContext, name: string, sites: 
       const [failed, identityFailed] = [failures, identityFailures];
       await checkCandidates([...new Set(sites.filter(s => s.match_kind === "first_word").map(s => s.tenant))].flatMap(tenant => guessDomains(tenant).map(domain => ({ domain, company_name: name }))), true);
       failures = failed + (identityFailures - identityFailed);
+      // Still nothing: Wikidata's official website for this name is one more candidate, held to the same proof.
+      if (!confirmed.size) {
+        const [failedAgain, identityFailedAgain] = [failures, identityFailures];
+        await checkCandidates((await wikidataDomains(ctx, name)).map(domain => ({ domain, company_name: name })), true);
+        failures = failedAgain + (identityFailures - identityFailedAgain);
+      }
     }
     if (!confirmed.size && ctx.treg) {
       const hunter = await fetchCandidates(query);
