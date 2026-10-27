@@ -44,7 +44,9 @@ async function freshWorld(names) {
   // database also holds real pipeline companies, and an unscoped test run wrote its fake email onto their contacts.
   const allCompanies = store.companies.bind(store);
   store.companies = async () => (await allCompanies()).filter(c => (c.domain ?? '').endsWith('.example'));
-  const now = clock(new Date().toISOString());
+  // Real database assessments need real ordering: a frozen clock gives the initial and
+  // contact-enriched rows identical timestamps, making latestScore ambiguous in Postgres.
+  const now = () => new Date();
   return { store, ctx: makeCtx({ store, now, fetch: worldFetch({ names }), llm: groundedModel(), treg: worldTreg() }) };
 }
 
@@ -107,6 +109,7 @@ test('full flow on the database: raw rows, sourced signals, pipeline companies, 
 
   const { data: scores } = await db.from('scores').select('*').in('company_id', ids);
   assert.equal(scores.length, 22, 'initial and contact-enriched scores for each new company');
+  assert.equal((await ctx.store.latestScore(ids[0])).authority_score, 5, 'latest assessment includes the unconfirmed researched contact');
   for (const s of scores) for (const c of ['authority', 'reachability', 'budget', 'release', 'timing']) {
     const e = s[`${c}_evidence`];
     assert.ok(s[`${c}_score`] > 0 ? /^https?:\/\/\S+ \| .+/.test(e) : e.includes('Needs evidence') || /^https?:/.test(e), `${c}: ${e}`);
@@ -219,7 +222,9 @@ test('website DB: persisted cache, recovered admission, atomic failure, duplicat
     assert.equal(company.source, source); assert.equal(company.domain, domain); assert.equal(company.company_origins.origin, 'pipeline');
     assert.equal((await db.from('signals').select('company_id').eq('id', signal.id).single()).data.company_id, companyId);
     assert.equal((await db.from('workday_sites').select('company_id').eq('id', site.id).single()).data.company_id, companyId);
-    await matchStage(ctx); assert.equal(ctx.treg.calls.length, 1);
+    const providerCalls = ctx.treg.calls.length; // Employer-link proof may require zero provider lookups.
+    await matchStage(ctx);
+    assert.equal(ctx.treg.calls.length, providerCalls, 'repeat admission/cache check makes no additional provider calls');
     await assert.rejects(store.admitReview(item.id, domain, source, null, null), /not eligible/);
     for (const reason of ['similar_name', 'no_website']) {
       const protectedItem = await store.addReviewItem({ candidate_name: `${name} ${reason}`, normalized_name: `${normalized}-${reason}`, candidate_domain: null, employee_count: null, suggested_company_id: null, reason });
