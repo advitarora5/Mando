@@ -69,3 +69,23 @@ test('a failing index page is reported and the run still ends cleanly; dry run w
   assert.equal(dry.items.length, 2);
   assert.equal((await store.resolverAttempts(['nvidia', 'target', 'ghost'])).size, 0);
 });
+
+// ---- Wayback Machine as a second tenant source ----
+import { WorkdayTenantWayback, waybackTenants } from '../../src/pipeline/collectors/crawl.ts';
+
+test('wayback: robots.txt captures become distinct tenants; the URL-encoding artifact is stripped', () => {
+  const body = ['http://2fbrown.wd5.myworkdayjobs.com/robots.txt', 'https://adobe.wd5.myworkdayjobs.com/robots.txt', 'http://2525252foregon.wd5.myworkdayjobs.com/robots.txt', 'https://adobe.wd5.myworkdayjobs.com/robots.txt'].join('\n');
+  assert.deepEqual(waybackTenants(body).map(t => t.tenant), ['brown', 'adobe', 'oregon']);
+});
+
+test('wayback: lists tenants from the CDX index and verifies each with robots.txt like the Common Crawl source', async () => {
+  const cdx = ['https://nvidia.wd5.myworkdayjobs.com/robots.txt', 'https://ghost.wd5.myworkdayjobs.com/robots.txt'].join('\n');
+  const fetch = fakeFetch([
+    { match: /web\.archive\.org\/cdx\/search\/cdx/, respond: () => response(200, cdx) },
+    { match: /nvidia\.wd5.*robots\.txt/, respond: () => response(200, fixture('workday-robots-nvidia.txt')) },
+  ]);
+  const wayback = { ...DEFAULT_SOURCES.find(s => s.id === 'workday-tenant-wayback'), config: { pods: ['wd5'] } };
+  const out = await new WorkdayTenantWayback().collect(wayback, limits, makeCtx({ fetch }));
+  assert.deepEqual(out.items.map(i => i.meta.tenant), ['nvidia']);
+  assert.equal(out.items[0].meta.discovered_via, 'commoncrawl', 'shared item shape');
+});
