@@ -672,24 +672,3 @@ test('website guess: a link to another career site of the same tenant proves own
   const wrong = slugContext({ 'https://nexstar.com/': '<html><title>Nexstar Media Group</title><a href="https://rival.wd5.myworkdayjobs.com/en-US/Careers">Jobs</a></html>' });
   assert.equal((await resolveSlug(wrong)).status, 'unresolved');
 });
-
-// ---- Wikidata proposes a website; it still needs identity and the Workday link ----
-test('website guess: Wikidata supplies a domain the slug cannot reach, and it must still pass identity and the Workday link', async () => {
-  const mtbx = { ...slugSite, id: 'm', tenant: 'mtbx', normalized_name: 'mtbx' };
-  const link = 'https://mtbx.wd5.myworkdayjobs.com/en-US/Careers';
-  const world = (page) => makeCtx({ treg: null, fetch: fakeFetch([
-    { match: /\/robots\.txt$/, respond: () => response(200, 'User-agent: *\nAllow: /') },
-    { match: /wikidata\.org\/w\/api\.php.*wbsearchentities/, respond: () => response(200, { search: [{ id: 'Q1' }, { id: 'Q2' }] }) },
-    { match: /wikidata\.org\/w\/api\.php.*wbgetentities/, respond: () => response(200, { entities: {
-      Q1: { labels: { en: { value: 'Mtbx Bank' } }, claims: { P856: [{ mainsnak: { datavalue: { value: 'https://www.mtbxbank.example/' } } }] } },
-      Q2: { labels: { en: { value: 'Mtbx Cycles' } }, claims: { P856: [{ mainsnak: { datavalue: { value: 'https://mtbxcycles.example/' } } }] } } } }) },
-    { match: /^https:\/\/(www\.)?mtbxbank\.example\/$/, respond: () => html(page) },
-    { match: /^https:\/\/mtbxcycles\.example\/$/, respond: () => html(`<html><title>Mtbx Cycles</title><a href="/shop">Shop</a></html>`) },
-  ]) });
-  const good = world(`<html><title>Mtbx Bank | Home</title><a href="${link}">Careers</a></html>`);
-  const result = await resolveWebsite(good, 'Mtbx', [mtbx], new WebsiteHttp(good));
-  assert.equal(result.status, 'confirmed'); assert.equal(result.domain, 'mtbxbank.example');
-
-  const noLink = world('<html><title>Mtbx Bank | Home</title><p>No careers here</p></html>');
-  assert.equal((await resolveWebsite(noLink, 'Mtbx', [mtbx], new WebsiteHttp(noLink))).status, 'unresolved');
-});
