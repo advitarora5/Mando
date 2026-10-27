@@ -561,3 +561,49 @@ test('employer evidence: branded shared document/social/ATS pages are not corpor
     assert.equal(ctx.fetch.calls.length, 0);
   }
 });
+
+// ---- guessed domains for slug-derived (first_word) tenants: no Treg, still needs identity + the reciprocal Workday link ----
+const slugSite = { id: 'slug', tenant: 'nexstar', pod: 'wd5', site: 'Careers', normalized_name: 'nexstar', enabled: true, match_kind: 'first_word' };
+const slugWorkday = 'https://nexstar.wd5.myworkdayjobs.com/en-US/Careers';
+function slugContext(pages) {
+  const fetch = fakeFetch([
+    { match: /\/robots\.txt$/, respond: () => response(200, 'User-agent: *\nAllow: /') },
+    ...Object.entries(pages).map(([url, body]) => ({ match: new RegExp(`^${url.replace(/[.*+?^${}()|[\]\/]/g, '\$&')}$`), respond: () => html(body) })),
+  ]);
+  return makeCtx({ fetch, treg: null });
+}
+const resolveSlug = ctx => resolveWebsite(ctx, 'Nexstar', [slugSite], new WebsiteHttp(ctx));
+
+test('website guess: {tenant}.com with the company name and a careers link to the exact Workday site confirms, without Treg', async () => {
+  const ctx = slugContext({
+    'https://nexstar.com/': '<html><title>Nexstar Media Group | Home</title><a href="/careers">Careers</a></html>',
+    'https://nexstar.com/careers': `<html><title>Careers</title><a href="${slugWorkday}">Search jobs</a></html>`,
+  });
+  const result = await resolveSlug(ctx);
+  assert.equal(result.status, 'confirmed');
+  assert.equal(result.domain, 'nexstar.com');
+  assert.equal(result.evidence.checks.at(-1).workday_url, slugWorkday);
+});
+
+test('website guess: a same-name page with no link to the observed Workday site does not confirm, and is not an error', async () => {
+  const ctx = slugContext({
+    'https://nexstar.com/': '<html><title>Nexstar Cycles</title><a href="/careers">Careers</a></html>',
+    'https://nexstar.com/careers': '<html><title>Careers</title><a href="https://other.wd5.myworkdayjobs.com/en-US/Careers">Jobs</a></html>',
+  });
+  const result = await resolveSlug(ctx);
+  assert.equal(result.status, 'unresolved'); assert.equal(result.domain, null);
+});
+
+test('website guess: unreachable guesses are misses, the result is cached without Treg, and full-name sites are never guessed', async () => {
+  const ctx = slugContext({});
+  const first = await resolveSlug(ctx);
+  assert.equal(first.status, 'unresolved');
+  const calls = ctx.fetch.calls.length;
+  assert.equal(await resolveSlug(ctx), first);
+  assert.equal(ctx.fetch.calls.length, calls, 'second run reuses the stored result');
+
+  const trusted = slugContext({});
+  const result = await resolveWebsite(trusted, 'Nexstar', [{ ...slugSite, match_kind: 'full_name' }], new WebsiteHttp(trusted));
+  assert.equal(trusted.fetch.calls.length, 0);
+  assert.equal(result.status, 'unresolved');
+});
