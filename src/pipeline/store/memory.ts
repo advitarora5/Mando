@@ -4,6 +4,7 @@ import { randomUUID } from "node:crypto";
 import { defaultSettings, parseSettings, type PipelineSettings } from "../../domain/ingestion/settings.ts";
 import { normalizeName } from "../../domain/ingestion/normalize.ts";
 import type { ScoreRow } from "../../domain/scoring/assessment.ts";
+import type { ScoreChange } from "../../domain/ingestion/score-change.ts";
 import type {
   CaptureRow, CompanyRow, ContactRow, ExtractionRecord, PipelineStore, RawItem, ReviewItem, RunCounts, RunStatus,
   SignalInput, SignalRow, SourceRow, StoredScore, WorkdaySite,
@@ -184,10 +185,12 @@ export class MemoryStore implements PipelineStore {
   async latestScore(companyId: string) {
     return this.scores.filter(s => s.company_id === companyId).sort((a, b) => b.assessed_at.localeCompare(a.assessed_at))[0] ?? null;
   }
-  async insertScore(row: ScoreRow, assessedAt: string) {
+  scoreChanges = new Map<string, ScoreChange>();
+  async insertScore(row: ScoreRow, assessedAt: string, change?: ScoreChange) {
     this.trip("insertScore");
     const id = randomUUID();
     this.scores.push({ id, ...row, assessed_at: assessedAt });
+    if (change) this.scoreChanges.set(id, change);
     return id;
   }
   async setEnrichment(companyId: string, status: string, reason: string) { this.enrichment.set(companyId, { status, reason }); }
