@@ -200,9 +200,11 @@ export function sameScore(a: StoredScore | null, b: Record<string, unknown>): bo
   return categories.every(c => Number(a[`${c}_score`]) === Number(b[`${c}_score`]) && evidenceLink(a[`${c}_evidence`]) === evidenceLink(b[`${c}_evidence`])) && a.tier === b.tier;
 }
 
+import { buildScoreChange, type ScoreTrigger } from "../domain/ingestion/score-change.ts";
+
 // Scores every in-scope company. A new row is appended only when something changed, or every 14 days.
 // Out-of-scope companies (existing companies while scope is pipeline_only) are never touched.
-export async function scoreStage(ctx: PipelineContext, opts: { companyIds?: string[] } = {}): Promise<StageResult> {
+export async function scoreStage(ctx: PipelineContext, opts: { companyIds?: string[]; trigger?: ScoreTrigger } = {}): Promise<StageResult> {
   const r = result();
   const settings = await ctx.store.settings();
   const now = ctx.now();
@@ -220,7 +222,12 @@ export async function scoreStage(ctx: PipelineContext, opts: { companyIds?: stri
       const latest = await ctx.store.latestScore(company.id);
       const due = !latest || now.getTime() - Date.parse(latest.assessed_at) >= RESCORE_DAYS * 86400000;
       if (sameScore(latest, assessment.result.row) && !due) bump(r, "unchanged");
-      else { await ctx.store.insertScore(assessment.result.row, now.toISOString()); bump(r, latest ? "rescored" : "scored"); }
+      else {
+        // An unchanged score that is only re-saved because it is due is a refresh; anything else was started by the caller.
+        const trigger: ScoreTrigger = sameScore(latest, assessment.result.row) ? "periodic_refresh" : opts.trigger ?? "pipeline_run";
+        await ctx.store.insertScore(assessment.result.row, now.toISOString(), buildScoreChange({ previous: latest, row: assessment.result.row, trigger, runId: ctx.runId }));
+        bump(r, latest ? "rescored" : "scored");
+      }
       if (assessment.ready_for_contacts && !(await ctx.store.enrichmentStatus(company.id)) && !contacts.length) {
         await ctx.store.setEnrichment(company.id, "pending", "Budget + Release + Timing reached the ready-for-contacts threshold.");
         bump(r, "ready_for_contacts");

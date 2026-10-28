@@ -114,7 +114,7 @@ export async function enrichStage(ctx: PipelineContext, opts: { maxCompanies: nu
   }
   // New contacts change Authority and Reachability: rescore what was touched.
   if (touched.length && !opts.dryRun) {
-    const rescored = await scoreStage(ctx, { companyIds: touched });
+    const rescored = await scoreStage(ctx, { companyIds: touched, trigger: "new_contacts" });
     for (const [k, v] of Object.entries(rescored.counts)) bump(`rescore_${k}`, v);
   }
   return r;

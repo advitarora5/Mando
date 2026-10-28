@@ -81,7 +81,7 @@ export async function importCsv(ctx: PipelineContext, text: string, opts: { dryR
     }
   }
   if (affected.length) {
-    const scored = await scoreStage(ctx, { companyIds: affected });
+    const scored = await scoreStage(ctx, { companyIds: affected, trigger: "csv_import" });
     for (const [k, v] of Object.entries(scored.counts)) r.counts[`score_${k}`] = v;
     r.errors.push(...scored.errors);
   }
