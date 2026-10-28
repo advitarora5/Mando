@@ -98,7 +98,14 @@ export function workdaySentence(text: string): string | null {
   const sentences = text.split(/(?<=[.!?])\s+|\n+/).map(s => s.trim()).filter(s => /\bworkday\b/i.test(s) && s.split(/\s+/).length >= 3);
   const best = sentences.find(s => s.split(/\s+/).length <= 60) ?? sentences[0];
   if (!best) return null;
-  const check = verifyQuote(best.split(/\s+/).length > 60 ? best.split(/\s+/).slice(0, 60).join(" ") : best, text);
+  const words = [...best.matchAll(/\S+/g)];
+  const mention = words.findIndex(word => /\bworkday\b/i.test(word[0]));
+  // Keep the supporting product mention inside the verbatim excerpt, even in long sentences.
+  const start = Math.max(0, Math.min(mention - 30, words.length - 60));
+  const excerpt = words.length > 60
+    ? best.slice(words[start].index, words[start + 59].index! + words[start + 59][0].length)
+    : best;
+  const check = verifyQuote(excerpt, text);
   return check.ok ? check.quote : null;
 }
 

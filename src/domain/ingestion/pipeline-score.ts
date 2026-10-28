@@ -185,7 +185,7 @@ export function timingFromSignals(signals: ScoringSignal[], now: Date): Category
       else if (days > 183 && days <= 365) candidates.push({ points: 10, signal: s, why: `dated rollout ${days} days ago` });
     } else if (s.type === "go_live") {
       candidates.push({ points: 5, signal: s, why: "go-live without a day-precise date: current operations baseline" });
-    } else if (s.type === "hiring" && s.confidence >= 0.8 && withinMonths(s.signal_date ?? s.first_seen_at.slice(0, 10), 12, now)) {
+    } else if (s.type === "hiring" && s.confidence >= 0.8 && s.signal_date && withinMonths(s.signal_date, 12, now)) {
       candidates.push({ points: 8, signal: s, why: "employer-posted Workday hiring within 12 months" });
     } else if (s.type === "known_customer" || s.type === "hiring") {
       candidates.push({ points: 5, signal: s, why: "current Workday operations, no recent dated trigger" });
