@@ -561,3 +561,114 @@ test('employer evidence: branded shared document/social/ATS pages are not corpor
     assert.equal(ctx.fetch.calls.length, 0);
   }
 });
+
+// ---- guessed domains for slug-derived (first_word) tenants: no Treg, still needs identity + the reciprocal Workday link ----
+const slugSite = { id: 'slug', tenant: 'nexstar', pod: 'wd5', site: 'Careers', normalized_name: 'nexstar', enabled: true, match_kind: 'first_word' };
+const slugWorkday = 'https://nexstar.wd5.myworkdayjobs.com/en-US/Careers';
+function slugContext(pages) {
+  const fetch = fakeFetch([
+    { match: /\/robots\.txt$/, respond: () => response(200, 'User-agent: *\nAllow: /') },
+    ...Object.entries(pages).map(([url, body]) => ({ match: new RegExp(`^${url.replace(/[.*+?^${}()|[\]\/]/g, '\$&')}$`), respond: () => html(body) })),
+  ]);
+  return makeCtx({ fetch, treg: null });
+}
+const resolveSlug = ctx => resolveWebsite(ctx, 'Nexstar', [slugSite], new WebsiteHttp(ctx));
+
+test('website guess: {tenant}.com with the company name and a careers link to the exact Workday site confirms, without Treg', async () => {
+  const ctx = slugContext({
+    'https://nexstar.com/': '<html><title>Nexstar Media Group | Home</title><a href="/careers">Careers</a></html>',
+    'https://nexstar.com/careers': `<html><title>Careers</title><a href="${slugWorkday}">Search jobs</a></html>`,
+  });
+  const result = await resolveSlug(ctx);
+  assert.equal(result.status, 'confirmed');
+  assert.equal(result.domain, 'nexstar.com');
+  assert.equal(result.evidence.checks.at(-1).workday_url, slugWorkday);
+});
+
+test('website guess: a same-name page with no link to the observed Workday site does not confirm, and is not an error', async () => {
+  const ctx = slugContext({
+    'https://nexstar.com/': '<html><title>Nexstar Cycles</title><a href="/careers">Careers</a></html>',
+    'https://nexstar.com/careers': '<html><title>Careers</title><a href="https://other.wd5.myworkdayjobs.com/en-US/Careers">Jobs</a></html>',
+  });
+  const result = await resolveSlug(ctx);
+  assert.equal(result.status, 'unresolved'); assert.equal(result.domain, null);
+});
+
+test('website guess: unreachable guesses are misses, the result is cached without Treg, and full-name sites are never guessed', async () => {
+  const ctx = slugContext({});
+  const first = await resolveSlug(ctx);
+  assert.equal(first.status, 'unresolved');
+  const calls = ctx.fetch.calls.length;
+  assert.equal(await resolveSlug(ctx), first);
+  assert.equal(ctx.fetch.calls.length, calls, 'second run reuses the stored result');
+
+  const trusted = slugContext({});
+  const result = await resolveWebsite(trusted, 'Nexstar', [{ ...slugSite, match_kind: 'full_name' }], new WebsiteHttp(trusted));
+  assert.equal(trusted.fetch.calls.length, 0);
+  assert.equal(result.status, 'unresolved');
+});
+
+// ---- the created company carries the name its confirmed website uses, not the tenant slug ----
+const nexstarPages = {
+  'https://nexstar.com/': '<html><title>Nexstar Media Group | Home</title><a href="/careers">Careers</a></html>',
+  'https://nexstar.com/careers': `<html><title>Careers</title><a href="${slugWorkday}">Search jobs</a></html>`,
+};
+const slugSignal = (ctx, extra = {}) => ctx.store.upsertSignal({ company_id: null, review_item_id: null, capture_id: 'robots', extraction_id: null, type: 'known_customer', signal_date: null, source_url: slugWorkday, quote: 'Workday career site', confidence: 0.95, company_name: 'Nexstar', products: null, project_type: null, role_seniority: null, timing_words: null, method: 'structured', seen_at: ctx.now().toISOString(), ...extra });
+
+test('slug name: a company created straight from a confirmed guessed website is named after the website', async () => {
+  const ctx = slugContext(nexstarPages);
+  ctx.store.sites.push({ ...slugSite, company_name: 'Nexstar', company_id: null, review_item_id: null, capture_id: 'robots' });
+  await slugSignal(ctx);
+  const out = await matchStage(ctx);
+  assert.deepEqual(out.errors, []);
+  assert.equal(ctx.store.companyRows.length, 1);
+  assert.equal(ctx.store.companyRows[0].name, 'Nexstar Media Group');
+  assert.equal(ctx.store.companyRows[0].domain, 'nexstar.com');
+});
+
+test('slug name: a review waiting for a website is renamed when it is admitted, and a trusted full name is left alone', async () => {
+  const ctx = slugContext(nexstarPages);
+  ctx.store.sites.push({ ...slugSite, company_name: 'Nexstar', company_id: null, review_item_id: null, capture_id: 'robots' });
+  const item = await ctx.store.addReviewItem({ candidate_name: 'Nexstar', normalized_name: 'nexstar', candidate_domain: null, employee_count: null, suggested_company_id: null, reason: 'no_website' });
+  await slugSignal(ctx, { review_item_id: item.id });
+  const out = await matchStage(ctx);
+  assert.deepEqual(out.errors, []);
+  assert.equal(ctx.store.reviews[0].status, 'approved');
+  assert.equal(ctx.store.companyRows[0].name, 'Nexstar Media Group');
+
+  const full = slugContext(nexstarPages);
+  full.store.sites.push({ ...slugSite, company_name: 'Nexstar', match_kind: 'full_name', company_id: null, review_item_id: null, capture_id: 'robots' });
+  await slugSignal(full);
+  await matchStage(full);
+  assert.equal(full.store.companyRows.length, 0, 'full-name sites are not guessed, so nothing is created without another proof');
+});
+
+// ---- guessed domains: direct careers probe and the redirect / parked-page guards ----
+test('website guess: a careers link the homepage does not expose is found by probing /careers directly', async () => {
+  const ctx = slugContext({
+    'https://nexstar.com/': '<html><title>Nexstar Media Group</title><p>Welcome</p></html>',
+    'https://nexstar.com/careers': `<html><title>Careers</title><a href="${slugWorkday}">Search jobs</a></html>`,
+  });
+  const result = await resolveSlug(ctx);
+  assert.equal(result.status, 'confirmed'); assert.equal(result.domain, 'nexstar.com');
+});
+
+test('website guess: a guess that redirects to another domain, or a parked page, never confirms', async () => {
+  const redirect = makeCtx({ treg: null, fetch: fakeFetch([
+    { match: /\/robots\.txt$/, respond: () => response(200, 'User-agent: *\nAllow: /') },
+    { match: /^https:\/\/nexstar\.com\/$/, respond: () => response(301, '', { location: 'https://othercorp.com/' }) },
+    { match: /^https:\/\/othercorp\.com\/$/, respond: () => html(`<html><title>Nexstar Holdings</title><a href="${slugWorkday}">Careers</a></html>`) },
+  ]) });
+  assert.equal((await resolveSlug(redirect)).status, 'unresolved');
+
+  const parked = slugContext({ 'https://nexstar.com/': `<html><title>Nexstar</title>This domain is for sale <a href="${slugWorkday}">x</a></html>` });
+  assert.equal((await resolveSlug(parked)).status, 'unresolved');
+});
+
+test('website guess: a link to another career site of the same tenant proves ownership; a different tenant still does not', async () => {
+  const other = 'https://nexstar.wd5.myworkdayjobs.com/en-US/OtherSite';
+  const ctx = slugContext({ 'https://nexstar.com/': `<html><title>Nexstar Media Group</title><a href="${other}">Jobs</a></html>` });
+  assert.equal((await resolveSlug(ctx)).status, 'confirmed');
+  const wrong = slugContext({ 'https://nexstar.com/': '<html><title>Nexstar Media Group</title><a href="https://rival.wd5.myworkdayjobs.com/en-US/Careers">Jobs</a></html>' });
+  assert.equal((await resolveSlug(wrong)).status, 'unresolved');
+});

@@ -122,6 +122,9 @@ export function worldFetch(opts = {}) {
   const details = fixtureJson('workday-job-details-nvidia.json');
   const detailFor = path => details.find(d => d.url.endsWith(path)) ?? details[0];
   return fakeFetch([
+    // The Common Crawl source lists no tenants in this world: the SEC-name route is what the fixtures exercise.
+    { match: /index\.commoncrawl\.org\/collinfo\.json/, respond: () => response(200, []) },
+    { match: /web\.archive\.org\/cdx\/search\/cdx/, respond: () => response(200, '') },
     { match: /^https:\/\/[a-z0-9]+\.example\/robots\.txt$/, respond: () => response(200, 'User-agent: *\nAllow: /') },
     { match: /^https:\/\/[a-z0-9]+\.example\/$/, respond: url => {
       const tenant = new URL(url).hostname.split('.')[0];

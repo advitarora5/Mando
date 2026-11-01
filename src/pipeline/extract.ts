@@ -65,11 +65,18 @@ export function needsModelText(kind: string, title: string | null, text: string)
 }
 
 // "March 4, 2026", "4 March 2026", "2026-03-04" -> ISO day. Month-only or relative dates stay null; a day is never invented.
-export function isoDay(text: string | null | undefined): string | null {
+export function isoDay(text: string | null | undefined, publishedOn?: string | null): string | null {
   if (!text) return null;
   const iso = text.match(/\b(20\d\d)-(\d\d)-(\d\d)\b/);
   if (iso) return `${iso[1]}-${iso[2]}-${iso[3]}`;
   const months = ["january", "february", "march", "april", "may", "june", "july", "august", "september", "october", "november", "december"];
+  // "July 1" with no year: take the year from the page's publication date, only if that puts it within 6 months of it.
+  const bare = publishedOn && text.toLowerCase().match(/\b(january|february|march|april|may|june|july|august|september|october|november|december)\s+(\d{1,2})\b(?!\s*,?\s*\d{4})/);
+  if (bare) {
+    const near = [-1, 0, 1].map(d => `${Number(publishedOn.slice(0, 4)) + d}-${String(months.indexOf(bare[1]) + 1).padStart(2, "0")}-${bare[2].padStart(2, "0")}`)
+      .filter(v => new Date(`${v}T00:00:00Z`).toISOString().slice(0, 10) === v && Math.abs(Date.parse(v) - Date.parse(publishedOn)) <= 183 * 86400000);
+    return near.length === 1 ? near[0] : null;
+  }
   const a = text.toLowerCase().match(/\b(january|february|march|april|may|june|july|august|september|october|november|december)\s+(\d{1,2}),?\s+(20\d\d)\b/);
   const b = text.toLowerCase().match(/\b(\d{1,2})\s+(january|february|march|april|may|june|july|august|september|october|november|december),?\s+(20\d\d)\b/);
   const [month, day, year] = a ? [a[1], a[2], a[3]] : b ? [b[2], b[1], b[3]] : [null, null, null];
@@ -91,7 +98,14 @@ export function workdaySentence(text: string): string | null {
   const sentences = text.split(/(?<=[.!?])\s+|\n+/).map(s => s.trim()).filter(s => /\bworkday\b/i.test(s) && s.split(/\s+/).length >= 3);
   const best = sentences.find(s => s.split(/\s+/).length <= 60) ?? sentences[0];
   if (!best) return null;
-  const check = verifyQuote(best.split(/\s+/).length > 60 ? best.split(/\s+/).slice(0, 60).join(" ") : best, text);
+  const words = [...best.matchAll(/\S+/g)];
+  const mention = words.findIndex(word => /\bworkday\b/i.test(word[0]));
+  // Keep the supporting product mention inside the verbatim excerpt, even in long sentences.
+  const start = Math.max(0, Math.min(mention - 30, words.length - 60));
+  const excerpt = words.length > 60
+    ? best.slice(words[start].index, words[start + 59].index! + words[start + 59][0].length)
+    : best;
+  const check = verifyQuote(excerpt, text);
   return check.ok ? check.quote : null;
 }
 

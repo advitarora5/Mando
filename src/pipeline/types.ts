@@ -189,7 +189,7 @@ export interface PipelineStore {
   fillReviewWebsite(itemId: string, domain: string): Promise<boolean>;
   websiteResolution(normalizedName: string): Promise<WebsiteResolution | null>;
   saveWebsiteResolution(resolution: WebsiteResolution): Promise<void>;
-  updatePendingReview(itemId: string, patch: { candidate_domain: string | null; reason: ReviewItem["reason"]; suggested_company_id: string | null }): Promise<void>;
+  updatePendingReview(itemId: string, patch: { candidate_domain: string | null; reason: ReviewItem["reason"]; suggested_company_id: string | null; candidate_name?: string }): Promise<void>;
   // Locks and rechecks eligibility; creation and review resolution are a single transaction.
   admitReview(itemId: string, domain: string, source: string, existingCompanyId: string | null, runId: string | null): Promise<string>;
   reviewItems(status?: ReviewItem["status"]): Promise<ReviewItem[]>;

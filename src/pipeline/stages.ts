@@ -3,9 +3,10 @@
 import { decideMatch, TRUSTED_CONFIDENCE } from "../domain/ingestion/matching.ts";
 import { isSimilarName, normalizeName } from "../domain/ingestion/normalize.ts";
 import { scoreCompany, type ScoringSignal } from "../domain/ingestion/pipeline-score.ts";
+import { financialsFor } from "./financials.ts";
 import { isSignalFresh, mayScore } from "../domain/ingestion/settings.ts";
 import { categories } from "../domain/contracts/company.ts";
-import { resolveWebsite, WebsiteHttp, WEBSITE_LIMIT, websiteSignature, loadEmployerLinks } from "./website.ts";
+import { resolveWebsite, WebsiteHttp, WEBSITE_LIMIT, websiteSignature, loadEmployerLinks, confirmedName } from "./website.ts";
 import { collectors } from "./collectors/sources.ts";
 import { extractCapture, loadPrompt, PROMPT_VERSION } from "./extract.ts";
 import type { CollectLimits, PipelineContext, RunCounts, SignalRow, SourceRow, StoredScore } from "./types.ts";
@@ -181,6 +182,8 @@ export async function matchStage(ctx: PipelineContext, opts: { dryRun?: boolean 
         bump(r, "joined_pending_review"); continue;
       }
       const best = Math.max(0, ...signals.filter(s => isSignalFresh(s, settings, ctx.now())).map(s => s.confidence));
+      // A slug-derived name (Common Crawl tenant) is replaced by the name the confirmed website uses.
+      const pageName = candidateSites.some(s => s.match_kind === "first_word") ? confirmedName(lookup) : null;
       const decision = decideMatch({ name, domain: lookup.domain, domain_confirmed: lookup.status === "confirmed", best_confidence: best }, known, { canCreate: created < settings.max_new_companies_per_run });
       if (opts.dryRun) { bump(r, `would_${decision.action}`); continue; }
       if (decision.action === "skip") { bump(r, "excluded"); continue; }
@@ -191,8 +194,9 @@ export async function matchStage(ctx: PipelineContext, opts: { dryRun?: boolean 
         await ctx.store.assignSignals(ids, { review_item_id: waiting.id });
         await ctx.store.linkWorkdaySites(normalized, { review_item_id: waiting.id });
         if (decision.action === "create" || decision.action === "attach") {
+          if (pageName && decision.action === "create") await ctx.store.updatePendingReview(waiting.id, { candidate_name: pageName, candidate_domain: waiting.candidate_domain, reason: waiting.reason, suggested_company_id: waiting.suggested_company_id });
           const id = await ctx.store.admitReview(waiting.id, lookup.domain!, source!, decision.action === "attach" ? decision.company_id : null, ctx.runId);
-          if (decision.action === "create") { known.push({ id, name: waiting.candidate_name, domain: lookup.domain, employee_count: waiting.employee_count, pipeline: true }); created++; }
+          if (decision.action === "create") { known.push({ id, name: pageName ?? waiting.candidate_name, domain: lookup.domain, employee_count: waiting.employee_count, pipeline: true }); created++; }
           bump(r, decision.action === "create" ? "new_companies" : "attached_existing");
           bump(r, "recovered_reviews");
         } else {
@@ -204,12 +208,12 @@ export async function matchStage(ctx: PipelineContext, opts: { dryRun?: boolean 
         await ctx.store.linkWorkdaySites(normalized, { company_id: decision.company_id });
         bump(r, "attached_existing");
       } else if (decision.action === "create") {
-        const companyName = displayName(name, null);
+        const companyName = pageName ?? displayName(name, null);
         const id = await ctx.store.createPipelineCompany({ name: companyName, domain: lookup.domain, employee_count: null, source: source! }, ctx.runId, { signal_ids: ids, normalized_name: normalized });
         known.push({ id, name: companyName, domain: lookup.domain, employee_count: null, pipeline: true });
         created++; bump(r, "new_companies");
       } else {
-        const item = await ctx.store.addReviewItem({ candidate_name: displayName(name, null), normalized_name: normalized, candidate_domain: lookup.status === "confirmed" ? lookup.domain : null, employee_count: null, suggested_company_id: decision.suggested_company_id, reason: decision.reason });
+        const item = await ctx.store.addReviewItem({ candidate_name: pageName ?? displayName(name, null), normalized_name: normalized, candidate_domain: lookup.status === "confirmed" ? lookup.domain : null, employee_count: null, suggested_company_id: decision.suggested_company_id, reason: decision.reason });
         await ctx.store.assignSignals(ids, { review_item_id: item.id });
         await ctx.store.linkWorkdaySites(normalized, { review_item_id: item.id });
         bump(r, item.inserted ? `review_${decision.reason}` : "review_existing");
@@ -249,7 +253,9 @@ export async function scoreStage(ctx: PipelineContext, opts: { companyIds?: stri
       // A company with no evidence yet still gets a row, so the dashboard shows "Needs evidence" instead of nothing.
       if (!signals.length && !contacts.length) bump(r, "no_evidence");
       // The employee count has no source link on the company row, so the +3 size bonus is not awarded automatically.
-      const assessment = scoreCompany(company.id, signals as ScoringSignal[], contacts, settings, now, { employee_count: company.employee_count, employee_source: null });
+      // ponytail: SEC facts are refetched on every score pass (once per company per run); cache them in a table if that gets slow.
+      const financials = await financialsFor(ctx, company.name);
+      const assessment = scoreCompany(company.id, signals as ScoringSignal[], contacts, settings, now, { employee_count: company.employee_count, employee_source: null, financials });
       if (!assessment.result.ok) { bump(r, "error_score"); r.errors.push(`${company.name}: ${assessment.result.errors.join(" ")}`); continue; }
       const latest = await ctx.store.latestScore(company.id);
       const due = !latest || now.getTime() - Date.parse(latest.assessed_at) >= RESCORE_DAYS * 86400000;

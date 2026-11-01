@@ -44,13 +44,13 @@ export function primarySites(sites: string[]): string[] {
   return [(hinted.length ? hinted.sort((a, b) => a.length - b.length) : pool)[0]].filter(Boolean);
 }
 
-function item(source: string, url: string, status: number, contentType: string | null, raw: string, now: Date, meta: Record<string, unknown>, volatile: string[] = []): RawItem {
+export function item(source: string, url: string, status: number, contentType: string | null, raw: string, now: Date, meta: Record<string, unknown>, volatile: string[] = []): RawItem {
   return { source, url, fetched_at: now.toISOString(), http_status: status, content_type: contentType, raw, fingerprint: contentFingerprint(raw, volatile), meta };
 }
 
-function empty(): CollectResult { return { items: [], requests: 0, blocked: null, errors: [], spend_usd: 0 }; }
+export function empty(): CollectResult { return { items: [], requests: 0, blocked: null, errors: [], spend_usd: 0 }; }
 
-function fail(result: CollectResult, failure: HttpFail): boolean {
+export function fail(result: CollectResult, failure: HttpFail): boolean {
   result.errors.push({ url: failure.url, kind: failure.kind, message: failure.message });
   if (STOPPING_FAILURES.includes(failure.kind)) { result.blocked = `${failure.kind}: ${failure.message}`; return true; }
   return false;

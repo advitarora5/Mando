@@ -9,6 +9,11 @@ import type { PipelineContext, WebsiteResolution, WorkdaySite, EmployerWebsiteLi
 
 export const WEBSITE_VERSION = 9;
 export const WEBSITE_LIMIT = 50;
+const GUESS_TLDS = ["com", "org", "edu", "net", "tv"];
+const CAREERS_PATHS = ["/careers", "/jobs", "/about/careers", "/company/careers"];
+const PARKED = /domain (name )?(is )?for sale|buy this domain|this domain may be for sale|domain is parked|parked free|sedoparking|hugedomains/i;
+// Candidate hosts for a slug: the usual endings, plus health systems that add the word ("allina" -> allinahealth.org).
+export const guessDomains = (tenant: string) => [...GUESS_TLDS.map(tld => `${tenant}.${tld}`), `${tenant}health.org`, `${tenant}health.com`];
 const DAY = 86400000;
 export const MAX_WEBSITE_BODY = 2 * 1024 * 1024;
 const MAX_ROBOTS_BODY = 512 * 1024;
@@ -126,7 +131,10 @@ export function careersLinks(html: string, base: string, companyHost: string): s
   }).sort((a, b) => b.score - a.score);
   return [...new Set(scored.map(row => row.href))];
 }
-export function pageIdentity(html: string, name: string): string | null {
+// loose: the page's name only has to start with the target (a tenant slug "nexstar" for "Nexstar Media Group").
+// It is used for guessed domains only, which must also pass the reciprocal Workday-link proof.
+const compact = (value: string) => normalizeName(value).replace(/ /g, "");
+export function pageIdentity(html: string, name: string, loose = false): string | null {
   const target = normalizeName(name); if (!target) return null;
   const names: string[] = [];
   for (const match of html.matchAll(/<meta\b[^>]*>/gi)) if (/^(og:site_name|application-name)$/i.test(attr(match[0], "property") || attr(match[0], "name"))) names.push(attr(match[0], "content"));
@@ -155,10 +163,12 @@ export function pageIdentity(html: string, name: string): string | null {
       walk(JSON.parse(match[1]));
     } catch { /* broken structured data is not evidence */ }
   }
-  return names.find(value => normalizeName(value.replace(/<[^>]+>/g, " ")) === target) ?? null;
+  return names.find(value => loose ? compact(value.replace(/<[^>]+>/g, " ")).startsWith(compact(name)) : normalizeName(value.replace(/<[^>]+>/g, " ")) === target) ?? null;
 }
-function workdayLink(html: string, base: string, sites: WorkdaySite[]): string | null {
-  return links(html, base).find(({ url }) => sites.some(site => url.hostname === `${site.tenant}.${site.pod}.myworkdayjobs.com` && decodeURIComponent(url.pathname).split("/").includes(site.site)))?.url.href ?? null;
+// tenantOnly (guessed slug domains): a link to any career site of the tenant proves the tenant is theirs. The company may link
+// a different site than the one picked as primary (M&T Bank links /MTB while the primary pick was Wilmington Trust's site).
+function workdayLink(html: string, base: string, sites: WorkdaySite[], tenantOnly = false): string | null {
+  return links(html, base).find(({ url }) => sites.some(site => url.hostname === `${site.tenant}.${site.pod}.myworkdayjobs.com` && (tenantOnly || decodeURIComponent(url.pathname).split("/").includes(site.site))))?.url.href ?? null;
 }
 // A branded page on a shared social/document/ATS platform is not a corporate website.
 function sharedPlatform(domain: string): boolean {
@@ -194,6 +204,12 @@ export async function loadEmployerLinks(ctx: PipelineContext, name: string, site
   }
   return [...new Map(refs.map(ref => [`${ref.domain}|${ref.capture_id}|${ref.url}`, ref])).values()];
 }
+// The company's own name as its confirmed website writes it ("Nexstar Media Group"): used instead of a tenant slug.
+export function confirmedName(resolution: WebsiteResolution): string | null {
+  if (resolution.status !== "confirmed" || !resolution.domain) return null;
+  const name = resolution.evidence.checks.find(check => check.identity && (check.workday_url || check.employer_link))?.identity?.replace(/\s+/g, " ").trim();
+  return name && name.length <= 120 ? name : null;
+}
 export function websiteSignature(sites: WorkdaySite[], employerLinks: EmployerWebsiteLink[] = []): string {
   return createHash("sha256").update(JSON.stringify([WEBSITE_VERSION, sites.map(s => `${s.tenant}.${s.pod}/${s.site}`).sort(), employerLinks.map(ref => `${ref.capture_id}|${ref.url}`).sort()])).digest("hex");
 }
@@ -206,6 +222,7 @@ export async function resolveWebsite(ctx: PipelineContext, name: string, sites: 
   const checked = ctx.now();
   const base: WebsiteResolution = { normalized_name: normalized, company_name: name, domain: null, status: "unresolved", reason: "no matching Workday site available for reciprocal confirmation", input_signature: signature, checked_at: checked.toISOString(), next_check_at: new Date(+checked + 7 * DAY).toISOString(), evidence: { candidates: [], checks: [] } };
   if (!sites.length) { if (!dryRun) await ctx.store.saveWebsiteResolution(base); return base; }
+  let guessed = false;
   try {
     const query = name.replace(/\s*\/[A-Z]{2}\/?\s*$/, "").trim();
     const fetchCandidates = async (company: string): Promise<{ domain: string; company_name: string }[]> => {
@@ -229,8 +246,9 @@ export async function resolveWebsite(ctx: PipelineContext, name: string, sites: 
     candidates.push(...sourceCandidates);
     const confirmed = new Set<string>(); let failures = 0, identityFailures = 0;
     const visitedDomains = new Set<string>();
-    const checkCandidates = async (rows: typeof candidates) => {
+    const checkCandidates = async (rows: typeof candidates, loose = false) => {
       for (const candidate of rows) {
+        if (loose && confirmed.size) break;
         if (normalizeName(candidate.company_name) !== normalized) continue;
         const domain = normalizeDomain(candidate.domain); if (!domain || sharedPlatform(domain)) continue;
         if (visitedDomains.has(domain)) continue;
@@ -239,16 +257,22 @@ export async function resolveWebsite(ctx: PipelineContext, name: string, sites: 
         try {
           safeUrl(candidate.domain.includes("://") ? candidate.domain : `https://${candidate.domain}/`);
           const home = await http.page(`https://${domain}/`);
-          const identity = pageIdentity(home.html, name);
-          if (!identity) { base.evidence.checks.push({ domain, url: home.url, reason: "no exact company identity in page metadata" }); continue; }
-          identityMatched = true;
+          // Guessed domains: a redirect to another domain, or a parked "for sale" page, is never evidence.
+          if (loose && (normalizeDomain(new URL(home.url).hostname) !== domain || PARKED.test(home.html.slice(0, 30000)))) { base.evidence.checks.push({ domain, url: home.url, reason: "guessed domain redirects elsewhere or is parked" }); continue; }
+          const identity = pageIdentity(home.html, name, loose);
+          // Guessed slug domains without a name match (M&T Bank on mtb.com) may still pass on the exact Workday link below.
+          const slugDomain = loose && sites.some(s => domain.split(".").slice(-2, -1)[0] === s.tenant);
+          if (!identity && !slugDomain) { base.evidence.checks.push({ domain, url: home.url, reason: "no exact company identity in page metadata" }); continue; }
+          identityMatched = !!identity;
+          // A guessed domain may use the posting shortcut only when its name is the tenant slug itself and the tenant's
+          // own posting links to it; otherwise (benefit vendors, acquired brands) it needs the reciprocal link.
           const employerLink = backing(domain);
-          if (employerLink) {
+          if (identity && employerLink && (!loose || sites.some(s => domain.split(".").slice(-2, -1)[0] === s.tenant))) {
             base.evidence.checks.push({ domain, url: home.url, identity, employer_link: employerLink, reason: "company identity and corporate link from its observed Workday posting" });
             confirmed.add(normalizeDomain(new URL(home.url).hostname)!);
             continue;
           }
-          let proof = workdayLink(home.html, home.url, sites); let proofUrl = home.url;
+          let proof = workdayLink(home.html, home.url, sites, loose); let proofUrl = home.url;
           const homeHost = normalizeDomain(new URL(home.url).hostname)!;
           const queue = careersLinks(home.html, home.url, homeHost);
           const visited = new Set([home.url]);
@@ -262,10 +286,24 @@ export async function resolveWebsite(ctx: PipelineContext, name: string, sites: 
             visited.add(page.url);
             const pageHost = normalizeDomain(new URL(page.url).hostname)!;
             if (pageHost !== homeHost && !pageHost.endsWith(`.${homeHost}`)) continue;
-            proof = workdayLink(page.html, page.url, sites); proofUrl = page.url;
+            proof = workdayLink(page.html, page.url, sites, loose); proofUrl = page.url;
             queue.unshift(...careersLinks(page.html, page.url, homeHost).filter(url => !visited.has(url)));
           }
-          base.evidence.checks.push({ domain, url: proofUrl, identity, workday_url: proof, reason: proof ? "company identity and reciprocal Workday career link" : "no reciprocal link to observed Workday career site" });
+          // Guessed domains also try the usual careers paths directly: many homepages build the careers link in a script or sit behind a bot wall.
+          for (const path of loose ? CAREERS_PATHS : []) {
+            if (proof) break;
+            const target = new URL(path, home.url).href;
+            if (visited.has(target)) continue;
+            visited.add(target);
+            try {
+              const page = await http.page(target);
+              visited.add(page.url);
+              const pageHost = normalizeDomain(new URL(page.url).hostname)!;
+              if (pageHost !== homeHost && !pageHost.endsWith(`.${homeHost}`)) continue;
+              proof = workdayLink(page.html, page.url, sites, loose); proofUrl = page.url;
+            } catch { /* a missing or blocked path is a miss */ }
+          }
+          base.evidence.checks.push({ domain, url: proofUrl, identity: identity ?? undefined, workday_url: proof, reason: proof ? (identity ? "company identity and reciprocal Workday career link" : "reciprocal Workday career link on the slug domain, no name match: check the name") : "no reciprocal link to observed Workday career site" });
           if (proof) confirmed.add(normalizeDomain(new URL(home.url).hostname)!);
         } catch (error) {
           failures++;
@@ -277,6 +315,14 @@ export async function resolveWebsite(ctx: PipelineContext, name: string, sites: 
     // Posting links are candidates in their own right, even when Hunter omits them.
     // Inspect every bounded source candidate before deciding whether one is unique.
     await checkCandidates(sourceCandidates);
+    // A slug-derived name (Common Crawl tenant) has nothing to search for. Guess {tenant}.com/.org/.edu/.net; a wrong
+    // guess simply fails identity or the Workday-link proof, and unreachable guesses are misses, not errors.
+    if (!confirmed.size && sites.some(s => s.match_kind === "first_word")) {
+      guessed = true;
+      const [failed, identityFailed] = [failures, identityFailures];
+      await checkCandidates([...new Set(sites.filter(s => s.match_kind === "first_word").map(s => s.tenant))].flatMap(tenant => guessDomains(tenant).map(domain => ({ domain, company_name: name }))), true);
+      failures = failed + (identityFailures - identityFailed);
+    }
     if (!confirmed.size && ctx.treg) {
       const hunter = await fetchCandidates(query);
       // Retry the complete normalized identity, never an arbitrary first-word alias.
@@ -322,7 +368,7 @@ export async function resolveWebsite(ctx: PipelineContext, name: string, sites: 
     else base.reason = "no uniquely corroborated website";
   } catch (error) { base.status = "error"; base.reason = (error as Error).message; }
   if (base.status === "error") base.next_check_at = new Date(+checked + DAY).toISOString();
-  if (!ctx.treg && base.status !== "confirmed") return { ...base, reason: base.status === "error" ? base.reason : "Treg is not configured" }; // do not cache disabled fallback configuration
+  if (!ctx.treg && !guessed && base.status !== "confirmed") return { ...base, reason: base.status === "error" ? base.reason : "Treg is not configured" }; // do not cache disabled fallback configuration
   if (!dryRun) await ctx.store.saveWebsiteResolution(base);
   return base;
 }
