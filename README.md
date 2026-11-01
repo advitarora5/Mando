@@ -43,6 +43,9 @@ npm run build
 
 See [ownership](docs/ownership.md).
 
+Contact research has an opt-in queued worker: see [setup, credit limits and recovery](scripts/contact-research.md).
+It discovers Workday contacts and verifies email deliverability through treg; it is disabled until configured.
+
 Production builds use the supported Webpack option because Turbopack worker port creation is restricted in this execution environment.
 
 ## Fictional demo fixture

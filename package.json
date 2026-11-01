@@ -12,6 +12,7 @@
     "insights": "node --env-file=.env.local scripts/generate-insights.mjs",
     "drafts": "node --env-file=.env.local scripts/generate-drafts.mjs",
     "score:save": "node --env-file=.env.local scripts/save-assessments.mjs",
+    "contacts:research": "node --env-file=.env.local scripts/run-contact-research.mjs",
     "test": "node --test tests/*.test.mjs"
   },
   "dependencies": {
