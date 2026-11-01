@@ -2,15 +2,18 @@ import { z } from "zod";
 import { htmlToText } from "../domain/ingestion/quote.ts";
 import { normalizeName } from "../domain/ingestion/normalize.ts";
 import { WebsiteHttp } from "./website.ts";
-import { digest, identityCaseSchema, MAX_IDENTITY_AGE_MS, type IdentityCase, type IdentitySource, type IdentityGroup } from "./identity.ts";
+import { digest, EMPLOYER_CONTEXT, identityCaseSchema, MAX_IDENTITY_AGE_MS, type IdentityCase, type IdentitySource, type IdentityGroup } from "./identity.ts";
 import type { PipelineContext, WebsiteCapture } from "./types.ts";
 
 export const identityTargetSchema = identityCaseSchema.pick({ id: true, target_name: true, corporate_url: true, site: true, review_id: true });
 export type IdentityTarget = z.infer<typeof identityTargetSchema>;
-// Preserve both the introduction and employer boilerplate, which commonly appears at the end.
+// Preserve introduction, employer/business context in the middle, and footer boilerplate.
+// This only selects already collected text; it neither classifies businesses nor fetches more pages.
 export function boundedIdentityText(text: string): string {
   const clean = text.replace(/\r/g, "").trim();
-  return clean.length <= 5000 ? clean : `${clean.slice(0, 2490)}\n[...truncated...]\n${clean.slice(-2490)}`;
+  if (clean.length <= 5000) return clean;
+  const context = clean.slice(1800, -1800).split(/\n+/).filter(line => EMPLOYER_CONTEXT.test(line)).join("\n").slice(0, 1200);
+  return `${clean.slice(0, 1800)}\n[...truncated...]\n${context}\n[...truncated...]\n${clean.slice(-1800)}`;
 }
 function corporateEvidence(html: string): { text: string; identity_groups: IdentityGroup[] } {
   const structured: string[] = [];
@@ -27,15 +30,16 @@ function corporateEvidence(html: string): { text: string; identity_groups: Ident
             for (const value of [row[field]].flat()) if (typeof value === "string" && value.trim() && value.length <= 200) names.push({ field, value });
           }
           if (names.length && identity_groups.length < 8) identity_groups.push({ kind: "corporate_organization", names: names.slice(0, 8) });
-          for (const key of ["name", "legalName", "alternateName", "description"]) if (typeof row[key] === "string") structured.push(`${key}: ${row[key]}`);
-          for (const name of names) if (Array.isArray(row[name.field])) structured.push(`${name.field}: ${name.value}`);
+          for (const key of ["name", "legalName", "alternateName", "description", "industry", "slogan"]) {
+            for (const value of [row[key]].flat()) if (typeof value === "string") structured.push(`${key}: ${value}`);
+          }
         }
         if (row["@graph"]) walk(row["@graph"], depth + 1);
       };
       walk(JSON.parse(match[1]));
     } catch { /* malformed structured data is not identity evidence */ }
   }
-  const metadata = [...html.matchAll(/<meta\b[^>]*(?:property|name)=["'](?:og:site_name|og:title|description)["'][^>]*>/gi)]
+  const metadata = [...html.matchAll(/<meta\b[^>]*(?:property|name)=["'](?:og:site_name|og:title|og:description|description)["'][^>]*>/gi)]
     .map(m => m[0].match(/content=["']([^"']*)["']/i)?.[1] ?? "");
   return { text: boundedIdentityText([...metadata, ...structured, htmlToText(html)].join("\n")), identity_groups };
 }

@@ -9,7 +9,7 @@ import { contextFromEnv } from '../src/pipeline/context.ts';
 import { WebsiteHttp } from '../src/pipeline/website.ts';
 import { OllamaProvider } from '../src/pipeline/llm.ts';
 import { identityTargetSchema, prepareIdentityCase } from '../src/pipeline/identity-evidence.ts';
-import { identityCaseSchema, identityLabelSchema, verifyIdentity, reusableIdentity, evaluateIdentity } from '../src/pipeline/identity.ts';
+import { IDENTITY_MODEL_OPTIONS, identityCaseSchema, identityLabelSchema, verifyIdentity, reusableIdentity, evaluateIdentity } from '../src/pipeline/identity.ts';
 
 const read = path => JSON.parse(readFileSync(path, 'utf8'));
 function save(path, value) {
@@ -56,7 +56,7 @@ try {
     if (!response.ok) throw Error(`Ollama models HTTP ${response.status}`);
     const tag = (await response.json()).models?.find(m => m.name === model);
     if (!tag?.digest) throw Error(`model ${model} is not installed in Ollama`);
-    const llm = new OllamaProvider({ host, model, numCtx: 8192, timeoutMs: 120000, maxOutputTokens: 1000 });
+    const llm = new OllamaProvider({ host, model, timeoutMs: 120000, ...IDENTITY_MODEL_OPTIONS });
     const old = existsSync(args['--output']) ? read(args['--output']) : { results: [] };
     if (!Array.isArray(old.results)) throw Error('invalid existing shadow results');
     const selected = packets.slice(0, limit);
