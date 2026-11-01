@@ -14,7 +14,8 @@ function packet() {
       { id: 'w', side: 'workday', url: 'https://western.wd1.myworkdayjobs.com/wday/cxs/western/WESTERN/job/Professor_1', text: 'Western Colorado University is hiring an assistant professor for its university campus.' },
     ].map(s => ({ ...s, fetched_at: now.toISOString(), content_hash: digest(s.text), capture_id: null })) };
 }
-const mismatch = () => ({ verdict: 'different_company', corporate_identity: 'Western Digital', workday_identity: 'Western Colorado University', explanation: 'Different named employers.', evidence: {
+const mismatch = () => ({ verdict: 'different_company', corporate_identity: 'Western Digital', workday_identity: 'Western Colorado University',
+  connection_type: 'different_entities', connection_evidence: null, explanation: 'Different named employers.', evidence: {
   corporate: { source_id: 'c', quote: 'Western Digital develops data storage products' },
   workday: { source_id: 'w', quote: 'Western Colorado University is hiring an assistant professor' },
 } });
@@ -31,6 +32,11 @@ function model(answer = mismatch()) {
         const excerpt = source?.excerpts.find(e => e.text.includes(ref.quote));
         output.evidence[side] = { source_id: ref.source_id, excerpt_index: excerpt?.excerpt_index ?? 999 };
       }
+      if (output.connection_evidence) {
+        const ref = output.connection_evidence, source = sources.find(s => s.id === ref.source_id);
+        const excerpt = source?.excerpts.find(e => e.text.includes(ref.quote));
+        output.connection_evidence = { source_id: ref.source_id, excerpt_index: excerpt?.excerpt_index ?? 999 };
+      }
       return { ok: true, json: output, cost_usd: 0, ms: 1 };
     } };
 }
@@ -46,7 +52,7 @@ test('identity: known first-word collision is supported by both original sources
 
 test('identity: a same-employer pair can pass without a connecting hyperlink', async () => {
   const p = packet(); p.sources[1].text = 'Western Digital is hiring an engineer to develop storage products.';
-  const answer = mismatch(); Object.assign(answer, { verdict: 'same_company', workday_identity: 'Western Digital' });
+  const answer = mismatch(); Object.assign(answer, { verdict: 'same_company', workday_identity: 'Western Digital', connection_type: 'same_identity' });
   answer.evidence.workday.quote = 'Western Digital is hiring an engineer';
   assert.equal((await verifyIdentity(p, model(answer), 'v1', now)).verdict, 'same_company');
 });
@@ -126,9 +132,9 @@ test('identity evidence: samples exact-site jobs without the Workday keyword and
   const target = identityTargetSchema.strip().parse(packet());
   const ctx = makeCtx({ now: () => now, fetch: fakeFetch([
     { match: /robots.txt$/, respond: () => response(200, 'User-agent: *\nAllow: /') },
-    { match: /^https:\/\/westerndigital.com\/$/, respond: () => response(200, '<title>Western Digital</title><p>Western Digital develops data storage products for customers worldwide.</p>', { 'content-type': 'text/html' }) },
+    { match: /^https:\/\/westerndigital.com\/$/, respond: () => response(200, '<title>Western Digital</title><script type="application/ld+json">{"@type":"Corporation","name":"Western Digital","legalName":"Western Digital Corporation"}</script><p>Western Digital develops data storage products for customers worldwide.</p>', { 'content-type': 'text/html' }) },
     { match: /\/jobs$/, method: 'POST', respond: (url, init) => { assert.equal(JSON.parse(init.body).searchText, ''); return response(200, { jobPostings: [{ externalPath: '/job/Professor_1' }] }); } },
-    { match: /\/job\/Professor_1$/, respond: () => response(200, { jobPostingInfo: { title: 'Assistant Professor', jobDescription: '<p>Western Colorado University is hiring an assistant professor for its university campus.</p>' } }) },
+    { match: /\/job\/Professor_1$/, respond: () => response(200, { hiringOrganization: { name: 'Western Colorado University', url: '' }, jobPostingInfo: { title: 'Assistant Professor', jobDescription: '<p>Western Colorado University is hiring an assistant professor for its university campus.</p>' } }) },
   ]) });
   let reads = 0;
   ctx.store = { async websiteEvidenceCaptures() { reads++; return []; } }; // No mutation methods available.
@@ -136,6 +142,8 @@ test('identity evidence: samples exact-site jobs without the Workday keyword and
   assert.equal(out.sources.length, 2); assert.deepEqual(out.errors, []);
   assert.match(out.sources[1].text, /Western Colorado University/);
   assert.doesNotMatch(out.sources[1].text, /Western Digital/);
+  assert.deepEqual(out.sources[1].identity_groups[0].names, [{ field: 'hiringOrganization.name', value: 'Western Colorado University' }]);
+  assert.deepEqual(out.sources[0].identity_groups[0].names, [{ field: 'name', value: 'Western Digital' }, { field: 'legalName', value: 'Western Digital Corporation' }]);
   assert.equal(reads, 1);
   assert.throws(() => jobIdentityText('{}'), /job description/);
 });
@@ -158,6 +166,122 @@ test('identity evidence: unsafe job paths and JSON redirects never fetch outside
   ]) });
   await assert.rejects(new WebsiteHttp(ctx).json('https://western.wd1.myworkdayjobs.com/wday/cxs/western/WESTERN/jobs'), /HTTP 302/);
   assert.ok(ctx.fetch.calls.every(c => !c.url.includes('other.example')));
+});
+
+function namedCase(corporate, workday, statement = '') {
+  const p = packet(); p.target_name = corporate; p.corporate_url = 'https://corporate.example/';
+  p.site = { tenant: 'fixture', pod: 'wd1', site: 'External' };
+  p.sources[0] = { ...p.sources[0], url: p.corporate_url,
+    text: `${corporate} develops products and serves customers worldwide.`,
+    identity_groups: [{ kind: 'corporate_organization', names: [{ field: 'name', value: corporate }] }] };
+  p.sources[1] = { ...p.sources[1], url: 'https://fixture.wd1.myworkdayjobs.com/wday/cxs/fixture/External/job/Test_1',
+    text: `${workday} is hiring people to join our team.\n${statement}`,
+    identity_groups: [{ kind: 'workday_employer', names: [{ field: 'hiringOrganization.name', value: workday }] }] };
+  return p;
+}
+function namedAnswer(p, connection_type = 'same_identity') {
+  return { verdict: 'same_company', corporate_identity: p.sources[0].identity_groups[0].names[0].value,
+    workday_identity: p.sources[1].identity_groups[0].names[0].value, connection_type, connection_evidence: null,
+    explanation: 'Identity evidence is supplied by both sites.', evidence: {
+      corporate: { source_id: 'c', quote: p.sources[0].text.split('\n')[0] },
+      workday: { source_id: 'w', quote: p.sources[1].text.split('\n')[0] },
+    } };
+}
+
+test('identity aliases: Cisco/Cisco Systems can match while the complete observed names remain intact', async () => {
+  const p = namedCase('Cisco', 'Cisco Systems, Inc.');
+  p.sources[0].identity_groups[0].names.push({ field: 'legalName', value: 'Cisco Systems, Inc.' });
+  p.sources[0].text += '\nlegalName: Cisco Systems, Inc.';
+  const answer = namedAnswer(p, 'brand_alias'), llm = model(answer);
+  const result = await verifyIdentity(p, llm, 'v1', now);
+  assert.equal(result.verdict, 'same_company');
+  assert.deepEqual(result.answer.observed_identities.workday, ['Cisco Systems, Inc.']);
+  assert.deepEqual(result.answer.observed_identities.corporate, ['Cisco', 'Cisco Systems, Inc.']);
+  assert.match(llm.calls[0].user, /hiringOrganization.name/);
+  // Legal-suffix differences do not require strict string equality or a relationship claim.
+  const suffix = namedCase('Cisco Systems, Inc.', 'Cisco Systems Corporation');
+  assert.equal((await verifyIdentity(suffix, model(namedAnswer(suffix)), 'v1', now)).verdict, 'same_company');
+});
+
+test('identity aliases: explicit text can establish an alias; a shared prefix alone cannot', async () => {
+  const p = namedCase('Cisco', 'Cisco Systems, Inc.', 'Cisco Systems, Inc. is also known as Cisco.');
+  const answer = namedAnswer(p, 'brand_alias');
+  answer.connection_evidence = { source_id: 'w', quote: 'Cisco Systems, Inc. is also known as Cisco.' };
+  assert.equal((await verifyIdentity(p, model(answer), 'v1', now)).verdict, 'same_company');
+  answer.connection_evidence = null;
+  const held = await verifyIdentity(p, model(answer), 'v1', now);
+  assert.equal(held.verdict, 'insufficient_evidence');
+  assert.match(held.answer.review_reasons.join(' '), /supported alias/);
+});
+
+test('identity names: shortened Emerson identity and an invented subsidiary claim are held', async () => {
+  const p = namedCase('Emerson Electric Co.', 'Emerson College');
+  const answer = namedAnswer(p);
+  answer.workday_identity = 'Emerson';
+  answer.explanation = 'Emerson College is a subsidiary of Emerson Electric Co.';
+  const result = await verifyIdentity(p, model(answer), 'v1', now);
+  assert.equal(result.status, 'done'); assert.equal(result.verdict, 'insufficient_evidence');
+  assert.deepEqual(result.answer.observed_identities.workday, ['Emerson College']);
+  assert.match(result.answer.review_reasons.join(' '), /observed name/);
+  assert.match(result.answer.review_reasons.join(' '), /no explicit cited statement/);
+  assert.equal(result.model_output.verdict, 'same_company'); // Preserve the original claim for auditing.
+  // Denying the invented relationship does not itself assert one or invalidate a real mismatch.
+  const mismatchAnswer = { ...namedAnswer(p, 'different_entities'), verdict: 'different_company', explanation: 'Emerson College is not a subsidiary of Emerson Electric Co.' };
+  assert.equal((await verifyIdentity(p, model(mismatchAnswer), 'v1', now)).verdict, 'different_company');
+});
+
+test('identity relationships: a cited statement connecting both full employers is required', async () => {
+  const statement = 'NorthStar Services is a subsidiary of Acme Digital.';
+  const p = namedCase('Acme Digital', 'NorthStar Services', statement);
+  const answer = namedAnswer(p, 'corporate_relationship');
+  answer.explanation = statement;
+  assert.equal((await verifyIdentity(p, model(answer), 'v1', now)).verdict, 'insufficient_evidence');
+  answer.connection_evidence = { source_id: 'w', quote: statement };
+  const accepted = await verifyIdentity(p, model(answer), 'v1', now);
+  assert.equal(accepted.verdict, 'same_company');
+  assert.equal(accepted.answer.connection_evidence.quote, statement);
+  assert.deepEqual(accepted.answer.review_reasons, []);
+  answer.verdict = 'different_company';
+  assert.equal((await verifyIdentity(p, model(answer), 'v1', now)).verdict, 'insufficient_evidence');
+});
+
+test('identity relationships: negative, hypothetical, historical and unrelated-entity citations cannot establish ownership', async () => {
+  for (const statement of [
+    'NorthStar Services is not a subsidiary of Acme Digital.',
+    'NorthStar Services may be a subsidiary of Acme Digital.',
+    'NorthStar Services was a subsidiary of Acme Digital.',
+    'Other Business is a subsidiary of Acme Digital.',
+    'NorthStar Services supplies Acme Digital. Other Business is a subsidiary of Other Parent.',
+  ]) {
+    const p = namedCase('Acme Digital', 'NorthStar Services', statement);
+    const answer = namedAnswer(p, 'corporate_relationship');
+    answer.connection_evidence = { source_id: 'w', quote: statement };
+    const result = await verifyIdentity(p, model(answer), 'v1', now);
+    assert.equal(result.verdict, 'insufficient_evidence', statement);
+  }
+});
+
+test('identity aliases: separate structured organizations do not become aliases; supported aliases prevent automatic rejection', async () => {
+  const p = namedCase('Emerson Electric', 'Emerson College');
+  p.sources[0].identity_groups.push({ kind: 'corporate_organization', names: [{ field: 'name', value: 'Emerson College' }] });
+  p.sources[0].text += '\nAnother organization mentioned: Emerson College.';
+  assert.equal((await verifyIdentity(p, model(namedAnswer(p, 'brand_alias')), 'v1', now)).verdict, 'insufficient_evidence');
+  const cisco = namedCase('Cisco', 'Cisco Systems, Inc.');
+  cisco.sources[0].identity_groups[0].names.push({ field: 'legalName', value: 'Cisco Systems, Inc.' });
+  cisco.sources[0].text += '\nlegalName: Cisco Systems, Inc.';
+  const wrongRejection = { ...namedAnswer(cisco, 'different_entities'), verdict: 'different_company' };
+  assert.equal((await verifyIdentity(cisco, model(wrongRejection), 'v1', now)).verdict, 'insufficient_evidence');
+});
+
+test('identity names: old frozen packets retain their original Workday hiring organization', async () => {
+  const p = namedCase('Emerson Electric', 'Emerson College');
+  delete p.sources[1].identity_groups;
+  p.sources[1].text = 'Assistant Professor\n{"name":"Emerson College","url":""}\nEmerson College is hiring people to join our team.';
+  const answer = { ...namedAnswer({ ...p, sources: [p.sources[0], { ...p.sources[1], identity_groups: [{ names: [{ value: 'Emerson' }] }] }] }), workday_identity: 'Emerson' };
+  answer.evidence.workday.quote = 'Emerson College is hiring people to join our team.';
+  const result = await verifyIdentity(p, model(answer), 'v1', now);
+  assert.equal(result.verdict, 'insufficient_evidence');
+  assert.deepEqual(result.answer.observed_identities.workday, ['Emerson College']);
 });
 
 test('identity evaluation: reports abstentions/errors and missing labels without inflating accuracy', () => {

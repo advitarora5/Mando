@@ -4,14 +4,21 @@ import { z } from "zod";
 import { verifyQuote } from "../domain/ingestion/quote.ts";
 import type { LLMProvider } from "./types.ts";
 
-export const IDENTITY_VERSION = "identity-v4";
+export const IDENTITY_VERSION = "identity-v5";
 export const MAX_IDENTITY_AGE_MS = 14 * 86400000;
 export const digest = (text: string) => createHash("sha256").update(text).digest("hex");
 export const verdictSchema = z.enum(["same_company", "different_company", "insufficient_evidence"]);
+export const identityGroupSchema = z.object({
+  kind: z.enum(["corporate_organization", "workday_employer"]),
+  // Names from ONE structured organization object; different objects are never merged as aliases.
+  names: z.array(z.object({ field: z.enum(["name", "legalName", "alternateName", "hiringOrganization.name"]), value: z.string().min(1).max(200) }).strict()).min(1).max(8),
+}).strict();
+export type IdentityGroup = z.infer<typeof identityGroupSchema>;
 const sourceSchema = z.object({
   id: z.string().min(1), side: z.enum(["corporate", "workday"]), url: z.url(),
   fetched_at: z.iso.datetime({ offset: true }), text: z.string().max(5000),
   content_hash: z.string().regex(/^[a-f0-9]{64}$/), capture_id: z.string().nullable(),
+  identity_groups: z.array(identityGroupSchema).max(8).default([]),
 }).strict();
 export const identityCaseSchema = z.object({
   id: z.string().min(1), target_name: z.string().min(1).max(200), corporate_url: z.url(),
@@ -25,11 +32,16 @@ const evidenceRef = z.object({ source_id: z.string(), quote: z.string().min(1).m
 const answerSchema = z.object({
   verdict: verdictSchema, corporate_identity: z.string().max(200), workday_identity: z.string().max(200),
   explanation: z.string().min(1).max(600),
+  connection_type: z.enum(["same_identity", "brand_alias", "corporate_relationship", "different_entities", "unknown"]),
+  connection_evidence: evidenceRef.nullable(),
   evidence: z.object({ corporate: evidenceRef.nullable(), workday: evidenceRef.nullable() }).strict(),
 }).strict();
-export type IdentityAnswer = z.infer<typeof answerSchema>;
+export type IdentityAnswer = z.infer<typeof answerSchema> & {
+  observed_identities: { corporate: string[]; workday: string[] };
+  review_reasons: string[];
+};
 const selectionRef = z.object({ source_id: z.string(), excerpt_index: z.int().min(0).max(15) }).strict();
-const selectionSchema = answerSchema.extend({ evidence: z.object({ corporate: selectionRef.nullable(), workday: selectionRef.nullable() }).strict() });
+const selectionSchema = answerSchema.extend({ evidence: z.object({ corporate: selectionRef.nullable(), workday: selectionRef.nullable() }).strict(), connection_evidence: selectionRef.nullable() });
 // The model selects source excerpts. Code supplies their exact text, eliminating quote rewriting.
 export function identityExcerpts(text: string): string[] {
   const chunks = text.split(/\n+/).flatMap(line => {
@@ -55,24 +67,102 @@ or the fact that a job mentions another company as proof of ownership. Identify 
 and who is actually hiring in the Workday posting. Quotes must identify the employer, not just mention a customer,
 benefits provider, tool vendor, recruiter, or equal opportunity authority. Do not invent missing identities.
 same_company requires specific identity evidence on BOTH sides, consistent with the target, and the same employer.
-A distinctive brand and its legal name may identify the same employer. Shared first words are insufficient.
-Explicitly different employers => different_company. Ambiguous parent/subsidiary/acquisition relationships =>
-insufficient_evidence; a shared tenant alone does not establish the target site belongs to it.
+A distinctive brand and its legal name may identify the same employer: Cisco and Cisco Systems, Inc. are not
+automatically different. Do NOT require exact name equality. Use same_identity for spelling/legal-suffix variations;
+brand_alias requires names on the same structured organization object OR a cited explicit alias statement.
+Preserve full observed employer names, especially distinguishing words such as College, University, Digital and Systems.
+For example, never reduce Emerson College to Emerson to equate it with Emerson Electric. identity_groups contain
+unaltered first-party organization names, not guesses. Report the full hiringOrganization name when available;
+identity_groups take priority over a shortened brand in prose. Their absence is not permission to invent a name.
+Shared first words, similar industries and name length alone establish neither equivalence nor unrelated ownership.
+corporate_relationship requires connection_evidence selecting an explicit CURRENT ownership/affiliation statement
+connecting BOTH full entities. Do not infer a subsidiary from a common brand or claim a relationship in the explanation
+without this evidence. An unresolved relationship => insufficient_evidence, not different_company.
+Explicitly unrelated employers => different_company. A shared tenant alone does not establish ownership.
 Missing, generic, contradictory or blocked text => insufficient_evidence. An explicit hyperlink is not required.
 Give one brief explanation. Sources contain numbered excerpts copied from the page.
 evidence.corporate must select a corporate source_id and excerpt_index; evidence.workday a Workday source_id and excerpt_index.
 For a decisive verdict, select BOTH. Each reported identity must appear exactly in the selected excerpt on that side.
-Do not rewrite brands to legal names, use a shorter identity exactly as written if necessary.
+Choose identity text actually present in the evidence. Do not drop distinguishing words to manufacture equivalence.
+connection_evidence is a source_id/excerpt_index citation, or null for same_identity/different_entities/unknown.
+For brand_alias, it may be null only when identity_groups explicitly supply the alias names together.
 For insufficient_evidence, either citation may be null. Do not generate quotations; only select excerpt indexes.
 Return only the requested JSON object.`;
 
 export function identitySignature(packet: IdentityCase, model: string, revision: string): string {
   const canonical = (value: unknown): unknown => Array.isArray(value) ? value.map(canonical)
     : value && typeof value === "object" ? Object.fromEntries(Object.entries(value).sort(([a], [b]) => a.localeCompare(b)).map(([k, v]) => [k, canonical(v)])) : value;
-  const evidence = packet.sources.map(({ id, side, url, text, content_hash }) => ({ id, side, url, text, content_hash }));
+  const evidence = packet.sources.map(source => ({ id: source.id, side: source.side, url: source.url, text: source.text,
+    content_hash: source.content_hash, identity_groups: sourceIdentityGroups(source) }));
   // Fetch timestamps/capture IDs may change while the evidence stays identical. Freshness is checked separately.
   return digest(JSON.stringify(canonical([IDENTITY_VERSION, IDENTITY_PROMPT, z.toJSONSchema(selectionSchema), model, revision,
     packet.target_name, packet.corporate_url, packet.site, evidence])));
+}
+
+export function sourceIdentityGroups(source: IdentitySource): IdentityGroup[] {
+  const groups = source.identity_groups ?? [];
+  if (groups.length || source.side !== "workday") return groups;
+  // Old frozen packets serialized the original hiringOrganization immediately after the job title.
+  // Read only that header object, never company guesses or arbitrary JSON inside a job description.
+  for (const line of source.text.split("\n").slice(0, 3)) {
+    try {
+      const row = JSON.parse(line);
+      if (row && typeof row.name === "string" && row.name.trim() && row.name.length <= 200 && typeof row.url === "string"
+        && Object.keys(row).every(key => key === "name" || key === "url")) {
+        return [{ kind: "workday_employer", names: [{ field: "hiringOrganization.name", value: row.name }] }];
+      }
+    } catch { /* a non-JSON header line is not a structured employer identity */ }
+  }
+  return [];
+}
+
+// Comparison only: original names remain intact in sources and results. Keep substantive words.
+function comparisonName(value: string): string {
+  const words = value.normalize("NFKD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/&/g, " and ")
+    .replace(/['’]/g, "").replace(/[^a-z0-9]+/g, " ").trim().split(/\s+/);
+  while (words.length > 1 && /^\d+$/.test(words[0])) words.shift(); // Workday's numeric company codes.
+  while (words.length > 1 && /^(inc|incorporated|corp|corporation|co|company|ltd|limited|llc|llp|plc|nv|sa|ag|bv)$/.test(words.at(-1)!)) words.pop();
+  return words.join(" ");
+}
+
+function equivalentNames(a: string, b: string, packet: IdentityCase): boolean {
+  const left = comparisonName(a), right = comparisonName(b);
+  if (!left || !right) return false;
+  if (left === right) return true;
+  return packet.sources.some(source => sourceIdentityGroups(source).some(group => {
+    const names = group.names.map(n => comparisonName(n.value));
+    return group.kind === "corporate_organization" && names.includes(left) && names.includes(right);
+  }));
+}
+
+function supportsConnection(quote: string, left: string, right: string, packet: IdentityCase, kind: "brand_alias" | "corporate_relationship"): boolean {
+  const normalized = ` ${comparisonName(quote)} `;
+  const variants = (name: string) => {
+    const variants = [name];
+    for (const source of packet.sources) for (const group of sourceIdentityGroups(source)) {
+      if (group.kind === "corporate_organization" && group.names.some(n => comparisonName(n.value) === comparisonName(name))) variants.push(...group.names.map(n => n.value));
+    }
+    return [...new Set(variants.map(comparisonName))];
+  };
+  // A keyword near two names is not enough when the statement is negative, hypothetical or historical.
+  if (/\b(not|no|never|without|unrelated|independent|formerly|previously|may|might|could|would|alleged|rumou?red|whether|if|was|were|divested|sold)\b/i.test(quote)) return false;
+  const relation = kind === "brand_alias"
+    ? /\b(also known as|known as|trading as|doing business as|dba|brand (?:name )?of|legal name|operates as)\b/
+    : /\b(subsidiary of|owned by|part of|affiliate of|member of|parent (?:company )?of|acquired by|joint venture (?:of|between))\b/;
+  return variants(left).some(a => variants(right).some(b => {
+    if (a === b) return false; // An ownership statement must connect two entities, not repeat one alias.
+    const positions = (name: string) => {
+      const out: number[] = [];
+      for (let at = normalized.indexOf(` ${name} `); at >= 0; at = normalized.indexOf(` ${name} `, at + 1)) out.push(at);
+      return out;
+    };
+    return positions(a).some(first => positions(b).some(second => {
+      // Short aliases can be prefixes of legal names; require two separate name mentions.
+      if (first + a.length < second) return relation.test(normalized.slice(first + a.length + 1, second));
+      if (second + b.length < first) return relation.test(normalized.slice(second + b.length + 1, first));
+      return false;
+    }));
+  }));
 }
 
 function inputError(packet: IdentityCase, now: Date): string | null {
@@ -130,7 +220,59 @@ export function groundIdentityAnswer(packet: IdentityCase, output: unknown): { a
     grounded[side] = { source_id: ref.source_id, quote: check.quote };
   }
   if (selected.verdict !== "insufficient_evidence" && (!grounded.corporate || !grounded.workday)) throw Error("decisive verdict requires quotations from both sides");
-  return { answer: answerSchema.parse({ ...selected, evidence: grounded }), citation_repairs };
+  let connection: z.infer<typeof evidenceRef> | null = null;
+  if (selected.connection_evidence) {
+    const ref = selected.connection_evidence;
+    const source = packet.sources.find(s => s.id === ref.source_id);
+    const quote = source && identityExcerpts(source.text)[ref.excerpt_index];
+    if (!source || !quote) throw Error("unknown connection evidence source or excerpt");
+    const checked = verifyQuote(quote, source.text, 3);
+    if (!checked.ok) throw Error("ungrounded connection evidence");
+    connection = { source_id: source.id, quote: checked.quote };
+  }
+  const observed_identities = { corporate: [] as string[], workday: [] as string[] };
+  for (const source of packet.sources) for (const group of sourceIdentityGroups(source)) {
+    for (const name of group.names) if (!observed_identities[source.side].includes(name.value)) observed_identities[source.side].push(name.value);
+  }
+  const review_reasons: string[] = [];
+  const explicitConnection = (left: string, right: string) => !!connection && (
+    supportsConnection(connection.quote, left, right, packet, "brand_alias")
+    || supportsConnection(connection.quote, left, right, packet, "corporate_relationship"));
+  const citedNames = (side: "corporate" | "workday") => {
+    const source = packet.sources.find(s => s.id === grounded[side]?.source_id);
+    return source ? sourceIdentityGroups(source).flatMap(g => g.names.map(n => n.value)) : [];
+  };
+  if (selected.verdict !== "insufficient_evidence") {
+    // A short brand may stand for the full observed name only with alias/relationship evidence.
+    // These are semantic review holds, not invalid JSON/model transport failures.
+    for (const side of ["corporate", "workday"] as const) {
+      const reported = side === "corporate" ? selected.corporate_identity : selected.workday_identity;
+      const names = citedNames(side);
+      if (names.length && !names.some(name => equivalentNames(reported, name, packet) || explicitConnection(reported, name))) {
+        review_reasons.push(`${side} identity omits or conflicts with the observed name: ${names.join("; ")}`);
+      }
+    }
+    const equivalent = equivalentNames(selected.corporate_identity, selected.workday_identity, packet);
+    const claimsRelationship = selected.connection_type === "corporate_relationship"
+      || [...selected.explanation.matchAll(/\b(?:subsidiary of|owned by|affiliate of|parent company of|acquired by|joint venture (?:of|between))\b/gi)].some(match =>
+        !/\b(?:not|no evidence|without evidence|unconfirmed|uncertain)\b[^.!?]{0,60}$/i.test(selected.explanation.slice(0, match.index)));
+    const corporateNames = citedNames("corporate"), workdayNames = citedNames("workday");
+    const fullLeft = corporateNames.length ? corporateNames : [selected.corporate_identity];
+    const fullRight = workdayNames.length ? workdayNames : [selected.workday_identity];
+    const hasRelationship = !!connection && fullLeft.some(left => fullRight.some(right =>
+      supportsConnection(connection!.quote, left, right, packet, "corporate_relationship")));
+    if (claimsRelationship && !hasRelationship) review_reasons.push("Claimed corporate relationship has no explicit cited statement connecting the full entities");
+    if (selected.verdict === "same_company") {
+      if (!equivalent && !explicitConnection(selected.corporate_identity, selected.workday_identity)) review_reasons.push("Different identities require supported alias or corporate relationship evidence");
+      if (!["same_identity", "brand_alias", "corporate_relationship"].includes(selected.connection_type)) review_reasons.push("Match has no supported connection type");
+    } else if (equivalent || explicitConnection(selected.corporate_identity, selected.workday_identity)) {
+      review_reasons.push("Different-company verdict conflicts with supported alias or relationship evidence");
+    }
+  }
+  const held = review_reasons.length > 0;
+  const answer = answerSchema.parse({ ...selected, evidence: grounded, connection_evidence: connection,
+    ...(held ? { verdict: "insufficient_evidence", connection_type: "unknown", explanation: `Held for review: ${review_reasons.join(". ")}`.slice(0, 600) } : {}) });
+  return { answer: { ...answer, observed_identities, review_reasons }, citation_repairs };
 }
 
 export async function verifyIdentity(input: unknown, llm: LLMProvider, revision: string, now = new Date()): Promise<IdentityResult> {
@@ -145,7 +287,8 @@ export async function verifyIdentity(input: unknown, llm: LLMProvider, revision:
   try {
     const response = await llm.complete({ system: IDENTITY_PROMPT, schema: z.toJSONSchema(selectionSchema),
       user: JSON.stringify({ target_name: packet.target_name, corporate_url: packet.corporate_url, workday_site: packet.site,
-        sources: packet.sources.map(({ id, side, url, text }) => ({ id, side, url, excerpts: identityExcerpts(text).map((text, excerpt_index) => ({ excerpt_index, text })) })) }) });
+        sources: packet.sources.map(source => ({ id: source.id, side: source.side, url: source.url, identity_groups: sourceIdentityGroups(source),
+          excerpts: identityExcerpts(source.text).map((text, excerpt_index) => ({ excerpt_index, text })) })) }) });
     result.ms = Date.now() - started;
     if (!response.ok) return { ...result, status: "model_error", error: response.error };
     result.model_output = response.json;

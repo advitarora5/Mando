@@ -2,7 +2,7 @@ import { z } from "zod";
 import { htmlToText } from "../domain/ingestion/quote.ts";
 import { normalizeName } from "../domain/ingestion/normalize.ts";
 import { WebsiteHttp } from "./website.ts";
-import { digest, identityCaseSchema, MAX_IDENTITY_AGE_MS, type IdentityCase, type IdentitySource } from "./identity.ts";
+import { digest, identityCaseSchema, MAX_IDENTITY_AGE_MS, type IdentityCase, type IdentitySource, type IdentityGroup } from "./identity.ts";
 import type { PipelineContext, WebsiteCapture } from "./types.ts";
 
 export const identityTargetSchema = identityCaseSchema.pick({ id: true, target_name: true, corporate_url: true, site: true, review_id: true });
@@ -12,8 +12,9 @@ export function boundedIdentityText(text: string): string {
   const clean = text.replace(/\r/g, "").trim();
   return clean.length <= 5000 ? clean : `${clean.slice(0, 2490)}\n[...truncated...]\n${clean.slice(-2490)}`;
 }
-function corporateText(html: string): string {
+function corporateEvidence(html: string): { text: string; identity_groups: IdentityGroup[] } {
   const structured: string[] = [];
+  const identity_groups: IdentityGroup[] = [];
   for (const match of html.matchAll(/<script\b[^>]*type=["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/gi)) {
     try {
       const walk = (value: unknown, depth = 0) => {
@@ -21,7 +22,13 @@ function corporateText(html: string): string {
         if (Array.isArray(value)) { value.forEach(v => walk(v, depth + 1)); return; }
         const row = value as Record<string, unknown>;
         if ([row["@type"]].flat().some(t => t === "Organization" || t === "Corporation")) {
+          const names: IdentityGroup["names"] = [];
+          for (const field of ["name", "legalName", "alternateName"] as const) {
+            for (const value of [row[field]].flat()) if (typeof value === "string" && value.trim() && value.length <= 200) names.push({ field, value });
+          }
+          if (names.length && identity_groups.length < 8) identity_groups.push({ kind: "corporate_organization", names: names.slice(0, 8) });
           for (const key of ["name", "legalName", "alternateName", "description"]) if (typeof row[key] === "string") structured.push(`${key}: ${row[key]}`);
+          for (const name of names) if (Array.isArray(row[name.field])) structured.push(`${name.field}: ${name.value}`);
         }
         if (row["@graph"]) walk(row["@graph"], depth + 1);
       };
@@ -30,7 +37,7 @@ function corporateText(html: string): string {
   }
   const metadata = [...html.matchAll(/<meta\b[^>]*(?:property|name)=["'](?:og:site_name|og:title|description)["'][^>]*>/gi)]
     .map(m => m[0].match(/content=["']([^"']*)["']/i)?.[1] ?? "");
-  return boundedIdentityText([...metadata, ...structured, htmlToText(html)].join("\n"));
+  return { text: boundedIdentityText([...metadata, ...structured, htmlToText(html)].join("\n")), identity_groups };
 }
 export function jobIdentityText(raw: string): string {
   const data = JSON.parse(raw);
@@ -40,7 +47,12 @@ export function jobIdentityText(raw: string): string {
     htmlToText(data.jobPostingInfo.jobDescription)].filter(Boolean).join("\n"));
 }
 function source(side: IdentitySource["side"], url: string, raw: string, text: string, fetched: string, captureId: string | null): IdentitySource {
-  return { id: `${side}-${digest(url + raw).slice(0, 16)}`, side, url, fetched_at: fetched, content_hash: digest(raw), text, capture_id: captureId };
+  const identity_groups: IdentityGroup[] = [];
+  if (side === "workday") {
+    const name = JSON.parse(raw)?.hiringOrganization?.name;
+    if (typeof name === "string" && name.trim() && name.length <= 200) identity_groups.push({ kind: "workday_employer", names: [{ field: "hiringOrganization.name", value: name }] });
+  }
+  return { id: `${side}-${digest(url + raw).slice(0, 16)}`, side, url, fetched_at: fetched, content_hash: digest(raw), text, capture_id: captureId, identity_groups };
 }
 export function exactSiteCapture(capture: WebsiteCapture, target: IdentityTarget): boolean {
   try {
@@ -59,7 +71,8 @@ export async function prepareIdentityCase(ctx: PipelineContext, input: unknown, 
     const home = await http.page(target.corporate_url);
     // Record the final corporate URL after guarded redirects for subsequent provenance checks.
     packet.corporate_url = home.url;
-    packet.sources.push(source("corporate", home.url, home.html, corporateText(home.html), packet.prepared_at, null));
+    const evidence = corporateEvidence(home.html);
+    packet.sources.push({ ...source("corporate", home.url, home.html, evidence.text, packet.prepared_at, null), identity_groups: evidence.identity_groups });
   } catch (error) { packet.errors.push(`corporate: ${(error as Error).message}`); }
   if (!opts.refreshJobs) {
     const captures = await ctx.store.websiteEvidenceCaptures(normalizeName(target.target_name), 20);
