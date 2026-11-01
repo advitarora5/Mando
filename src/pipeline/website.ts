@@ -40,7 +40,7 @@ export class WebsiteHttp {
   private ctx: PipelineContext;
   private maxRequests: number;
   constructor(ctx: PipelineContext, maxRequests = 300) { this.ctx = ctx; this.maxRequests = maxRequests; }
-  private async read(url: URL, maxBody = MAX_WEBSITE_BODY): Promise<{ status: number; body: string; location: string | null; type: string }> {
+  private async read(url: URL, maxBody = MAX_WEBSITE_BODY, jsonBody?: unknown, jsonMode = false): Promise<{ status: number; body: string; location: string | null; type: string }> {
     const addresses = await (this.ctx.lookupHost ?? (host => lookup(host, { all: true })))(url.hostname);
     if (!addresses.length || addresses.some(a => !publicAddress(a.address))) throw Error("website resolves to a non-public address");
     if (this.requests >= this.maxRequests) throw Error("website request cap reached");
@@ -50,7 +50,9 @@ export class WebsiteHttp {
     const controller = new AbortController();
     const timer = setTimeout(() => controller.abort(), 10000);
     try {
-      const res = await this.ctx.fetch(url.href, { redirect: "manual", signal: controller.signal, headers: { "user-agent": `mando-cube-ingestion/1.0 (${this.ctx.contact || "contact unset"})`, accept: "text/html,text/plain;q=0.9" } });
+      const res = await this.ctx.fetch(url.href, { redirect: "manual", signal: controller.signal,
+        ...(jsonBody === undefined ? {} : { method: "POST", body: JSON.stringify(jsonBody) }),
+        headers: { "user-agent": `mando-cube-ingestion/1.0 (${this.ctx.contact || "contact unset"})`, accept: jsonMode ? "application/json" : "text/html,text/plain;q=0.9", ...(jsonBody === undefined ? {} : { "content-type": "application/json" }) } });
       const reader = res.body?.getReader();
       const chunks: Uint8Array[] = []; let bytes = 0;
       if (reader) try {
@@ -98,6 +100,17 @@ export class WebsiteHttp {
       return { url: url.href, html: res.body };
     }
     throw Error("website redirect limit reached");
+  }
+  // Identity sampling uses the same DNS, robots, body, timeout and request limits as website checks.
+  // JSON redirects are refused: a posting must come from the exact Workday API requested.
+  async json(value: string, body?: unknown): Promise<{ url: string; raw: string; data: unknown }> {
+    const url = safeUrl(value);
+    let robots = this.robots.get(url.origin);
+    if (robots === undefined) { robots = await this.readRobots(url.origin); this.robots.set(url.origin, robots); }
+    if (!robotsAllows(parseRobots(robots, "mando-cube-ingestion"), url.pathname + url.search)) throw Error("website disallowed by robots.txt");
+    const res = await this.read(url, MAX_WEBSITE_BODY, body, true);
+    if (res.status !== 200) throw Error(`website JSON HTTP ${res.status}`);
+    return { url: url.href, raw: res.body, data: JSON.parse(res.body) };
   }
 }
 
